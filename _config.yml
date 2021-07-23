@@ -57,7 +57,7 @@ share-links-active:
 
 # How to display the link to your website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "https://www.linkedin.com/in/tpho/"
+# url-pretty: "https://www.linkedin.com/in/tpho/"
 
 # Excerpt word length - Truncate the excerpt of each post on the feed page to the specified number of words
 excerpt_length: 50
@@ -82,10 +82,10 @@ navbar-col: "#EAEAEA"
 navbar-text-col: "#404040"
 navbar-border-col: "#DDDDDD"
 page-col: "#FFFFFF"
-text-col: "#404040"
+text-col: "#2c3e50"
 link-col: "#008AFF"
-hover-col: "#0085A1"
-footer-col: "#EAEAEA"
+hover-col: "#f1c40f"
+footer-col: "#ecf0f1"
 footer-text-col: "#777777"
 footer-link-col: "#404040"
 
