@@ -1,16 +1,18 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
+subtitle:
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+<h1 align="center">Hi 👋, I'm Pho Tran</h1>
+<h3 align="center">A software engineer from Vietnam.</h3>
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+- 🌱 I’m currently learning **Mandarin Chinese**
 
-What else do you need?
+- 📫 How to reach me **tranthanhpho2011@gmail.com**
 
-### My story
-
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](https://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+<h3 align="left">Connect with me:</h3>
+<p align="left">
+<a href="https://www.instagram.com/pho.tran/" target="blank"><img align="center" src="https://www.instagram.com/static/images/ico/favicon.svg/fc72dd4bfde8.svg" alt="pho.tran" height="30" width="40" /></a>
+<a href="https://linkedin.com/in/tpho" target="blank"><img align="center" src="https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/linkedin.svg" alt="tpho" height="30" width="40" /></a>
+</p>
