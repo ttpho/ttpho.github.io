@@ -4,7 +4,6 @@ title: Auto commit & push source code dynamic by Elixir
 subtitle: Execute a command to commit and push the source code to GitHub in the Elixir/Phoenix project
 cover-img: https://images.unsplash.com/photo-1435224572021-b229e8e0760e
 thumbnail-img: https://elixir-lang.org/images/logo/logo.png
-share-img: /assets/img/path.jpg
 tags: [elixir, git]
 ---
 
@@ -32,3 +31,5 @@ end
 ```elixir
 SourceCodeJob.commit_all("My commit message")
 ```
+
+[Cover Photo](https://unsplash.com/photos/xqwI1b-elIo)
