@@ -136,7 +136,7 @@ class Education {
   String? location;
   String? from;
   String? to;
-  bool? current;
+  String? current;
   String? summary;
 
   Education(
@@ -144,7 +144,7 @@ class Education {
       this.location,
       this.from,
       this.to,
-      this.current = false,
+      this.current,
       this.summary});
 
   Education.fromJson(Map<String, dynamic> json) {
@@ -173,7 +173,7 @@ class Work {
   String? location;
   String? from;
   String? to;
-  bool? current;
+  String? current;
   String? summary;
 
   Work(
@@ -181,7 +181,7 @@ class Work {
       this.location,
       this.from,
       this.to,
-      this.current = false,
+      this.current,
       this.summary});
 
   Work.fromJson(Map<String, dynamic> json) {

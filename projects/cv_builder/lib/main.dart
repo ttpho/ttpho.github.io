@@ -1,6 +1,12 @@
+import 'package:cv_builder/repository/resume_repository.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'model/resume.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final Resume resume = await ResumeRepository().getResume();
+  print(resume.toJson().toString());
   runApp(MyApp());
 }
 
