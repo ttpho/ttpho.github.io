@@ -1,7 +1,9 @@
 class Resume {
   FormSettings? formSettings;
 
-  Resume({this.formSettings});
+  Resume({
+    this.formSettings,
+  });
 
   Resume.fromJson(Map<String, dynamic> json) {
     formSettings = json['formSettings'] != null
@@ -32,25 +34,30 @@ class FormSettings {
   String? linkedin;
   String? twitter;
   String? github;
-  List<Education>? education;
-  List<Work>? work;
+  String? website;
+  List<GroupInfomation>? education;
+  List<GroupInfomation>? work;
+  List<GroupInfomation>? projects;
 
-  FormSettings(
-      {this.jobTitle,
-      this.name,
-      this.lastName,
-      this.email,
-      this.location,
-      this.phoneNumber,
-      this.aboutme,
-      this.jobSkills,
-      this.softSkills,
-      this.languages,
-      this.linkedin,
-      this.twitter,
-      this.github,
-      this.education,
-      this.work});
+  FormSettings({
+    this.jobTitle,
+    this.name,
+    this.lastName,
+    this.email,
+    this.location,
+    this.phoneNumber,
+    this.aboutme,
+    this.jobSkills,
+    this.softSkills,
+    this.languages,
+    this.linkedin,
+    this.twitter,
+    this.github,
+    this.website,
+    this.education,
+    this.work,
+    this.projects,
+  });
 
   FormSettings.fromJson(Map<String, dynamic> json) {
     jobTitle = json['jobTitle'];
@@ -74,15 +81,22 @@ class FormSettings {
     if (json['education'] != null) {
       education = [];
       json['education'].forEach((v) {
-        education?.add(new Education.fromJson(v));
+        education?.add(new GroupInfomation.fromJson(v));
       });
     }
     if (json['work'] != null) {
       work = [];
       json['work'].forEach((v) {
-        work?.add(new Work.fromJson(v));
+        work?.add(new GroupInfomation.fromJson(v));
       });
     }
+    if (json['projects'] != null) {
+      projects = [];
+      json['projects'].forEach((v) {
+        projects?.add(new GroupInfomation.fromJson(v));
+      });
+    }
+    this.website = json['website'];
   }
 
   Map<String, dynamic> toJson() {
@@ -102,12 +116,17 @@ class FormSettings {
     data['linkedin'] = this.linkedin;
     data['twitter'] = this.twitter;
     data['github'] = this.github;
+    data['website'] = this.website;
     if (this.education != null) {
       data['education'] = this.education?.map((v) => v.toJson()).toList();
     }
     if (this.work != null) {
       data['work'] = this.work?.map((v) => v.toJson()).toList();
     }
+    if (this.projects != null) {
+      data['projects'] = this.projects?.map((v) => v.toJson()).toList();
+    }
+
     return data;
   }
 }
@@ -116,7 +135,10 @@ class Languages {
   String? lang;
   String? level;
 
-  Languages({this.lang, this.level});
+  Languages({
+    this.lang,
+    this.level,
+  });
 
   Languages.fromJson(Map<String, dynamic> json) {
     lang = json['lang'];
@@ -131,29 +153,33 @@ class Languages {
   }
 }
 
-class Education {
+class GroupInfomation {
   String? title;
   String? location;
   String? from;
   String? to;
   String? current;
   String? summary;
+  List<String>? summaryArr;
 
-  Education(
-      {this.title,
-      this.location,
-      this.from,
-      this.to,
-      this.current,
-      this.summary});
+  GroupInfomation({
+    this.title,
+    this.location,
+    this.from,
+    this.to,
+    this.current,
+    this.summary,
+    this.summaryArr,
+  });
 
-  Education.fromJson(Map<String, dynamic> json) {
+  GroupInfomation.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     location = json['location'];
     from = json['from'];
     to = json['to'];
     current = json['current'];
     summary = json['summary'];
+    summaryArr = json['summaryArr'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -164,43 +190,7 @@ class Education {
     data['to'] = this.to;
     data['current'] = this.current;
     data['summary'] = this.summary;
-    return data;
-  }
-}
-
-class Work {
-  String? title;
-  String? location;
-  String? from;
-  String? to;
-  String? current;
-  String? summary;
-
-  Work(
-      {this.title,
-      this.location,
-      this.from,
-      this.to,
-      this.current,
-      this.summary});
-
-  Work.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    location = json['location'];
-    from = json['from'];
-    to = json['to'];
-    current = json['current'];
-    summary = json['summary'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['location'] = this.location;
-    data['from'] = this.from;
-    data['to'] = this.to;
-    data['current'] = this.current;
-    data['summary'] = this.summary;
+    data['summaryArr'] = this.summaryArr;
     return data;
   }
 }
