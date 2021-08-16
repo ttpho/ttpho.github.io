@@ -7,11 +7,9 @@ thumbnail-img: https://dart.dev/assets/shared/dart/logo+text/horizontal/white-e7
 tags: [dart, flutter]
 ---
 
-Elixir cheatsheet.
+Elixir cheatsheet - basic Dart program
 
-### A basic Dart program
-
-#### Hello world
+### Hello world
 
 ```dart
 void main() {
@@ -19,10 +17,10 @@ void main() {
 }
 ```
 
-#### Types
+### Types
 
 ```dart
-String? name = "Dart";
+  String? name = "Dart";
   int? age = 11;
   final double pi = 3.14;
   final bool isActive = false;
@@ -42,7 +40,7 @@ String? name = "Dart";
   };
 ```
 
-#### Functions
+### Functions
 
 ```dart
 int add(int a, int b) {
@@ -57,16 +55,14 @@ int add(int a, int b) => a + b;
 add(int a, int b) => a + b;
 ```
 
-#### Conditional expressions
+### Conditional expressions
 
 ```dart
 final bool isPublic = user?.isPublic ?? false;
 final String visibility = isPublic ? 'public' : 'private';
 ```
 
-#### Control flow
-
-##### if and else
+#### if and else
 
 ```dart
 void doSomeThing() {
@@ -80,6 +76,17 @@ void doSomeThing() {
     nothing();
   }
 }
+bool? isSnowing() => false;
+
+bool isRaining() => true;
+
+void bringRainCoat() => print("bring rain coat");
+void wearJacket() => print("wear jacket");
+void nothing() => print("nothing");
+
+```
+
+```dart
 // without else sate use `return`
 void doSomeThingWithoutElse() {
   if (isRaining() == true) {
@@ -93,18 +100,9 @@ void doSomeThingWithoutElse() {
 
   nothing();
 }
-
-bool? isSnowing() => false;
-
-bool isRaining() => true;
-
-void bringRainCoat() => print("bring rain coat");
-void wearJacket() => print("wear jacket");
-void nothing() => print("nothing");
-
 ```
 
-##### for loops
+#### for loops
 
 ```dart
 String toSnakeCase(final String text) {
@@ -120,36 +118,9 @@ String toSnakeCase(final String text) {
 
   return list.join("");
 }
-
-String toCamelCase(final String text) {
-  final List<String> list = [];
-  for (var char in text.split('_')) {
-    final bool isEmpty = list.isEmpty;
-    final String lowerCase = char.toLowerCase();
-    final String upperCaseFist = lowerCase.length > 1
-        ? "${lowerCase[0].toUpperCase()}${lowerCase.substring(1)}"
-        : char.toUpperCase();
-    final String item = isEmpty ? char : upperCaseFist;
-    list.add(item);
-  }
-
-  return list.join("");
-}
-
-String split(final String text, final String from, final String to) {
-  final List<String> list = [];
-  for (var char in text.split(from)) {
-    final String item = char.trim();
-    if (item.isNotEmpty) {
-      list.add(item);
-    }
-  }
-
-  return list.join(to);
-}
 ```
 
-##### while and do-while
+#### while and do-while
 
 ```dart
   final List<String> list = ["🌾", "💐", "🌹"];
@@ -165,15 +136,12 @@ String split(final String text, final String from, final String to) {
   } while (list.isNotEmpty);
 ```
 
-##### switch and case
+#### switch and case
 
 ```dart
 
 void handleStatus(final String status) {
   switch (status) {
-  case 'pending':
-    sendEmailWarnig();
-    break;
   case 'new':
     subtractStock();
     break;
@@ -183,12 +151,6 @@ void handleStatus(final String status) {
   case 'packed':
     prepareReadToShip();
     break;
-  case 'done':
-    executeOpen();
-    break;
-  case 'cancel':
-     restoreStock();
-    break;
   default:
     nothing();
     break;
@@ -196,7 +158,7 @@ void handleStatus(final String status) {
 
 ```
 
-#### Exceptions
+### Exceptions
 
 ```dart
 try {
@@ -220,6 +182,22 @@ enum Status {
    packed,
    done,
    cancel
+}
+```
+
+### Extension methods
+
+```dart
+//  "14".parseInt();
+//  "14X".parseInt(defaultValue: -1);
+extension NumberParsing on String {
+  int parseInt({int defaultValue = 0}) {
+    try {
+      return int.parse(this);
+    } catch (e) {
+      return defaultValue;
+    }
+  }
 }
 ```
 
