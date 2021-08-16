@@ -28,12 +28,9 @@ void main() {
   final Set<String> halogens = {
     'fluorine',
     'chlorine',
-    'bromine',
-    'iodine',
-    'astatine'
+    'bromine'
   };
   final Map<String, dynamic> gifts = {
-    // Key:    Value
     'first': 'partridge',
     'second': 'turtledoves',
     'fifth': 'golden rings'
@@ -66,8 +63,7 @@ final String visibility = isPublic ? 'public' : 'private';
 
 ```dart
 void doSomeThing() {
-  // don't change: `isRaining() == true` -> `isRaining()`
-  // because `isRaining()` can return 3 options: null, true or false
+  // isRaining() can return 3 options: null, true or false
   if (isRaining() == true) {
     bringRainCoat();
   } else if (isSnowing()) {
@@ -76,8 +72,8 @@ void doSomeThing() {
     nothing();
   }
 }
-bool? isSnowing() => false;
-bool isRaining() => true;
+bool isSnowing() => false;
+bool? isRaining() => true;
 void bringRainCoat() => print("bring rain coat");
 void wearJacket() => print("wear jacket");
 void nothing() => print("nothing");
@@ -142,7 +138,7 @@ void handleStatus(final String status) {
 
 ```dart
 try {
-  featDataFromServer();
+  fetchDataFromServer();
 } catch (e) {
   print('Error: $e');
 } finally {
