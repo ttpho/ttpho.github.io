@@ -77,29 +77,11 @@ void doSomeThing() {
   }
 }
 bool? isSnowing() => false;
-
 bool isRaining() => true;
-
 void bringRainCoat() => print("bring rain coat");
 void wearJacket() => print("wear jacket");
 void nothing() => print("nothing");
 
-```
-
-```dart
-// without else sate use `return`
-void doSomeThingWithoutElse() {
-  if (isRaining() == true) {
-    bringRainCoat();
-    return;
-  }
-  if (isSnowing()) {
-    wearJacket();
-    return;
-  }
-
-  nothing();
-}
 ```
 
 ### For loops
@@ -108,11 +90,9 @@ void doSomeThingWithoutElse() {
 String toSnakeCase(final String text) {
   final List<String> list = [];
   for (var char in text.split('')) {
-    final bool isUpperCase = char.toUpperCase() == char && char != "_";
-    final bool isNotEmpty = list.isNotEmpty;
     final String charLowerCase = char.toLowerCase();
     final String item =
-        (isUpperCase && isNotEmpty) ? "_$charLowerCase" : charLowerCase;
+        (char.toUpperCase() == char && char != "_" && list.isNotEmpty) ? "_$charLowerCase" : charLowerCase;
     list.add(item);
   }
 
@@ -142,18 +122,18 @@ String toSnakeCase(final String text) {
 
 void handleStatus(final String status) {
   switch (status) {
-  case 'new':
-    subtractStock();
-    break;
-  case 'picking':
-     prepareShippingLabel();
-    break;
-  case 'packed':
-    prepareReadToShip();
-    break;
-  default:
-    nothing();
-    break;
+    case 'new':
+      subtractStock();
+      break;
+    case 'picking':
+      prepareShippingLabel();
+      break;
+    case 'packed':
+      prepareReadToShip();
+      break;
+    default:
+      nothing();
+      break;
 }
 
 ```
@@ -214,7 +194,6 @@ class Point {
   double? y;
 
   Point(double? x, double? y) {
-    // There's a better way to do this, stay tuned.
     this.x = x;
     this.y = y;
   }
@@ -231,10 +210,14 @@ class Point {
 
   Point copyWith({double? x, double? y}) => Point(x ?? this.x, y ?? this.y);
 
-  static double distanceBetween(final Point a, final Point b) {
-    var dx = (a.x ?? xOrigin) - (b.x ?? xOrigin);
-    var dy = (a.y ?? yOrigin) - (b.y ?? yOrigin);
+  double distanceTo(final Point other) {
+    var dx = (x ?? xOrigin) - (other.x ?? xOrigin);
+    var dy = (y ?? yOrigin) - (other.y ?? yOrigin);
     return sqrt(dx * dx + dy * dy);
+  }
+
+  static double distanceBetween(final Point a, final Point b) {
+    return a.distanceTo(b);
   }
 }
 ```
