@@ -62,7 +62,7 @@ final bool isPublic = user?.isPublic ?? false;
 final String visibility = isPublic ? 'public' : 'private';
 ```
 
-#### if and else
+### If and else
 
 ```dart
 void doSomeThing() {
@@ -102,7 +102,7 @@ void doSomeThingWithoutElse() {
 }
 ```
 
-#### for loops
+### For loops
 
 ```dart
 String toSnakeCase(final String text) {
@@ -120,7 +120,7 @@ String toSnakeCase(final String text) {
 }
 ```
 
-#### while and do-while
+### While and do-while
 
 ```dart
   final List<String> list = ["🌾", "💐", "🌹"];
@@ -136,7 +136,7 @@ String toSnakeCase(final String text) {
   } while (list.isNotEmpty);
 ```
 
-#### switch and case
+### Switch and case
 
 ```dart
 
