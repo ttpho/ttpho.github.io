@@ -1,13 +1,13 @@
 ---
 layout: post
 title: Dart cheatsheet
-subtitle:
+subtitle: Dart cheatsheet - basic Dart program
 cover-img: https://images.unsplash.com/photo-1488998427799-e3362cec87c3
 thumbnail-img: https://dart.dev/assets/shared/dart/logo+text/horizontal/white-e71fb382ad5229792cc704b3ee7a88f8013e986d6e34f0956d89c453b454d0a5.svg
 tags: [dart, flutter]
 ---
 
-Elixir cheatsheet - basic Dart program
+Dart cheatsheet - basic Dart program
 
 ### Hello world
 
@@ -32,8 +32,7 @@ void main() {
   };
   final Map<String, dynamic> gifts = {
     'first': 'partridge',
-    'second': 'turtledoves',
-    'fifth': 'golden rings'
+    'second': 'turtledoves'
   };
 ```
 
