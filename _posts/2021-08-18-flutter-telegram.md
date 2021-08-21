@@ -7,7 +7,8 @@ thumbnail-img: https://pub.dev/static/img/flutter-logo-32x32.png
 tags: [dart, flutter, telegram]
 ---
 
-Flutter App use Telegram bot for log urgent message
+In some cases, I want to print out urgent message that need to be checked immediately.
+You can you `Firebase Crashlytics ` or `Sentry`, but I use Telegram, because it is free and I can share the urgent message for team.
 
 ### Setup Telegram Bot
 

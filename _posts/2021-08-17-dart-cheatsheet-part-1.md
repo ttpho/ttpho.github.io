@@ -1,13 +1,13 @@
 ---
 layout: post
-title: Dart cheatsheet
+title: Dart cheatsheet - Part 1
 subtitle: Dart cheatsheet - basic Dart program
 cover-img: https://images.unsplash.com/photo-1488998427799-e3362cec87c3
 thumbnail-img: https://dart.dev/assets/shared/dart/logo+text/horizontal/white-e71fb382ad5229792cc704b3ee7a88f8013e986d6e34f0956d89c453b454d0a5.svg
 tags: [dart, flutter]
 ---
 
-Dart cheatsheet - basic Dart program
+Dart cheatsheet - Part 1 - basic Dart program - overview
 
 ### Hello world
 
