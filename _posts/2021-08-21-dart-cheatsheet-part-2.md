@@ -9,9 +9,9 @@ tags: [dart, flutter]
 
 Dart cheatsheet - Part 2 - [String, List, Map]
 
-### String
+# String
 
-1. Format
+##### Format
 
 ```dart
   final String name = "Po";
@@ -20,7 +20,7 @@ Dart cheatsheet - Part 2 - [String, List, Map]
   // I am Po, 18 years old
 ```
 
-2. Turn a string into a number
+##### Turn a string into a number
 
 ```dart
   int.parse("1") // 1
@@ -33,30 +33,30 @@ Dart cheatsheet - Part 2 - [String, List, Map]
   }
 ```
 
-3. Split
+##### Split
 
 ```dart
   final String text = "123213,321321";
   text.split(',') // [123213, 321321]
 ```
 
-### List
+# List
 
-1. Join
+##### Join
 
 ```dart
   final List<String> list = ["123213", "321321"];
   list.join(',') // "123213,321321"
 ```
 
-2. Convert List to Map
+##### Convert List to Map
 
 ```dart
   final List<Point> list = [Point(3, 4), Point(1, 2)];
   Map.fromIterable(list, key: (e) => e.x, value: (e) => e.y); // {3: 4, 1: 2}
 ```
 
-3. List with index
+##### List with index
 
 ```dart
   final List<Point> list = [Point(3, 4), Point(1, 2)];
@@ -68,7 +68,7 @@ Dart cheatsheet - Part 2 - [String, List, Map]
   // ["0:{3,4}", "1:{1,2}"]
 ```
 
-4. Fold
+##### Fold
 
 ```dart
   // compute the sum of all length
@@ -79,9 +79,9 @@ Dart cheatsheet - Part 2 - [String, List, Map]
   print(result); // 6
 ```
 
-### Map
+# Map
 
-1. New map from the provided iterables
+##### New map from the provided iterables
 
 ```dart
   final List<String> keys = ['x', 'y', 'z'];
@@ -91,7 +91,7 @@ Dart cheatsheet - Part 2 - [String, List, Map]
 
 ```
 
-2. Convert Map to List
+##### Convert Map to List
 
 ```dart
   final Map<String, int> map = {"x": 3, "y": 4};
