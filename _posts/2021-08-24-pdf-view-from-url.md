@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Flutter App - View PDF from PDF URL link
-cover-img: https://images.unsplash.com/photo-1532961130800-58bc2c157ce4
+cover-img: https://images.unsplash.com/photo-1603406136476-85d8c3ec76a5
 thumbnail-img: https://dart.dev/assets/shared/dart/logo+text/horizontal/white-e71fb382ad5229792cc704b3ee7a88f8013e986d6e34f0956d89c453b454d0a5.svg
 tags: [dart, flutter]
 ---
@@ -109,6 +109,6 @@ https://github.com/ttpho/PDFViewer
 
 ### Note
 
-[Cover Photo](https://unsplash.com/photos/2717nLvrpPg)
+[Cover Photo](https://unsplash.com/photos/g-d-S9gF2sY)
 
 [Thumbnail Photo](https://dart.dev/assets/shared/dart/logo+text/horizontal/white-e71fb382ad5229792cc704b3ee7a88f8013e986d6e34f0956d89c453b454d0a5.svg)
