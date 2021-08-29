@@ -15,7 +15,7 @@ In some cases, if the number of files is too large, too many must be defined in 
 
 - Step 1. Download and move this file [BuildAssets.java](https://github.com/ttpho/BuildAssets/blob/master/BuildAssets.java) into your project.
 
-- Step 2. Open file `pubspec.yam`
+- Step 2. Open file `pubspec.yaml`
 
 Add 2 lines, below line `uses-material-design: true`
 
@@ -51,6 +51,45 @@ The idea from Chromium source code:
 `BuildConfigGenerator.groovy` gen code from build.gradle to create `BUILD.gn`file.
 
 `https://chromium.googlesource.com/chromium/src/+/refs/heads/master/third_party/android_deps/buildSrc/src/main/groovy/BuildConfigGenerator.groovy`
+
+#### Tutorial
+
+In Flutter Project
+
+- Create folder `assets\svgs` and put all svg files into this folder.
+  <img width="573" alt="Screen Shot 2021-08-29 at 10 54 08" src="https://user-images.githubusercontent.com/3994863/131237773-d7dbb9a5-fa9a-4dd8-ab2e-9da8a21c6fb8.png">
+
+- File `pubspec.yaml` added
+
+```yaml
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+  # === Generated Code Start ===
+  # === Generated Code End ===
+```
+
+- Run
+
+```java
+javac BuildAssets.java
+java BuildAssets
+```
+
+- Open files `pubspec.yaml` and check result
+  <img width="908" alt="Screen Shot 2021-08-29 at 10 57 25" src="https://user-images.githubusercontent.com/3994863/131237836-dc2be570-2abe-4e58-9025-2501e952bdfe.png">
+
+- Run
+
+```java
+java BuildAssets AssetImage svg_file.dart
+```
+
+- Open files `svg_file.dart` and check result
+
+<img width="1132" alt="Screen Shot 2021-08-29 at 11 18 19" src="https://user-images.githubusercontent.com/3994863/131238244-f9e39d12-03f8-4b30-a4a4-2d04d79dcabc.png">
 
 #### Source code
 
