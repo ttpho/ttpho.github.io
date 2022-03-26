@@ -3,7 +3,7 @@ layout: post
 title: Dart cheatsheet - Part 2
 subtitle: Dart cheatsheet - [String, List, Map]
 cover-img: https://images.unsplash.com/photo-1607098263217-0f031bbced19
-thumbnail-img: https://dart.dev/assets/shared/dart/logo+text/horizontal/white-e71fb382ad5229792cc704b3ee7a88f8013e986d6e34f0956d89c453b454d0a5.svg
+thumbnail-img: https://pub.dev/static/img/flutter-logo-32x32.png
 tags: [dart, flutter]
 ---
 
