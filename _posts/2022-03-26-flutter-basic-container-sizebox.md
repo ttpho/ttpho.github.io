@@ -6,7 +6,7 @@ thumbnail-img: https://pub.dev/static/img/flutter-logo-32x32.png
 tags: [dart, flutter]
 ---
 
-Compare Container and SizedBox with Size
+Compare `Container` and `SizedBox` with Size
 
 ### Overview
 
@@ -60,9 +60,9 @@ Container
 `
 #### SizedBox build widget with Size
 
-SizedBox don't build the `Widget` by method `Widget build(BuildContext context)`  as `Container`,
+`SizedBox` don't build the `Widget` by method `Widget build(BuildContext context)`  as `Container`,
 because it is not extend from `StatelessWidget`, 
-SizedBox make Widget by method `RenderConstrainedBox createRenderObject(BuildContext context)` 
+`SizedBox` make Widget by method `RenderConstrainedBox createRenderObject(BuildContext context)` 
 
 ```dart
 @override
