@@ -22,8 +22,8 @@ To make space to have a specific width and/or height, what is the difference bet
 
 #### Container define
 
-Container -> StatelessWidget -> Widget
-
+`Container -> StatelessWidget -> Widget
+`
 #### Container build widget with Size
 
 When `height` or  `width` is not null, the `Container` created  `constraints` (BoxConstraints)
@@ -48,6 +48,7 @@ Widget tree
 ```dart
 Container
   ConstrainedBox
+    child
 ```
 
 ### SizedBox class 
@@ -55,8 +56,8 @@ Container
 
 #### SizedBox define
 
-SizedBox -> SingleChildRenderObjectWidget -> RenderObjectWidget -> Widget
-
+`SizedBox -> SingleChildRenderObjectWidget -> RenderObjectWidget -> Widget
+`
 #### SizedBox build widget with Size
 
 SizedBox don't build the `Widget` by method `Widget build(BuildContext context)`  as `Container`,
@@ -79,11 +80,13 @@ SizedBox make Widget by method `RenderConstrainedBox createRenderObject(BuildCon
 Widget tree 
 ```dart
 SizedBox
+  child
 ```
 
 
 ### Put Together
-- To make space to have a specific width and/or height,the `SizedBox` is better.
+- To make space to have a specific width and/or height, the `SizedBox` is better.
+- How about `Container( color: Colors.red, )` and  `ColoredBox( color: Colors.red, );`
 - Read Flutter/Dart - Open Source to understand source code.
 
 ### Note
