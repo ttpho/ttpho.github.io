@@ -13,20 +13,21 @@ Firebase Cloud Messaging (FCM) provides a reliable and battery-efficient connect
 
 1. Tooling to compose or build message requests.
 
-With `Elixir/Phoenix Framework`, you can use [pigeon](https://github.com/codedge-llc/pigeon)
+    With `Elixir/Phoenix Framework`, you can use [pigeon](https://github.com/codedge-llc/pigeon)
 
-This is HTTP2-compliant wrapper for sending iOS and Android push notifications.
+    This is HTTP2-compliant wrapper for sending iOS and Android push notifications.
 
 
 2. The FCM backend, which (among other functions) accepts message requests, performs fanout of messages via topics, and generates message metadata such as the message ID.
 
+
 3. A platform-level transport layer, which routes the message to the targeted device, handles message delivery, and applies platform-specific configuration where appropriate.
 
-This transport layer includes:
+    This transport layer includes:
 
-- Android transport layer (ATL) for Android devices with Google Play services
-- Apple Push Notification service (APNs) for Apple devices
-- Web push protocol for web apps
+    - Android transport layer (ATL) for Android devices with Google Play services
+    - Apple Push Notification service (APNs) for Apple devices
+    - Web push protocol for web apps
 
 
 <img width=300 src="https://firebase.google.com/docs/cloud-messaging/images/diagram-FCM.png" >
@@ -50,7 +51,8 @@ Save the token to the server and update the timestamp whenever it changes, such 
 
 Test Script.  Put your device token (`DEVICE_TOKEN`) and your Cloud Messaging API Key(`API_KEY`)
 
-```curl
+```
+
 DATA='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": <DEVICE_TOKEN>}'
 curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X POST -d "$DATA" -H "Authorization: key=<API_KEY>"
 
