@@ -87,7 +87,7 @@ For apps targeting **Android 12 or lower**, the system will handle the upgrade f
 
 <img width=200 src="https://user-images.githubusercontent.com/3994863/163345624-92cdb54d-8ba8-41a0-a547-982f4659cb8e.png" />
 
-https://android-developers.googleblog.com/2022/03/second-preview-android-13.html
+[source](https://android-developers.googleblog.com/2022/03/second-preview-android-13.html)
 
 
 #### iOS 
