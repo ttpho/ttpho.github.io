@@ -24,7 +24,9 @@ In this post I took a simpler approach, for example opening the settings screen 
 
 Open Settings screen 
 
-https://user-images.githubusercontent.com/3994863/164044514-4bd3c7ed-8bec-4388-9c45-421556457d16.mp4
+
+<img src="https://user-images.githubusercontent.com/3994863/164125197-ce5a992f-0c08-4a76-b484-b8ecf79388b0.gif" width = 200>
+
 
 ### Android
 
