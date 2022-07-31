@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Dart `toMap` dynamic method 
-subtitle: gen method `toMap` for `Object` class 
+title: convert Class object to Map  in Dart
+subtitle: create dynamic method toMap for Object class 
 cover-img: assets/img/2022-07-31/map.png
 thumbnail-img: https://pub.dev/static/img/flutter-logo-32x32.png
 tags: [dart, flutter]
@@ -28,7 +28,7 @@ class Icon {
 }
 
 ```
-So, later when you have a `Icon` object, you just can call `icon.toMap()`.
+So, later when you have a `Icon` object, I just can call `icon.toMap()`.
 
 I do this in most of my entity classes.
 
@@ -65,27 +65,10 @@ Main Approach: `InstanceMirror` -> `ClassMirror` -> `DeclarationMirror` -> `Vari
 
   ```dart
 
+    import 'dart:mirrors';
+    import 'dart:convert';
+
     extension ObjectExtensition on Object {
-    Map<Symbol, dynamic> namedArguments() {
-      final InstanceMirror instanceMirror = reflect(this);
-      final ClassMirror classMirror = instanceMirror.type;
-
-      final Map<Symbol, dynamic> map = {};
-
-      for (var v in classMirror.declarations.values) {
-        if (v is VariableMirror) {
-          final InstanceMirror field = instanceMirror.getField(v.simpleName);
-          if (field.hasReflectee) {
-            map.putIfAbsent(
-              v.qualifiedName,
-              () => field.reflectee,
-            );
-          }
-        }
-      }
-
-      return map;
-    }
 
     Map<String, dynamic> _toMapWithValidFiledName({
       bool Function(String)? validFiledName,
