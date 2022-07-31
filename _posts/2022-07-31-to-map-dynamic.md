@@ -41,17 +41,15 @@ The approach that I use is post is using `dart:mirrors` library.
 
 Basic reflection in Dart, with support for introspection and dynamic invocation.
 
-Introspection is that subset of reflection by which a running program can examine its own structure. For example, a function that prints out the names of all the members of an arbitrary object.
+- Introspection is that subset of reflection by which a running program can examine its own structure. For example, a function that prints out the names of all the members of an arbitrary object.
 
-Dynamic invocation refers the ability to evaluate code that has not been literally specified at compile time, such as calling a method whose name is provided as an argument (because it is looked up in a database, or provided interactively by the user).
+- Dynamic invocation refers the ability to evaluate code that has not been literally specified at compile time, such as calling a method whose name is provided as an argument (because it is looked up in a database, or provided interactively by the user).
 
 
 
 `dart:mirrors` library provide `ClassMirror` class which has `declarations` property.
 
-declarations property is a `Map<Symbol, DeclarationMirror>`.
-
-declarations returns an immutable map of the declarations actually given in the class declaration.
+`declarations` property is a `Map<Symbol, DeclarationMirror>`, returns an immutable map of the declarations actually given in the class declaration.
 
 This map includes all regular methods, getters, setters, fields, constructors and type variables actually declared in the class. Both static and instance members are included, but no inherited members are included. The map is keyed by the simple names of the declarations.
 
@@ -59,9 +57,19 @@ A `DeclarationMirror` reflects some entity declared in a Dart program.
 Implementers: `LibraryMirror`, `MethodMirror`, `TypeMirror`, and `VariableMirror`.
 
 
-Main Approach: `InstanceMirror` -> `ClassMirror` -> `DeclarationMirror` -> `VariableMirror` (file name and value)
+Main approach: `InstanceMirror` -> `ClassMirror` -> `DeclarationMirror` -> `VariableMirror` (field name and value)
 
+```dart
+Map<String, dynamic> map = {}
+Object -> InstanceMirror -> ClassMirror -> declarations.values -> List<DeclarationMirror>
+for v in  List<DeclarationMirror>
+  v is VariableMirror
+    fieldName
+    filedValue
+    map.put(fieldName, filedValue)
+```
 
+Dart Code
 
   ```dart
 
@@ -232,6 +240,18 @@ toJsonStringWithFormat()
     "new_tab"
   ]
 }
+```
+
+#### More 
+
+```dart 
+  // import 'dart:math';
+
+  print(Point(3, 4).toMap());
+  // {x: 3, y: 4}
+
+  print(Rectangle(1, 2, 3, 4).toMap());
+  // {left: 1, top: 2, width: 3, height: 4}
 ```
 
 ### Note
