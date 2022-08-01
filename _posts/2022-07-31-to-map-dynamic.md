@@ -32,12 +32,12 @@ So, later when you have a `Icon` object, I just can call `icon.toMap()`.
 
 I do this in most of my entity classes.
 
-In this post, I try create method `toMap()` dynamic and so I will reuse method `toMap()` for in most of my entity classes.
+In this post, I try create method `toMap()` dynamic and so I reuse method `toMap()` for in most of my entity classes.
 
 
 ### Gen method `toMap` for `Object` class 
 
-The approach that I use is post is using `dart:mirrors` library.
+The approach that I use in this post is using `dart:mirrors` library.
 
 Basic reflection in Dart, with support for introspection and dynamic invocation.
 
@@ -150,9 +150,9 @@ Dart Code
 {: .box-warning}
 **Warning:** The dart:mirrors library is unstable and its API might change slightly as a result of user feedback. This library is only supported by the Dart VM and only available on some platforms.
 
-### Tuorial 
+### Tutorial 
 
-Created Class `MennuItem` and convert an `Object` type to a `Map`, so the variables become key/value pairs with method `toMap()`
+Create class `MennuItem` and convert an `Object` type to a `Map`, so the variables become key/value pairs with method `toMap()`
 
 #### Input 
 
