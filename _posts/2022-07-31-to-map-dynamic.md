@@ -1,7 +1,7 @@
 ---
 layout: post
-title: convert Class object to Map  in Dart
-subtitle: create dynamic method toMap for Object class 
+title: Convert Class object to Map  in Dart
+subtitle: Create dynamic method toMap for Object class 
 cover-img: assets/img/2022-07-31/map.png
 thumbnail-img: https://pub.dev/static/img/flutter-logo-32x32.png
 tags: [dart, flutter]
