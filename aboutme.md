@@ -7,7 +7,7 @@ subtitle:
 <h1 align="center">Hi 👋, I'm Pho Tran</h1>
 <h3 align="center">A software engineer from Vietnam.</h3>
 
-- 🌱 I’m currently learning **Mandarin Chinese**
+- 👨‍💻 I make [DartJ](https://dartj.web.app/#/): Flutter application, parse `JSON` and generate `Dart` classes.
 
 - 📫 How to reach me **tranthanhpho2011@gmail.com**
 
