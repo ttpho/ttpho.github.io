@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Conver Android, iOS Resouce to JSON
-subtitle: Conver content Android strings.xml file, content iOS Localizable.strings file to JSON content 
+subtitle: Conver content Android strings.xml file, content iOS Localizable.strings file to JSON content
+cover-img: https://user-images.githubusercontent.com/3994863/191051637-6302bf6c-9f24-4bac-8f97-21f00d5bd502.png
 thumbnail-img: https://pub.dev/static/img/flutter-logo-32x32.png
 tags: [dart, flutter]
 ---
