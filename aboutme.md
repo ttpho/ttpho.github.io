@@ -7,22 +7,12 @@ subtitle:
 <h1 align="center">Hi 👋, I'm Pho Tran</h1>
 <h3 align="center">A software engineer from Vietnam.</h3>
 
-- 👨‍💻 I make [DartJ](https://dartj.web.app/#/): Flutter application, parse `JSON` and generate `Dart` classes.
+- 👨‍💻 I make [DartJ](https://dartj.web.app/#/): Flutter application, parse `JSON` and generate `Dart` classes, `Kotlin` classes, `Swift` classes and `Elixir` structs.
+
+     With `Dart` class, [DartJ](https://dartj.web.app/#/) is supported: [JsonSerializable](https://pub.dev/packages/json_serializable), [Equatable](https://pub.dev/packages/equatable), [freezed](https://pub.dev/packages/freezed) and [vexana](https://pub.dev/packages/vexana) 
 
 - 📫 How to reach me **tranthanhpho2011@gmail.com**
 
-<h4 align="left">Favorite Native Languages</h4>
-- 🇬🇧 English 
-- 🇯🇵 Japanese 
-- 🇨🇳 Chinese
-
-<h4 align="left">Favorite Programing Languages</h4>
-- Java 
-- Kotlin 
-- Swift
-- Dart 
-- Elixir
-- Python
 
 <h4 align="left">Connect with me:</h4>
 <p align="left">
