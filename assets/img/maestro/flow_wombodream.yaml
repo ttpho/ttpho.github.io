@@ -1,0 +1,18 @@
+# maestro test flow_wombodream.yaml
+appId: com.womboai.wombodream
+---
+- launchApp
+- tapOn: "Try it out"
+- tapOn: # press button create new 
+    width: 198       
+    height: 198     
+    tolerance: 10    
+- tapOn: "Type anything"
+- inputText: "Pikachu"
+- tapOn: "Paint"
+- tapOn: "Create"
+- assertVisible: "View all benefits"
+- extendedWaitUntil:
+    visible: Generate Again
+    timeout: 10000
+- takeScreenshot: CreateArtScreen 
