@@ -55,6 +55,24 @@ Map<String, String> _fromAndroidXmlString(final String xmlString) {
 }
 ```
 
+- Result 
+
+```json
+
+{
+  "logout": "Logout",
+  "contact_us": "Contact Us",
+  "customer_service": "Customer Service",
+  "store": "Store",
+  "privacy_policy": "Privacy Policy",
+  "policies": "Policies",
+  "terms": "Terms",
+  "subscription_terms": "Subscription Terms"
+}
+
+```
+
+
 ### iOS Localizable.strings
 
 - `Localizable.strings` content 
@@ -102,6 +120,27 @@ Map<String, String> _fromLocalizableString(final String localizableString) {
 
   return map;
 }
+```
+
+- Result 
+
+```json
+
+{
+  "Catalan.Answer": "Catalan",
+  "Catalan.Choices": "Spanish;Catalan;French;Portuguese;Italian",
+  "Catalan.Question": "Which language is spoken in Andorra?",
+  "correctly": "correctly",
+  "DC.Answer": "Washington D.C.",
+  "DC.Choices": "New York City;San Francisco;Atlanta;Washington D.C.;Dallas;Los Angeles",
+  "DC.Question": "What is the capital of the United States?",
+  "incorrectly": "incorrectly",
+  "Mexico.Answer": "September 16",
+  "Mexico.Choices": "January 5;February 24;March 21;May 5;September 16;November 1;November 20",
+  "Mexico.Question": "What day is Mexican Independence Day?",
+  "Next": "Next"
+}
+
 ```
 
 ### Conver Map to JSON 
