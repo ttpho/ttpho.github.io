@@ -6,7 +6,7 @@ cover-img: https://images.unsplash.com/photo-1611262588019-db6cc2032da3
 tags: [android, ios, ui-automation, blackbox-testing]
 ---
 
-In this tutorial, I want to share bug notification icon appear a grey square on Android application and how to fix it.
+In this post, I want to share bug notification icon appear a grey square on Android application and how to fix it.
 
 
 ### Case Study
@@ -22,7 +22,7 @@ Notification icon on notification bar:
 <img width=200 src="/assets/img/2022-10-08/notification.jpg" />
 
 
-App version info 
+App version info:
 
 <img width=200 src="/assets/img/2022-10-08/app_info.jpg" />
 
@@ -50,10 +50,10 @@ so this is reson your notification icon is dark gray.
 - Use Android Studio tools: `app -> New -> Image Asset -> Icon Type: Notification Icons`
 
 
-<img width=300 src="/assets/img/2022-10-08/android_studio_step_1.png" />
+<img width=500 src="/assets/img/2022-10-08/android_studio_step_1.png" />
 
 
-<img width=300 src="/assets/img/2022-10-08/android_studio_step_2.png" />
+<img width=500 src="/assets/img/2022-10-08/android_studio_step_2.png" />
 
 
 
