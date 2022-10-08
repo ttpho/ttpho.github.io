@@ -2,7 +2,7 @@
 layout: post
 title: Android Wonder application - notification icon appear a grey square
 subtitle: Case Study & How to fix gray icon issue in Android Notification
-cover-img:https://images.unsplash.com/photo-1611262588019-db6cc2032da3
+cover-img: https://images.unsplash.com/photo-1611262588019-db6cc2032da3
 tags: [android, ios, ui-automation, blackbox-testing]
 ---
 
