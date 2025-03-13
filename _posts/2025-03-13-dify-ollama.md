@@ -78,31 +78,38 @@ It will run an API server at http://localhost:11434. Keep this terminal open.
 Dify is an open-source platform for building AI applications, and we’ll deploy it using Docker.
 Clone the Dify Repository:
 In a new terminal, run:
-bash
 
+```
 git clone https://github.com/langgenius/dify.git
 cd dify/docker
+```
 
 Configure Environment:
 Copy the example environment file:
-bash
 
+```
 cp .env.example .env
+```
 
 No changes are needed yet for a basic setup.
 
 Launch Dify:
 Start the containers:
-bash
 
+```
 docker compose up -d
 
-Wait a few minutes for all services to initialize. Check status with:
-bash
+```
 
+Wait a few minutes for all services to initialize. Check status with:
+
+```
 docker ps
 
+```
+
 Access Dify:
+
 Open your browser to http://localhost (or http://your_server_ip if on a remote machine).
 
 Follow the on-screen prompts to create an admin account.
@@ -133,6 +140,7 @@ Enter a test prompt (e.g., “Hello, how are you?”) and verify the response.
 #### Step 4: Troubleshooting
 
 Connection Errors:
+
 If Dify can’t reach Ollama at localhost:11434, it’s likely a Docker networking issue. Use http://host.docker.internal:11434 (macOS/Windows) or ensure both services share a Docker network:
 bash
 
@@ -150,7 +158,7 @@ Larger models (e.g., Llama 3 70B) need more RAM/GPU. Stick to smaller models lik
 ####  Step 5: Running Your Setup
 
 Keep Services Running:
-Ollama: ollama serve in one terminal.
+Ollama: `ollama serve` in one terminal.
 
 Dify: docker compose up -d in the dify/docker directory.
 
@@ -174,8 +182,11 @@ If Ollama is run as a macOS application, environment variables should be set usi
 
 For each environment variable, call launchctl setenv.
 
-Copy
+
+```
 launchctl setenv OLLAMA_HOST "0.0.0.0"
+```
+
 Restart Ollama application.
 
 If the above steps are ineffective, you can use the following method:
@@ -183,5 +194,9 @@ If the above steps are ineffective, you can use the following method:
 The issue lies within Docker itself, and to access the Docker host.
 you should connect to host.docker.internal. Therefore, replacing localhost with host.docker.internal in the service will make it work effectively.
 
-Copy
+```
 http://host.docker.internal:11434
+
+```
+
+https://docs.dify.ai/development/models-integration/ollama
