@@ -2,14 +2,27 @@
 layout: post
 title:  run Dify with Ollama.
 subtitle: Below is a step-by-step guide to set up and run Dify with Ollama. This assumes you want to deploy both locally and integrate them to run large language models (LLMs) on your machine. 
-cover-img: https://images.unsplash.com/photo-1599016012665-13b74bb3b528
-tags: [android, ios, ui-automation, blackbox-testing]
+cover-img: https://images.unsplash.com/photo-1677442135703-1787eea5ce01
+tags: [ollama, dify]
 ---
 
 ### Overview
 
 
 Below is a step-by-step guide to set up and run Dify with Ollama. This assumes you want to deploy both locally and integrate them to run large language models (LLMs) on your machine. 
+
+
+### Demo
+
+<video width="500" controls>
+  <source src="/assets/img/2025-03-13/final Screen Recording 2025-03-13 at 19.42.37.mov" type="video/mp4">
+</video>
+
+
+<video width="500" controls>
+  <source src="/assets/img/2025-03-13/final Screen Recording 2025-03-13 at 19.53.30.mov" type="video/mp4">
+</video>
+
 
 
 ### Setup 
@@ -26,6 +39,7 @@ Hardware: A machine with at least 8GB RAM (more for larger models) and sufficien
 Operating System: macOS, Windows, or Linux (Ollama and Dify support all three).
 
 ####  Step 1: Install Ollama
+
 Ollama lets you run LLMs locally with a simple setup.
 Download Ollama:
 Visit ollama.com/download and grab the installer for your OS.
@@ -60,6 +74,7 @@ ollama serve
 It will run an API server at http://localhost:11434. Keep this terminal open.
 
 ####  Step 2: Install Dify
+
 Dify is an open-source platform for building AI applications, and we’ll deploy it using Docker.
 Clone the Dify Repository:
 In a new terminal, run:
@@ -93,6 +108,7 @@ Open your browser to http://localhost (or http://your_server_ip if on a remote m
 Follow the on-screen prompts to create an admin account.
 
 ####  Step 3: Integrate Ollama with Dify
+
 Now, connect Dify to your local Ollama instance.
 Navigate to Model Providers:
 In Dify, go to Settings > Model Providers > Ollama.
@@ -115,6 +131,7 @@ Select the Ollama provider and your model (e.g., gemma:2b).
 Enter a test prompt (e.g., “Hello, how are you?”) and verify the response.
 
 #### Step 4: Troubleshooting
+
 Connection Errors:
 If Dify can’t reach Ollama at localhost:11434, it’s likely a Docker networking issue. Use http://host.docker.internal:11434 (macOS/Windows) or ensure both services share a Docker network:
 bash
@@ -131,6 +148,7 @@ Performance:
 Larger models (e.g., Llama 3 70B) need more RAM/GPU. Stick to smaller models like gemma:2b or mistral:7b for modest hardware.
 
 ####  Step 5: Running Your Setup
+
 Keep Services Running:
 Ollama: ollama serve in one terminal.
 
@@ -147,3 +165,23 @@ Pull Ollama models beforehand (ollama pull <model>).
 
 Deploy on an air-gapped machine with all files transferred manually.
 
+
+### Note 
+
+
+Setting environment variables on Mac
+If Ollama is run as a macOS application, environment variables should be set using launchctl:
+
+For each environment variable, call launchctl setenv.
+
+Copy
+launchctl setenv OLLAMA_HOST "0.0.0.0"
+Restart Ollama application.
+
+If the above steps are ineffective, you can use the following method:
+
+The issue lies within Docker itself, and to access the Docker host.
+you should connect to host.docker.internal. Therefore, replacing localhost with host.docker.internal in the service will make it work effectively.
+
+Copy
+http://host.docker.internal:11434
