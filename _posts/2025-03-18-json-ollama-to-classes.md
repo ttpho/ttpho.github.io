@@ -2,7 +2,7 @@
 layout: post
 title:  JSON to classes with Ollama
 subtitle: Dart + Olama Server, convert JSON to classes 
-cover-img: https://images.unsplash.com/photo-1677442135703-1787eea5ce01
+cover-img: https://plus.unsplash.com/premium_photo-1661963874418-df1110ee39c1
 tags: [ollama, dartJ]
 ---
 
