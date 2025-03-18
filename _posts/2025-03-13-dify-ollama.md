@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  run Dify with Ollama.
+title:  Run Dify with Ollama
 subtitle: Below is a step-by-step guide to set up and run Dify with Ollama. This assumes you want to deploy both locally and integrate them to run large language models (LLMs) on your machine. 
 cover-img: https://images.unsplash.com/photo-1677442135703-1787eea5ce01
 tags: [ollama, dify]
