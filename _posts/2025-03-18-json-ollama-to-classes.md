@@ -20,6 +20,8 @@ Now, I'm presenting a novel approach that leverages Ollama to transform JSON int
 ### Demo
 
 
+[![Watch the video](https://img.youtube.com/vi/I4fn677eO8w/maxresdefault.jpg)](https://youtu.be/I4fn677eO8w)
+
 
 #### JSON input 
 
