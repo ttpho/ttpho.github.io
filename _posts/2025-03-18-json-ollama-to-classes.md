@@ -8,23 +8,24 @@ tags: [ollama, dartJ]
 
 ### Overview
 
-This demonstration showcases the use of the Ollama codegemma model to transform JSON data into programming language-specific class or struct models, with the resulting code being saved to a file.
+[DartJ](https://dartj.web.app/), a website I built, specializes in converting JSON into class models for Dart, Swift, and Kotlin. 
+The fundamental mechanism behind this conversion is a depth-first tree traversal algorithm. 
+
+Now, I'm presenting a novel approach that leverages Ollama to transform JSON into class/struct models for a specified programming language, with the generated code being outputted to a file
+
+![Untitled Diagram drawio](https://github.com/user-attachments/assets/7f3a4c88-ff6f-40a9-87fd-13afaf92dd21)
 
 
-JSON -> Ollama model + Dart Console -> Class/Struct Dart/Kotlin/Swift/Python/Go  
-
-Execute file: 
-
-Execute folder:
 
 ### Demo
 
-#### Preview 
 
 
 #### JSON input 
 
-### Ollma Model 
+### Ollma Setup 
+
+[Ollama Install & Pull model](https://github.com/ollama/ollama?tab=readme-ov-file#ollama)
 
 ```
 % ollama ls
@@ -37,6 +38,5 @@ codegemma:7b            0c96700aaada    5.0 GB    3 days ago
 ### Class/Struct
 
 
-### Setup 
 
 
