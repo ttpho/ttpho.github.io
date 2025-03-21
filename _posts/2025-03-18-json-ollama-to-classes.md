@@ -8,6 +8,8 @@ tags: [ollama, dartJ]
 
 ### Overview
 
+This demonstration showcases the use of the Ollama codegemma model to transform JSON data into programming language-specific class or struct models, with the resulting code being saved to a file.
+
 
 JSON -> Ollama model + Dart Console -> Class/Struct Dart/Kotlin/Swift/Python/Go  
 
