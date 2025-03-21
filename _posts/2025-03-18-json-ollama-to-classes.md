@@ -58,9 +58,9 @@ ${jsonAndClass.$2}
 
 ### Excute Ollma
 
-- LLM model: $model
-- System promt: $sytemPrompt
-- Json resource: $json
+- LLM model: `$model`
+- System promt: `$sytemPrompt`
+- Json resource: `$json`
 
 ```curl
 
