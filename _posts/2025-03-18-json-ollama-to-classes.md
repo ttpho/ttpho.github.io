@@ -46,9 +46,7 @@ I want you to only reply the correction, do not write explanations.
 
 For example, my JSON string
 
-```json
 ${jsonAndClass.$1}
-```
 
 You will convert it to $lang classes 
 
