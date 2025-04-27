@@ -18,7 +18,16 @@ I make [DartJ](https://dartj.web.app/#/): Flutter application, parse `JSON` and 
 
 ### Other Projects
 
-- [Localization Tools for Android/iOS/Flutter development, conver file .csv to .json, .xml, .strings; convert .json, .xml, .strings to .csv ](https://localizationtools.web.app/)
+- [Localization Tools ](https://localizationtools.web.app/)
+
+Localization Tools for Android/iOS/Web/Flutter development, conver file `.csv` to `.json`, `.xml`, `.strings`; 
+convert `.json`, `.xml`, `.strings` to `.csv`
+
+
+https://github.com/user-attachments/assets/c3fb7659-982b-4fc5-950c-6a918594881a
+
+
+
 
 - [AR Champion](https://play.google.com/store/apps/details?id=photran.me.archampion)
 
