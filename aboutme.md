@@ -24,9 +24,10 @@ Localization Tools for Android/iOS/Web/Flutter development, conver file `.csv` t
 convert `.json`, `.xml`, `.strings` to `.csv`
 
 
-https://github.com/user-attachments/assets/c3fb7659-982b-4fc5-950c-6a918594881a
-
-
+<video controls>
+  <source src="https://github.com/user-attachments/assets/c3fb7659-982b-4fc5-950c-6a918594881a" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 
 - [AR Champion](https://play.google.com/store/apps/details?id=photran.me.archampion)
