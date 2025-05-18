@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Auto commit with Ollama
-subtitle: Execute a command to commit and push the source code to GitHub in the Elixir/Phoenix project
+subtitle: automatically generate commit messages and automatically create a commit for each file
 cover-img: https://images.unsplash.com/photo-1435224572021-b229e8e0760e
 thumbnail-img: https://elixir-lang.org/images/logo/logo.png
 tags: [ai, git]
