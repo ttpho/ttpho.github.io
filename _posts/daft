@@ -1,0 +1,166 @@
+---
+layout: post
+title: Applying SSML for Text-to-Speech and Text Highlighting (Karaoke)
+subtitle: This document provides an overview of Speech Synthesis Markup Language (SSML) and its application in text highlighting, similar to a karaoke display, where text is highlighted as it is spoken. It covers the fundamentals of SSML, its integration with the Google Cloud Text-to-Speech API, and the use of time points to synchronize audio playback with text display. 
+cover-img: https://images.unsplash.com/photo-1496112576525-8b31e9ce4872
+tags: [ai, mindmap]
+---
+
+# Applying SSML for Text-to-Speech and Text Highlighting (Karaoke)
+
+## Overview
+
+[cite\_start]This document provides an overview of Speech Synthesis Markup Language (SSML) and its application in text highlighting, similar to a karaoke display, where text is highlighted as it is spoken. [cite: 1, 13] [cite\_start]It covers the fundamentals of SSML, its integration with the Google Cloud Text-to-Speech API, and the use of time points to synchronize audio playback with text display. [cite: 11, 12, 13]
+
+-----
+
+## SSML (Speech Synthesis Markup Language)
+
+[cite\_start]SSML, or Speech Synthesis Markup Language, is an XML-based markup language that allows users to control the text-to-speech conversion process. [cite: 15] [cite\_start]It helps make the synthesized voice sound more natural and expressive. [cite: 15] [cite\_start]With SSML, you can customize aspects such as pronunciation, speech rate, volume, pitch, and pauses. [cite: 16]
+
+### Main Purpose of SSML
+
+  * [cite\_start]**Detailed Control**: SSML provides XML tags that allow you to specify how each part of the text should be processed, rather than letting the system interpret it on its own. [cite: 18, 19]
+  * [cite\_start]**Creating a Better Listening Experience**: By adjusting speech attributes, you can make the synthesized audio sound more natural and engaging for the listener. [cite: 20, 21]
+
+### Elements Controlled by SSML
+
+  * [cite\_start]**Pronunciation**: Specify how a word or phrase should be pronounced. [cite: 23]
+  * [cite\_start]**Pause**: Control the breaks between sentences or paragraphs to make the speech more coherent. [cite: 24]
+  * [cite\_start]**Rate**: Increase or decrease the speaking speed. [cite: 25]
+  * [cite\_start]**Volume**: Change the loudness of the voice. [cite: 26]
+  * [cite\_start]**Pitch**: Adjust the intonation to make the voice more emotive. [cite: 27]
+  * [cite\_start]**Other Tags**: SSML also supports formats for dates, measurement units, Roman numerals, and English words. [cite: 28]
+
+### When to Use SSML
+
+[cite\_start]SSML is utilized when working with Text-To-Speech (TTS) services like Google Assistant, Amazon Alexa, IBM, Speechify, and EM and AI. [cite: 30] [cite\_start]It is also used to create audio content such as audiobooks or for interactive telephony applications. [cite: 31]
+
+-----
+
+## SSML Preprocessing
+
+Before converting text to speech, it must be preprocessed and formatted with SSML tags. [cite\_start]The following is an illustration of how plain text is converted into the SSML format. [cite: 33]
+
+| Plain Text | SSML Markup | Explanation |
+| :--- | :--- | :--- |
+| In 2008 much of Hanoi was flooded, typically 0.5-0.7 m deep, though waist level in some areas, forcing residents to move around by boat. The flooding did not just affect certain streets or neighborhoods: In some districts, as they were called then, half the area was under water. | `<speak> In 2008 much of Hanoi was flooded, typically 0.5-0.7 m deep, though waist level in some areas, forcing residents to move around by boat. <mark name="mark1"/> The flooding did not just affect certain streets or neighborhoods: In some districts, as they were called then, half the area was under water. <mark name="mark2"/> </speak>` | [cite\_start]Insert `<speak>` tags at the beginning and end of the text. [cite: 34] [cite\_start]Insert `<mark>` tags with unique `name` attributes at desired points to create timestamps. [cite: 34] |
+
+## Google Cloud Text-to-Speech API
+
+To generate audio and time points, the `text.synthesize` method from the Google Cloud Text-to-Speech API is used. [cite\_start]Note that this feature is currently in beta. [cite: 36]
+
+### Sample Request
+
+The API request must include the SSML content in the `input` field and specify `SSML_MARK` in the `enableTimePointing` field.
+
+```json
+{
+  "input": {
+    "ssml": "<speak>In 2008 much of Hanoi was flooded, typically 0.5-0.7 m deep, though waist level in some areas, forcing residents to move around by boat. <mark name=\"mark1\"/>The flooding did not just affect certain streets or neighborhoods: In some districts, as they were called then, half the area was under water.<mark name=\"mark2\"/></speak>"
+  },
+  "voice": {
+    "languageCode": "en-US",
+    "name": "en-US-Standard-C"
+  },
+  "audioConfig": {
+    "audioEncoding": "MP3"
+  },
+  "enableTimePointing": [
+    "SSML_MARK"
+  ]
+}
+```
+
+### Sample Response
+
+The API response includes the audio content encoded in base64 and a list of `timepoints`. Each timepoint corresponds to a `<mark>` tag in the SSML and provides the exact second it occurs in the audio.
+
+```json
+{
+  "audioContent": "//XXXXXX",
+  "timepoints": [
+    {
+      "markName": "mark1",
+      "timeSeconds": 11.149374008178711
+    },
+    {
+      "markName": "mark2",
+      "timeSeconds": 19.599833333333333
+    }
+  ],
+  "audioConfig": {
+    "audioEncoding": "MP3",
+    "speakingRate": 1,
+    "pitch": 0,
+    "volumeGainDb": 0,
+    "sampleRateHertz": 24000,
+    "effectsProfileId": []
+  }
+}
+```
+
+### Explanation of Timepoints
+
+| Field | Data Type | Description |
+| :--- | :--- | :--- |
+| **`markName`** | String | [cite\_start]The name of the time point, which corresponds to the `name` attribute in the SSML `<mark>` tag (e.g., `<mark name="mark1"/>`). [cite: 47] |
+| **`timeSeconds`** | Number (Float) | [cite\_start]The precise moment (in seconds) that the mark occurs in the synthesized audio file, measured from the beginning (0.0 seconds). [cite: 47] |
+
+-----
+
+## Using Time Points for Display
+
+[cite\_start]The `timepoints` data returned by the API acts as a time map, allowing you to know exactly which content is being spoken at any given moment. [cite: 49] This enables several features:
+
+  * [cite\_start]**Text Highlighting (Karaoke)**: Display text and automatically highlight the sentence or phrase as it is being spoken, which is highly beneficial for language learners. [cite: 50]
+  * [cite\_start]**Automatic Scrolling**: Automatically scroll a webpage or mobile screen to keep the currently spoken text within the user's view. [cite: 50]
+  * [cite\_start]**Precise Navigation**: Allow users to click on a section of text (e.g., a sentence) to jump to the corresponding point in the audio file and begin playback from there. [cite: 50]
+
+### Creating a Data Structure for Synchronization
+
+[cite\_start]The `timepoints` can be used to create a structured dataset that maps text segments to their start and end times in the audio. [cite: 51]
+
+```json
+[
+  {
+    "name": "mark1",
+    "start_time": 0.0,
+    "end_time": 11.149374008178711,
+    "text": "In 2008 much of Hanoi was flooded, typically 0.5-0.7 m deep, though waist level in some areas, forcing residents to move around by boat."
+  },
+  {
+    "name": "mark2",
+    "start_time": 11.149374008178711,
+    "end_time": 19.599833333333333,
+    "text": "The flooding did not just affect certain streets or neighborhoods: In some districts, as they were called then, half the area was under water."
+  }
+]
+```
+
+### Conceptual Code for Time-based Logic (Web)
+
+[cite\_start]This conceptual JavaScript code shows how to check the audio player's current time and apply a CSS class to highlight the corresponding text. [cite: 71]
+
+```javascript
+audioPlayer.ontimeupdate = function() {
+  const currentTime = audioPlayer.currentTime;
+
+  // Iterate through the synchronization data
+  syncData.forEach(item => {
+    if (currentTime >= item.start_time && currentTime < item.end_time) {
+      // Highlight the current text element
+      document.getElementById(item.name).classList.add('highlighted');
+    } else {
+      // Remove highlight from other elements
+      document.getElementById(item.name).classList.remove('highlighted');
+    }
+  });
+};
+```
+
+## Summary
+
+[cite\_start]Using SSML in conjunction with the Google Cloud Text-to-Speech API provides an effective solution for the text highlighting (Karaoke) problem. [cite: 89] [cite\_start]The API offers high accuracy and is efficient at handling multiple languages. [cite: 89]
+
+[cite\_start]However, it is important to note that this is a beta API, which may incur costs, and that creating well-structured SSML content is crucial for achieving the desired results. [cite: 90]
