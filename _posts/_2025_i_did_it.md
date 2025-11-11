@@ -1,3 +1,5 @@
+[Web + AI]
+
 PDF to Image Converter
 https://ttpho.github.io/pdf2image/
 
@@ -5,14 +7,19 @@ https://ttpho.github.io/pdf2image/
 An educational web application for elementary students that brings their drawings to life as animated videos
 https://ttpho.github.io/drawing_animator/
 
-
 Mermaid Chart to Image Export
 https://ttpho.github.io/mermaid/
 
+Learning Anything from Youtupe + LLM 
+https://ttpho.github.io/youtube_lesson_helper/
+
+[Android]
 
 Android Mindmap Chart
 https://github.com/ttpho/MindMap
 
+
+[Flutter] 
 
 Workspace
 https://ttpho.github.io/workspace/
@@ -29,6 +36,7 @@ https://ttpho.github.io/lottie/
 Emoji Icon Generator, icons in Flutter web app
 https://ttpho.github.io/emoji_icon_generator/
 
+[Python] 
 
 Android Assets Gen is a Kotlin code generator designed to streamline the management of assets, fonts, JSON files, and other resources in Android applications.
 https://github.com/ttpho/android_assets_gen
@@ -42,6 +50,4 @@ A Python script to auto-generate a Kotlin enum class for Android drawable resour
 https://github.com/ttpho/android_drawable_gen
 
 
-Learning Anything from Youtupe + LLM 
-https://ttpho.github.io/youtube_lesson_helper/
 
