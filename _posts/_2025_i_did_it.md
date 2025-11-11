@@ -2,21 +2,40 @@
 ### Web + LLM 
 
 PDF to Image Converter
+
 https://ttpho.github.io/pdf2image/
+
+<img width="500" alt="screencapture-ttpho-github-io-pdf2image-2025-11-11-13_30_01" src="https://github.com/user-attachments/assets/c27efa6b-522f-4d25-9111-e339729a105b" />
+
 
 
 An educational web application for elementary students that brings their drawings to life as animated videos
+
 https://ttpho.github.io/drawing_animator/
 
+https://github.com/user-attachments/assets/16a2eb2d-dd8e-4896-845d-8346220a1b6d
+
+
+
 Mermaid Chart to Image Export
+
 https://ttpho.github.io/mermaid/
 
+<img width="500" alt="screencapture-ttpho-github-io-mermaid-2025-11-11-13_31_55" src="https://github.com/user-attachments/assets/0ed4f3a3-aca7-4aee-bfdc-3f26c828055c" />
+
+
+
 Learning Anything from Youtupe + LLM 
+
 https://ttpho.github.io/youtube_lesson_helper/
+
+<img width="500" alt="screencapture-ttpho-github-io-youtube-lesson-helper-2025-11-11-13_34_20" src="https://github.com/user-attachments/assets/ee0269d4-8af3-4d92-9ee8-b214ceeb7611" />
+
 
 ### Android 
 
 Android Mindmap Chart
+
 https://github.com/ttpho/MindMap
 
 https://github.com/user-attachments/assets/d333d090-d38b-4d14-ac75-9214da4e02a7
@@ -25,36 +44,59 @@ https://github.com/user-attachments/assets/d333d090-d38b-4d14-ac75-9214da4e02a7
 ### Flutter 
 
 Workspace
+
 https://ttpho.github.io/workspace/
+
+<img width="500"  alt="screencapture-ttpho-github-io-workspace-2025-11-11-13_35_14" src="https://github.com/user-attachments/assets/b15b93e3-9fca-4bce-8da5-17a6d034e9b5" />
 
 
 Localization Tools: convert localization files between .strings, .json, .xml, and .csv formats.
+
 https://localizationtools.web.app/
+
+<img width="500" alt="screencapture-localizationtools-web-app-2025-11-11-13_36_02" src="https://github.com/user-attachments/assets/8292c586-41b5-42a9-8fa5-a2713993c085" />
+
 
 
 Previewing Lottie animations on simulated mobile devices, with configurable background color and support for loading Lottie files from local storage or a URL.
+
 https://ttpho.github.io/lottie/
+
+<img width="500" alt="screencapture-ttpho-github-io-lottie-2025-11-11-13_37_54" src="https://github.com/user-attachments/assets/a88e5756-b672-4625-a238-2d78a98a2a2f" />
+
 
 
 Emoji Icon Generator, icons in Flutter web app
+
 https://ttpho.github.io/emoji_icon_generator/
 
 Conver JSON from Google Analytics to Excel 
+
 https://jsonexcel-97895.web.app/
 
 
 ### Python 
 
 Android Assets Gen is a Kotlin code generator designed to streamline the management of assets, fonts, JSON files, and other resources in Android applications.
+
 https://github.com/ttpho/android_assets_gen
+
+https://github.com/user-attachments/assets/16b0944c-46f0-4336-8577-1fe789cbb51e
 
 
 A Python script that automates the process of generating concise, conventional commit messages for your Git repository changes using an LLM (via Ollama)
+
 https://github.com/ttpho/git_diff_auto_commit
+
+`auto_commit.py` is a Python script that automates the process of generating concise, conventional commit messages for your Git repository changes using an LLM (via Ollama). It can commit all changes at once or commit each file separately, with AI-generated commit messages based on the actual diffs.
+
+<img width="500" src="https://github.com/user-attachments/assets/f39344db-10c5-4dbc-a3e6-2ce275d52004" />
 
 
 A Python script to auto-generate a Kotlin enum class for Android drawable resources, making it easier to reference drawables in a type-safe way.
+
 https://github.com/ttpho/android_drawable_gen
 
+https://github.com/user-attachments/assets/a8206782-5a0b-4455-af77-bfd000090e2b
 
 
