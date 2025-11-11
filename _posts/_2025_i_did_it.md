@@ -13,8 +13,7 @@ An educational web application for elementary students that brings their drawing
 
 https://ttpho.github.io/drawing_animator/
 
-https://github.com/user-attachments/assets/16a2eb2d-dd8e-4896-845d-8346220a1b6d
-
+https://github.com/user-attachments/assets/36d2e490-1d8e-4a48-b4e2-9dac56190caa
 
 
 Mermaid Chart to Image Export
