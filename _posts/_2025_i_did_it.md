@@ -1,4 +1,5 @@
-[Web + AI]
+
+### Web + LLM 
 
 PDF to Image Converter
 https://ttpho.github.io/pdf2image/
@@ -13,13 +14,12 @@ https://ttpho.github.io/mermaid/
 Learning Anything from Youtupe + LLM 
 https://ttpho.github.io/youtube_lesson_helper/
 
-[Android]
+### Android 
 
 Android Mindmap Chart
 https://github.com/ttpho/MindMap
 
-
-[Flutter] 
+### Flutter 
 
 Workspace
 https://ttpho.github.io/workspace/
@@ -36,7 +36,7 @@ https://ttpho.github.io/lottie/
 Emoji Icon Generator, icons in Flutter web app
 https://ttpho.github.io/emoji_icon_generator/
 
-[Python] 
+### Python 
 
 Android Assets Gen is a Kotlin code generator designed to streamline the management of assets, fonts, JSON files, and other resources in Android applications.
 https://github.com/ttpho/android_assets_gen
