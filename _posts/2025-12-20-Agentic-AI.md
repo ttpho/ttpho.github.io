@@ -6,7 +6,9 @@ cover-img: https://plus.unsplash.com/premium_photo-1726079246917-46f2b37f7e9e
 tags: [AI]
 ---
 
-# Overview 
+# Agentic AI 
+
+### Overview
 
 **Agentic AI** (Trí tuệ nhân tạo có tính tác nhân) là bước tiến tiếp theo của AI, nơi máy móc không chỉ "biết nói" hay "biết viết" mà còn **"biết làm"**.
 
@@ -40,3 +42,58 @@ Dưới đây là những điểm cốt lõi để bạn hiểu về Agentic AI:
 ### 4. Tại sao nó quan trọng?
 
 Agentic AI đang biến AI từ một công cụ "hỏi-đáp" thành một "lực lượng lao động kỹ thuật số". Điều này giúp doanh nghiệp tối ưu hóa những quy trình phức tạp mà trước đây bắt buộc phải có con người điều phối ở giữa các bước.
+
+
+# Agentic Design Patterns
+
+### Overview 
+
+Agentic Design Patterns (Mẫu thiết kế tác nhân) là tập hợp các phương pháp và cấu trúc tư duy giúp xây dựng các hệ thống AI có khả năng hoạt động tự chủ, thông minh và hiệu quả hơn.
+
+Thay vì chỉ gửi một câu lệnh (prompt) và nhận một câu trả lời duy nhất (Zero-shot), các mẫu thiết kế này tạo ra một quy trình làm việc (workflow) giúp AI biết tự đánh giá, lập kế hoạch và sửa lỗi. Khái niệm này được phổ biến rộng rãi bởi Andrew Nguyen (chuyên gia hàng đầu về AI).
+
+Tại sao cần Agentic Design Patterns?
+
+* **Độ chính xác cao hơn:** Giảm thiểu tình trạng AI "ảo tưởng" (hallucination) nhờ cơ chế kiểm tra chéo và phản tư.
+* **Giải quyết việc khó:** Có thể xử lý các dự án kéo dài và cần nhiều bước logic phức tạp.
+* **Tính linh hoạt:** AI có thể tự điều chỉnh hướng đi nếu gặp lỗi trong quá trình thực hiện thay vì dừng lại hoàn toàn.
+
+Dưới đây là 4 mẫu thiết kế Agentic cốt lõi:
+
+
+**Agentic Design Patterns** (Mẫu thiết kế tác nhân) là tập hợp các phương pháp và cấu trúc tư duy giúp xây dựng các hệ thống AI có khả năng hoạt động tự chủ, thông minh và hiệu quả hơn.
+
+Thay vì chỉ gửi một câu lệnh (prompt) và nhận một câu trả lời duy nhất (Zero-shot), các mẫu thiết kế này tạo ra một **quy trình làm việc (workflow)** giúp AI biết tự đánh giá, lập kế hoạch và sửa lỗi. Khái niệm này được phổ biến rộng rãi bởi Andrew Ng (chuyên gia hàng đầu về AI).
+
+Dưới đây là 4 mẫu thiết kế Agentic cốt lõi:
+
+### 1. Reflection (Phản tư/Tự đánh giá)
+
+Đây là mẫu thiết kế đơn giản nhưng cực kỳ mạnh mẽ. Thay vì chấp nhận kết quả đầu tiên, AI được yêu cầu tự kiểm tra và cải thiện kết quả của chính mình.
+
+* **Cách hoạt động:** AI tạo ra bản thảo -> AI tự đóng vai "người kiểm duyệt" để tìm lỗi hoặc điểm yếu -> AI tự sửa đổi dựa trên những góp ý đó.
+* **Ví dụ:** Bạn bảo AI viết code. Thay vì chạy ngay, AI sẽ tự đọc lại code để tìm lỗi bảo mật hoặc tối ưu hóa hiệu suất trước khi đưa cho bạn.
+
+### 2. Tool Use (Sử dụng công cụ)
+
+AI được cấp quyền truy cập vào các công cụ bên ngoài (Search engine, máy tính, trình chạy code, API ngân hàng...) để thực hiện các công việc mà mô hình ngôn ngữ không tự làm được.
+
+* **Cách hoạt động:** AI phân tích yêu cầu -> Nhận ra mình cần dữ liệu thực tế hoặc tính toán -> Chọn công cụ phù hợp -> Đọc kết quả từ công cụ để hoàn thành tác vụ.
+* **Ví dụ:** "Hãy phân tích giá cổ phiếu Apple hôm nay". AI sẽ tự dùng công cụ tìm kiếm hoặc API tài chính thay vì trả lời dựa trên dữ liệu cũ.
+
+### 3. Planning (Lập kế hoạch)
+
+Mẫu này dành cho các nhiệm vụ phức tạp, không thể giải quyết trong một bước. AI sẽ chia nhỏ mục tiêu lớn thành các bước nhỏ hơn.
+
+* **Cách hoạt động:** AI xây dựng một "lộ trình" (roadmap) -> Thực hiện từng bước -> Sau mỗi bước, nó đánh giá lại xem có cần thay đổi kế hoạch ban đầu hay không.
+* **Ví dụ:** "Hãy lên kế hoạch và đặt một chuyến du lịch 3 ngày tại Đà Lạt". AI sẽ tự chia nhỏ: 1. Tìm vé máy bay, 2. Tìm khách sạn, 3. Lên lịch trình ăn uống, 4. Kiểm tra thời tiết để điều chỉnh.
+
+### 4. Multi-agent Collaboration (Hợp tác đa tác nhân)
+
+Đây là cấp độ cao nhất, nơi nhiều "đặc vụ" AI khác nhau phối hợp với nhau, mỗi đặc vụ đảm nhận một vai trò chuyên biệt.
+
+* **Cách hoạt động:** Giống như một công ty thu nhỏ. Có Agent đóng vai Quản lý (Manager), Agent là Lập trình viên (Coder), Agent là Kiểm thử (Tester). Chúng thảo luận và làm việc cùng nhau.
+* **Ví dụ:** Trong việc phát triển phần mềm, một Agent viết code, một Agent khác viết kịch bản kiểm thử, và một Agent thứ ba kiểm tra xem code có đáp ứng yêu cầu của khách hàng không.
+
+
+
