@@ -12,19 +12,12 @@ tags: [AI]
 
 #### Hugging Face
 
-<img width="2048" height="1117" alt="image" src="https://github.com/user-attachments/assets/18b19bb7-f3c1-4527-b0d4-5493793e4701" />
-
 [https://huggingface.co/learn](https://huggingface.co/learn/agents-course/unit0/introduction)
-
-
 
 
 #### Microsoft
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/330cbe0c-37e0-494b-890f-e80a57e15699" />
-
 https://learn.microsoft.com/en-us/shows/ai-agents-for-beginners/
-
 
 
 #### Google Skill 
