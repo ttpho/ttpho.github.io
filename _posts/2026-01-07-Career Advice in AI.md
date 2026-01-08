@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Career Advice in AI
-subtitle: Stanford CS230 | Autumn 2025 | Lecture 9: Career Advice in AI
-cover-img: https://plus.unsplash.com/premium_photo-1726079246917-46f2b37f7e9e
+title: "Career Advice in AI"
+subtitle: "Stanford CS230 | Autumn 2025 | Lecture 9: Career Advice in AI"
+cover-img: "https://plus.unsplash.com/premium_photo-1726079246917-46f2b37f7e9e"
 tags: [AI]
 ---
 
