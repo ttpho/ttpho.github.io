@@ -53,7 +53,9 @@ export PAGEINDEX_API_KEY='your_api_key_here'
 Repository này chủ yếu là thư viện Python. Để đóng gói một ứng dụng sử dụng PageIndex bằng Docker, bạn có thể sử dụng `Dockerfile` cơ bản sau:
 
 1. Tạo file `Dockerfile`:
+
 ```dockerfile
+
 # Sử dụng Python 3.10 slim để tối ưu dung lượng
 FROM python:3.10-slim
 
