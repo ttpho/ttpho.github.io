@@ -2,7 +2,7 @@
 """Generate a blog post from a single JSON descriptor or GitHub URL.
 
 Example usage:
-  python3 script/main.py /path/to/analysis.json
+  export GOOGLE_API_KEY=AIZ...
   python3 script/main.py https://github.com/pydantic/monty
 """
 
@@ -108,8 +108,9 @@ def main() -> None:
     content_text = "\n\n".join(content_chunks).rstrip()
 
     slug = slugify(title)
-    today = dt.datetime.now().strftime("%Y-%m-%d")
-    output_filename = f"{today}-{slug}.md"
+    one_day_ago = dt.datetime.now() - dt.timedelta(days=1)
+    day = one_day_ago.strftime("%Y-%m-%d")
+    output_filename = f"{day}-{slug}.md"
     output_path = TEMPLATE_PATH.parent / output_filename
 
     github_link = args.input if args.input.startswith("http") else None
