@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "IMS Toucan"
-subtitle: "Bộ công cụ mạnh mẽ hỗ trợ huấn luyện, giảng dạy và sử dụng các mô hình tổng hợp tiếng nói (Text-to-Speech) hiện đại cho hơn 7000 ngôn ngữ."
+subtitle: "Bộ công cụ mạnh mẽ hỗ trợ huấn luyện, giảng dạy và sử dụng các mô hình Text-to-Speech hiện đại cho hơn 7000 ngôn ngữ."
 tags: [github]
 ---
 
