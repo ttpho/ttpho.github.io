@@ -1,0 +1,45 @@
+name: Daily Tech News Post
+
+on:
+  schedule:
+    # 01:00 UTC = 08:00 Asia/Ho_Chi_Minh
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r script/requirements.txt
+
+      - name: Generate daily post
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python script/daily_tech_news.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts
+          if git diff --cached --quiet; then
+            echo "No post changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(posts): daily tech news $(date -u +%Y-%m-%d)"
+          git push
