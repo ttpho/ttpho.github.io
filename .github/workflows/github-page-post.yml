@@ -1,0 +1,50 @@
+name: Generate Post from GitHub Page
+
+on:
+  push:
+    paths:
+      - "GITHUB_PAGE.md"
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r script/requirements.txt
+
+      - name: Extract URL from GITHUB_PAGE.md
+        id: extract_url
+        run: |
+          URL=$(grep -oP 'https?://\S+' GITHUB_PAGE.md | head -n 1)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Generate post
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python3 script/main.py "${{ steps.extract_url.outputs.url }}"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts
+          if git diff --cached --quiet; then
+            echo "No post changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(posts): generate post from ${{ steps.extract_url.outputs.url }}"
+          git push
