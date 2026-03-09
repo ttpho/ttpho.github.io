@@ -13,10 +13,10 @@ from typing import Any, Dict, List
 
 
 def _resolve_api_key(explicit: str | None) -> str:
-    key = explicit or os.getenv("API_KEY") or os.getenv("GOOGLE_API_KEY")
+    key = os.getenv("GEMINI_API_KEY")
     if not key:
         raise RuntimeError(
-            "Missing Gemini API key. Set API_KEY or GOOGLE_API_KEY, or pass --api-key."
+            "Missing Gemini API key. Set GEMINI_API_KEY or pass --api-key."
         )
     return key
 
