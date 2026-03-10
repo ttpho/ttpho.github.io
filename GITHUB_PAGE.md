@@ -1,1 +1,1 @@
-https://github.com/JOYCEQL/magic-resume
+https://github.com/alibaba/page-agent
