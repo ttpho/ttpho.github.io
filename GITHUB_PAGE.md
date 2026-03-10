@@ -1,1 +1,1 @@
-https://github.com/google-research/android_world
+https://github.com/JOYCEQL/magic-resume
