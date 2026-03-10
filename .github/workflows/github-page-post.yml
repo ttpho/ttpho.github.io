@@ -47,4 +47,5 @@ jobs:
             exit 0
           fi
           git commit -m "chore(posts): generate post from ${{ steps.extract_url.outputs.url }}"
+          git pull --rebase origin master
           git push
