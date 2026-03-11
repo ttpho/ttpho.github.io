@@ -1,1 +1,1 @@
-https://github.com/zubair-trabzada/geo-seo-claude
+https://github.com/GoogleChrome/lighthouse
