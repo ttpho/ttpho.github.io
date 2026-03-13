@@ -32,6 +32,7 @@ PRIORITY_SOURCES = [
     "Azure Blog",
     "NVIDIA Blog",
     "Apple Machine Learning Research",
+    "The Verge",
 ]
 
 
