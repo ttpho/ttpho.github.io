@@ -1,1 +1,1 @@
-https://github.com/GoogleChrome/lighthouse
+https://github.com/zhouxiaoka/autoclip
