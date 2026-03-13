@@ -2,7 +2,7 @@
 layout: post
 title: "Điểm tin công nghệ Việt Nam và thế giới ngày 11/03/2026"
 subtitle: "Tổng hợp nhanh các diễn biến công nghệ nổi bật trong ngày."
-tags: [news, cong-nghe]
+tags: [news]
 ---
 
 ## Tổng quan

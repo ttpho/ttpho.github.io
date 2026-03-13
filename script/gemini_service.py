@@ -110,7 +110,7 @@ def analyze_repository(repo_url: str, api_key: str | None = None) -> Dict[str, A
     """
 
     response = client.models.generate_content(
-        model="gemini-3-pro-preview",
+        model="gemini-flash-latest",
         contents=prompt,
         config=types.GenerateContentConfig(
             tools=[types.Tool(google_search=types.GoogleSearchRetrieval())],

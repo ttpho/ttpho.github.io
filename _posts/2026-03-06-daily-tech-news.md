@@ -2,7 +2,7 @@
 layout: post
 title: "Điểm tin công nghệ Việt Nam và thế giới ngày 07/03/2026"
 subtitle: "Tổng hợp nhanh các diễn biến công nghệ nổi bật trong ngày."
-tags: [news, cong-nghe]
+tags: [news]
 ---
 
 Dưới đây là tổng hợp tin công nghệ nổi bật trong ngày 07/03/2026 (múi giờ Asia/Ho_Chi_Minh):

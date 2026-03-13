@@ -124,9 +124,7 @@ Ngày mục tiêu (ISO): {date_iso}
 """
 
     model_candidates = [
-        "gemini-3.1-flash-lite",
-        "gemini-2.5-flash-lite",
-        "gemini-2.5-flash",
+        "gemini-flash-latest",
     ]
     last_error: Exception | None = None
 
@@ -163,7 +161,7 @@ def build_post(body_markdown: str, target_date: dt.date, sources: list[Source], 
 layout: post
 title: "Điểm tin công nghệ Việt Nam và thế giới ngày {title_date}"
 subtitle: "Tổng hợp nhanh các diễn biến công nghệ nổi bật trong ngày."
-tags: [news, cong-nghe]
+tags: [news]
 ---
 
 {body_markdown.strip()}
