@@ -2,8 +2,7 @@ name: Daily Tech News Post
 
 on:
   schedule:
-    # 01:00 UTC = 08:00 Asia/Ho_Chi_Minh
-    - cron: "0 1 * * *"
+    - cron: "0 23 * * *"
   workflow_dispatch:
 
 permissions:
