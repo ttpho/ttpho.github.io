@@ -155,8 +155,6 @@ def build_post(body_markdown: str, target_date: dt.date, sources: list[Source], 
     if not source_lines:
         source_lines = ["- Không trích xuất được nguồn grounding từ phản hồi Gemini."]
 
-    source_lines.append("")
-    source_lines.append(f"- Model: `{model_used}`")
 
     return f"""---
 layout: post
