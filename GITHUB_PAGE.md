@@ -1,1 +1,1 @@
-https://github.com/zhouxiaoka/autoclip
+https://github.com/unitedbyai/droidclaw
