@@ -1,1 +1,1 @@
-https://github.com/unitedbyai/droidclaw
+https://github.com/jina-ai/reader
