@@ -9,6 +9,34 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 ## Intro 
 
+### 
+
+ポケットモンスター ソフビフィギュア フシギバナ リザードン カメックス カントー御三家 ポケモンセンター
+
+https://paypayfleamarket.yahoo.co.jp/item/z486732202
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
+  
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/8764eba7-5c29-497f-90c5-53935c659a06" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/72ee8f94-490c-44c7-a436-627728d44808" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/df6d0d8c-42da-4d21-acfb-397101d44a0c" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/28b7620d-3758-4e3f-b86d-017ef795fa98" />
+
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/0c4ff6f8-9c2b-4b67-afce-dea36536b4ac" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/ebab4943-3d92-49d8-b955-4eed1b0097e7" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/04662629-d332-4471-bf0a-c48b3f2593d1" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b964063f-0f17-486b-aefd-7570c1e3c574" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/97a34082-dab5-4101-8ede-ea4f89ba52cb" />
+
+</div>
 
 ### Blokees Pokémon Classic Version
 
@@ -260,20 +288,19 @@ https://funismglobal.com/collections/pokemon/products/pokemon-twinkmont-series-f
 
 #### Moncolle EX
 
-Moncolle EX EMC_15 Bulbasaur
+- Moncolle EX EMC_15 Bulbasaur
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/08544e25-f163-4991-8339-527f187b6d4d" />
+- Moncolle EX EMC_16 Charmander
 
-
-Moncolle EX EMC_16 Charmander
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/9c9d47b9-15df-4d3a-b778-1b2047a27573" />
+- Moncolle EX EMC_17 Squirtle
 
 
-Moncolle EX EMC_17 Squirtle
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/8df25cc6-66c1-4b38-ba83-01e98958053e" />
-
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
+  <img width="460" alt="image" src="https://github.com/user-attachments/assets/08544e25-f163-4991-8339-527f187b6d4d" />
+  <img width="460" alt="image" src="https://github.com/user-attachments/assets/9c9d47b9-15df-4d3a-b778-1b2047a27573" />
+  <img width="460" alt="image" src="https://github.com/user-attachments/assets/8df25cc6-66c1-4b38-ba83-01e98958053e" />
+</div>
 
 ### MSシリーズ
 
