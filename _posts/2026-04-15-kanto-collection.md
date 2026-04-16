@@ -90,7 +90,9 @@ https://funismglobal.com/collections/pokemon/products/pokemon-twinkmont-series-f
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/746594fe-34ad-425c-9b61-d55c0d22e2d1" />
 
-<img <img width="460" alt="image" src="https://github.com/user-attachments/assets/60f412b4-8f35-40b5-a520-12d3650d5ad2" /> alt="image" src="https://github.com/user-attachments/assets/58ffaee7-7882-43b1-81ab-848ba429bca2" />
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/58ffaee7-7882-43b1-81ab-848ba429bca2" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/60f412b4-8f35-40b5-a520-12d3650d5ad2" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/558110b5-14db-4d70-9c69-88cdb9ccb140" />
 
