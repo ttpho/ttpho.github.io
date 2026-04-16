@@ -17,8 +17,11 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 Source: https://www.re-ment.co.jp/product/r20896
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/756d7a8a-94ca-4dac-8020-fe4f74a0da9a" />
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/2d986dcc-0800-41e3-a248-4ce403cc7331" />
 
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/e3383d3f-b8fb-4b68-ae33-801504911a4f" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/ba07920e-046d-4030-8ac4-4af1f376afe7" />
 
 
 
