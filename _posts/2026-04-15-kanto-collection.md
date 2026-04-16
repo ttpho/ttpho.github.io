@@ -11,7 +11,7 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 
 
-### Collection 1
+### テラリウムコレクション15
 
 ポケットモンスター テラリウムコレクション15
 
@@ -26,7 +26,7 @@ https://www.re-ment.co.jp/product/r20896
 
 
 
-### Collection 2
+### テラリウムコレクション10
 
 ポケットモンスター　テラリウムコレクション10
 
@@ -44,7 +44,7 @@ https://www.re-ment.co.jp/product/r20663
 <img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/3700ddb3-dd05-406a-917f-31c9e01ede53" />
 
 
-### Collection 3 
+### Kanto Region 
 
 Pokémon Special Series Kanto Region First Partners Figure Set #PKW3549
 
@@ -60,9 +60,9 @@ https://shop.jazwares.com/products/pokemon-special-series-kanto-region-first-par
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/ed51c868-2087-4d00-a0ea-73ebe39e5143" />
 
 
-### Collection 4
+### Pokémon Battle Moment
 
-ANGBOWANG × Pokémon Battle Moment
+LANGBOWANG × Pokémon Battle Moment
 
 https://www.nshop.com.vn/products/pokemon-battle-moment-langbowang-wp22
 
@@ -77,7 +77,7 @@ https://www.nshop.com.vn/products/pokemon-battle-moment-langbowang-wp22
 
 
 
-### Collection 5
+### Twinkmont Series
 
 Pokémon Twinkmont Series Figure
 
@@ -110,9 +110,62 @@ https://funismglobal.com/collections/pokemon/products/pokemon-twinkmont-series-f
 
 
 
-### Collection 6
+### MSシリーズ
+
+MSシリーズ
+
+https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/
+
+https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms14/
+
+https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms15/
+
+https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms16/
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/aa65732b-9b52-4ee6-a2bc-7d0deff2c2dc" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/e6e1e026-3e9a-4d2c-8740-d2345698b427" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/f1ca372e-46fa-42bb-abb4-c18bc961bb45" />
 
 
-### Collection 7
+
+
+### Deluxe Vinyl Figures
+
+Pokémon Select 8-inch Deluxe Vinyl Figures – 4 pack Collection
+
+https://www.walmart.ca/en/ip/Pok-mon-Select-8-inch-Deluxe-Vinyl-Figures-4-pack-Collection/4NKSDHL5RC6R
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/403d441b-de37-4a52-b580-c33e967c2b7b" />
+
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b44fae5b-c6e2-4137-a212-68e4c09bfcef" />
+
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/82612700-ae1c-4f9c-a01f-d851c97ab34a" />
+
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/4ea9f50b-f17e-46cc-80d8-8f786a8040fd" />
+
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/3166afd0-ccfc-40c0-aa06-e5fa6cac3f48" />
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/15874918-40a6-49fa-b632-3bd1029b78f8" />
+
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/0e039de6-a9d5-45ce-865e-38930befc21f" />
+
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/b00c62f5-2328-461d-991e-1be1227c88da" />
+
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/4d163ca3-64e5-4a92-8076-1785c158b23f" />
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/b0404b56-ff79-4358-8332-b8b47aa27bc9" />
+
+
+
+
 
 
