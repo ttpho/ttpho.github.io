@@ -13,20 +13,21 @@ Lapras is a Water/Ice type Pokémon introduced in Generation 1. Lapras artwork b
 
 
 ### Collection 1
+
 ポケットモンスター テラリウムコレクション15
 
+Source: https://www.re-ment.co.jp/product/r20896
 
 <img width="800" height="966" alt="image" src="https://github.com/user-attachments/assets/cb6accdd-f7be-4a97-bb14-29356a01cc6b" />
 
 <img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/f2360381-1140-4762-b0cb-5933c4086871" />
 
 
-Source: https://www.re-ment.co.jp/product/r20896
-
-
 ### Collection 2 
 
 ANGBOWANG × Pokémon Battle Moment
+
+Source: https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 
 <img width="600" height="599" alt="image" src="https://github.com/user-attachments/assets/5c45fb0d-a218-4621-b27e-d2bbafb415da" />
 
@@ -34,7 +35,14 @@ ANGBOWANG × Pokémon Battle Moment
 <img width="1000" height="1000" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />
 
 
-Source: https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
+### Collection 3
+
+MS-30 ラプラス
+
+Source: https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms30/
+
+
+<img width="640" height="580" alt="image" src="https://github.com/user-attachments/assets/0206e2e6-b1cd-430e-8509-a00ab7693261" />
 
 
 
