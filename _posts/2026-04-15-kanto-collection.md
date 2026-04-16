@@ -12,7 +12,7 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 フシギバナ・リザードン・カメックスの「ソフビフィギュア」が、ポケモンセンターで発売中！
 
-https://paypayfleamarket.yahoo.co.jp/item/z486732202
+https://www.pokemon.co.jp/goods/2025/02/250228_to02.html
 
 <div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
