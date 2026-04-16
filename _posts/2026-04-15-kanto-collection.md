@@ -197,6 +197,22 @@ https://funismglobal.com/collections/pokemon/products/pokemon-twinkmont-series-f
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/d7d4aa56-514a-4c2e-9f51-21300e03734a" />
 
 
+#### Moncolle EX
+
+Moncolle EX EMC_15 Bulbasaur
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/08544e25-f163-4991-8339-527f187b6d4d" />
+
+
+Moncolle EX EMC_16 Charmander
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/9c9d47b9-15df-4d3a-b778-1b2047a27573" />
+
+
+Moncolle EX EMC_17 Squirtle
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/8df25cc6-66c1-4b38-ba83-01e98958053e" />
+
 
 ### MSシリーズ
 
