@@ -244,6 +244,19 @@ https://shop.jazwares.com/products/pokemon-special-series-kanto-region-first-par
 </div>
 
 
+### Keeppley 
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
+<img width="720" height="960" alt="image" src="https://github.com/user-attachments/assets/08028f11-9426-4461-9f8e-0906a8715397" />
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/405b07f1-445c-49ee-b7a7-729063688614" />
+
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/fa6d4189-b9a1-4af1-8269-644d87d598c6" />
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/29db4e24-d42d-4cc3-8b02-46de3182a5e7" />
+
+</div>
 
 ### Blokees Pokémon Classic Version
 
@@ -263,14 +276,6 @@ https://blokees.fandom.com/wiki/Category:Pok%C3%A9mon
 
 </div>
 
-### Keeppley 
-
-<img width="460"  alt="image" src="https://github.com/user-attachments/assets/405b07f1-445c-49ee-b7a7-729063688614" />
-
-
-<img width="460"  alt="image" src="https://github.com/user-attachments/assets/fa6d4189-b9a1-4af1-8269-644d87d598c6" />
-
-<img width="460"  alt="image" src="https://github.com/user-attachments/assets/29db4e24-d42d-4cc3-8b02-46de3182a5e7" />
 
 
 
