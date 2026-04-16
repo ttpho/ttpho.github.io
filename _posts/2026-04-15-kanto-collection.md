@@ -9,6 +9,15 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 ## Intro 
 
+### Zukan
+
+Bulbasaur Charmander Squirtle Pokemon Zukan 1/40 Scale Figure T-ARTS 2013 1in
+
+https://www.ebay.com/itm/186870043093
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/713a4049-02c0-42bd-bb90-cdf1cbbd7b40" />
+
+
 ### Pokemon scale world 
 
 https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/
