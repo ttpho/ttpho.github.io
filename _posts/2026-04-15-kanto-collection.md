@@ -6,8 +6,21 @@ tags: [pokemon]
 cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partners_Evolutions.png
 ---
 
-## Intro 
+# Intro 
+List of Kanto first partner Pokémon and their Evolutions
 
+<div style="display:grid; grid-template-columns:repeat(3, 100px); gap:16px; justify-content:center; align-items:start;">
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/e4cbe0e3-0353-47a9-bd87-b4430713b0e0" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/325a9236-6e94-4715-b254-ab3937c6a1c9" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/05191e29-f014-43d3-bb23-b1f0aa64cd06" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/58b1f340-f35b-4e5b-a67b-3f882e74f896" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/c3460662-f4d0-4f65-824b-4c9277d2904c" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/b8f76e80-4bad-44c4-80e0-efc53fe2312b" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/475833d0-dec2-40f9-a525-44c826eac29c" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/0cc9ff1e-998e-4444-affe-9a3a900eafa1" />
+<img width="100" height="100" alt="image" src="https://github.com/user-attachments/assets/ab023115-cd0c-4541-ab82-d772627bd0a6" />
+
+</div> 
 ### Pokémon KIDS 30th Anniversary SPECIAL vol.1
 
 https://www.toy-people.com/en/?p=108086
