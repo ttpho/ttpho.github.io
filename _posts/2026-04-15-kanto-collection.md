@@ -260,6 +260,8 @@ https://shop.jazwares.com/products/pokemon-special-series-kanto-region-first-par
 </div>
 
 
+
+
 ### Pokémon Battle Moment
 
 LANGBOWANG × Pokémon Battle Moment
