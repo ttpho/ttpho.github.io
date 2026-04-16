@@ -9,6 +9,108 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 ## Intro 
 
+### Pokemon scale world 
+
+https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/0c52f956-9385-4cc8-95a4-3c0a718504d0" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/85f6d611-8c35-484b-a370-1b361a6648b3" />
+
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/f958dafa-b655-4b82-84c3-a46b6d231456" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/fda395a6-0c92-47f0-a8b4-7206ed69d58c" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/a70997a1-0091-4e92-8aa4-ef0144289826" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/392cf4cf-792e-4b16-aa98-c20a307efb96" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/e5c38e56-c927-4488-845e-d6205636bd4e" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/e6a060a1-7c8a-4675-be7d-b1a2c9e14728" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/44245965-7299-4063-8d77-6a16761a43e7" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/81fdf8d7-2e34-4292-98b3-70dfb9d20443" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/6c152995-e4ed-4cb2-9352-76ec1847e2a2" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/5c60d6e3-3d08-4487-a035-3852d4773e9d" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/7cdef8d4-dbd8-4160-b70b-e779132925e1" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/ba8fb48a-1bd1-479b-8bb7-2f72f911a3f0" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/50b10f47-ad7e-43ba-bfd7-200434882098" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/0db32a9e-7e27-4fac-a2c5-a86f9603d684" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/dc51df1e-c355-4913-9053-094725850fb6" />
+
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/90c10dd1-e47c-43da-943f-d29a8c717c01" />
+
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/13bf3f72-b7a5-46d3-af82-30be04484a0d" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/d190f068-fac5-45f8-bec5-11bcb1a529f0" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/48b4bf62-a989-4f05-a5e4-979f0dd8d5d6" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Nendoroid Red Posable Figure
+
+Nendoroid Red Posable Figure
+
+https://www.pokemoncenter.com/product/703-01337/nendoroid-red-posable-figure
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/376215b0-92fa-421a-96b5-11607e95ace9" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/95bbe5e4-9ed2-4d3d-97b8-7ca916f5d066" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/e168da0a-4f45-4596-9888-8ca119e29c4a" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/74845428-3a6e-48ef-9a90-2d021acf4a8e" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/88d0b826-9b5b-4543-b061-4930b4eaf49c" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b64bfe03-8650-4bdb-89dd-4d634f1aa619" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b333dedb-e95f-4b0e-8821-9e51361eb3a9" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/2255ac84-dd69-440e-afb6-bced67aa3eac" />
+
+
+### Red Action Figure
+
+Red Action Figure (Pokemon Figma 356) 
+
+https://www.nshop.com.vn/products/red-action-figure-pokemon-figma-356
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/daf19dba-47d3-462b-9533-bd5857af83b1" />
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/5daf363e-0305-4fbc-bc1d-5d73a7f56beb" />
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/570007ef-a10f-4cb4-bded-89510ed2b465" />
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/4a4fee75-f8cf-4f10-8545-2261dd18fe0d" />
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/fecd15a6-c9f9-4bef-be9c-210ee1a04a52" />
 
 
 ### テラリウムコレクション15
