@@ -8,7 +8,7 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 ## Intro 
 
-### 
+### ソフビフィギュア
 
 ポケットモンスター ソフビフィギュア フシギバナ リザードン カメックス カントー御三家 ポケモンセンター
 
