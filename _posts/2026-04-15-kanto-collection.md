@@ -9,6 +9,22 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 ## Intro 
 
+
+### Blokees Pokémon Classic Version
+
+https://blokees.fandom.com/wiki/Category:Pok%C3%A9mon
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/08beb594-60ee-487a-ad9f-e2da56ee5022" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/51a5ad76-d47f-46f3-b379-8b39800fd62f" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/6c6c8a2f-8e3c-48b6-8ad0-a58eaeee0a92" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/a601945f-0e49-447c-8364-31defa97a2a3" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/e1215b06-be3d-4221-94b7-e13594dbb53a" />
+
+
 ### Zukan
 
 Bulbasaur Charmander Squirtle Pokemon Zukan 1/40 Scale Figure T-ARTS 2013 1in
