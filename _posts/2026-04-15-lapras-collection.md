@@ -17,6 +17,9 @@ Lapras is a Water/Ice type Pokémon introduced in Generation 1. Lapras artwork b
 
 <img width="800" height="966" alt="image" src="https://github.com/user-attachments/assets/fc0a018a-999c-4f62-a2e1-4e86c5eb5249" />
 
+<img width="800" height="966" alt="image" src="https://github.com/user-attachments/assets/cb6accdd-f7be-4a97-bb14-29356a01cc6b" />
+
+
 
 <img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/f2360381-1140-4762-b0cb-5933c4086871" />
 
