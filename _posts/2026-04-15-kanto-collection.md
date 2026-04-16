@@ -8,6 +8,26 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 ## Intro 
 
+### Pokémon KIDS 30th Anniversary SPECIAL vol.1
+
+https://www.toy-people.com/en/?p=108086
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/ae287742-3721-458a-b4b5-9c4d3b0b6475" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/d2479b50-e320-44a1-8957-c013c1c38c16" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/897173e7-1766-4a6d-a9d7-6ae9e64ffd3c" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/d3e495dc-7a26-435d-956c-7b8ec57d1682" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/43ab92b8-798c-40c9-b899-8408f0da7dec" />
+
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/5f088068-b7bb-4bae-9634-25c5ca58c55d" />
+
+
+</div>
 ### ソフビフィギュア
 
 フシギバナ・リザードン・カメックスの「ソフビフィギュア」が、ポケモンセンターで発売中！
