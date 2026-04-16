@@ -10,12 +10,24 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 ### ソフビフィギュア
 
-ポケットモンスター ソフビフィギュア フシギバナ リザードン カメックス カントー御三家 ポケモンセンター
+フシギバナ・リザードン・カメックスの「ソフビフィギュア」が、ポケモンセンターで発売中！
 
 https://paypayfleamarket.yahoo.co.jp/item/z486732202
 
 <div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
-  
+
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/47daaca1-0cd6-4953-9426-084cb42725c7" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/231ee4ba-787c-4ce5-990b-2a201a1bb4fa" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/6a080cfa-4e6e-4d51-a00a-ccf6e968bff7" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/f4281e7a-0bd4-4779-b36d-ee196a397965" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/c9839a8c-34c3-4c68-85cf-9e4ed461d961" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/f894dbe4-8417-4c79-b975-53ab660018e4" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/c46f3c07-bbb0-4e2d-8ccf-1deed01b7088" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/12324fb8-cf8d-4c57-92e3-ac8d4bcc9e1b" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/a30fe73f-6434-4657-baad-498ee999a332" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/839a4d85-7352-4491-8734-49686dbe382e" />
+
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/8764eba7-5c29-497f-90c5-53935c659a06" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/72ee8f94-490c-44c7-a436-627728d44808" />
