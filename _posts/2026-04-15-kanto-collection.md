@@ -14,6 +14,8 @@ cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partne
 
 https://blokees.fandom.com/wiki/Category:Pok%C3%A9mon
 
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
+
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/08beb594-60ee-487a-ad9f-e2da56ee5022" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/51a5ad76-d47f-46f3-b379-8b39800fd62f" />
@@ -23,6 +25,8 @@ https://blokees.fandom.com/wiki/Category:Pok%C3%A9mon
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/a601945f-0e49-447c-8364-31defa97a2a3" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/e1215b06-be3d-4221-94b7-e13594dbb53a" />
+
+</div>
 
 
 ### Zukan
@@ -37,6 +41,8 @@ https://www.ebay.com/itm/186870043093
 ### Pokemon scale world 
 
 https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/0c52f956-9385-4cc8-95a4-3c0a718504d0" />
 
@@ -83,12 +89,16 @@ https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/
 
 <img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/48b4bf62-a989-4f05-a5e4-979f0dd8d5d6" />
 
+</div>
+
 
 ### Nendoroid Red Posable Figure
 
 Nendoroid Red Posable Figure
 
 https://www.pokemoncenter.com/product/703-01337/nendoroid-red-posable-figure
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/376215b0-92fa-421a-96b5-11607e95ace9" />
 
@@ -106,12 +116,16 @@ https://www.pokemoncenter.com/product/703-01337/nendoroid-red-posable-figure
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/2255ac84-dd69-440e-afb6-bced67aa3eac" />
 
+</div>
+
 
 ### Red Action Figure
 
 Red Action Figure (Pokemon Figma 356) 
 
 https://www.nshop.com.vn/products/red-action-figure-pokemon-figma-356
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/daf19dba-47d3-462b-9533-bd5857af83b1" />
 
@@ -123,6 +137,8 @@ https://www.nshop.com.vn/products/red-action-figure-pokemon-figma-356
 
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/fecd15a6-c9f9-4bef-be9c-210ee1a04a52" />
 
+</div>
+
 
 ### テラリウムコレクション15
 
@@ -130,11 +146,15 @@ https://www.nshop.com.vn/products/red-action-figure-pokemon-figma-356
 
 https://www.re-ment.co.jp/product/r20896
 
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
+
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/2d986dcc-0800-41e3-a248-4ce403cc7331" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/e3383d3f-b8fb-4b68-ae33-801504911a4f" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/ba07920e-046d-4030-8ac4-4af1f376afe7" />
+
+</div>
 
 
 
@@ -144,6 +164,8 @@ https://www.re-ment.co.jp/product/r20896
 ポケットモンスター　テラリウムコレクション10
 
 https://www.re-ment.co.jp/product/r20663
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/d21e30d6-c479-418e-8421-675c9b962aee" />
 
@@ -156,6 +178,8 @@ https://www.re-ment.co.jp/product/r20663
 
 <img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/3700ddb3-dd05-406a-917f-31c9e01ede53" />
 
+</div>
+
 
 ### Kanto Region 
 
@@ -163,6 +187,8 @@ Pokémon Special Series Kanto Region First Partners Figure Set #PKW3549
 
 https://shop.jazwares.com/products/pokemon-special-series-kanto-region-first-partners-figure-set
 
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/2f18d13b-17ee-480f-a6c5-b51b69c2df56" />
 
@@ -172,6 +198,8 @@ https://shop.jazwares.com/products/pokemon-special-series-kanto-region-first-par
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/ed51c868-2087-4d00-a0ea-73ebe39e5143" />
 
+</div>
+
 
 ### Pokémon Battle Moment
 
@@ -179,6 +207,8 @@ LANGBOWANG × Pokémon Battle Moment
 
 https://www.nshop.com.vn/products/pokemon-battle-moment-langbowang-wp22
 
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/98d6b01c-4dba-41b5-bfa1-8ae9e5988a09" />
 
@@ -188,6 +218,8 @@ https://www.nshop.com.vn/products/pokemon-battle-moment-langbowang-wp22
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/884bc752-c95c-4f62-9bc3-6b1d5adc9731" />
 
+</div>
+
 
 
 ### Twinkmont Series
@@ -196,6 +228,8 @@ Pokémon Twinkmont Series Figure
 
 https://funismglobal.com/collections/pokemon/products/pokemon-twinkmont-series-figure
 
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/b5632f1b-c721-4f93-83cf-965e569d252e" />
 
@@ -220,6 +254,8 @@ https://funismglobal.com/collections/pokemon/products/pokemon-twinkmont-series-f
 
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/d7d4aa56-514a-4c2e-9f51-21300e03734a" />
+
+</div>
 
 
 #### Moncolle EX
@@ -253,11 +289,15 @@ https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms16/
 
 
 
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
+
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/aa65732b-9b52-4ee6-a2bc-7d0deff2c2dc" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/e6e1e026-3e9a-4d2c-8740-d2345698b427" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/f1ca372e-46fa-42bb-abb4-c18bc961bb45" />
+
+</div>
 
 
 
@@ -267,6 +307,8 @@ https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms16/
 Pokémon Select 8-inch Deluxe Vinyl Figures – 4 pack Collection
 
 https://www.walmart.ca/en/ip/Pok-mon-Select-8-inch-Deluxe-Vinyl-Figures-4-pack-Collection/4NKSDHL5RC6R
+
+<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/403d441b-de37-4a52-b580-c33e967c2b7b" />
 
@@ -295,6 +337,7 @@ https://www.walmart.ca/en/ip/Pok-mon-Select-8-inch-Deluxe-Vinyl-Figures-4-pack-C
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/b0404b56-ff79-4358-8332-b8b47aa27bc9" />
 
+</div>
 
 
 
