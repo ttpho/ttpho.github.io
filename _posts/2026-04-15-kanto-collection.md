@@ -3,7 +3,6 @@ layout: post
 title: "Pokemon Kanto Starter Collection"
 subtitle: "My Kanto Starter Pokemon Figure"
 tags: [pokemon]
-thumbnail-img: https://archives.bulbagarden.net/media/upload/d/d1/First_partner_Pok%C3%A9mon_poster.png
 cover-img: https://archives.bulbagarden.net/media/upload/9/9d/Kanto_first_partners_Evolutions.png
 ---
 
