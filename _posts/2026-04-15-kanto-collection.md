@@ -58,28 +58,7 @@ https://www.pokemon.co.jp/goods/2025/02/250228_to02.html
 <img  width="460" alt="image" src="https://github.com/user-attachments/assets/c46f3c07-bbb0-4e2d-8ccf-1deed01b7088" />
 <img  width="460" alt="image" src="https://github.com/user-attachments/assets/12324fb8-cf8d-4c57-92e3-ac8d4bcc9e1b" />
 <img  width="460" alt="image" src="https://github.com/user-attachments/assets/a30fe73f-6434-4657-baad-498ee999a332" />
-
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/839a4d85-7352-4491-8734-49686dbe382e" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/8764eba7-5c29-497f-90c5-53935c659a06" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/72ee8f94-490c-44c7-a436-627728d44808" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/df6d0d8c-42da-4d21-acfb-397101d44a0c" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/28b7620d-3758-4e3f-b86d-017ef795fa98" />
-
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/0c4ff6f8-9c2b-4b67-afce-dea36536b4ac" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/ebab4943-3d92-49d8-b955-4eed1b0097e7" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/04662629-d332-4471-bf0a-c48b3f2593d1" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/b964063f-0f17-486b-aefd-7570c1e3c574" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/97a34082-dab5-4101-8ede-ea4f89ba52cb" />
-
 </div>
 
 
