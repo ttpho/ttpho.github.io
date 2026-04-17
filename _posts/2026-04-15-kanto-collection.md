@@ -23,49 +23,6 @@ List of Kanto first partner Pokémon and their Evolutions
 
 </div> 
 
-### Pokémon KIDS 30th Anniversary SPECIAL vol.1
-
-https://www.toy-people.com/en/?p=108086
-
-<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/ae287742-3721-458a-b4b5-9c4d3b0b6475" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/d2479b50-e320-44a1-8957-c013c1c38c16" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/897173e7-1766-4a6d-a9d7-6ae9e64ffd3c" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/d3e495dc-7a26-435d-956c-7b8ec57d1682" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/43ab92b8-798c-40c9-b899-8408f0da7dec" />
-
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/5f088068-b7bb-4bae-9634-25c5ca58c55d" />
-
-
-</div>
-### ソフビフィギュア
-
-フシギバナ・リザードン・カメックスの「ソフビフィギュア」が、ポケモンセンターで発売中！
-
-https://www.pokemon.co.jp/goods/2025/02/250228_to02.html
-
-<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
-
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/47daaca1-0cd6-4953-9426-084cb42725c7" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/231ee4ba-787c-4ce5-990b-2a201a1bb4fa" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/6a080cfa-4e6e-4d51-a00a-ccf6e968bff7" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/f4281e7a-0bd4-4779-b36d-ee196a397965" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/c9839a8c-34c3-4c68-85cf-9e4ed461d961" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/f894dbe4-8417-4c79-b975-53ab660018e4" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/c46f3c07-bbb0-4e2d-8ccf-1deed01b7088" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/12324fb8-cf8d-4c57-92e3-ac8d4bcc9e1b" />
-<img  width="460" alt="image" src="https://github.com/user-attachments/assets/a30fe73f-6434-4657-baad-498ee999a332" />
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/839a4d85-7352-4491-8734-49686dbe382e" />
-</div>
-
-
-
-
 ### Zukan
 
 Bulbasaur Charmander Squirtle Pokemon Zukan 1/40 Scale Figure T-ARTS 2013 1in
@@ -74,59 +31,6 @@ https://www.ebay.com/itm/186870043093
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/713a4049-02c0-42bd-bb90-cdf1cbbd7b40" />
 
-
-### Pokemon scale world 
-
-https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/
-
-<div style="display:grid; grid-template-columns:repeat(2, 460px); gap:16px; justify-content:center; align-items:start;">
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/0c52f956-9385-4cc8-95a4-3c0a718504d0" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/85f6d611-8c35-484b-a370-1b361a6648b3" />
-
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/f958dafa-b655-4b82-84c3-a46b6d231456" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/fda395a6-0c92-47f0-a8b4-7206ed69d58c" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/a70997a1-0091-4e92-8aa4-ef0144289826" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/392cf4cf-792e-4b16-aa98-c20a307efb96" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/e5c38e56-c927-4488-845e-d6205636bd4e" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/e6a060a1-7c8a-4675-be7d-b1a2c9e14728" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/44245965-7299-4063-8d77-6a16761a43e7" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/81fdf8d7-2e34-4292-98b3-70dfb9d20443" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/6c152995-e4ed-4cb2-9352-76ec1847e2a2" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/5c60d6e3-3d08-4487-a035-3852d4773e9d" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/7cdef8d4-dbd8-4160-b70b-e779132925e1" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/ba8fb48a-1bd1-479b-8bb7-2f72f911a3f0" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/50b10f47-ad7e-43ba-bfd7-200434882098" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/0db32a9e-7e27-4fac-a2c5-a86f9603d684" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/dc51df1e-c355-4913-9053-094725850fb6" />
-
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/90c10dd1-e47c-43da-943f-d29a8c717c01" />
-
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/13bf3f72-b7a5-46d3-af82-30be04484a0d" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/d190f068-fac5-45f8-bec5-11bcb1a529f0" />
-
-<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/48b4bf62-a989-4f05-a5e4-979f0dd8d5d6" />
-
-</div>
 
 
 ### Nendoroid Red Posable Figure
