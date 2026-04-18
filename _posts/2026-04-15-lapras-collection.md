@@ -16,6 +16,18 @@ Pokédex data is 0131
 
 <img src="https://img.pokemondb.net/artwork/avif/lapras.avif" />
 
+Summary price(Unit = 1000 * VND)
+
+
+| Name                                         | Photo                                                                                                                     | New | Price |
+|----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|-----|-------|
+| Lapras Pokemon Zukan                         | <img img width="460" alt="image" src="https://github.com/user-attachments/assets/f469ee78-9e33-4cc5-9cdc-19ccbb590d31" /> | ⭐   | 400   |
+| ポケットモンスター  テラリウムコレクション15 | <img width="460" alt="image" src="https://github.com/user-attachments/assets/f2360381-1140-4762-b0cb-5933c4086871" />     | 🌟   | 235   |
+| Moncolle MS-30                               | <img width="460" alt="image" src="https://github.com/user-attachments/assets/0206e2e6-b1cd-430e-8509-a00ab7693261" />     | 🌟   | 142   |
+| Moncolle EX-65                               | <img width="460" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />     | 🌟   | 156   |
+| Pokémon Battle Moment                        | <img width="460" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
+|                                              |                                                                                                                           |     |       |
+
 ### Lapras Pokemon Zukan
 
 Lapras Pokemon Zukan 1/40 Scale Figure Tomy 2005 Toy Japan Y03 2.4in
