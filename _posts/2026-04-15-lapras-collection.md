@@ -4,6 +4,7 @@ title: "Pokemon Lapras Collection"
 subtitle: "My Lapras Pokemon Figure"
 tags: [pokemon]
 thumbnail-img: https://archives.bulbagarden.net/media/upload/9/99/0131Lapras.png
+cover-img: https://archives.bulbagarden.net/media/upload/thumb/c/c8/Lapras_anime.png/1280px-Lapras_anime.png
 ---
 
 ## Intro 
