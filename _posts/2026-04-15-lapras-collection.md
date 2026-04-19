@@ -88,6 +88,13 @@ https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 
 #### Wish list
 
+Bandai Namco: Six Heroes Lapras Pokémon Kids Figure Terapagos Edition
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />
+
+
+#### Wish list
+
 ポケモンスケールワールド カントー地方 シルフカンパニーセット【プレミアムバンダイ限定】
 
 https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
