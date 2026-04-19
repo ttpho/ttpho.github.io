@@ -22,12 +22,12 @@ Summary price(Unit = 1000 * VND)
 
 | Name                                         | Photo                                                                                                                     | New | Price |
 |----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|-----|-------|
-| Lapras Pokemon Zukan                         | <img img width="460" alt="image" src="https://github.com/user-attachments/assets/f469ee78-9e33-4cc5-9cdc-19ccbb590d31" /> | ⭐   | 400   |
-| ポケットモンスター  テラリウムコレクション15 | <img width="460" alt="image" src="https://github.com/user-attachments/assets/f2360381-1140-4762-b0cb-5933c4086871" />     | 🌟   | 235   |
-| Moncolle MS-30                               | <img width="460" alt="image" src="https://github.com/user-attachments/assets/0206e2e6-b1cd-430e-8509-a00ab7693261" />     | 🌟   | 142   |
-| Moncolle EX-65                               | <img width="460" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />     | 🌟   | 156   |
-| Pokémon Battle Moment                        | <img width="460" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
-|                                              |                                                                                                                           |     |       |
+| Lapras Pokemon Zukan                         | <img img width="200" alt="image" src="https://github.com/user-attachments/assets/f469ee78-9e33-4cc5-9cdc-19ccbb590d31" /> | ⭐   | 400   |
+| ポケットモンスター  テラリウムコレクション15        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f2360381-1140-4762-b0cb-5933c4086871" />     | 🌟   | 235   |
+| Moncolle MS-30                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/0206e2e6-b1cd-430e-8509-a00ab7693261" />     | 🌟   | 142   |
+| Moncolle EX-65                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />     | 🌟   | 156   |
+| Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
+|                                              |                                                                                                                           |      |       |
 
 ### Lapras Pokemon Zukan
 
@@ -46,7 +46,7 @@ https://www.ebay.ca/itm/185879916434
 
 ポケットモンスター テラリウムコレクション15
 
-Source: https://www.re-ment.co.jp/product/r20896
+https://www.re-ment.co.jp/product/r20896
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/cb6accdd-f7be-4a97-bb14-29356a01cc6b" />
 
@@ -58,7 +58,7 @@ Source: https://www.re-ment.co.jp/product/r20896
 
 MS-30 ラプラス
 
-Source: https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms30/
+https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms30/
 
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/0206e2e6-b1cd-430e-8509-a00ab7693261" />
@@ -68,7 +68,7 @@ Source: https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ms30/
 
 EX-65 ラプラス
 
-Source: https://www.nshop.com.vn/products/moncolle-ex-65-lapras-mo-hinh-pokemon-chinh-hang
+https://www.nshop.com.vn/products/moncolle-ex-65-lapras-mo-hinh-pokemon-chinh-hang
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />
 
@@ -78,7 +78,7 @@ Source: https://www.nshop.com.vn/products/moncolle-ex-65-lapras-mo-hinh-pokemon-
 
 ANGBOWANG × Pokémon Battle Moment
 
-Source: https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
+https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/5c45fb0d-a218-4621-b27e-d2bbafb415da" />
 
@@ -86,26 +86,39 @@ Source: https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />
 
 
-#### Wish list 1
+#### Wish list
 
 ポケモンスケールワールド カントー地方 シルフカンパニーセット【プレミアムバンダイ限定】
 
-Source: https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
+https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/ddd2ca6c-d171-4053-994a-991f4ec78f5c" />
 
-#### Wish list 2  
+#### Wish list
 
 EHP_06　ラプラス
 
-Source: https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ehp06/
+https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ehp06/
 
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/4d23c8da-97cc-4112-9599-640f04f95ee0" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/cbce14e9-5c03-4618-9b45-37deaaf899ee" />
+
+#### Wish list
+
+ポケモン みんなのラプラス
+
+https://www.takaratomy-arts.co.jp/items/item.html?n=Y087615
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b7ec67aa-5169-4e62-bed3-ae79f817880e" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/ccd39539-2e52-4128-86ff-c1eaaa8bb98b" />
+
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/163a4f08-5553-49e8-8adc-111cb023133e" />
 
 
 
