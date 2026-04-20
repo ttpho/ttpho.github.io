@@ -17,7 +17,14 @@ Pokédex data is 0131
 
 <img src="https://img.pokemondb.net/artwork/avif/lapras.avif" />
 
-Summary price(Unit = 1000 * VND)
+Note: 
+
+- Summary price(Unit = 1000 * VND)
+
+-  🌟 : new 100% 
+-  ⭐ : like new >= 80% 
+
+
 
 
 | Name                                         | Photo                                                                                                                     | New | Price |
