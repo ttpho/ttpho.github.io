@@ -106,7 +106,7 @@ https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
 
 ### Pokémon Battle Moment
 
-ANGBOWANG × Pokémon Battle Moment
+LANGBOWANG × Pokémon Battle Moment
 
 https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 
