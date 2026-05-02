@@ -32,6 +32,8 @@ Note:
 | Terrarium collection        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f2360381-1140-4762-b0cb-5933c4086871" />     | 🌟   | 235   |
 | Moncolle MS-30                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/0206e2e6-b1cd-430e-8509-a00ab7693261" />     | 🌟   | 142   |
 | Moncolle EX-65                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />     | 🌟   | 156   |
+| Moncolle EHP-06                              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4d23c8da-97cc-4112-9599-640f04f95ee0" />     | ⭐   | 300   |
+| Bandai Pokemon Scale World 1/20              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />     | ⭐   | 900   |
 | Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
 |                                              |                                                                                                                           |      |       |
 
@@ -79,10 +81,32 @@ https://www.nshop.com.vn/products/moncolle-ex-65-lapras-mo-hinh-pokemon-chinh-ha
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />
 
 
+#### Moncolle EHP-06
+
+EHP_06　ラプラス
+
+https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ehp06/
+
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/4d23c8da-97cc-4112-9599-640f04f95ee0" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/cbce14e9-5c03-4618-9b45-37deaaf899ee" />
+
+
+#### Bandai Pokemon Scale World 1/20
+
+ポケモンスケールワールド カントー地方 シルフカンパニーセット【プレミアムバンダイ限定】
+
+https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/ddd2ca6c-d171-4053-994a-991f4ec78f5c" />
+
 
 ### Pokémon Battle Moment
 
-ANGBOWANG × Pokémon Battle Moment
+LANGBOWANG × Pokémon Battle Moment
 
 https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 
@@ -99,26 +123,9 @@ Bandai Namco: Six Heroes Lapras Pokémon Kids Figure Terapagos Edition
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />
 
 
-#### Wish list
-
-ポケモンスケールワールド カントー地方 シルフカンパニーセット【プレミアムバンダイ限定】
-
-https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/ddd2ca6c-d171-4053-994a-991f4ec78f5c" />
-
-#### Wish list
-
-EHP_06　ラプラス
-
-https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ehp06/
 
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/4d23c8da-97cc-4112-9599-640f04f95ee0" />
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/cbce14e9-5c03-4618-9b45-37deaaf899ee" />
 
 #### Wish list
 
