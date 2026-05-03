@@ -5,6 +5,28 @@ subtitle: "My Pokémon TCG Card Collection"
 tags: [pokemon]
 ---
 
+# Overview 
+
+Pokémon Card Game Scarlet & Violet "Special Deck Set ex: Venusaur & Charizard & Blastoise"
+
+https://www.amazon.co.uk/Pokemon-Scarlet-Special-Venusaur%E3%83%BBCharizard%E3%83%BBBlastoise-Japanese/dp/B0C6PHVC4Z
+
+<img width="1386" height="1266" alt="image" src="https://github.com/user-attachments/assets/e59ecf26-a97e-4537-a85d-104ea3d0998a" />
+
+<img width="874" height="662" alt="image" src="https://github.com/user-attachments/assets/f9bc1f95-307a-457b-9f07-85429a318809" />
+
+Ba thẻ bài Pokémon bạn vừa gửi (Bulbasaur, Charmander và Squirtle) đều thuộc về một sản phẩm đặc biệt được phát hành tại Nhật Bản vào cuối năm 2023.
+
+
+*   **Sản phẩm gốc:** Cả ba thẻ bài này đều nằm trong bộ **Pokémon Card Game Scarlet & Violet "Special Deck Set ex: Venusaur & Charizard & Blastoise"**.
+*   **Ngày phát hành:** Bộ sản phẩm này được ra mắt tại thị trường Nhật Bản vào ngày **10 tháng 11 năm 2023**.
+*   **Loại thẻ (Rarity):** Đây là các thẻ dạng **Illustration Rare (AR)**. Chúng không thể tìm thấy trong các gói mở bài (booster pack) thông thường mà được tặng kèm cố định trong bộ Deck Set này dưới dạng các thẻ bài quảng bá (promo-style) nhưng vẫn giữ số hiệu của bộ sưu tập.
+*   **Đặc điểm thiết kế:** Điểm đặc biệt của ba thẻ này là chúng có phong cách nghệ thuật đồng nhất, mô tả cuộc sống thường ngày của ba Pokémon khởi đầu thế hệ thứ nhất trong cùng một bối cảnh (một ngôi nhà có sự xuất hiện của các chú chim Pidgey). 
+
+Mã số hiệu trên các thẻ lần lượt là **050/049** (Bulbasaur), **051/049** (Charmander) và **052/049** (Squirtle).
+
+
+
 # Bulbasaur
 
 <img src="/assets/tcg_pokemon/0001.jpg">
