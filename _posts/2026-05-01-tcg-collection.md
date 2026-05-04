@@ -11,9 +11,9 @@ Pokémon Card Game Scarlet & Violet "Special Deck Set ex: Venusaur & Charizard &
 
 https://www.amazon.co.uk/Pokemon-Scarlet-Special-Venusaur%E3%83%BBCharizard%E3%83%BBBlastoise-Japanese/dp/B0C6PHVC4Z
 
-<img width="1386" height="1266" alt="image" src="https://github.com/user-attachments/assets/e59ecf26-a97e-4537-a85d-104ea3d0998a" />
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/e59ecf26-a97e-4537-a85d-104ea3d0998a" />
 
-<img width="874" height="662" alt="image" src="https://github.com/user-attachments/assets/f9bc1f95-307a-457b-9f07-85429a318809" />
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/f9bc1f95-307a-457b-9f07-85429a318809" />
 
 Ba thẻ bài Pokémon bạn vừa gửi (Bulbasaur, Charmander và Squirtle) đều thuộc về một sản phẩm đặc biệt được phát hành tại Nhật Bản vào cuối năm 2023.
 
