@@ -37,6 +37,14 @@ Note:
 | Bandai Pokemon Scale World 1/20              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />     | ⭐   | 900   |
 | Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
 
+
+### TCG AR
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/8ebe607d-030c-4d7f-a096-6920cdb5465d" />
+
+https://www.tcgcollector.com/cards/39747/lapras-vstar-universe-177-172
+
+
 ### Lapras Pokemon Zukan
 
 Lapras Pokemon Zukan 1/40 Scale Figure Tomy 2005 Toy Japan Y03 2.4in
@@ -44,9 +52,9 @@ Lapras Pokemon Zukan 1/40 Scale Figure Tomy 2005 Toy Japan Y03 2.4in
 https://www.ebay.ca/itm/185879916434
 
 
-<img img width="460" alt="image" src="https://github.com/user-attachments/assets/f469ee78-9e33-4cc5-9cdc-19ccbb590d31" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/f469ee78-9e33-4cc5-9cdc-19ccbb590d31" />
 
-<img img width="460" alt="image" src="https://github.com/user-attachments/assets/f98fc18f-0cd0-465f-89c7-a15c4ca4f590" />
+<img  width="460" alt="image" src="https://github.com/user-attachments/assets/f98fc18f-0cd0-465f-89c7-a15c4ca4f590" />
 
 ### Re-Ment RM20337 Pokémon Terrarium Collection
 
