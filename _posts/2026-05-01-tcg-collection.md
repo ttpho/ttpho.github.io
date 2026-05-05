@@ -31,9 +31,8 @@ Mã số hiệu trên các thẻ lần lượt là **050/049** (Bulbasaur), **05
 
 <img src="/assets/tcg_pokemon/0001.jpg">
 
-<img width="460" src="https://github.com/user-attachments/assets/a13fc1c3-040a-4cdc-9210-665ad7846896" />
 
-<img width="733" height="1024" alt="image" src="https://github.com/user-attachments/assets/6dd8858c-742d-45d8-b90e-90f84a414e89" />
+<img width="460" src="https://github.com/user-attachments/assets/6dd8858c-742d-45d8-b90e-90f84a414e89" />
 
 
 (gen by Google Gemini) 
