@@ -17,6 +17,9 @@ Pokédex data is 0131
 
 <img src="https://img.pokemondb.net/artwork/avif/lapras.avif" />
 
+
+Reference: https://laprastation.sakura.ne.jp/lgoods/item/
+
 Note: 
 
 - Summary price(Unit = 1000 * VND)
