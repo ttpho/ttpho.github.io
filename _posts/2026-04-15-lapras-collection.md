@@ -38,7 +38,14 @@ Note:
 | Moncolle EX-65                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />     | 🌟   | 156   |
 | Moncolle EHP-06                              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4d23c8da-97cc-4112-9599-640f04f95ee0" />     | ⭐   | 300   |
 | Bandai Pokemon Scale World 1/20              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />     | ⭐   | 900   |
+| Bandai Kids 2000              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/0c3d82e3-43da-4bc7-8976-49b72222135d" />     | ⭐   | 20   |
 | Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
+
+
+
+
+
+
 
 
 ### TCG AR
@@ -119,6 +126,13 @@ https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/ddd2ca6c-d171-4053-994a-991f4ec78f5c" />
+
+
+### Bandai Kids 2000
+
+<img width="460" src="https://github.com/user-attachments/assets/0c3d82e3-43da-4bc7-8976-49b72222135d" />
+
+https://laprastation.sakura.ne.jp/lgoods/item/2/
 
 
 ### Pokémon Battle Moment
