@@ -37,15 +37,12 @@ Note:
 | Moncolle MS-30                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/0206e2e6-b1cd-430e-8509-a00ab7693261" />     | 🌟   | 142   |
 | Moncolle EX-65                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />     | 🌟   | 156   |
 | Moncolle EHP-06                              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4d23c8da-97cc-4112-9599-640f04f95ee0" />     | ⭐   | 300   |
-| ~~Bandai Pokemon Scale World 1/20~~              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />     | ⭐   | 900   |
-| Bandai Kids 2000              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/0c3d82e3-43da-4bc7-8976-49b72222135d" />     | ⭐   | 20   |
-| ポケモン みんなのラプラス         | <img width="200" alt="image" src="https://github.com/user-attachments/assets/163a4f08-5553-49e8-8adc-111cb023133e" />     | ⭐   | 130   |
-| Lapras Pokémon Kids Figure Terapagos Edition              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />     | ⭐   | 90   |
+| Reement Pokémon AQUA BOTTLE Collection 2     | <img width="200" alt="image" src="https://github.com/user-attachments/assets/40f2b175-26a9-4735-8254-08b735a68044" />     | ⭐   | 190   |
+| ~~Bandai Pokemon Scale World 1/20~~          | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />     | ⭐   | 900   |
+| Bandai Kids 2000                             | <img width="200" alt="image" src="https://github.com/user-attachments/assets/0c3d82e3-43da-4bc7-8976-49b72222135d" />     | ⭐   | 20    |
+| ポケモン みんなのラプラス                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/163a4f08-5553-49e8-8adc-111cb023133e" />     | ⭐   | 130   |
+| Lapras Pokémon Kids Figure Terapagos Edition | <img width="200" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />     | ⭐   | 90    |
 | Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
-
-
-
-
 
 
 
@@ -68,6 +65,7 @@ https://www.ebay.ca/itm/185879916434
 
 <img  width="460" alt="image" src="https://github.com/user-attachments/assets/f98fc18f-0cd0-465f-89c7-a15c4ca4f590" />
 
+
 ### Re-Ment RM20337 Pokémon Terrarium Collection
 
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/df508060-e9c2-47c5-b7e5-cc45ce4d6f5a" />
@@ -87,6 +85,18 @@ https://www.re-ment.co.jp/product/r20896
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/f2360381-1140-4762-b0cb-5933c4086871" />
 
 
+### Reement Pokémon AQUA BOTTLE Collection 2
+
+Reement Pokémon AQUA BOTTLE Collection 2 ~ Sparkling Seaside Memories~ Box Product, 6 Types, 6 Pieces, Approx. H 5.1 x W 2.8 x D 2.8 inches (130 x 70 x 70 mm)
+
+https://www.amazon.com/Reement-Pok%C3%A9mon-Collection-Sparkling-Memories/dp/B0CB86SBZJ
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/6e1ce6e9-80b6-4b46-898a-9cfaa7cc8a31" />
+
+
+
+
+<img width="460" src="https://github.com/user-attachments/assets/40f2b175-26a9-4735-8254-08b735a68044" />
 
 ### Moncolle MS-30
 
