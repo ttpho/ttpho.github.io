@@ -117,22 +117,30 @@ https://www.takaratomy.co.jp/products/pokemon/moncolle_ex/lineup/ehp06/
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/cbce14e9-5c03-4618-9b45-37deaaf899ee" />
 
 
-#### Bandai Pokemon Scale World 1/20
-
-ポケモンスケールワールド カントー地方 シルフカンパニーセット【プレミアムバンダイ限定】
-
-https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/ddd2ca6c-d171-4053-994a-991f4ec78f5c" />
-
-
 ### Bandai Kids 2000
 
 <img width="460" src="https://github.com/user-attachments/assets/0c3d82e3-43da-4bc7-8976-49b72222135d" />
 
 https://laprastation.sakura.ne.jp/lgoods/item/2/
+
+#### Lapras Pokémon Kids Figure Terapagos Edition
+
+Bandai Namco: Six Heroes Lapras Pokémon Kids Figure Terapagos Edition
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />
+
+
+
+#### ポケモン みんなのラプラス
+
+https://www.takaratomy-arts.co.jp/items/item.html?n=Y087615
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b7ec67aa-5169-4e62-bed3-ae79f817880e" />
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/ccd39539-2e52-4128-86ff-c1eaaa8bb98b" />
+
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/163a4f08-5553-49e8-8adc-111cb023133e" />
 
 
 ### Pokémon Battle Moment
@@ -147,29 +155,19 @@ https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />
 
 
-#### Wish list
+#### Wishlist
 
-Bandai Namco: Six Heroes Lapras Pokémon Kids Figure Terapagos Edition
+Bandai Pokemon Scale World 1/20
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />
+ポケモンスケールワールド カントー地方 シルフカンパニーセット【プレミアムバンダイ限定】
 
+https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
 
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />
 
-
-
-
-#### Wish list
-
-ポケモン みんなのラプラス
-
-https://www.takaratomy-arts.co.jp/items/item.html?n=Y087615
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/b7ec67aa-5169-4e62-bed3-ae79f817880e" />
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/ccd39539-2e52-4128-86ff-c1eaaa8bb98b" />
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/ddd2ca6c-d171-4053-994a-991f4ec78f5c" />
 
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/163a4f08-5553-49e8-8adc-111cb023133e" />
 
 
 
