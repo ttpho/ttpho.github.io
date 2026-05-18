@@ -32,10 +32,9 @@ Mã số hiệu trên các thẻ lần lượt là **050/049** (Bulbasaur), **05
 <img src="/assets/tcg_pokemon/0001.jpg">
 
 
-<img width="460" src="https://github.com/user-attachments/assets/6dd8858c-742d-45d8-b90e-90f84a414e89" />
+<img width="460" alt="ChatGPT Image May 18, 2026, 03_16_00 PM" src="https://github.com/user-attachments/assets/a629f42a-b209-4835-8e93-ea58145dc5f6" />
 
 
-(gen by Google Gemini) 
 
 
 https://www.tcgcollector.com/cards/43792/bulbasaur-venusaur-charizard-and-blastoise-special-deck-set-ex-050-049
@@ -75,9 +74,8 @@ https://www.tcgcollector.com/cards/43792/bulbasaur-venusaur-charizard-and-blasto
 
 <img src="/assets/tcg_pokemon/0004.jpg">
 
-<img width="460"  src="https://github.com/user-attachments/assets/dad1957b-9586-4210-8c22-f6645082fd16" />
+<img width="460" alt="ChatGPT Image May 18, 2026, 03_17_20 PM" src="https://github.com/user-attachments/assets/dd3ef4ee-e7b9-43e9-9aba-e0e463dbbc4e" />
 
-(gen by Google Gemini)
 
 https://www.tcgcollector.com/cards/43793/charmander-venusaur-charizard-and-blastoise-special-deck-set-ex-051-049
 
@@ -122,9 +120,8 @@ Bức tranh này mô tả Charmander đang nhìn ra cửa sổ với vẻ mặt 
 <img src="/assets/tcg_pokemon/0007.jpg">
 
 
-<img width="460"  src="https://github.com/user-attachments/assets/cccce775-b439-4b6b-8235-559e381a6629" />
+<img width="460"  alt="ChatGPT Image May 18, 2026, 03_19_49 PM" src="https://github.com/user-attachments/assets/f2419fa7-9518-44fc-bd7f-b6b4398c37e2" />
 
-(gen by Google Gemini)
 
 https://www.tcgcollector.com/cards/43794/squirtle-venusaur-charizard-and-blastoise-special-deck-set-ex-052-049
 
