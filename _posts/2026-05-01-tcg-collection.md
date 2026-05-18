@@ -2,8 +2,11 @@
 layout: post
 title: "Pokémon TCG Card Collection"
 subtitle: "My Pokémon TCG Card Collection"
+cover-img: https://github.com/user-attachments/assets/c66944f9-d867-48c0-820a-5323a2cadc39
 tags: [pokemon]
 ---
+
+
 
 # Overview 
 
