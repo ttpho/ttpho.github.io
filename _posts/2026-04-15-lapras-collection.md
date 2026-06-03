@@ -45,6 +45,7 @@ Note:
 | ポケモン みんなのラプラス                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/163a4f08-5553-49e8-8adc-111cb023133e" />     | ⭐   | 130   |
 | Lapras Pokémon Kids Figure Terapagos Edition | <img width="200" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />     | ⭐   | 90    |
 | Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
+| Re-ment - Pokemon Ovaltique Collection 2     | <img width="200" alt="image" src="https://github.com/user-attachments/assets/8ebe607d-030c-4d7f-a096-6920cdb5465d" />     | 🌟   | 300   |
 
 
 
@@ -55,6 +56,11 @@ Note:
 
 https://www.tcgcollector.com/cards/39747/lapras-vstar-universe-177-172
 
+### Re-ment - Pokemon Ovaltique Collection 2
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/fae70e72-208e-45f9-b48d-7910451497aa" />
+
+https://www.hobbydigi.com/my/re-ment-pokemon-ovaltique-collection-2
 
 ### Lapras Pokemon Zukan
 
