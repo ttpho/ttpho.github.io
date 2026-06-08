@@ -46,6 +46,8 @@ Note:
 | Lapras Pokémon Kids Figure Terapagos Edition | <img width="200" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />     | ⭐   | 90    |
 | Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
 | Re-ment - Pokemon Ovaltique Collection 2     | <img width="200" alt="image" src="https://github.com/user-attachments/assets/fae70e72-208e-45f9-b48d-7910451497aa" />     | 🌟   | 300   |
+| Attacking Lapras﻿ Finger Puppet figure Bandai | <img width="200" alt="image" src="https://github.com/user-attachments/assets/37e9dcb5-5f19-40cd-a790-196731ac7d84" />     | 🌟   | 45    |
+
 
 
 
@@ -55,6 +57,13 @@ Note:
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/8ebe607d-030c-4d7f-a096-6920cdb5465d" />
 
 https://www.tcgcollector.com/cards/39747/lapras-vstar-universe-177-172
+
+### Attacking Lapras﻿ Finger Puppet figure Bandai Pokemon
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/37e9dcb5-5f19-40cd-a790-196731ac7d84" />
+
+https://www.mercari.com/us/item/m26052708789/
+
 
 ### Re-ment - Pokemon Ovaltique Collection 2
 
