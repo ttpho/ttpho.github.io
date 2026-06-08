@@ -40,7 +40,7 @@ Note:
 | Moncolle EX-65                               | <img width="200" alt="image" src="https://github.com/user-attachments/assets/84b3c2f1-5ff7-4c44-ac6d-e8c35aab19a0" />     | 🌟   | 156   |
 | Moncolle EHP-06                              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4d23c8da-97cc-4112-9599-640f04f95ee0" />     | ⭐   | 300   |
 | Reement Pokémon AQUA BOTTLE Collection 2     | <img width="200" alt="image" src="https://github.com/user-attachments/assets/40f2b175-26a9-4735-8254-08b735a68044" />     | ⭐   | 190   |
-| ~~Bandai Pokemon Scale World 1/20~~          | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />     | ⭐   | 900   |
+| Bandai Pokemon Scale World 1/20              | <img width="200" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />     | 🌟   | 1500  |
 | Bandai Kids 2000                             | <img width="200" alt="image" src="https://github.com/user-attachments/assets/0c3d82e3-43da-4bc7-8976-49b72222135d" />     | ⭐   | 20    |
 | ポケモン みんなのラプラス                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/163a4f08-5553-49e8-8adc-111cb023133e" />     | ⭐   | 130   |
 | Lapras Pokémon Kids Figure Terapagos Edition | <img width="200" alt="image" src="https://github.com/user-attachments/assets/335cad03-1767-48c7-a914-f2363a985506" />     | ⭐   | 90    |
