@@ -58,6 +58,14 @@ Note:
 
 https://www.tcgcollector.com/cards/39747/lapras-vstar-universe-177-172
 
+### Lapras Surfing Desk 
+
+Rement Pokemon Lapras Surfing Desk Toy Figure Trading Figure 2017
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/74475775-e3df-4500-bca0-945ee21b9224" />
+
+https://www.ebay.com/itm/397951572782
+
 ### Attacking Lapras﻿ Finger Puppet figure Bandai Pokemon
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/37e9dcb5-5f19-40cd-a790-196731ac7d84" />
