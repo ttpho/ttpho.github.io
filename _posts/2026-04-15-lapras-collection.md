@@ -47,6 +47,8 @@ Note:
 | Pokémon Battle Moment                        | <img width="200" alt="image" src="https://github.com/user-attachments/assets/5c545124-c7cc-4ec4-a1be-9a33648d2c0e" />     | 🌟   | 255   |
 | Re-ment - Pokemon Ovaltique Collection 2     | <img width="200" alt="image" src="https://github.com/user-attachments/assets/fae70e72-208e-45f9-b48d-7910451497aa" />     | 🌟   | 300   |
 | Attacking Lapras﻿ Finger Puppet figure Bandai | <img width="200" alt="image" src="https://github.com/user-attachments/assets/37e9dcb5-5f19-40cd-a790-196731ac7d84" />     | 🌟   | 45    |
+| Lapras Surfing Desk | <img width="200" alt="image" src="https://github.com/user-attachments/assets/74475775-e3df-4500-bca0-945ee21b9224" />     | ⭐   | 120    |
+
 
 
 
