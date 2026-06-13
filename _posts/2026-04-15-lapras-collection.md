@@ -196,15 +196,24 @@ https://megaculture.com.au/products/pokemon-battle-moment-figure-lapras
 
 #### Wishlist
 
-Bandai Pokemon Scale World 1/20
+Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
 
-ポケモンスケールワールド カントー地方 シルフカンパニーセット【プレミアムバンダイ限定】
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b515ff8d-1336-4858-a531-238b74ed0efb" />
 
-https://www.bandai.co.jp/candy/pokemonscaleworld/lineup/pokemon/?id=131
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/f87d95a9-0749-4ce9-b20d-c88e1a814c38" />
+Lapras Pokemon Re-ment Circular Diorama Collection Figure From Japan
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/ddd2ca6c-d171-4053-994a-991f4ec78f5c" />
+<img width="460" src="https://github.com/user-attachments/assets/adcf2e6a-7592-4a33-b6e2-b6a1e6a352e7" />
+
+
+Pokemon Starrium RE-MENT Lapras
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />
+
+
+LAPRAS Pokemon Center Re-Ment Petite Fleur "Seasonal Flowers" Series figure
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />
 
 
 
