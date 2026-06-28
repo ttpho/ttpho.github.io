@@ -3,6 +3,7 @@ layout: post
 title: "Pokémon TCG Card Collection Kanto 151 Wishlist"
 subtitle: "Wishlist"
 tags: [pokemon]
+draft: true
 ---
 
 Source: https://pokemondb.net/pokedex/national#gen-1
