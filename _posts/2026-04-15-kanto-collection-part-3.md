@@ -3,7 +3,7 @@ layout: post
 title: "[1] Pokemon Kanto Starter Collection"
 subtitle: "My Kanto Starter Pokemon Figure"
 tags: [pokemon]
-draft: true
+published: false
 ---
 
 ### Intro 
