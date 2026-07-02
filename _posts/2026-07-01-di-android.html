@@ -178,7 +178,7 @@ tags: [android]
             <div id="tab-gradle" class="grid md:grid-cols-2 gap-4 code-content">
                 <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
                     <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
-                    <pre class="text-sm code-font overflow-x-auto"><code>dependencies {
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>dependencies {
     implementation("io.insert-koin:koin-android:3.x.x")
 }</code></pre>
                 </div>
@@ -198,7 +198,7 @@ dependencies {
             <div id="tab-app" class="grid md:grid-cols-2 gap-4 code-content hidden">
                 <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
                     <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
-                    <pre class="text-sm code-font overflow-x-auto"><code>class MyApplication : Application() {
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
@@ -223,7 +223,7 @@ class MyApplication : Application() {
             <div id="tab-module" class="grid md:grid-cols-2 gap-4 code-content hidden">
                 <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
                     <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
-                    <pre class="text-sm code-font overflow-x-auto"><code>val networkModule = module {
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>val networkModule = module {
     single { 
         Retrofit.Builder().baseUrl("...").build() 
     }
@@ -253,7 +253,7 @@ object NetworkModule {
             <div id="tab-ui" class="grid md:grid-cols-2 gap-4 code-content hidden">
                 <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
                     <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
-                    <pre class="text-sm code-font overflow-x-auto"><code>// KHAI BÁO VM: viewModel { MyViewModel(get()) }
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>// KHAI BÁO VM: viewModel { MyViewModel(get()) }
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MyViewModel by viewModel()
