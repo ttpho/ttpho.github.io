@@ -1,0 +1,500 @@
+---
+layout: post
+title: "Dependency Injection trong Android: Hilt và Koin"
+subtitle: "Tài liệu này cung cấp cái nhìn tổng quan, so sánh chi tiết, hướng dẫn chuyển đổi và phân tích hiệu năng giữa hai thư viện quản lý phụ thuộc (Dependency Injection - DI) phổ biến nhất trên Android hiện nay: Hilt và Koin."
+tags: [android]
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cẩm Nang Dependency Injection: Hilt vs Koin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals (Slate-50/100) with Indigo (Hilt) and Emerald (Koin) accents. -->
+    <!-- Application Structure Plan: 
+         1. Header: Giới thiệu tổng quan về 2 triết lý DI.
+         2. Trình đề xuất cấu hình (Decision Engine): Công cụ tương tác cho phép người dùng chọn quy mô dự án và nền tảng, hệ thống sẽ tính toán mức độ phù hợp của Hilt/Koin. Mục đích: Cá nhân hóa kết luận của báo cáo.
+         3. Biểu đồ Radar so sánh (Visual Trade-offs): Trực quan hóa các tiêu chí (Tốc độ, An toàn, Dễ học) bằng Chart.js để thấy rõ điểm mạnh yếu.
+         4. Hành trình chuyển đổi (Migration Guide): Sử dụng UI dạng Tab tương tác để so sánh code Koin và Hilt side-by-side, giúp lập trình viên dễ hình dung sự khác biệt.
+         5. Giải mã lời đồn ANR (Mythbuster): Trình bày dưới dạng danh sách Do's/Don'ts rõ ràng bằng UI Cards.
+    -->
+    <!-- Visualization & Content Choices: 
+         - Goal: So sánh tính năng -> Viz: Radar Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Cho cái nhìn toàn diện về ưu nhược điểm đa chiều -> Library: Chart.js.
+         - Goal: Đề xuất công nghệ -> Viz: Interactive Progress Bar -> Interaction: Radio buttons click -> Justification: Giúp người dùng đưa ra quyết định nhanh dựa trên nhu cầu thực tế -> Library: Vanilla JS + HTML/CSS.
+         - Goal: Hướng dẫn code -> Viz: Tabbed Code Blocks -> Interaction: Click tabs -> Justification: Tiết kiệm không gian, so sánh trực tiếp Before/After -> Library: HTML/CSS + JS.
+         - Confirming NO SVG/Mermaid. Support interactive exploration.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .code-font {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .tab-active {
+            border-bottom: 2px solid #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Cẩm Nang DI Android</h1>
+                <p class="text-sm text-slate-500 mt-1">Phân tích chuyên sâu: Hilt & Koin</p>
+            </div>
+            <nav class="mt-4 md:mt-0 flex gap-4 text-sm font-medium">
+                <button onclick="scrollToSection('so-sanh')" class="hover:text-indigo-600 transition-colors">So sánh</button>
+                <button onclick="scrollToSection('chuyen-doi')" class="hover:text-indigo-600 transition-colors">Chuyển đổi</button>
+                <button onclick="scrollToSection('anr')" class="hover:text-indigo-600 transition-colors">Phân tích ANR</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-16">
+
+        <section class="text-center max-w-3xl mx-auto">
+            <h2 class="text-4xl font-extrabold text-slate-900 mb-4">Cuộc chiến giữa Compile-time và Runtime</h2>
+            <p class="text-lg text-slate-600">
+                Việc chọn giữa Hilt và Koin là quyết định quan trọng nhất khi thiết kế kiến trúc ứng dụng. Dù cùng giải quyết bài toán Dependency Injection, chúng lại đi theo hai triết lý hoàn toàn trái ngược. Hãy khám phá và tìm ra công cụ phù hợp nhất cho dự án của bạn.
+            </p>
+        </section>
+
+        <section id="so-sanh" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-slate-900">1. Công cụ Cố vấn Công nghệ (Decision Engine)</h3>
+                <p class="text-slate-600 mt-2">Phần này giúp bạn tính toán xem Hilt hay Koin phù hợp hơn dựa trên các đặc tả dự án thực tế của bạn. Chọn các tiêu chí bên dưới để xem kết quả đánh giá tự động.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6 bg-slate-50 p-6 rounded-xl border border-slate-100">
+                    <h4 class="font-semibold text-lg border-b pb-2">Cấu hình dự án của bạn</h4>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Quy mô dự án & Đội ngũ</label>
+                        <div class="flex gap-2 bg-white p-1 rounded-lg border">
+                            <button id="btn-scale-small" class="flex-1 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium" onclick="updateDecision('scale', 'small')">Nhỏ/Vừa (Startup)</button>
+                            <button id="btn-scale-large" class="flex-1 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600" onclick="updateDecision('scale', 'large')">Lớn/Doanh nghiệp</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Định hướng nền tảng</label>
+                        <div class="flex gap-2 bg-white p-1 rounded-lg border">
+                            <button id="btn-plat-android" class="flex-1 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium" onclick="updateDecision('plat', 'android')">Chỉ Android</button>
+                            <button id="btn-plat-kmp" class="flex-1 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600" onclick="updateDecision('plat', 'kmp')">Kotlin Multiplatform</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Ưu tiên hàng đầu</label>
+                        <div class="flex flex-col gap-2 bg-white p-1 rounded-lg border">
+                            <button id="btn-pri-build" class="text-left px-4 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium" onclick="updateDecision('pri', 'build')">⚡ Tốc độ Build máy cực nhanh</button>
+                            <button id="btn-pri-safe" class="text-left px-4 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600" onclick="updateDecision('pri', 'safe')">🛡️ An toàn tuyệt đối (Compile-time)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <h4 class="font-semibold text-lg text-center mb-6">Mức độ phù hợp</h4>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-indigo-600">Hilt (Google / Dagger)</span>
+                                <span id="hilt-score-text" class="text-indigo-600">50%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-3">
+                                <div id="hilt-progress" class="bg-indigo-600 h-3 rounded-full transition-all duration-500" style="width: 50%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-1">
+                                <span class="text-emerald-600">Koin (InsertKoinIO)</span>
+                                <span id="koin-score-text" class="text-emerald-600">50%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-3">
+                                <div id="koin-progress" class="bg-emerald-500 h-3 rounded-full transition-all duration-500" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm">
+                        <span class="font-bold">Kết luận hệ thống: </span>
+                        <span id="decision-conclusion">Dựa trên cấu hình hiện tại, cả hai framework đều có thể đáp ứng. Hãy điều chỉnh tiêu chí bên trái để thấy sự khác biệt rõ hơn.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 pt-10 border-t border-slate-100 grid lg:grid-cols-2 gap-10 items-center">
+                <div>
+                    <h4 class="font-semibold text-xl mb-4">Trận chiến đa chiều (Radar Chart)</h4>
+                    <p class="text-slate-600 mb-4 text-sm leading-relaxed">
+                        Biểu đồ phân tích 5 khía cạnh cốt lõi của hai thư viện. Hilt chiếm ưu thế tuyệt đối về sự an toàn do phát hiện lỗi ngay lúc biên dịch (Compile-time), trong khi Koin tỏa sáng ở khả năng hỗ trợ Đa nền tảng (KMP) và tốc độ biên dịch mã nguồn cực nhanh do không phải sinh code tự động.
+                    </p>
+                    <ul class="text-sm space-y-2 text-slate-700">
+                        <li><span class="text-indigo-600 font-bold">Hilt:</span> DI thực sự, mạnh mẽ, nhưng phức tạp và build chậm.</li>
+                        <li><span class="text-emerald-600 font-bold">Koin:</span> Service Locator, gọn nhẹ, viết bằng DSL, dễ crash runtime nếu quên config.</li>
+                    </ul>
+                </div>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="chuyen-doi" class="bg-slate-900 rounded-2xl shadow-lg p-6 md:p-10 text-slate-300">
+            <div class="mb-8 border-b border-slate-700 pb-6">
+                <h3 class="text-2xl font-bold text-white">2. Hành trình Chuyển đổi: Từ Koin sang Hilt</h3>
+                <p class="text-slate-400 mt-2">Khám phá cách tư duy thay đổi từ Runtime DSL (Koin) sang Compile-time Annotations (Hilt). Phần này hiển thị các ví dụ mã nguồn thực tế và đối chiếu sự khác biệt. Hãy chọn các tab bên dưới để xem cách thay đổi mã nguồn.</p>
+            </div>
+
+            <div class="flex overflow-x-auto gap-1 border-b border-slate-700 pb-px mb-6">
+                <button onclick="switchTab('tab-gradle')" id="btn-tab-gradle" class="px-4 py-2 text-sm font-medium text-white border-b-2 border-indigo-500 whitespace-nowrap bg-slate-800 rounded-t-lg">1. Gradle</button>
+                <button onclick="switchTab('tab-app')" id="btn-tab-app" class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white whitespace-nowrap">2. Application</button>
+                <button onclick="switchTab('tab-module')" id="btn-tab-module" class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white whitespace-nowrap">3. Modules</button>
+                <button onclick="switchTab('tab-ui')" id="btn-tab-ui" class="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white whitespace-nowrap">4. UI & ViewModel</button>
+            </div>
+
+            <div id="tab-gradle" class="grid md:grid-cols-2 gap-4 code-content">
+                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                    <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
+                    <pre class="text-sm code-font overflow-x-auto"><code>dependencies {
+    implementation("io.insert-koin:koin-android:3.x.x")
+}</code></pre>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg border border-indigo-900/50">
+                    <div class="text-xs font-bold text-indigo-400 mb-2">Mới (Hilt)</div>
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>plugins {
+    id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
+}
+dependencies {
+    implementation("com.google.dagger:hilt-android:2.51")
+    ksp("com.google.dagger:hilt-android-compiler:2.51")
+}</code></pre>
+                </div>
+            </div>
+
+            <div id="tab-app" class="grid md:grid-cols-2 gap-4 code-content hidden">
+                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                    <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
+                    <pre class="text-sm code-font overflow-x-auto"><code>class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            androidContext(this@MyApplication)
+            modules(appModule, networkModule)
+        }
+    }
+}</code></pre>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg border border-indigo-900/50">
+                    <div class="text-xs font-bold text-indigo-400 mb-2">Mới (Hilt)</div>
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>@HiltAndroidApp
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        // Hilt tự động khởi tạo ngầm
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <div id="tab-module" class="grid md:grid-cols-2 gap-4 code-content hidden">
+                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                    <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
+                    <pre class="text-sm code-font overflow-x-auto"><code>val networkModule = module {
+    single { 
+        Retrofit.Builder().baseUrl("...").build() 
+    }
+    factory { 
+        ApiService(get()) 
+    }
+}</code></pre>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg border border-indigo-900/50">
+                    <div class="text-xs font-bold text-indigo-400 mb-2">Mới (Hilt)</div>
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder().baseUrl("...").build()
+    }
+    @Provides
+    fun provideApi(retrofit: Retrofit): ApiService {
+        return ApiService(retrofit)
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <div id="tab-ui" class="grid md:grid-cols-2 gap-4 code-content hidden">
+                <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                    <div class="text-xs font-bold text-emerald-400 mb-2">Cũ (Koin)</div>
+                    <pre class="text-sm code-font overflow-x-auto"><code>// KHAI BÁO VM: viewModel { MyViewModel(get()) }
+
+class MainActivity : AppCompatActivity() {
+    private val viewModel: MyViewModel by viewModel()
+    private val analytics: Tracker by inject()
+}</code></pre>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-lg border border-indigo-900/50">
+                    <div class="text-xs font-bold text-indigo-400 mb-2">Mới (Hilt)</div>
+                    <pre class="text-sm code-font overflow-x-auto text-indigo-100"><code>@HiltViewModel
+class MyVM @Inject constructor(repo: Repo) : ViewModel()
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+    private val viewModel: MyViewModel by viewModels()
+    
+    @Inject 
+    lateinit var analytics: Tracker
+}</code></pre>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-slate-800/50 rounded-lg text-sm border border-slate-700">
+                <span class="font-bold text-white">💡 Mẹo chuyển đổi:</span> Làm theo mô hình Bottom-Up (từ dưới lên trên). Bắt đầu từ Data (Network, Database) ➔ Repositories ➔ UseCases ➔ ViewModels ➔ Cuối cùng là UI (Activity/Fragment).
+            </div>
+        </section>
+
+        <section id="anr" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-rose-50 p-6 md:p-10 border-b border-rose-100">
+                <h3 class="text-2xl font-bold text-rose-900 mb-2">3. Giải mã Lời đồn: Koin có gây ra lỗi ANR?</h3>
+                <p class="text-rose-700">Nhiều nhà phát triển cho rằng dùng Koin làm ứng dụng bị treo (Application Not Responding) hơn Hilt do tính chất phân giải lúc Runtime. Tuy nhiên, sự thật có phải như vậy? Phần này phân tích nguyên nhân gốc rễ và đưa ra giải pháp.</p>
+            </div>
+            
+            <div class="p-6 md:p-10 grid md:grid-cols-3 gap-8">
+                <div class="md:col-span-1 border-r md:border-slate-100 md:pr-8">
+                    <div class="text-4xl mb-4">🕵️‍♂️</div>
+                    <h4 class="text-lg font-bold mb-2">Kết luận nhanh</h4>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Koin <span class="font-bold text-rose-600">KHÔNG</span> trực tiếp gây ra ANR nhiều hơn Hilt. Tuy nhiên, ở các dự án có hàng ngàn dependency, việc tra cứu HashMap lúc khởi chạy (`startKoin`) tốn CPU hơn, có thể làm rớt khung hình (Jank) hoặc làm chậm Cold Start (vài mili-giây).
+                    </p>
+                    <p class="text-sm text-slate-600">
+                        ANR (App treo > 5 giây) thường do sai lầm kinh điển của lập trình viên: **Làm tác vụ I/O nặng bên trong hàm khởi tạo.**
+                    </p>
+                </div>
+
+                <div class="md:col-span-2 space-y-6">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h4 class="font-bold text-rose-600 flex items-center gap-2 mb-3">
+                            <span>❌</span> Nguyên nhân thực sự gây Crash
+                        </h4>
+                        <p class="text-sm text-slate-600 mb-3">Dù dùng Hilt hay Koin, nếu bạn đặt tác vụ đọc Database/File vào block `init`, Main Thread sẽ bị chặn cứng khi DI framework khởi tạo class đó.</p>
+                        <pre class="bg-slate-800 text-slate-200 p-3 rounded-md text-xs code-font overflow-x-auto"><code>class UserRepository(private val database: AppDatabase) {
+    init {
+        // LỖI NGHIÊM TRỌNG: Query Database trên Main Thread
+        // Khi DI khởi tạo class này, App sẽ bị treo!
+        val data = database.userDao().getAllUsersSync() 
+    }
+}</code></pre>
+                    </div>
+
+                    <div class="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
+                        <h4 class="font-bold text-emerald-700 flex items-center gap-2 mb-3">
+                            <span>✅</span> Cách phòng tránh an toàn
+                        </h4>
+                        <ul class="text-sm text-emerald-800 space-y-2 list-disc list-inside">
+                            <li>Tuyệt đối <strong class="font-bold">không</strong> đọc/ghi dữ liệu nặng ở Constructor hoặc block `init`.</li>
+                            <li>Khởi tạo đối tượng rỗng/nhẹ nhàng, sau đó dùng <code>Coroutines (Dispatchers.IO)</code> để lấy dữ liệu bất đồng bộ.</li>
+                            <li>Nếu dùng Koin, hạn chế dùng <code>createdAtStart = true</code> cho các module không quan trọng để giảm tải lúc App vừa mở.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-12">
+        <p>Cẩm Nang Interactive - Xây dựng dựa trên Báo cáo Chuyên sâu Hilt và Koin.</p>
+    </footer>
+
+    <script>
+        const state = {
+            scale: 'small',
+            plat: 'android',
+            pri: 'build'
+        };
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateDecision(category, value) {
+            state[category] = value;
+            
+            const btnSmall = document.getElementById('btn-scale-small');
+            const btnLarge = document.getElementById('btn-scale-large');
+            if (category === 'scale') {
+                if(value === 'small') {
+                    btnSmall.className = "flex-1 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium";
+                    btnLarge.className = "flex-1 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600";
+                } else {
+                    btnLarge.className = "flex-1 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium";
+                    btnSmall.className = "flex-1 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600";
+                }
+            }
+
+            const btnAnd = document.getElementById('btn-plat-android');
+            const btnKmp = document.getElementById('btn-plat-kmp');
+            if (category === 'plat') {
+                if(value === 'android') {
+                    btnAnd.className = "flex-1 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium";
+                    btnKmp.className = "flex-1 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600";
+                } else {
+                    btnKmp.className = "flex-1 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium";
+                    btnAnd.className = "flex-1 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600";
+                }
+            }
+
+            const btnBuild = document.getElementById('btn-pri-build');
+            const btnSafe = document.getElementById('btn-pri-safe');
+            if (category === 'pri') {
+                if(value === 'build') {
+                    btnBuild.className = "text-left px-4 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium";
+                    btnSafe.className = "text-left px-4 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600";
+                } else {
+                    btnSafe.className = "text-left px-4 py-2 text-sm rounded-md bg-indigo-50 text-indigo-700 font-medium";
+                    btnBuild.className = "text-left px-4 py-2 text-sm rounded-md hover:bg-slate-50 text-slate-600";
+                }
+            }
+
+            calculateScore();
+        }
+
+        function calculateScore() {
+            let hiltScore = 50;
+            let koinScore = 50;
+            let conclusion = "";
+
+            if (state.scale === 'large') {
+                hiltScore += 20;
+                koinScore -= 10;
+            } else {
+                koinScore += 15;
+                hiltScore -= 5;
+            }
+
+            if (state.plat === 'kmp') {
+                koinScore += 40;
+                hiltScore -= 30;
+                conclusion = "Koin là lựa chọn bắt buộc nếu bạn muốn chia sẻ mã nguồn với iOS qua Kotlin Multiplatform. Hilt không hỗ trợ điều này.";
+            } else {
+                hiltScore += 10;
+            }
+
+            if (state.plat === 'android') {
+                if (state.pri === 'safe') {
+                    hiltScore += 25;
+                    koinScore -= 15;
+                    conclusion = "Với dự án Android thuần túy ưu tiên tính an toàn, Hilt là giải pháp tối ưu vì nó phát hiện lỗi thiếu Dependency ngay từ lúc biên dịch.";
+                } else if (state.pri === 'build') {
+                    koinScore += 20;
+                    conclusion = "Koin giúp tăng tốc độ Code và Build máy đáng kể nhờ không sinh mã Code tự động, rất phù hợp cho đội ngũ muốn đi nhanh.";
+                }
+            }
+
+            hiltScore = Math.max(10, Math.min(95, hiltScore));
+            koinScore = Math.max(10, Math.min(95, koinScore));
+
+            document.getElementById('hilt-progress').style.width = hiltScore + '%';
+            document.getElementById('hilt-score-text').innerText = hiltScore + '%';
+            
+            document.getElementById('koin-progress').style.width = koinScore + '%';
+            document.getElementById('koin-score-text').innerText = koinScore + '%';
+
+            document.getElementById('decision-conclusion').innerText = conclusion;
+        }
+
+        function switchTab(tabId) {
+            const tabs = ['tab-gradle', 'tab-app', 'tab-module', 'tab-ui'];
+            tabs.forEach(t => {
+                document.getElementById(t).classList.add('hidden');
+                document.getElementById('btn-' + t).className = "px-4 py-2 text-sm font-medium text-slate-400 hover:text-white whitespace-nowrap";
+            });
+            
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).className = "px-4 py-2 text-sm font-medium text-white border-b-2 border-indigo-500 whitespace-nowrap bg-slate-800 rounded-t-lg";
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateScore();
+
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Tốc độ Build', 'Hiệu năng Runtime', 'Độ an toàn (Compile)', 'Dễ học/Trực quan', 'Đa nền tảng (KMP)'],
+                    datasets: [
+                        {
+                            label: 'Hilt',
+                            data: [3, 9, 10, 5, 0],
+                            backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                            borderColor: 'rgba(79, 70, 229, 1)',
+                            pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Koin',
+                            data: [9, 7, 5, 9, 10],
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: {
+                                font: { family: 'sans-serif', size: 11, weight: '600' },
+                                color: '#475569'
+                            },
+                            ticks: { display: false, min: 0, max: 10 }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.formattedValue + '/10';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
