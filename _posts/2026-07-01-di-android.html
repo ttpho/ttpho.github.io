@@ -67,7 +67,7 @@ full-width: true
 
         <section id="so-sanh" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
             <div class="mb-8">
-                <h3 class="text-2xl font-bold text-slate-900">1. Công cụ Cố vấn Công nghệ (Decision Engine)</h3>
+                <h3 class="text-2xl font-bold text-slate-900">1. Decision Engine</h3>
                 <p class="text-slate-600 mt-2">Phần này giúp bạn tính toán xem Hilt hay Koin phù hợp hơn dựa trên các đặc tả dự án thực tế của bạn. Chọn các tiêu chí bên dưới để xem kết quả đánh giá tự động.</p>
             </div>
 
@@ -134,7 +134,7 @@ full-width: true
 
             <div class="mt-16 pt-10 border-t border-slate-100 grid lg:grid-cols-2 gap-10 items-center">
                 <div>
-                    <h4 class="font-semibold text-xl mb-4">Trận chiến đa chiều (Radar Chart)</h4>
+                    <h4 class="font-semibold text-xl mb-4">Radar Chart</h4>
                     <p class="text-slate-600 mb-4 text-sm leading-relaxed">
                         Biểu đồ phân tích 5 khía cạnh cốt lõi của hai thư viện. Hilt chiếm ưu thế tuyệt đối về sự an toàn do phát hiện lỗi ngay lúc biên dịch (Compile-time), trong khi Koin tỏa sáng ở khả năng hỗ trợ Đa nền tảng (KMP) và tốc độ biên dịch mã nguồn cực nhanh do không phải sinh code tự động.
                     </p>
@@ -269,7 +269,7 @@ class MainActivity : AppCompatActivity() {
 
         <section id="anr" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="bg-rose-50 p-6 md:p-10 border-b border-rose-100">
-                <h3 class="text-2xl font-bold text-rose-900 mb-2">3. Giải mã Lời đồn: Koin có gây ra lỗi ANR?</h3>
+                <h3 class="text-2xl font-bold text-rose-900 mb-2">3. Koin có gây ra lỗi ANR?</h3>
                 <p class="text-rose-700">Nhiều nhà phát triển cho rằng dùng Koin làm ứng dụng bị treo (Application Not Responding) hơn Hilt do tính chất phân giải lúc Runtime. Tuy nhiên, sự thật có phải như vậy? Phần này phân tích nguyên nhân gốc rễ và đưa ra giải pháp.</p>
             </div>
             
@@ -278,10 +278,10 @@ class MainActivity : AppCompatActivity() {
                     <div class="text-4xl mb-4">🕵️‍♂️</div>
                     <h4 class="text-lg font-bold mb-2">Kết luận nhanh</h4>
                     <p class="text-sm text-slate-600 mb-4">
-                        Koin <span class="font-bold text-rose-600">KHÔNG</span> trực tiếp gây ra ANR nhiều hơn Hilt. Tuy nhiên, ở các dự án có hàng ngàn dependency, việc tra cứu HashMap lúc khởi chạy (`startKoin`) tốn CPU hơn, có thể làm rớt khung hình (Jank) hoặc làm chậm Cold Start (vài mili-giây).
+                        Koin <span class="font-bold text-rose-600">KHÔNG</span> trực tiếp gây ra ANR nhiều hơn Hilt. Tuy nhiên, ở các dự án có hàng ngàn dependency, việc tra cứu HashMap lúc khởi chạy (<code>startKoin</code>) tốn CPU hơn, có thể làm rớt khung hình (Jank) hoặc làm chậm Cold Start (vài mili-giây).
                     </p>
                     <p class="text-sm text-slate-600">
-                        ANR (App treo > 5 giây) thường do sai lầm kinh điển của lập trình viên: **Làm tác vụ I/O nặng bên trong hàm khởi tạo.**
+                        ANR (App treo > 5 giây) thường do sai lầm kinh điển của lập trình viên: Làm tác vụ I/O nặng bên trong hàm khởi tạo.
                     </p>
                 </div>
 
@@ -290,7 +290,7 @@ class MainActivity : AppCompatActivity() {
                         <h4 class="font-bold text-rose-600 flex items-center gap-2 mb-3">
                             <span>❌</span> Nguyên nhân thực sự gây Crash
                         </h4>
-                        <p class="text-sm text-slate-600 mb-3">Dù dùng Hilt hay Koin, nếu bạn đặt tác vụ đọc Database/File vào block `init`, Main Thread sẽ bị chặn cứng khi DI framework khởi tạo class đó.</p>
+                        <p class="text-sm text-slate-600 mb-3">Dù dùng Hilt hay Koin, nếu bạn đặt tác vụ đọc Database/File vào block <code>init</code>, Main Thread sẽ bị chặn cứng khi DI framework khởi tạo class đó.</p>
                         <pre class="bg-slate-800 text-slate-200 p-3 rounded-md text-xs code-font overflow-x-auto"><code>class UserRepository(private val database: AppDatabase) {
     init {
         // LỖI NGHIÊM TRỌNG: Query Database trên Main Thread
