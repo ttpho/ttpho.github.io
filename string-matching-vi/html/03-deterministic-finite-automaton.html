@@ -97,6 +97,10 @@ void search(char *x, int m, char *y, int n) {
 
 <h2>Ví dụ minh họa</h2>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
+<figure style="text-align:center;margin:1.5rem 0;">
+<img src="../images/03-deterministic-finite-automaton.png" alt="Otomat hữu hạn đơn định cho mẫu GCAGAGAG và quá trình chạy trên văn bản GCATCGCAGAGAGTATACAGTACG" style="max-width:100%;height:auto;">
+<figcaption>Hình minh họa otomat hữu hạn đơn định (DFA) và các bước chuyển trạng thái.</figcaption>
+</figure>
 <p>Otomat có 9 trạng thái (0 đến 8). Chuyển "thẳng" theo mẫu là:</p>
 <p>$$0 \xrightarrow{G} 1 \xrightarrow{C} 2 \xrightarrow{A} 3 \xrightarrow{G} 4 \xrightarrow{A} 5 \xrightarrow{G} 6 \xrightarrow{A} 7 \xrightarrow{G} 8$$</p>
 <p>Ngoài các chuyển thẳng này, mọi ký tự khác đưa trạng thái quay về một trạng thái nhỏ hơn (tính theo phần khớp còn giữ được).</p>
