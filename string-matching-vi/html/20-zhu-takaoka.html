@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,9 +27,9 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Là biến thể của Boyer-Moore dùng quy tắc bad-character mở rộng theo CẶP hai ký tự thay vì một ký tự.</li>
-<li>Pha tiền xử lý: O(m + σ²), do phải khởi tạo bảng bad-character hai chiều kích thước σ × σ.</li>
-<li>Bộ nhớ phụ: O(m + σ²) — bảng good-suffix cỡ m và bảng bad-character cỡ σ².</li>
-<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất.</li>
+<li>Pha tiền xử lý: $O(m + \sigma^2)$, do phải khởi tạo bảng bad-character hai chiều kích thước $\sigma \times \sigma$.</li>
+<li>Bộ nhớ phụ: $O(m + \sigma^2)$ — bảng good-suffix cỡ m và bảng bad-character cỡ $\sigma^2$.</li>
+<li>Pha tìm kiếm: $O(mn)$ trong trường hợp xấu nhất.</li>
 <li>Hướng so sánh ký tự: từ phải sang trái trong mỗi cửa sổ.</li>
 <li>Nhờ dùng cặp hai ký tự, bước dịch trung bình lớn hơn Boyer-Moore cổ điển, đặc biệt lợi trên bảng chữ cái nhỏ (như DNA).</li>
 </ul>
@@ -36,11 +40,11 @@ a{color:#246}
 
 <h2>Mô tả chi tiết</h2>
 <p>Thuật toán dùng hai cấu trúc tiền xử lý:</p>
-<p><strong>Bảng bad-character theo cặp <code>ztBc</code>.</strong> Đây là bảng σ × σ. Với mỗi cặp <code>(a, b)</code>, giá trị <code>ztBc[a][b]</code> là khoảng cách dịch nhỏ nhất sao cho cặp ký tự <code>(a, b)</code> được căn thẳng với một cặp ký tự liền kề <code>x[i-1], x[i]</code> trong mẫu. Cách khởi tạo:</p>
+<p><strong>Bảng bad-character theo cặp <code>ztBc</code>.</strong> Đây là bảng $\sigma \times \sigma$. Với mỗi cặp <code>(a, b)</code>, giá trị <code>ztBc[a][b]</code> là khoảng cách dịch nhỏ nhất sao cho cặp ký tự <code>(a, b)</code> được căn thẳng với một cặp ký tự liền kề <code>x[i-1], x[i]</code> trong mẫu. Cách khởi tạo:</p>
 <ul>
-<li>Ban đầu mọi <code>ztBc[a][b] = m</code>.</li>
-<li>Với mỗi <code>a</code>, đặt <code>ztBc[a][x[0]] = m - 1</code> (trường hợp cặp chỉ căn được với ký tự đầu mẫu).</li>
-<li>Với mỗi vị trí <code>i</code> từ 1 đến m-2, đặt <code>ztBc[x[i-1]][x[i]] = m - 1 - i</code>, ghi lại lần xuất hiện gần cuối nhất của mỗi cặp liền kề trong mẫu.</li>
+<li>Ban đầu mọi $ztBc[a][b] = m$.</li>
+<li>Với mỗi <code>a</code>, đặt $ztBc[a][x[0]] = m - 1$ (trường hợp cặp chỉ căn được với ký tự đầu mẫu).</li>
+<li>Với mỗi vị trí <code>i</code> từ 1 đến $m-2$, đặt $ztBc[x[i-1]][x[i]] = m - 1 - i$, ghi lại lần xuất hiện gần cuối nhất của mỗi cặp liền kề trong mẫu.</li>
 </ul>
 <p><strong>Bảng good-suffix <code>bmGs</code>.</strong> Được tính giống hệt Boyer-Moore, dựa trên mảng <code>suff</code>, trong đó <code>suff[i]</code> là độ dài hậu tố chung dài nhất giữa mẫu và tiền tố <code>x[0..i]</code>. Bảng này cho phép dịch dựa trên đoạn hậu tố đã khớp.</p>
 <p>Trong pha tìm kiếm, với cửa sổ tại vị trí j, ta so sánh mẫu với văn bản từ phải sang trái. Nếu khớp toàn bộ, báo một lần xuất hiện rồi dịch theo <code>bmGs[0]</code>. Nếu gặp không khớp tại vị trí i, ta lấy bước dịch bằng giá trị lớn nhất trong hai lựa chọn: <code>bmGs[i]</code> (good-suffix) và <code>ztBc[y[j+m-2]][y[j+m-1]]</code> (bad-character theo cặp hai ký tự cuối của cửa sổ). Việc dùng hai ký tự cuối cửa sổ (chứ không phải ký tự tại vị trí không khớp) là điểm mấu chốt: cặp này cố định với mỗi cửa sổ nên tra bảng được ngay, không phụ thuộc vị trí xảy ra không khớp.</p>

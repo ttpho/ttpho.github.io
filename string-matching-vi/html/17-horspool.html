@@ -15,17 +15,21 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
 <h1>Thuật toán Horspool (Boyer-Moore-Horspool)</h1>
 <h2 id="đặc-điểm-chính">Đặc điểm chính</h2>
 <ul>
-<li>Độ phức tạp tiền xử lý: <strong>O(m + σ)</strong> — chỉ cần một bảng
+<li>Độ phức tạp tiền xử lý: <strong>$O(m + \sigma)$</strong> — chỉ cần một bảng
 bad-character duy nhất.</li>
-<li>Bộ nhớ phụ: <strong>O(σ)</strong> cho bảng <code>bmBc</code> (kích
+<li>Bộ nhớ phụ: <strong>$O(\sigma)$</strong> cho bảng <code>bmBc</code> (kích
 thước bảng chữ cái), không cần bảng good-suffix.</li>
-<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất O(mn)</strong> (có thể tệ
+<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất $O(mn)$</strong> (có thể tệ
 hơn Boyer-Moore đầy đủ trên một số mẫu/văn bản đặc biệt, do bỏ quy tắc
 good-suffix).</li>
 <li>Hướng so sánh ký tự: có thể theo bất kỳ thứ tự nào trong cửa sổ (cài
@@ -64,7 +68,7 @@ là <code>m</code>.</p>
 mặt đúng đắn, thường cài đặt so từ đầu hoặc từ cuối cửa sổ để tận dụng
 việc đã đọc ký tự cuối). Bất kể kết quả so khớp là gì (khớp hay không),
 bước dịch tiếp theo luôn được tính từ ký tự văn bản
-<code>c = y[j+m-1]</code> (ký tự <strong>cuối cửa sổ hiện tại</strong>,
+$c = y[j+m-1]$ (ký tự <strong>cuối cửa sổ hiện tại</strong>,
 không phải ký tự gây lệch): <code>j += bmBc[c]</code>.</p>
 <p>Vì sao cách làm đơn giản này vẫn an toàn (không bỏ sót xuất hiện)?
 Nếu <code>c</code> không xuất hiện ở đâu trong <code>x[0..m-2]</code>,
@@ -80,7 +84,7 @@ kết quả so khớp thế nào (nó là một phần của mẫu cần kiểm 
 nó để tra bảng không tốn thêm chi phí đọc dữ liệu.</p>
 <p>Đánh đổi: vì bỏ qua thông tin good-suffix, trên một số mẫu có cấu
 trúc lặp đặc biệt (ví dụ mẫu gồm toàn một ký tự lặp lại nhiều lần),
-Horspool có thể suy biến về độ phức tạp O(mn) rõ ràng hơn Boyer-Moore
+Horspool có thể suy biến về độ phức tạp $O(mn)$ rõ ràng hơn Boyer-Moore
 gốc. Tuy nhiên trên dữ liệu thực tế với bảng chữ cái vừa hoặc lớn, hiệu
 năng trung bình vẫn vượt trội nhờ tính đơn giản và ít phép tính phụ
 trong vòng lặp chính.</p>

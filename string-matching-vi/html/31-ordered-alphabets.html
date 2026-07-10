@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,11 +27,11 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li><strong>Tiền xử lý mẫu</strong>: không cần — thuật toán không dựng bảng dịch trước, mọi thông tin cần thiết được tính "ngay trong lúc chạy" (on the fly).</li>
-<li><strong>Bộ nhớ phụ</strong>: O(1) — chỉ dùng một số hằng biến đếm, không phụ thuộc vào độ dài mẫu hay bảng chữ.</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(n), tuyến tính theo độ dài văn bản.</li>
-<li><strong>Điều kiện về bảng chữ</strong>: chỉ cần một quan hệ <strong>thứ tự toàn phần</strong>, tức với hai ký tự bất kỳ ta luôn quyết định được một trong ba khả năng <code>&lt;</code>, <code>=</code>, <code>&gt;</code>.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(1)$ — chỉ dùng một số hằng biến đếm, không phụ thuộc vào độ dài mẫu hay bảng chữ.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: $O(n)$, tuyến tính theo độ dài văn bản.</li>
+<li><strong>Điều kiện về bảng chữ</strong>: chỉ cần một quan hệ <strong>thứ tự toàn phần</strong>, tức với hai ký tự bất kỳ ta luôn quyết định được một trong ba khả năng $<$, $=$, $>$.</li>
 <li><strong>Hướng so sánh ký tự</strong>: cửa sổ được so từ trái sang phải; song song đó thuật toán duy trì phân tích <em>maximal suffix</em> của phần đã khớp.</li>
-<li><strong>Giới hạn số phép so sánh</strong>: bị chặn tuyến tính, không vượt quá khoảng 2n.</li>
+<li><strong>Giới hạn số phép so sánh</strong>: bị chặn tuyến tính, không vượt quá khoảng $2n$.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
@@ -43,13 +47,13 @@ a{color:#246}
 <li><code>k</code> — độ lệch trong lần so sánh nội bộ đang tiến hành;</li>
 <li><code>p</code> — chu kỳ hiện tại của maximal suffix.</li>
 </ul>
-<p>Hàm <code>nextMaximalSuffix</code> mở rộng phân tích thêm một ký tự mỗi lần được gọi, dựa hoàn toàn vào việc so sánh <strong>thứ tự</strong> giữa hai ký tự <code>a = w[i+k]</code> và <code>b = w[j+k]</code>:</p>
+<p>Hàm <code>nextMaximalSuffix</code> mở rộng phân tích thêm một ký tự mỗi lần được gọi, dựa hoàn toàn vào việc so sánh <strong>thứ tự</strong> giữa hai ký tự $a = w[i+k]$ và $b = w[j+k]$:</p>
 <ul>
-<li>nếu <code>a == b</code>: hai ký tự bằng nhau, nếu <code>k</code> đạt tới chu kỳ <code>p</code> thì tiến <code>j</code> thêm <code>p</code> và đặt lại <code>k = 1</code>, ngược lại tăng <code>k</code>;</li>
-<li>nếu <code>a &gt; b</code>: ta tìm được một hậu tố lớn hơn, dời <code>j</code> lên và cập nhật chu kỳ <code>p = j - i</code>;</li>
-<li>nếu <code>a &lt; b</code>: điểm bắt đầu maximal suffix dời sang <code>j</code>, khởi động lại <code>k = p = 1</code>.</li>
+<li>nếu $a = b$: hai ký tự bằng nhau, nếu <code>k</code> đạt tới chu kỳ <code>p</code> thì tiến <code>j</code> thêm <code>p</code> và đặt lại $k = 1$, ngược lại tăng <code>k</code>;</li>
+<li>nếu $a > b$: ta tìm được một hậu tố lớn hơn, dời <code>j</code> lên và cập nhật chu kỳ $p = j - i$;</li>
+<li>nếu $a < b$: điểm bắt đầu maximal suffix dời sang <code>j</code>, khởi động lại $k = p = 1$.</li>
 </ul>
-<p>Trong pha tìm kiếm, tại mỗi vị trí cửa sổ <code>j</code> ta so ký tự mẫu với văn bản từ trái sang phải cho tới khi hết mẫu (tìm được một xuất hiện) hoặc gặp sai lệch tại độ lệch <code>i</code>. Sau đó thuật toán gọi <code>nextMaximalSuffix</code> trên đoạn văn bản <code>y[j..j+i]</code> vừa khớp. Nếu đoạn đã khớp có chu kỳ đẹp, ta dịch cửa sổ đúng <code>p</code> bước và giữ lại <code>i - p</code> ký tự đã khớp; ngược lại ta dịch xa hơn và bắt đầu lại phần so sánh. Việc luôn giữ lại được thông tin về phần đã khớp chính là lý do tổng số phép so sánh vẫn tuyến tính dù không dùng bảng nào.</p>
+<p>Trong pha tìm kiếm, tại mỗi vị trí cửa sổ <code>j</code> ta so ký tự mẫu với văn bản từ trái sang phải cho tới khi hết mẫu (tìm được một xuất hiện) hoặc gặp sai lệch tại độ lệch <code>i</code>. Sau đó thuật toán gọi <code>nextMaximalSuffix</code> trên đoạn văn bản $y[j..j+i]$ vừa khớp. Nếu đoạn đã khớp có chu kỳ đẹp, ta dịch cửa sổ đúng <code>p</code> bước và giữ lại $i - p$ ký tự đã khớp; ngược lại ta dịch xa hơn và bắt đầu lại phần so sánh. Việc luôn giữ lại được thông tin về phần đã khớp chính là lý do tổng số phép so sánh vẫn tuyến tính dù không dùng bảng nào.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -134,9 +138,9 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (<code>n = 24</code>).</p>
-<p><strong>Vị trí cửa sổ j = 0</strong>: so <code>x[0]=G</code> với <code>y[0]=G</code> khớp, <code>x[1]=C</code> với <code>y[1]=C</code> khớp, <code>x[2]=A</code> với <code>y[2]=A</code> khớp, rồi <code>x[3]=G</code> với <code>y[3]=T</code> <strong>sai lệch</strong> tại <code>i = 3</code>. Đoạn đã khớp là <code>"GCA"</code>. Thuật toán phân tích maximal suffix của <code>"GCA"</code>: các ký tự đều khác nhau nên chu kỳ <code>p</code> bằng đúng độ dài, cửa sổ được dịch tới ngay sau vùng không lặp.</p>
-<p><strong>Vị trí cửa sổ j = 5</strong>: so <code>x[0..7]</code> với <code>y[5..12] = "GCAGAGAG"</code>. Lần lượt G-G, C-C, A-A, G-G, A-A, G-G, A-A, G-G đều khớp, <code>i</code> đạt <code>m = 8</code>. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong> Đoạn đã khớp <code>"GCAGAGAG"</code> có phần lặp <code>AG</code>, cho chu kỳ nhỏ; thuật toán tận dụng chu kỳ này để dịch mà không phải so lại từ đầu.</p>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> ($n = 24$).</p>
+<p><strong>Vị trí cửa sổ $j = 0$</strong>: so $x[0]=G$ với $y[0]=G$ khớp, $x[1]=C$ với $y[1]=C$ khớp, $x[2]=A$ với $y[2]=A$ khớp, rồi $x[3]=G$ với $y[3]=T$ <strong>sai lệch</strong> tại $i = 3$. Đoạn đã khớp là <code>"GCA"</code>. Thuật toán phân tích maximal suffix của <code>"GCA"</code>: các ký tự đều khác nhau nên chu kỳ <code>p</code> bằng đúng độ dài, cửa sổ được dịch tới ngay sau vùng không lặp.</p>
+<p><strong>Vị trí cửa sổ $j = 5$</strong>: so $x[0..7]$ với $y[5..12] = \text{"GCAGAGAG"}$. Lần lượt G-G, C-C, A-A, G-G, A-A, G-G, A-A, G-G đều khớp, <code>i</code> đạt $m = 8$. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong> Đoạn đã khớp <code>"GCAGAGAG"</code> có phần lặp <code>AG</code>, cho chu kỳ nhỏ; thuật toán tận dụng chu kỳ này để dịch mà không phải so lại từ đầu.</p>
 <p>Sau đó cửa sổ trượt hết phần còn lại <code>"TATACAGTACG"</code> và không tìm thấy xuất hiện nào khác. Tổng số phép so sánh trên toàn bộ quá trình vẫn tuyến tính theo <code>n</code>.</p>
 
 <h2>Tài liệu tham khảo</h2>

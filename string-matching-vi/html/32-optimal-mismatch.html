@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,9 +26,9 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li><strong>Tiền xử lý</strong>: O(m² + σ), với <code>m</code> là độ dài mẫu và <code>σ</code> là kích thước bảng chữ (dựng bảng dịch Quick Search cỡ σ và bảng <code>adaptedGs</code> cỡ m).</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m + σ).</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(mn) trong trường hợp xấu nhất, nhưng rất nhanh trên thực tế nhờ chiến lược sắp thứ tự so sánh thông minh.</li>
+<li><strong>Tiền xử lý</strong>: $O(m^2 + \sigma)$, với <code>m</code> là độ dài mẫu và <code>σ</code> là kích thước bảng chữ (dựng bảng dịch Quick Search cỡ σ và bảng <code>adaptedGs</code> cỡ m).</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m + \sigma)$.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: $O(mn)$ trong trường hợp xấu nhất, nhưng rất nhanh trên thực tế nhờ chiến lược sắp thứ tự so sánh thông minh.</li>
 <li><strong>Hướng so sánh ký tự</strong>: các vị trí của mẫu được so <strong>không tuần tự</strong>, mà theo thứ tự <strong>tần suất tăng dần</strong>: ký tự càng hiếm trong văn bản càng được so trước.</li>
 <li><strong>Ý tưởng chủ đạo</strong>: gặp sai lệch càng sớm càng tốt để dịch cửa sổ càng nhanh.</li>
 </ul>
@@ -35,10 +39,10 @@ a{color:#246}
 
 <h2>Mô tả chi tiết</h2>
 <p>Thuật toán cần ba cấu trúc tiền xử lý.</p>
-<p><strong>1. Thứ tự so sánh (<code>orderPattern</code>).</strong> Với mỗi vị trí <code>i</code> của mẫu ta lập một cặp <code>(loc = i, c = x[i])</code>. Các cặp được sắp xếp theo tần suất của ký tự <code>c</code> trong văn bản tăng dần; khi hai ký tự có cùng tần suất, ta phá hoà bằng vị trí lớn hơn xếp trước. Kết quả là mảng <code>pat[]</code>: <code>pat[0]</code> là vị trí "đáng so nhất" (ký tự hiếm nhất), <code>pat[m-1]</code> là vị trí ít ưu tiên nhất.</p>
-<p><strong>2. Bảng dịch Quick Search (<code>qsBc</code>).</strong> Giống thuật toán Quick Search, bảng này cho biết dịch bao xa dựa vào ký tự văn bản <strong>ngay sau cửa sổ</strong>, tức <code>y[j+m]</code>. Với mỗi ký tự <code>a</code>: <code>qsBc[a] = m - i</code> với <code>i</code> là vị trí xuất hiện phải nhất của <code>a</code> trong mẫu, hoặc <code>m + 1</code> nếu <code>a</code> không có trong mẫu.</p>
-<p><strong>3. Bảng <code>adaptedGs</code>.</strong> Đây là biến thể của quy tắc "good suffix" nhưng thích ứng với thứ tự so sánh đã đảo. <code>adaptedGs[k]</code> cho biết cần dịch cửa sổ bao nhiêu khi ta đã khớp thành công <code>k</code> vị trí đầu tiên (theo thứ tự <code>pat</code>) rồi mới gặp sai lệch (hoặc khớp toàn bộ khi <code>k = m</code>). Bảng được dựng bằng hàm <code>matchShift</code>, tính lượng dịch nhỏ nhất sao cho các vị trí đã kiểm tra vẫn nhất quán khi cửa sổ dời chỗ.</p>
-<p>Trong pha tìm kiếm, tại vị trí cửa sổ <code>j</code> ta so lần lượt <code>pat[0], pat[1], …</code>: kiểm tra <code>pat[i].c</code> với <code>y[j + pat[i].loc]</code>. Nếu tất cả <code>m</code> vị trí khớp, ghi nhận xuất hiện tại <code>j</code>. Lượng dịch là giá trị lớn hơn giữa <code>adaptedGs[i]</code> (i là số vị trí đã khớp) và <code>qsBc[y[j+m]]</code>.</p>
+<p><strong>1. Thứ tự so sánh (<code>orderPattern</code>).</strong> Với mỗi vị trí <code>i</code> của mẫu ta lập một cặp $(loc = i, c = x[i])$. Các cặp được sắp xếp theo tần suất của ký tự <code>c</code> trong văn bản tăng dần; khi hai ký tự có cùng tần suất, ta phá hoà bằng vị trí lớn hơn xếp trước. Kết quả là mảng <code>pat[]</code>: <code>pat[0]</code> là vị trí "đáng so nhất" (ký tự hiếm nhất), $pat[m-1]$ là vị trí ít ưu tiên nhất.</p>
+<p><strong>2. Bảng dịch Quick Search (<code>qsBc</code>).</strong> Giống thuật toán Quick Search, bảng này cho biết dịch bao xa dựa vào ký tự văn bản <strong>ngay sau cửa sổ</strong>, tức $y[j+m]$. Với mỗi ký tự <code>a</code>: $qsBc[a] = m - i$ với <code>i</code> là vị trí xuất hiện phải nhất của <code>a</code> trong mẫu, hoặc $m + 1$ nếu <code>a</code> không có trong mẫu.</p>
+<p><strong>3. Bảng <code>adaptedGs</code>.</strong> Đây là biến thể của quy tắc "good suffix" nhưng thích ứng với thứ tự so sánh đã đảo. <code>adaptedGs[k]</code> cho biết cần dịch cửa sổ bao nhiêu khi ta đã khớp thành công <code>k</code> vị trí đầu tiên (theo thứ tự <code>pat</code>) rồi mới gặp sai lệch (hoặc khớp toàn bộ khi $k = m$). Bảng được dựng bằng hàm <code>matchShift</code>, tính lượng dịch nhỏ nhất sao cho các vị trí đã kiểm tra vẫn nhất quán khi cửa sổ dời chỗ.</p>
+<p>Trong pha tìm kiếm, tại vị trí cửa sổ <code>j</code> ta so lần lượt $pat[0], pat[1], \dots$: kiểm tra <code>pat[i].c</code> với $y[j + pat[i].loc]$. Nếu tất cả <code>m</code> vị trí khớp, ghi nhận xuất hiện tại <code>j</code>. Lượng dịch là giá trị lớn hơn giữa <code>adaptedGs[i]</code> (i là số vị trí đã khớp) và $qsBc[y[j+m]]$.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -152,10 +156,10 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
 <p>Trước hết đếm tần suất trong văn bản: <code>A</code> và <code>G</code> xuất hiện nhiều, còn <code>C</code>, <code>T</code> ít hơn. Khi sắp thứ tự so sánh, các vị trí mang ký tự hiếm (ví dụ vị trí 1 mang <code>C</code>) được đẩy lên đầu mảng <code>pat</code>, còn các vị trí mang <code>A</code>/<code>G</code> xuống cuối.</p>
-<p><strong>Vị trí cửa sổ j = 0</strong> (<code>y[0..7] = "GCATCGCA"</code>): thay vì so <code>x[0]=G</code> trước, thuật toán so vị trí ưu tiên nhất — chẳng hạn vị trí 1 (<code>C</code>). Ở đây <code>y[0+1] = C</code> khớp, nên nó so tiếp các vị trí sau; đến vị trí mang <code>G</code> tại chỉ số 3, <code>y[0+3] = T</code> <strong>sai lệch</strong>. Cửa sổ dịch theo <code>max(adaptedGs, qsBc[y[8]])</code>.</p>
-<p><strong>Vị trí cửa sổ j = 5</strong> (<code>y[5..12] = "GCAGAGAG"</code>): mọi vị trí trong <code>pat</code> đều khớp, thuật toán duyệt hết <code>m</code> vị trí và <strong>ghi nhận xuất hiện tại vị trí 5</strong>. Sau đó dịch tiếp bằng <code>adaptedGs[m]</code>.</p>
+<p><strong>Vị trí cửa sổ $j = 0$</strong> (<code>y[0..7] = "GCATCGCA"</code>): thay vì so $x[0]=G$ trước, thuật toán so vị trí ưu tiên nhất — chẳng hạn vị trí 1 (<code>C</code>). Ở đây $y[0+1] = C$ khớp, nên nó so tiếp các vị trí sau; đến vị trí mang <code>G</code> tại chỉ số 3, $y[0+3] = T$ <strong>sai lệch</strong>. Cửa sổ dịch theo $\max(adaptedGs, qsBc[y[8]])$.</p>
+<p><strong>Vị trí cửa sổ $j = 5$</strong> (<code>y[5..12] = "GCAGAGAG"</code>): mọi vị trí trong <code>pat</code> đều khớp, thuật toán duyệt hết <code>m</code> vị trí và <strong>ghi nhận xuất hiện tại vị trí 5</strong>. Sau đó dịch tiếp bằng <code>adaptedGs[m]</code>.</p>
 <p>Nhờ so ký tự hiếm trước, ở đa số vị trí không khớp, thuật toán chỉ tốn một hoặc hai phép so sánh là đã loại được vị trí đó.</p>
 
 <h2>Tài liệu tham khảo</h2>

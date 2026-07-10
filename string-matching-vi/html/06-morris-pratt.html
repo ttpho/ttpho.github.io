@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,11 +26,11 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li><strong>Tiền xử lý</strong>: O(m) để xây bảng biên (border table / failure function) của mẫu.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m) cho bảng biên gồm <code>m + 1</code> phần tử.</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(n + m); tổng số phép so sánh ký tự tối đa <code>2n - 1</code>.</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ để xây bảng biên (border table / failure function) của mẫu.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m)$ cho bảng biên gồm $m + 1$ phần tử.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: $O(n + m)$; tổng số phép so sánh ký tự tối đa $2n - 1$.</li>
 <li><strong>Hướng so sánh ký tự</strong>: trái sang phải.</li>
-<li><strong>Độ trễ</strong>: số phép so sánh trên một ký tự văn bản bị chặn bởi độ trễ ≤ m (do có thể lùi nhiều bước trong bảng biên trước khi tiến).</li>
+<li><strong>Độ trễ</strong>: số phép so sánh trên một ký tự văn bản bị chặn bởi độ trễ $\le m$ (do có thể lùi nhiều bước trong bảng biên trước khi tiến).</li>
 </ul>
 
 <h2>Ý tưởng</h2>
@@ -44,7 +48,7 @@ lặp i từ 0 đến m-1:
     i++, j++
     mpNext[i] = j</code></pre>
 <p><strong>Pha tìm kiếm</strong>: dùng cùng cơ chế con trỏ. Duy trì con trỏ <code>j</code> chỉ vào mẫu; duyệt văn bản bằng con trỏ <code>i</code>. Khi <code>x[j]</code> khác <code>y[i]</code>, ta lùi <code>j</code> theo bảng biên (<code>j = mpNext[j]</code>) cho tới khi khớp lại hoặc <code>j = -1</code>. Khi <code>j</code> đạt <code>m</code>, ta báo một xuất hiện rồi tiếp tục lùi <code>j</code> theo bảng biên để tìm xuất hiện chồng lấn tiếp theo.</p>
-<p>Vì con trỏ văn bản <code>i</code> chỉ tăng, và mỗi lần lùi <code>j</code> tương ứng với một lần <code>j</code> đã tăng trước đó, tổng số thao tác bị chặn tuyến tính; số phép so sánh ký tự trong pha tìm kiếm tối đa là <code>2n - 1</code>.</p>
+<p>Vì con trỏ văn bản <code>i</code> chỉ tăng, và mỗi lần lùi <code>j</code> tương ứng với một lần <code>j</code> đã tăng trước đó, tổng số thao tác bị chặn tuyến tính; số phép so sánh ký tự trong pha tìm kiếm tối đa là $2n - 1$.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -86,7 +90,7 @@ void search(char *x, int m, char *y, int n) {
 
     free(mpNext);
 }</code></pre>
-<p>Ở đây <code>i</code> là con trỏ trên mẫu, <code>j</code> là con trỏ trên văn bản (luôn tăng). Mỗi khi <code>i</code> đạt <code>m</code>, ta in vị trí bắt đầu <code>j - i</code> rồi lùi <code>i</code> về <code>mpNext[i]</code> để tiếp tục.</p>
+<p>Ở đây <code>i</code> là con trỏ trên mẫu, <code>j</code> là con trỏ trên văn bản (luôn tăng). Mỗi khi <code>i</code> đạt <code>m</code>, ta in vị trí bắt đầu $j - i$ rồi lùi <code>i</code> về <code>mpNext[i]</code> để tiếp tục.</p>
 
 <h2>Ví dụ minh họa</h2>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>).</p>
@@ -100,7 +104,7 @@ void search(char *x, int m, char *y, int n) {
 <p><strong>Tìm kiếm</strong> trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>:</p>
 <p>Bắt đầu <code>i = 0, j = 0</code>. So khớp <code>x[0..2] = "GCA"</code> với <code>y[0..2] = "GCA"</code> thành công, <code>i</code> và <code>j</code> cùng tăng tới <code>i = 3, j = 3</code>. Tại đây <code>x[3]='G'</code> khác <code>y[3]='T'</code> → sai lệch. Ta lùi <code>i = mpNext[3] = 0</code>. Vì <code>x[0]='G'</code> vẫn khác <code>y[3]='T'</code>, lùi tiếp <code>i = mpNext[0] = -1</code>, rồi <code>i++, j++</code> thành <code>i = 0, j = 4</code>.</p>
 <p>Điểm quan trọng: <strong>con trỏ văn bản <code>j</code> không hề lùi</strong> — ta không so lại <code>y[0..2]</code>. Đây chính là ưu điểm so với vét cạn.</p>
-<p>Tiếp tục: tại <code>j = 4</code> (<code>y[4]='C'</code>), <code>x[0]='G'</code> khác nên <code>i</code> giữ ở 0, <code>j</code> tăng lên 5. Từ <code>j = 5</code>, đoạn <code>y[5..12] = "GCAGAGAG"</code> khớp toàn bộ mẫu; <code>i</code> tăng dần tới <code>i = 8</code> khi <code>j = 13</code>. Lúc <code>i</code> đạt <code>m = 8</code>, ta báo <strong>xuất hiện tại vị trí <code>j - i = 13 - 8 = 5</code></strong>, rồi lùi <code>i = mpNext[8] = 1</code> để tiếp tục tìm.</p>
+<p>Tiếp tục: tại <code>j = 4</code> (<code>y[4]='C'</code>), <code>x[0]='G'</code> khác nên <code>i</code> giữ ở 0, <code>j</code> tăng lên 5. Từ <code>j = 5</code>, đoạn <code>y[5..12] = "GCAGAGAG"</code> khớp toàn bộ mẫu; <code>i</code> tăng dần tới <code>i = 8</code> khi <code>j = 13</code>. Lúc <code>i</code> đạt <code>m = 8</code>, ta báo <strong>xuất hiện tại vị trí $j - i = 13 - 8 = 5$</strong>, rồi lùi <code>i = mpNext[8] = 1</code> để tiếp tục tìm.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

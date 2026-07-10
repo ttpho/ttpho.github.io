@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,25 +27,25 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Mô phỏng ôtômat hữu hạn đơn định nhận dạng mọi văn bản kết thúc bằng mẫu, nhưng chỉ lưu các <strong>cạnh "đáng kể"</strong> (significant edges) thay vì toàn bộ hàm chuyển.</li>
-<li>Số cạnh đáng kể (cạnh lui) tối đa là <strong>m − 1</strong>, nên tổng bộ nhớ chỉ <strong>O(m)</strong> thay vì O(m·σ) như DFA đầy đủ.</li>
-<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> (kèm chi phí sắp xếp/tra cứu tuỳ cách cài đặt cấu trúc danh sách cạnh).</li>
-<li>Độ phức tạp pha tìm kiếm: <strong>O(n + m)</strong>.</li>
+<li>Số cạnh đáng kể (cạnh lui) tối đa là <strong>$m - 1$</strong>, nên tổng bộ nhớ chỉ <strong>$O(m)$</strong> thay vì $O(m \cdot \sigma)$ như DFA đầy đủ.</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>$O(m)$</strong> (kèm chi phí sắp xếp/tra cứu tuỳ cách cài đặt cấu trúc danh sách cạnh).</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>$O(n + m)$</strong>.</li>
 <li>So sánh ký tự theo hướng <strong>từ trái sang phải</strong>.</li>
-<li>Độ trễ (số cạnh phải dò trước khi tiến một ký tự văn bản) bị chặn bởi <strong>min(1 + log₂ m, σ)</strong>, với σ là kích thước bảng chữ cái.</li>
+<li>Độ trễ (số cạnh phải dò trước khi tiến một ký tự văn bản) bị chặn bởi <strong>$\min(1 + \log_2 m, \sigma)$</strong>, với $\sigma$ là kích thước bảng chữ cái.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
-<p>Otomat so khớp chuỗi kinh điển (xem thuật toán DFA) có <code>m + 1</code> trạng thái <code>0, 1, …, m</code>; từ trạng thái <code>q</code> gặp ký tự <code>x[q]</code> thì đi tiếp sang <code>q+1</code> (cạnh "tiến"), còn với mọi ký tự khác thì lùi về một trạng thái nào đó (cạnh "lui"). DFA đầy đủ phải lưu σ cạnh cho mỗi trạng thái, tốn O(m·σ) bộ nhớ.</p>
-<p>Simon nhận xét rằng đa số các cạnh lui đều dẫn về cùng những trạng thái mà ta có thể suy lại từ bảng biên của mẫu; chỉ một số ít cạnh là thật sự "đáng kể" — tức không thể tái tạo bằng quy tắc mặc định. Cụ thể, cạnh lui từ <code>q</code> theo ký tự <code>c</code> là đáng kể khi nó dẫn tới một trạng thái <em>lớn hơn</em> trạng thái mà quy tắc mặc định (dựa trên biên) đưa ra. Người ta chứng minh được số cạnh đáng kể như vậy không vượt quá <code>m − 1</code>. Nhờ đó ta lưu ôtômat bằng O(m) bộ nhớ mà vẫn tính được hàm chuyển trong thời gian phân bổ hằng số.</p>
+<p>Otomat so khớp chuỗi kinh điển (xem thuật toán DFA) có $m + 1$ trạng thái $0, 1, \dots, m$; từ trạng thái <code>q</code> gặp ký tự <code>x[q]</code> thì đi tiếp sang $q+1$ (cạnh "tiến"), còn với mọi ký tự khác thì lùi về một trạng thái nào đó (cạnh "lui"). DFA đầy đủ phải lưu $\sigma$ cạnh cho mỗi trạng thái, tốn $O(m \cdot \sigma)$ bộ nhớ.</p>
+<p>Simon nhận xét rằng đa số các cạnh lui đều dẫn về cùng những trạng thái mà ta có thể suy lại từ bảng biên của mẫu; chỉ một số ít cạnh là thật sự "đáng kể" — tức không thể tái tạo bằng quy tắc mặc định. Cụ thể, cạnh lui từ <code>q</code> theo ký tự <code>c</code> là đáng kể khi nó dẫn tới một trạng thái <em>lớn hơn</em> trạng thái mà quy tắc mặc định (dựa trên biên) đưa ra. Người ta chứng minh được số cạnh đáng kể như vậy không vượt quá $m - 1$. Nhờ đó ta lưu ôtômat bằng $O(m)$ bộ nhớ mà vẫn tính được hàm chuyển trong thời gian phân bổ hằng số.</p>
 
 <h2>Mô tả chi tiết</h2>
 <p>Trước hết tính bảng biên <code>border[q]</code> = độ dài biên dài nhất của <code>x[0..q-1]</code>, giống Morris-Pratt.</p>
-<p>Với mỗi trạng thái <code>q</code> (từ 2 đến m − 1), ta xét chuỗi các biên <code>b = border[q], border[border[q]], …</code>. Với mỗi biên <code>b &gt; 0</code> mà ký tự đi sau nó <code>x[b]</code> <strong>khác</strong> <code>x[q]</code> (nghĩa là không phải cạnh tiến), cạnh chuyển từ <code>q</code> theo ký tự <code>x[b]</code> sang trạng thái <code>b + 1</code> là một cạnh đáng kể — trừ khi đã có một cạnh đáng kể khác từ <code>q</code> theo cùng ký tự <code>x[b]</code> dẫn tới trạng thái lớn hơn (khi đó cạnh dài hơn "phủ" cạnh này). Ta lưu tập cạnh đáng kể của mỗi trạng thái trong một danh sách móc nối <code>L[q]</code>.</p>
-<p>Hàm chuyển <code>δ(q, c)</code> được tính như sau:</p>
+<p>Với mỗi trạng thái <code>q</code> (từ 2 đến $m - 1$), ta xét chuỗi các biên $b = border[q], border[border[q]], \dots$. Với mỗi biên $b > 0$ mà ký tự đi sau nó <code>x[b]</code> <strong>khác</strong> <code>x[q]</code> (nghĩa là không phải cạnh tiến), cạnh chuyển từ <code>q</code> theo ký tự <code>x[b]</code> sang trạng thái $b + 1$ là một cạnh đáng kể — trừ khi đã có một cạnh đáng kể khác từ <code>q</code> theo cùng ký tự <code>x[b]</code> dẫn tới trạng thái lớn hơn (khi đó cạnh dài hơn "phủ" cạnh này). Ta lưu tập cạnh đáng kể của mỗi trạng thái trong một danh sách móc nối <code>L[q]</code>.</p>
+<p>Hàm chuyển $\delta(q, c)$ được tính như sau:</p>
 <ol>
-<li>Nếu <code>q &lt; m</code> và <code>c == x[q]</code>: trả về <code>q + 1</code> (cạnh tiến).</li>
+<li>Nếu $q < m$ và $c = x[q]$: trả về $q + 1$ (cạnh tiến).</li>
 <li>Ngược lại, dò danh sách <code>L[q]</code>: nếu có cạnh đáng kể theo ký tự <code>c</code> thì trả về trạng thái đích của nó.</li>
-<li>Nếu không: áp quy tắc mặc định — trả về <code>1</code> khi <code>c == x[0]</code>, và <code>0</code> trong các trường hợp còn lại.</li>
+<li>Nếu không: áp quy tắc mặc định — trả về <code>1</code> khi $c = x[0]$, và <code>0</code> trong các trường hợp còn lại.</li>
 </ol>
 <p>Pha tìm kiếm chỉ việc chạy ôtômat: đọc lần lượt từng ký tự văn bản, cập nhật trạng thái; mỗi khi trạng thái đạt <code>m</code> thì báo tìm thấy và lùi trạng thái về <code>border[m]</code> để tiếp tục.</p>
 
@@ -132,10 +136,9 @@ void search(char *x, int m, char *y, int n) {
 <li>Từ trạng thái 6, gặp ký tự <code>C</code> → sang trạng thái 2.</li>
 </ul>
 <p>Chạy ôtômat trên các ký tự đầu:</p>
-<pre><code>q=0 --G--&gt; 1 --C--&gt; 2 --A--&gt; 3 --T--&gt; 0 --C--&gt; 0 --G--&gt; 1
-    --C--&gt; 2 --A--&gt; 3 --G--&gt; 4 --A--&gt; 5 --G--&gt; 6 --A--&gt; 7
-    --G--&gt; 8   =&gt; tìm thấy tại vị trí 5, lùi về border[8]=1</code></pre>
-<p>Ta thấy hầu hết các bước chỉ dùng cạnh tiến hoặc cạnh mặc định; các cạnh đáng kể (như <code>4 --C--&gt; 2</code>) chỉ được dùng khi văn bản dẫn thuật toán vào đúng tình huống cần đến chúng.</p>
+<p>$$q=0 \xrightarrow{G} 1 \xrightarrow{C} 2 \xrightarrow{A} 3 \xrightarrow{T} 0 \xrightarrow{C} 0 \xrightarrow{G} 1 \xrightarrow{C} 2 \xrightarrow{A} 3 \xrightarrow{G} 4 \xrightarrow{A} 5 \xrightarrow{G} 6 \xrightarrow{A} 7 \xrightarrow{G} 8$$</p>
+<p>(tìm thấy tại vị trí 5, lùi về <code>border[8] = 1</code>)</p>
+<p>Ta thấy hầu hết các bước chỉ dùng cạnh tiến hoặc cạnh mặc định; các cạnh đáng kể (như $4 \xrightarrow{C} 2$) chỉ được dùng khi văn bản dẫn thuật toán vào đúng tình huống cần đến chúng.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

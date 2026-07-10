@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,9 +27,9 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Là bản tinh chỉnh về mặt hiện thực của thuật toán Boyer-Moore-Horspool, tập trung vào tốc độ chạy thực tế chứ không thay đổi độ phức tạp lý thuyết.</li>
-<li>Pha tiền xử lý: O(m + σ), trong đó m là độ dài mẫu và σ là kích thước bảng chữ cái.</li>
-<li>Bộ nhớ phụ: O(σ) cho một bảng bad-character duy nhất.</li>
-<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất, nhưng dưới tuyến tính (sublinear) trong thực tế; số phép so sánh trung bình rất thấp.</li>
+<li>Pha tiền xử lý: $O(m + \sigma)$, trong đó m là độ dài mẫu và σ là kích thước bảng chữ cái.</li>
+<li>Bộ nhớ phụ: $O(\sigma)$ cho một bảng bad-character duy nhất.</li>
+<li>Pha tìm kiếm: $O(mn)$ trong trường hợp xấu nhất, nhưng dưới tuyến tính (sublinear) trong thực tế; số phép so sánh trung bình rất thấp.</li>
 <li>Hướng so sánh ký tự: từ phải sang trái trong mỗi cửa sổ (giống Horspool).</li>
 <li>Không có chặn tuyến tính chặt chẽ về số phép so sánh, nhưng "vòng lặp nhanh" giúp loại bỏ phần lớn chi phí điều kiện dừng.</li>
 </ul>
@@ -35,15 +39,15 @@ a{color:#246}
 <p>Để vòng dò tìm này chạy nhanh nhất có thể, người ta áp dụng hai kỹ thuật hiện thực quan trọng: (1) giãn vòng lặp (loop unrolling) ba lần để giảm chi phí kiểm tra điều kiện dừng của vòng lặp, và (2) đặt một "lính canh" (sentinel) bằng cách chép chính mẫu vào ngay sau cuối văn bản, nhờ đó vòng dò tìm luôn dừng lại một cách tự nhiên mà không cần so sánh chỉ số j với n ở mỗi bước.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p>Thuật toán dùng một bảng <code>bmBc</code> giống hệt Horspool: với mỗi ký tự <code>a</code> của bảng chữ cái, <code>bmBc[a]</code> bằng khoảng cách từ lần xuất hiện cuối cùng của <code>a</code> trong <code>m-1</code> ký tự đầu của mẫu tới cuối mẫu; nếu <code>a</code> không xuất hiện thì giá trị bằng m.</p>
+<p>Thuật toán dùng một bảng <code>bmBc</code> giống hệt Horspool: với mỗi ký tự <code>a</code> của bảng chữ cái, <code>bmBc[a]</code> bằng khoảng cách từ lần xuất hiện cuối cùng của <code>a</code> trong $m-1$ ký tự đầu của mẫu tới cuối mẫu; nếu <code>a</code> không xuất hiện thì giá trị bằng m.</p>
 <p>Điểm khác biệt nằm ở cơ chế điều khiển vòng lặp:</p>
 <ul>
-<li>Ta lưu lại giá trị dịch thật sự của ký tự cuối mẫu, gọi là <code>shift = bmBc[x[m-1]]</code> (giá trị này luôn dương và bằng khoảng cách tới lần xuất hiện áp chót của ký tự cuối, hoặc m nếu không có).</li>
-<li>Sau đó ta ĐẶT <code>bmBc[x[m-1]] = 0</code>. Nhờ vậy, trong vòng dò tìm, khi ký tự văn bản đối diện ký tự cuối mẫu chính là ký tự cuối mẫu, giá trị dịch tra được sẽ bằng 0 và vòng dò tìm dừng lại.</li>
+<li>Ta lưu lại giá trị dịch thật sự của ký tự cuối mẫu, gọi là $shift = bmBc[x[m-1]]$ (giá trị này luôn dương và bằng khoảng cách tới lần xuất hiện áp chót của ký tự cuối, hoặc m nếu không có).</li>
+<li>Sau đó ta ĐẶT $bmBc[x[m-1]] = 0$. Nhờ vậy, trong vòng dò tìm, khi ký tự văn bản đối diện ký tự cuối mẫu chính là ký tự cuối mẫu, giá trị dịch tra được sẽ bằng 0 và vòng dò tìm dừng lại.</li>
 <li>Vòng dò tìm nhanh liên tục cộng giá trị <code>bmBc[y[j+m-1]]</code> vào j. Vì ta đã giãn vòng lặp ba lần, mỗi vòng thực hiện ba lần cộng dồn liên tiếp mà chỉ kiểm tra điều kiện dừng một lần.</li>
 <li>Để vòng dò tìm không vượt quá mảng, ta chép mẫu vào vị trí <code>y[n..n+m-1]</code> làm lính canh. Do lính canh chính là mẫu nên ký tự cuối của nó luôn khiến vòng dò tìm dừng, đảm bảo j không chạy vô hạn.</li>
 </ul>
-<p>Khi vòng dò tìm dừng (giá trị dịch bằng 0, tức ký tự cuối đã khớp), ta thực hiện so khớp "ngây thơ" (naive) <code>m-1</code> ký tự còn lại từ trái sang phải. Nếu tất cả khớp và j vẫn nằm trong văn bản thật (j &lt; n) thì báo một lần xuất hiện. Cuối cùng dịch cửa sổ đi <code>shift</code> để tiếp tục.</p>
+<p>Khi vòng dò tìm dừng (giá trị dịch bằng 0, tức ký tự cuối đã khớp), ta thực hiện so khớp "ngây thơ" (naive) $m-1$ ký tự còn lại từ trái sang phải. Nếu tất cả khớp và j vẫn nằm trong văn bản thật ($j < n$) thì báo một lần xuất hiện. Cuối cùng dịch cửa sổ đi <code>shift</code> để tiếp tục.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;

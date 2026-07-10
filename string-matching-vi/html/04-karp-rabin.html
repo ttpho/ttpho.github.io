@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,11 +26,11 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li><strong>Tiền xử lý</strong>: O(m) để tính giá trị băm của mẫu và hằng số lũy thừa dùng cho việc gỡ ký tự đầu cửa sổ.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(1) — chỉ một vài biến số nguyên.</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: kỳ vọng O(n + m) với hàm băm tốt; trường hợp xấu nhất O(mn) khi xảy ra nhiều va chạm băm.</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ để tính giá trị băm của mẫu và hằng số lũy thừa dùng cho việc gỡ ký tự đầu cửa sổ.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(1)$ — chỉ một vài biến số nguyên.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: kỳ vọng $O(n + m)$ với hàm băm tốt; trường hợp xấu nhất $O(mn)$ khi xảy ra nhiều va chạm băm.</li>
 <li><strong>Hướng so sánh ký tự</strong>: trái sang phải (khi cần kiểm tra lại sau va chạm băm).</li>
-<li><strong>Rehash</strong>: cập nhật giá trị băm khi cửa sổ trượt một vị trí chỉ tốn O(1) nhờ kỹ thuật băm cuộn (rolling hash).</li>
+<li><strong>Rehash</strong>: cập nhật giá trị băm khi cửa sổ trượt một vị trí chỉ tốn $O(1)$ nhờ kỹ thuật băm cuộn (rolling hash).</li>
 </ul>
 
 <h2>Ý tưởng</h2>
@@ -34,13 +38,13 @@ a{color:#246}
 <p>Mấu chốt để thuật toán nhanh là hàm băm phải cho phép tính giá trị của cửa sổ tiếp theo từ cửa sổ hiện tại trong thời gian hằng số, thay vì tính lại từ đầu. Đây chính là kỹ thuật <strong>băm cuộn</strong>.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p>Coi mỗi ký tự như một chữ số trong hệ cơ số <code>d</code> (thường lấy <code>d = 2</code> để nhân bằng phép dịch bit, hoặc <code>d</code> bằng kích thước bảng chữ cái). Giá trị băm của chuỗi <code>y[j .. j+m-1]</code> được định nghĩa theo kiểu đa thức:</p>
-<pre><code>hash = y[j]·d^(m-1) + y[j+1]·d^(m-2) + ... + y[j+m-1]·d^0</code></pre>
+<p>Coi mỗi ký tự như một chữ số trong hệ cơ số <code>d</code> (thường lấy $d = 2$ để nhân bằng phép dịch bit, hoặc <code>d</code> bằng kích thước bảng chữ cái). Giá trị băm của chuỗi $y[j \,..\, j+m-1]$ được định nghĩa theo kiểu đa thức:</p>
+<p>$$\text{hash} = y[j] \cdot d^{m-1} + y[j+1] \cdot d^{m-2} + \cdots + y[j+m-1] \cdot d^0$$</p>
 <p>thường được lấy dư theo một số nguyên tố lớn <code>q</code> để tránh tràn số.</p>
-<p>Khi trượt cửa sổ từ vị trí <code>j</code> sang <code>j+1</code>, ta cần <strong>gỡ</strong> ký tự <code>y[j]</code> ở đầu và <strong>thêm</strong> ký tự <code>y[j+m]</code> ở cuối:</p>
-<pre><code>hash_moi = (hash_cu - y[j]·d^(m-1))·d + y[j+m]</code></pre>
-<p>Phép cập nhật này chỉ gồm vài phép nhân, trừ, cộng, nên tốn O(1). Hằng số <code>d^(m-1)</code> được tính sẵn trong pha tiền xử lý.</p>
-<p>Thuật toán tính giá trị băm <code>hx</code> của mẫu và <code>hy</code> của cửa sổ đầu tiên, rồi trượt cửa sổ dọc văn bản. Tại mỗi vị trí, nếu <code>hx == hy</code> thì kiểm tra lại toàn bộ ký tự để loại trừ va chạm; nếu khớp thật thì báo xuất hiện. Với hàm băm phân bố tốt, số va chạm rất ít nên tổng thời gian kỳ vọng là O(n + m).</p>
+<p>Khi trượt cửa sổ từ vị trí <code>j</code> sang $j+1$, ta cần <strong>gỡ</strong> ký tự <code>y[j]</code> ở đầu và <strong>thêm</strong> ký tự <code>y[j+m]</code> ở cuối:</p>
+<p>$$\text{hash\_moi} = (\text{hash\_cu} - y[j] \cdot d^{m-1}) \cdot d + y[j+m]$$</p>
+<p>Phép cập nhật này chỉ gồm vài phép nhân, trừ, cộng, nên tốn $O(1)$. Hằng số $d^{m-1}$ được tính sẵn trong pha tiền xử lý.</p>
+<p>Thuật toán tính giá trị băm <code>hx</code> của mẫu và <code>hy</code> của cửa sổ đầu tiên, rồi trượt cửa sổ dọc văn bản. Tại mỗi vị trí, nếu $\text{hx} = \text{hy}$ thì kiểm tra lại toàn bộ ký tự để loại trừ va chạm; nếu khớp thật thì báo xuất hiện. Với hàm băm phân bố tốt, số va chạm rất ít nên tổng thời gian kỳ vọng là $O(n + m)$.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -75,14 +79,14 @@ void search(char *x, int m, char *y, int n) {
         j++;
     }
 }</code></pre>
-<p>Ở đây phép so sánh xác nhận dùng <code>memcmp</code> để đối chiếu <code>m</code> ký tự khi hai băm trùng nhau. Kỹ thuật băm dùng cơ số 2 và để số học <code>int</code> tự tràn (một dạng modulo <code>2^k</code>) giúp cài đặt gọn.</p>
+<p>Ở đây phép so sánh xác nhận dùng <code>memcmp</code> để đối chiếu <code>m</code> ký tự khi hai băm trùng nhau. Kỹ thuật băm dùng cơ số 2 và để số học <code>int</code> tự tràn (một dạng modulo $2^k$) giúp cài đặt gọn.</p>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>. Giả sử mã ASCII: <code>G=71, C=67, A=65, T=84</code>.</p>
-<p>Tính <code>hx</code> = giá trị băm của <code>"GCAGAGAG"</code> và <code>hy</code> = giá trị băm của cửa sổ đầu tiên <code>"GCATCGCA"</code>. Hai giá trị này khác nhau (vì hai chuỗi khác nhau), nên tại <code>j = 0</code> ta bỏ qua mà không so sánh ký tự.</p>
-<p>Trượt cửa sổ: gỡ <code>y[0]='G'</code>, thêm <code>y[8]='A'</code>, cập nhật <code>hy</code> cho cửa sổ <code>"CATCGCAG"</code> chỉ bằng công thức REHASH — một phép trừ, một phép dịch, một phép cộng. So <code>hx</code> với <code>hy</code> mới; vẫn khác nhau, bỏ qua.</p>
-<p>Cứ thế trượt tiếp. Khi cửa sổ đến vị trí <code>j = 5</code>, ứng với đoạn <code>y[5..12] = "GCAGAGAG"</code>, giá trị <code>hy</code> sẽ <strong>bằng</strong> <code>hx</code>. Lúc này thuật toán kiểm tra lại 8 ký tự bằng <code>memcmp</code>, thấy khớp hoàn toàn, và báo <strong>xuất hiện tại vị trí 5</strong>.</p>
-<p>Điểm đáng chú ý: tại các vị trí <code>j = 0, 1, 2, ...</code> trước đó, ta gần như không tốn phép so sánh ký tự nào — toàn bộ công việc chỉ là so sánh hai số nguyên. Đây chính là nguồn gốc hiệu quả của Karp-Rabin.</p>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>. Giả sử mã ASCII: $G=71, C=67, A=65, T=84$.</p>
+<p>Tính <code>hx</code> = giá trị băm của <code>"GCAGAGAG"</code> và <code>hy</code> = giá trị băm của cửa sổ đầu tiên <code>"GCATCGCA"</code>. Hai giá trị này khác nhau (vì hai chuỗi khác nhau), nên tại $j = 0$ ta bỏ qua mà không so sánh ký tự.</p>
+<p>Trượt cửa sổ: gỡ $y[0]='G'$, thêm $y[8]='A'$, cập nhật <code>hy</code> cho cửa sổ <code>"CATCGCAG"</code> chỉ bằng công thức REHASH — một phép trừ, một phép dịch, một phép cộng. So <code>hx</code> với <code>hy</code> mới; vẫn khác nhau, bỏ qua.</p>
+<p>Cứ thế trượt tiếp. Khi cửa sổ đến vị trí $j = 5$, ứng với đoạn <code>y[5..12] = "GCAGAGAG"</code>, giá trị <code>hy</code> sẽ <strong>bằng</strong> <code>hx</code>. Lúc này thuật toán kiểm tra lại 8 ký tự bằng <code>memcmp</code>, thấy khớp hoàn toàn, và báo <strong>xuất hiện tại vị trí 5</strong>.</p>
+<p>Điểm đáng chú ý: tại các vị trí $j = 0, 1, 2, \dots$ trước đó, ta gần như không tốn phép so sánh ký tự nào — toàn bộ công việc chỉ là so sánh hai số nguyên. Đây chính là nguồn gốc hiệu quả của Karp-Rabin.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

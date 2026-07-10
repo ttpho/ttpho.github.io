@@ -15,24 +15,28 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
 <h1>Thuật toán Apostolico-Giancarlo</h1>
 <h2 id="đặc-điểm-chính">Đặc điểm chính</h2>
 <ul>
-<li>Độ phức tạp tiền xử lý: <strong>O(m + σ)</strong> — dùng lại các
+<li>Độ phức tạp tiền xử lý: <strong>$O(m + \sigma)$</strong> — dùng lại các
 bảng của Boyer-Moore (<code>bmBc</code>, <code>bmGs</code>, và bảng phụ
 <code>suff</code>).</li>
-<li>Bộ nhớ phụ: <strong>O(m + σ)</strong> cho các bảng cố định, cộng
+<li>Bộ nhớ phụ: <strong>$O(m + \sigma)$</strong> cho các bảng cố định, cộng
 thêm một mảng động <code>skip[0..m-1]</code> cập nhật qua từng lần
 thử.</li>
-<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất O(n)</strong> — không còn
-khả năng rơi vào O(mn) như Boyer-Moore gốc.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất $O(n)$</strong> — không còn
+khả năng rơi vào $O(mn)$ như Boyer-Moore gốc.</li>
 <li>Hướng so sánh ký tự: <strong>phải sang trái</strong> trong mỗi cửa
 sổ, như Boyer-Moore.</li>
 <li>Số phép so sánh ký tự trong pha tìm kiếm bị chặn chặt bởi
-<strong>3n/2</strong>.</li>
+<strong>$3n/2$</strong>.</li>
 </ul>
 <h2 id="ý-tưởng">Ý tưởng</h2>
 <p>Boyer-Moore có thể phải so sánh lại, ở một cửa sổ mới, những đoạn văn
@@ -49,7 +53,7 @@ so sánh của (các) lần thử trước đó, dịch chuyển tương ứng t
 <p>Nhờ có sẵn thông tin "đã biết trước" tại mọi vị trí trong cửa sổ (chứ
 không chỉ ở đúng ranh giới đoạn nhớ như Turbo-BM), thuật toán có thể bỏ
 qua nhiều đoạn so sánh trùng lặp hơn, và quan trọng hơn, chứng minh được
-cận trên chặt cho tổng số phép so sánh: không quá <code>3n/2</code>,
+cận trên chặt cho tổng số phép so sánh: không quá $3n/2$,
 đồng thời không còn kịch bản xấu nhất bậc hai nào.</p>
 <h2 id="mô-tả-chi-tiết">Mô tả chi tiết</h2>
 <p>Thuật toán vẫn dùng bảng <code>bmBc</code>, <code>bmGs</code> giống
@@ -207,7 +211,7 @@ tin). So <code>x[7]='G'</code> lệch với <code>y[7]='A'</code> ngay tại
 trí <code>i = 3</code> của cửa sổ mới thừa hưởng giá trị
 <code>skip[3] = 2</code> (từ <code>skip[5]</code> cũ dịch sang). Vì
 <code>suff[3] = 2 = skip[3]</code>, thuật toán nhảy qua 2 vị trí
-(<code>i: 3 → 1</code>) mà không cần đọc lại <code>y[8], y[9]</code> —
+($i: 3 \to 1$) mà không cần đọc lại <code>y[8], y[9]</code> —
 chúng đã được xác nhận khớp gián tiếp qua thông tin ghi nhớ. So tiếp các
 vị trí còn lại, toàn bộ khớp → <strong>tìm thấy tại vị trí 5</strong>.
 Ghi <code>skip[7] = 8</code>, dịch
@@ -224,7 +228,7 @@ bảng <code>skip</code> mang theo thông tin từ lần thử trước
 (<code>j = 1</code>, nơi 2 ký tự cuối <code>"AG"</code> của cửa sổ đã
 khớp trước khi lệch), Apostolico-Giancarlo tránh so sánh lại 2 ký tự văn
 bản khi thử lại ở cửa sổ mới — đây chính là cơ chế giúp cận
-<code>3n/2</code> được đảm bảo trong mọi trường hợp.</p>
+$3n/2$ được đảm bảo trong mọi trường hợp.</p>
 <h2 id="tài-liệu-tham-khảo">Tài liệu tham khảo</h2>
 <ul>
 <li>A. Apostolico, R. Giancarlo, "The Boyer-Moore-Galil string searching

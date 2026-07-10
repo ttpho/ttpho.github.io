@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,9 +27,9 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Dựa trên thuật toán Horspool nhưng thay đổi THỨ TỰ so sánh các ký tự trong cửa sổ.</li>
-<li>Pha tiền xử lý: O(m + σ) để dựng bảng bad-character kiểu Horspool.</li>
-<li>Bộ nhớ phụ: O(σ).</li>
-<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất; nhanh trong thực tế trên văn bản ngôn ngữ tự nhiên.</li>
+<li>Pha tiền xử lý: $O(m + \sigma)$ để dựng bảng bad-character kiểu Horspool.</li>
+<li>Bộ nhớ phụ: $O(\sigma)$.</li>
+<li>Pha tìm kiếm: $O(mn)$ trong trường hợp xấu nhất; nhanh trong thực tế trên văn bản ngôn ngữ tự nhiên.</li>
 <li>Hướng so sánh ký tự: đặc biệt — cuối, đầu, giữa, rồi phần còn lại từ trái sang phải.</li>
 <li>Bước dịch giống hệt Horspool, chỉ khác ở cách kiểm tra khớp.</li>
 </ul>
@@ -35,12 +39,12 @@ a{color:#246}
 <p>Thứ tự Raita đề xuất là: so <strong>ký tự cuối</strong> trước (để tận dụng bảng bad-character), rồi <strong>ký tự đầu</strong>, rồi <strong>ký tự giữa</strong>, và chỉ khi ba ký tự "mốc" này đều trùng mới so nốt phần thân còn lại. Ba vị trí đầu-giữa-cuối cách xa nhau nên ít tương quan, giúp loại bỏ cửa sổ sai nhanh hơn so với việc quét tuần tự.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p>Pha tiền xử lý chỉ dựng đúng bảng <code>bmBc</code> của Horspool: <code>bmBc[a]</code> = khoảng cách từ lần xuất hiện cuối của <code>a</code> trong <code>m-1</code> ký tự đầu mẫu tới cuối mẫu, hoặc m nếu không có. Ngoài ra ta lưu sẵn ba ký tự mốc để tránh truy cập lặp: <code>firstCh = x[0]</code>, <code>middleCh = x[m/2]</code>, <code>lastCh = x[m-1]</code>.</p>
-<p>Tại mỗi cửa sổ j, gọi <code>c = y[j+m-1]</code> là ký tự văn bản thẳng hàng với ký tự cuối mẫu. Ta kiểm tra theo thứ tự với đoản mạch (short-circuit):</p>
+<p>Pha tiền xử lý chỉ dựng đúng bảng <code>bmBc</code> của Horspool: <code>bmBc[a]</code> = khoảng cách từ lần xuất hiện cuối của <code>a</code> trong $m-1$ ký tự đầu mẫu tới cuối mẫu, hoặc m nếu không có. Ngoài ra ta lưu sẵn ba ký tự mốc để tránh truy cập lặp: $\text{firstCh} = x[0]$, $\text{middleCh} = x[m/2]$, $\text{lastCh} = x[m-1]$.</p>
+<p>Tại mỗi cửa sổ j, gọi $c = y[j+m-1]$ là ký tự văn bản thẳng hàng với ký tự cuối mẫu. Ta kiểm tra theo thứ tự với đoản mạch (short-circuit):</p>
 <ol>
-<li><code>lastCh == c</code>? Nếu sai, bỏ qua ngay.</li>
-<li><code>middleCh == y[j + m/2]</code>? So ký tự giữa.</li>
-<li><code>firstCh == y[j]</code>? So ký tự đầu.</li>
+<li>$\text{lastCh} = c$? Nếu sai, bỏ qua ngay.</li>
+<li>$\text{middleCh} = y[j + m/2]$? So ký tự giữa.</li>
+<li>$\text{firstCh} = y[j]$? So ký tự đầu.</li>
 <li>Cuối cùng so phần thân <code>x[1..m-2]</code> với <code>y[j+1..j+m-2]</code> từ trái sang phải.</li>
 </ol>
 <p>Nếu cả bốn điều kiện đều đúng thì có một lần xuất hiện tại j. Dù khớp hay không, cửa sổ luôn dịch đi <code>bmBc[c]</code> — chính xác là bước dịch của Horspool. Như vậy Raita giữ nguyên tính đúng đắn và bước dịch của Horspool, chỉ tối ưu chi phí so khớp trung bình bằng cách sắp xếp lại thứ tự kiểm tra.</p>

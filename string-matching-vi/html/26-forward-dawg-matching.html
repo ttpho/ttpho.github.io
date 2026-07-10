@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,9 +27,9 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Dùng ôtômat hậu tố (suffix automaton, còn gọi là DAWG — Directed Acyclic Word Graph) của chính mẫu <code>x</code> (không đảo ngược).</li>
-<li><strong>Tiền xử lý</strong>: O(m) để dựng ôtômat hậu tố của mẫu.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m × σ) cho hàm chuyển (mảng); số trạng thái và liên kết hậu tố là O(m).</li>
-<li><strong>Pha tìm kiếm</strong>: đúng O(n) — mỗi ký tự của văn bản được xét đúng một số lần tổng cộng tuyến tính (nhờ lập luận khấu hao trên độ dài trạng thái khi đi theo liên kết hậu tố).</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ để dựng ôtômat hậu tố của mẫu.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m \times \sigma)$ cho hàm chuyển (mảng); số trạng thái và liên kết hậu tố là $O(m)$.</li>
+<li><strong>Pha tìm kiếm</strong>: đúng $O(n)$ — mỗi ký tự của văn bản được xét đúng một số lần tổng cộng tuyến tính (nhờ lập luận khấu hao trên độ dài trạng thái khi đi theo liên kết hậu tố).</li>
 <li><strong>Hướng so sánh ký tự</strong>: quét văn bản từ TRÁI sang PHẢI, đối lập với các thuật toán họ Reverse Factor/Boyer-Moore.</li>
 <li>Không có khái niệm "dịch cửa sổ nhảy bước dài": mỗi vị trí văn bản chỉ được đọc đúng một lần, nên đây là thuật toán tuyến tính đúng nghĩa, tương tự Morris-Pratt/KMP nhưng dựa trên ôtômat hậu tố thay vì hàm thất bại.</li>
 </ul>
@@ -37,14 +41,14 @@ a{color:#246}
 
 <h2>Mô tả chi tiết</h2>
 <p><strong>Tiền xử lý.</strong> Dựng ôtômat hậu tố (suffix automaton) cho mẫu <code>x</code> bằng thuật toán online kinh điển: thêm lần lượt từng ký tự, quản lý liên kết hậu tố (<code>link</code>) và độ dài lớn nhất của factor mà mỗi trạng thái đại diện (<code>len</code>), tách trạng thái (clone) khi cần để giữ tính chất của ôtômat. Với ôtômat này, <code>sam[link(s)].len</code> luôn là độ dài của hậu tố dài nhất, ngắn hơn thực sự, mà trạng thái <code>link(s)</code> còn nhận diện được.</p>
-<p><strong>Tìm kiếm.</strong> Duy trì một trạng thái hiện hành <code>state</code> (khởi đầu là trạng thái gốc) và độ dài khớp hiện hành <code>l</code> (khởi đầu 0), đại diện cho hậu tố dài nhất của phần văn bản đã đọc mà cũng là một factor của mẫu. Với mỗi ký tự mới <code>c = y[i]</code>:</p>
+<p><strong>Tìm kiếm.</strong> Duy trì một trạng thái hiện hành <code>state</code> (khởi đầu là trạng thái gốc) và độ dài khớp hiện hành <code>l</code> (khởi đầu 0), đại diện cho hậu tố dài nhất của phần văn bản đã đọc mà cũng là một factor của mẫu. Với mỗi ký tự mới $c = y[i]$:</p>
 <ol>
-<li>Trong khi <code>state</code> không có chuyển hợp lệ trên <code>c</code> và <code>state</code> chưa phải trạng thái gốc: đi theo liên kết hậu tố <code>state = link(state)</code>, đồng thời cập nhật <code>l = len(state)</code> — đây chính là độ dài hậu tố tối đa còn giữ được sau khi "lùi" trạng thái.</li>
-<li>Nếu sau vòng lặp, <code>state</code> có chuyển hợp lệ trên <code>c</code>: cập nhật <code>state = next(state, c)</code> và tăng <code>l = l + 1</code>.</li>
-<li>Nếu không (kể cả trạng thái gốc cũng không có chuyển), đặt lại <code>state</code> về gốc và <code>l = 0</code>.</li>
-<li>Nếu <code>l</code> đạt tới <code>m</code> (độ dài mẫu), ta vừa tìm thấy một xuất hiện của mẫu kết thúc tại vị trí <code>i</code>, tức bắt đầu tại <code>i - m + 1</code>.</li>
+<li>Trong khi <code>state</code> không có chuyển hợp lệ trên <code>c</code> và <code>state</code> chưa phải trạng thái gốc: đi theo liên kết hậu tố $state = link(state)$, đồng thời cập nhật $l = len(state)$ — đây chính là độ dài hậu tố tối đa còn giữ được sau khi "lùi" trạng thái.</li>
+<li>Nếu sau vòng lặp, <code>state</code> có chuyển hợp lệ trên <code>c</code>: cập nhật $state = next(state, c)$ và tăng $l = l + 1$.</li>
+<li>Nếu không (kể cả trạng thái gốc cũng không có chuyển), đặt lại <code>state</code> về gốc và $l = 0$.</li>
+<li>Nếu <code>l</code> đạt tới <code>m</code> (độ dài mẫu), ta vừa tìm thấy một xuất hiện của mẫu kết thúc tại vị trí <code>i</code>, tức bắt đầu tại $i - m + 1$.</li>
 </ol>
-<p>Lập luận khấu hao (amortized): mỗi lần đi theo liên kết hậu tố làm <code>l</code> giảm ngặt, còn mỗi ký tự mới đọc được chỉ làm <code>l</code> tăng thêm nhiều nhất 1. Vì <code>l</code> không thể vượt quá <code>m</code> và không âm, tổng số lần "lùi" trên toàn bộ quá trình quét bị chặn bởi tổng số lần "tiến", tức O(n). Nhờ vậy toàn bộ thuật toán chạy đúng thời gian tuyến tính O(n), không có trường hợp xấu nhất tệ hơn.</p>
+<p>Lập luận khấu hao (amortized): mỗi lần đi theo liên kết hậu tố làm <code>l</code> giảm ngặt, còn mỗi ký tự mới đọc được chỉ làm <code>l</code> tăng thêm nhiều nhất 1. Vì <code>l</code> không thể vượt quá <code>m</code> và không âm, tổng số lần "lùi" trên toàn bộ quá trình quét bị chặn bởi tổng số lần "tiến", tức $O(n)$. Nhờ vậy toàn bộ thuật toán chạy đúng thời gian tuyến tính $O(n)$, không có trường hợp xấu nhất tệ hơn.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -147,12 +151,12 @@ void search(char *x, int m, char *y, int n) {
 <h2>Ví dụ minh họa</h2>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24). Otomat hậu tố được dựng trực tiếp trên <code>x</code> (không đảo ngược).</p>
 <ul>
-<li>Đọc <code>y[0]='G'</code>: có chuyển từ trạng thái gốc, <code>l = 1</code> (hậu tố "G" là factor của mẫu).</li>
-<li>Đọc <code>y[1]='C'</code>: chuyển tiếp, <code>l = 2</code> ("GC" là factor).</li>
-<li>Đọc <code>y[2]='A'</code>: chuyển tiếp, <code>l = 3</code> ("GCA" là factor).</li>
+<li>Đọc <code>y[0]='G'</code>: có chuyển từ trạng thái gốc, $l = 1$ (hậu tố "G" là factor của mẫu).</li>
+<li>Đọc <code>y[1]='C'</code>: chuyển tiếp, $l = 2$ ("GC" là factor).</li>
+<li>Đọc <code>y[2]='A'</code>: chuyển tiếp, $l = 3$ ("GCA" là factor).</li>
 <li>Đọc <code>y[3]='T'</code>: từ trạng thái đang giữ "GCA", không có chuyển trên <code>T</code>; đi theo liên kết hậu tố — hậu tố dài nhất tiếp theo của "GCA" còn là factor của mẫu có thể chỉ là "A" hoặc chuỗi rỗng tùy cấu trúc ôtômat; giả sử sau khi lùi, không còn chuyển hợp lệ trên <code>T</code>, ta đặt lại <code>state = gốc, l = 0</code>.</li>
-<li>Đọc <code>y[4]='C'</code>: từ gốc, có chuyển trên <code>C</code>? Ký tự <code>C</code> xuất hiện ở vị trí 1 của mẫu, nên nếu ôtômat có nhánh nhận <code>C</code> từ gốc, <code>l = 1</code>; nếu không, <code>l = 0</code>.</li>
-<li>Tiếp tục quét đến <code>y[5..12] = "GCAGAGAG"</code>: từng ký tự lần lượt khớp và <code>l</code> tăng dần 1, 2, 3, ..., cho tới khi đọc hết <code>y[12]</code> thì <code>l = 8 = m</code>. Chương trình in ra <strong>khớp kết thúc tại vị trí 12 (bắt đầu tại vị trí 5)</strong>.</li>
+<li>Đọc <code>y[4]='C'</code>: từ gốc, có chuyển trên <code>C</code>? Ký tự <code>C</code> xuất hiện ở vị trí 1 của mẫu, nên nếu ôtômat có nhánh nhận <code>C</code> từ gốc, $l = 1$; nếu không, $l = 0$.</li>
+<li>Tiếp tục quét đến <code>y[5..12] = "GCAGAGAG"</code>: từng ký tự lần lượt khớp và <code>l</code> tăng dần 1, 2, 3, ..., cho tới khi đọc hết <code>y[12]</code> thì $l = 8 = m$. Chương trình in ra <strong>khớp kết thúc tại vị trí 12 (bắt đầu tại vị trí 5)</strong>.</li>
 <li>Quá trình tiếp tục quét hết văn bản; không có xuất hiện nào khác được tìm thấy sau đó.</li>
 </ul>
 <p>Cài đặt trên đã được kiểm chứng bằng cách đối chiếu với thuật toán vét cạn trên hàng vạn cặp mẫu/văn bản ngẫu nhiên và luôn cho kết quả trùng khớp.</p>

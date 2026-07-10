@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,22 +26,22 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li><strong>Tiền xử lý</strong>: O(mσ) thời gian và bộ nhớ để xây dựng bảng chuyển trạng thái của ôtômat.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(mσ) cho bảng chuyển.</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(n) — tuyến tính theo độ dài văn bản, độc lập với <code>m</code>.</li>
+<li><strong>Tiền xử lý</strong>: $O(m\sigma)$ thời gian và bộ nhớ để xây dựng bảng chuyển trạng thái của ôtômat.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m\sigma)$ cho bảng chuyển.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: $O(n)$ — tuyến tính theo độ dài văn bản, độc lập với <code>m</code>.</li>
 <li><strong>Hướng so sánh ký tự</strong>: trái sang phải.</li>
 <li><strong>Số lần đọc</strong>: mỗi ký tự văn bản được đọc và xử lý <strong>đúng một lần</strong>; độ trễ trên mỗi ký tự là hằng số.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
-<p>Ý tưởng cốt lõi là xây dựng một <strong>ôtômat hữu hạn đơn định</strong> (Deterministic Finite Automaton — DFA) nhận diện ngôn ngữ <code>Σ*x</code>, tức tập mọi chuỗi kết thúc bằng mẫu <code>x</code>. Sau khi có ôtômat, việc tìm kiếm trở nên cực kỳ hiệu quả: ta chỉ việc "cho" từng ký tự văn bản vào ôtômat, theo dõi trạng thái hiện tại, và mỗi khi ôtômat đạt trạng thái kết thúc thì ta biết mẫu vừa xuất hiện.</p>
-<p>Điểm mạnh là mỗi ký tự văn bản được xử lý đúng một lần với một phép tra bảng thời gian hằng số, cho nên pha tìm kiếm luôn là O(n) bất kể cấu trúc mẫu hay văn bản. Cái giá phải trả là bộ nhớ và thời gian tiền xử lý O(mσ), có thể lớn khi bảng chữ cái rộng.</p>
+<p>Ý tưởng cốt lõi là xây dựng một <strong>ôtômat hữu hạn đơn định</strong> (Deterministic Finite Automaton — DFA) nhận diện ngôn ngữ $\Sigma^*x$, tức tập mọi chuỗi kết thúc bằng mẫu <code>x</code>. Sau khi có ôtômat, việc tìm kiếm trở nên cực kỳ hiệu quả: ta chỉ việc "cho" từng ký tự văn bản vào ôtômat, theo dõi trạng thái hiện tại, và mỗi khi ôtômat đạt trạng thái kết thúc thì ta biết mẫu vừa xuất hiện.</p>
+<p>Điểm mạnh là mỗi ký tự văn bản được xử lý đúng một lần với một phép tra bảng thời gian hằng số, cho nên pha tìm kiếm luôn là $O(n)$ bất kể cấu trúc mẫu hay văn bản. Cái giá phải trả là bộ nhớ và thời gian tiền xử lý $O(m\sigma)$, có thể lớn khi bảng chữ cái rộng.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p>Otomat gồm <code>m + 1</code> trạng thái, đánh số từ <code>0</code> đến <code>m</code>. Trạng thái <code>q</code> biểu diễn ý nghĩa "hậu tố dài nhất của phần văn bản đã đọc mà đồng thời là tiền tố của mẫu có độ dài <code>q</code>". Trạng thái <code>0</code> là trạng thái khởi đầu; trạng thái <code>m</code> là trạng thái kết thúc (nhận diện), ứng với việc toàn bộ mẫu vừa được đọc.</p>
-<p><strong>Hàm chuyển</strong> <code>δ(q, a)</code> cho biết: nếu đang ở trạng thái <code>q</code> và đọc ký tự <code>a</code>, ta chuyển sang trạng thái nào. Nó được định nghĩa như sau: <code>δ(q, a)</code> là độ dài của tiền tố dài nhất của <code>x</code> đồng thời là hậu tố của chuỗi <code>x[0..q-1]a</code>. Nói cách khác, sau khi ghép ký tự <code>a</code> vào phần khớp hiện có, ta tìm phần khớp mới dài nhất có thể.</p>
-<p>Để xây bảng chuyển một cách hiệu quả, ta dùng khái niệm <strong>trạng thái sao lưu</strong> (một biến <code>k</code> đóng vai trò tương tự hàm biên của Morris-Pratt). Với mỗi trạng thái mới, hầu hết các chuyển đi được sao chép từ trạng thái sao lưu, chỉ riêng chuyển theo ký tự khớp được đặt tăng một bậc. Cách xây này cho tổng chi phí O(mσ).</p>
-<p>Trong pha tìm kiếm, ta duy trì biến trạng thái hiện tại. Với mỗi ký tự văn bản <code>y[i]</code>, ta cập nhật trạng thái bằng một lần tra bảng: <code>state = δ(state, y[i])</code>. Khi <code>state == m</code>, mẫu xuất hiện kết thúc tại <code>y[i]</code>, tức bắt đầu tại vị trí <code>i - m + 1</code>.</p>
+<p>Otomat gồm $m + 1$ trạng thái, đánh số từ <code>0</code> đến <code>m</code>. Trạng thái <code>q</code> biểu diễn ý nghĩa "hậu tố dài nhất của phần văn bản đã đọc mà đồng thời là tiền tố của mẫu có độ dài <code>q</code>". Trạng thái <code>0</code> là trạng thái khởi đầu; trạng thái <code>m</code> là trạng thái kết thúc (nhận diện), ứng với việc toàn bộ mẫu vừa được đọc.</p>
+<p><strong>Hàm chuyển</strong> $\delta(q, a)$ cho biết: nếu đang ở trạng thái <code>q</code> và đọc ký tự <code>a</code>, ta chuyển sang trạng thái nào. Nó được định nghĩa như sau: $\delta(q, a)$ là độ dài của tiền tố dài nhất của <code>x</code> đồng thời là hậu tố của chuỗi $x[0..q-1]a$. Nói cách khác, sau khi ghép ký tự <code>a</code> vào phần khớp hiện có, ta tìm phần khớp mới dài nhất có thể.</p>
+<p>Để xây bảng chuyển một cách hiệu quả, ta dùng khái niệm <strong>trạng thái sao lưu</strong> (một biến <code>k</code> đóng vai trò tương tự hàm biên của Morris-Pratt). Với mỗi trạng thái mới, hầu hết các chuyển đi được sao chép từ trạng thái sao lưu, chỉ riêng chuyển theo ký tự khớp được đặt tăng một bậc. Cách xây này cho tổng chi phí $O(m\sigma)$.</p>
+<p>Trong pha tìm kiếm, ta duy trì biến trạng thái hiện tại. Với mỗi ký tự văn bản <code>y[i]</code>, ta cập nhật trạng thái bằng một lần tra bảng: $\text{state} = \delta(\text{state}, y[i])$. Khi $\text{state} = m$, mẫu xuất hiện kết thúc tại <code>y[i]</code>, tức bắt đầu tại vị trí $i - m + 1$.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -92,9 +96,9 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
 <p>Otomat có 9 trạng thái (0 đến 8). Chuyển "thẳng" theo mẫu là:</p>
-<pre><code>0 --G--&gt; 1 --C--&gt; 2 --A--&gt; 3 --G--&gt; 4 --A--&gt; 5 --G--&gt; 6 --A--&gt; 7 --G--&gt; 8</code></pre>
+<p>$$0 \xrightarrow{G} 1 \xrightarrow{C} 2 \xrightarrow{A} 3 \xrightarrow{G} 4 \xrightarrow{A} 5 \xrightarrow{G} 6 \xrightarrow{A} 7 \xrightarrow{G} 8$$</p>
 <p>Ngoài các chuyển thẳng này, mọi ký tự khác đưa trạng thái quay về một trạng thái nhỏ hơn (tính theo phần khớp còn giữ được).</p>
 <p>Cho văn bản chạy qua ôtômat, trạng thái biến đổi như sau (chỉ liệt kê vài bước đầu):</p>
 <table>
@@ -109,7 +113,7 @@ void search(char *x, int m, char *y, int n) {
 <tr><td>7</td><td>A</td><td>2</td><td>3</td></tr>
 <tr><td>8</td><td>G</td><td>3</td><td>4</td></tr>
 </table>
-<p>Ở bước <code>i = 3</code>, ký tự <code>T</code> không nối tiếp được phần khớp <code>GCA</code>, nên trạng thái rơi về 0. Từ <code>i = 5</code> mẫu bắt đầu khớp lại, trạng thái tăng dần. Tiếp tục đọc <code>A, G, A, G</code> (tại <code>i = 9..12</code>), trạng thái sẽ lần lượt lên 5, 6, 7, 8. Khi đạt trạng thái 8 tại <code>i = 12</code>, ta báo xuất hiện tại vị trí <code>12 - 8 + 1 = 5</code>.</p>
+<p>Ở bước $i = 3$, ký tự <code>T</code> không nối tiếp được phần khớp <code>GCA</code>, nên trạng thái rơi về 0. Từ $i = 5$ mẫu bắt đầu khớp lại, trạng thái tăng dần. Tiếp tục đọc <code>A, G, A, G</code> (tại $i = 9..12$), trạng thái sẽ lần lượt lên 5, 6, 7, 8. Khi đạt trạng thái 8 tại $i = 12$, ta báo xuất hiện tại vị trí $12 - 8 + 1 = 5$.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

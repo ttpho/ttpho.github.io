@@ -15,19 +15,23 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
 <h1>Thuật toán Turbo Boyer-Moore</h1>
 <h2 id="đặc-điểm-chính">Đặc điểm chính</h2>
 <ul>
-<li>Độ phức tạp tiền xử lý: <strong>O(m + σ)</strong>, giống hệt
+<li>Độ phức tạp tiền xử lý: <strong>$O(m + \sigma)$</strong>, giống hệt
 Boyer-Moore gốc — không cần bảng phụ nào thêm.</li>
-<li>Bộ nhớ phụ: <strong>O(m + σ)</strong>, chỉ thêm một vài biến vô
+<li>Bộ nhớ phụ: <strong>$O(m + \sigma)$</strong>, chỉ thêm một vài biến vô
 hướng (<code>u</code>, <code>shift</code>, <code>v</code>, ...) so với
 Boyer-Moore.</li>
-<li>Độ phức tạp pha tìm kiếm: <strong>O(n)</strong>; số phép so sánh ký
-tự trong pha tìm kiếm bị chặn chặt bởi <strong>2n</strong> trong mọi
+<li>Độ phức tạp pha tìm kiếm: <strong>$O(n)$</strong>; số phép so sánh ký
+tự trong pha tìm kiếm bị chặn chặt bởi <strong>$2n$</strong> trong mọi
 trường hợp (kể cả xấu nhất).</li>
 <li>Hướng so sánh ký tự: <strong>phải sang trái</strong> trong mỗi cửa
 sổ, giống Boyer-Moore.</li>
@@ -55,7 +59,7 @@ thêm một bước dịch mới — <strong>turbo-shift</strong> — độc l�
 bad-character và good-suffix, và bước dịch cuối cùng vẫn là giá trị lớn
 nhất trong ba lựa chọn. Nhờ turbo-shift, thuật toán còn tránh được kiểu
 "khớp lại y hệt lần trước rồi lại lệch y hệt vị trí cũ", vốn là nguyên
-nhân khiến Boyer-Moore gốc có thể rơi vào trường hợp xấu O(mn).</p>
+nhân khiến Boyer-Moore gốc có thể rơi vào trường hợp xấu $O(mn)$.</p>
 <h2 id="mô-tả-chi-tiết">Mô tả chi tiết</h2>
 <p>Thuật toán dùng lại nguyên vẹn hai bảng <code>bmBc</code> và
 <code>bmGs</code> của Boyer-Moore — không cần tiền xử lý gì thêm. Phần
@@ -64,36 +68,36 @@ lần thử:</p>
 <ul>
 <li><code>shift</code>: bước dịch đã dùng ở lần thử ngay trước.</li>
 <li><code>u</code>: độ dài đoạn hậu tố của cửa sổ trước đã được xác nhận
-khớp và còn nằm trong cửa sổ hiện tại sau khi dịch (<code>u = 0</code>
+khớp và còn nằm trong cửa sổ hiện tại sau khi dịch ($u = 0$
 nếu không có đoạn nhớ nào, ví dụ ở lần thử đầu tiên).</li>
 </ul>
-<p>Tại một lần thử, khi so sánh lùi từ <code>i = m-1</code>, nếu
-<code>u != 0</code> và con trỏ so sánh <code>i</code> chạm đúng ranh
-giới <code>m - 1 - shift</code> (biên của đoạn đã nhớ được dịch chuyển
+<p>Tại một lần thử, khi so sánh lùi từ $i = m-1$, nếu
+$u \neq 0$ và con trỏ so sánh <code>i</code> chạm đúng ranh
+giới $m - 1 - shift$ (biên của đoạn đã nhớ được dịch chuyển
 tương ứng), thuật toán nhảy thẳng <code>i</code> lùi thêm <code>u</code>
 vị trí (bỏ qua so sánh phần chắc chắn khớp).</p>
-<p>Khi phát hiện lệch tại <code>i</code> (với <code>v = m - 1 - i</code>
+<p>Khi phát hiện lệch tại <code>i</code> (với $v = m - 1 - i$
 là độ dài hậu tố vừa khớp lần này), ba bước dịch được xét: -
 <strong>bad-character</strong>: như Boyer-Moore,
-<code>bmBc[y[i+j]] - m + 1 + i</code>. - <strong>good-suffix</strong>:
+$bmBc[y[i+j]] - m + 1 + i$. - <strong>good-suffix</strong>:
 <code>bmGs[i]</code>. - <strong>turbo-shift</strong>: chỉ có ý nghĩa khi
 đoạn nhớ <code>u</code> thực sự liên quan đến điểm lệch hiện tại (tức
 <code>i</code> nằm trong hoặc trước ranh giới đoạn nhớ,
-<code>i &lt;= m - 1 - shift</code>); giá trị là <code>u - v</code>. Ý
+$i \le m - 1 - shift$); giá trị là $u - v$. Ý
 nghĩa: nếu đoạn nhớ dài <code>u</code> và lần này chỉ khớp thêm
 <code>v</code> ký tự trước khi lệch, thì vị trí lệch chắc chắn cách xa
-hơn <code>u - v</code> so với vị trí có thể xảy ra trùng khớp thực sự,
+hơn $u - v$ so với vị trí có thể xảy ra trùng khớp thực sự,
 nên có thể dịch an toàn ít nhất bấy nhiêu.</p>
 <p>Bước dịch được chọn là giá trị lớn nhất trong các bước có nghĩa ở
 trên. Nếu bước dịch được chọn chính là <code>bmGs[i]</code>, đoạn nhớ
-mới <code>u</code> được cập nhật thành <code>min(m - shift, v)</code>;
+mới <code>u</code> được cập nhật thành $\min(m - shift, v)$;
 ngược lại (bad-character hoặc turbo-shift thắng thế), đoạn nhớ được đặt
-lại <code>u = 0</code> vì không còn đủ căn cứ để khẳng định một đoạn
+lại $u = 0$ vì không còn đủ căn cứ để khẳng định một đoạn
 khớp liên tục nào cho lần thử kế tiếp (trừ khi turbo-shift nhỏ hơn
-bad-character, khi đó cần đảm bảo dịch ít nhất <code>u + 1</code> để
+bad-character, khi đó cần đảm bảo dịch ít nhất $u + 1$ để
 không lặp lại chính điểm lệch đã dùng để tính <code>u</code>).</p>
 <p>Khi khớp toàn bộ mẫu, cửa sổ dịch theo <code>bmGs[0]</code> như
-Boyer-Moore, và đoạn nhớ mới được đặt <code>u = m - shift</code>.</p>
+Boyer-Moore, và đoạn nhớ mới được đặt $u = m - shift$.</p>
 <h2 id="cài-đặt-bằng-c">Cài đặt bằng C</h2>
 <pre class="c"><code>#include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
@@ -194,55 +198,55 @@ void search(char *x, int m, char *y, int n) {
     }
 }</code></pre>
 <h2 id="ví-dụ-minh-họa">Ví dụ minh họa</h2>
-<p>Trên cùng cặp <code>x = "GCAGAGAG"</code> (m = 8),
-<code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24), diễn biến
+<p>Trên cùng cặp <code>x = "GCAGAGAG"</code> ($m = 8$),
+<code>y = "GCATCGCAGAGAGTATACAGTACG"</code> ($n = 24$), diễn biến
 turbo-shift là:</p>
 <ul>
-<li><strong>j = 0</strong>: lệch ngay tại <code>i = 7</code>
-(<code>u = 0</code> nên không có turbo-shift). <code>bcShift = 1</code>,
-<code>bmGs[7] = 1</code> → dịch 1, <code>u</code> được đặt lại 0 (vì
+<li><strong>$j = 0$</strong>: lệch ngay tại $i = 7$
+($u = 0$ nên không có turbo-shift). $bcShift = 1$,
+$bmGs[7] = 1$ → dịch 1, <code>u</code> được đặt lại 0 (vì
 bước thắng không phải <code>bmGs[i]</code>... ở đây
-<code>bmGs[7]=1=shift</code> nên
-<code>u = min(8-1, v=0) = 0</code>).</li>
-<li><strong>j = 1</strong>: lệch tại <code>i = 5</code>
-(<code>v = 2</code>). <code>bcShift = 4</code>, <code>bmGs[5] = 4</code>
+$bmGs[7]=1=shift$ nên
+$u = \min(8-1, v=0) = 0$).</li>
+<li><strong>$j = 1$</strong>: lệch tại $i = 5$
+($v = 2$). $bcShift = 4$, $bmGs[5] = 4$
 → dịch 4; vì bước thắng bằng <code>bmGs[5]</code>,
-<code>u = min(8-4, 2) = 2</code>.</li>
-<li><strong>j = 5</strong>: khớp toàn bộ → <strong>tìm thấy tại vị trí
-5</strong>. Dịch <code>bmGs[0] = 7</code>, đoạn nhớ mới
-<code>u = 8 - 7 = 1</code>.</li>
-<li><strong>j = 12</strong>: đoạn nhớ <code>u = 1</code> nhưng điểm lệch
-xảy ra tại <code>i = 5</code>, ngoài phạm vi ranh giới đoạn nhớ
-(<code>m - 1 - shift = 0</code>), nên turbo-shift không áp dụng; dịch
-theo <code>max(bcShift=4, bmGs[5]=4) = 4</code>.</li>
-<li><strong>j = 16</strong>: lệch tại <code>i = 6</code>, dịch
-<code>max(bcShift=5, bmGs[6]=7) = 7</code>, vượt quá văn bản, dừng.</li>
+$u = \min(8-4, 2) = 2$.</li>
+<li><strong>$j = 5$</strong>: khớp toàn bộ → <strong>tìm thấy tại vị trí
+5</strong>. Dịch $bmGs[0] = 7$, đoạn nhớ mới
+$u = 8 - 7 = 1$.</li>
+<li><strong>$j = 12$</strong>: đoạn nhớ $u = 1$ nhưng điểm lệch
+xảy ra tại $i = 5$, ngoài phạm vi ranh giới đoạn nhớ
+($m - 1 - shift = 0$), nên turbo-shift không áp dụng; dịch
+theo $\max(bcShift=4, bmGs[5]=4) = 4$.</li>
+<li><strong>$j = 16$</strong>: lệch tại $i = 6$, dịch
+$\max(bcShift=5, bmGs[6]=7) = 7$, vượt quá văn bản, dừng.</li>
 </ul>
 <p>Vì đoạn nhớ chỉ tồn tại giữa hai lần thử liên tiếp và ví dụ này tìm
 ra xuất hiện khá sớm, turbo-shift không phải là số hạng lớn nhất ở bước
 nào trong ví dụ trên. Để thấy rõ cơ chế "nhảy qua đoạn đã nhớ" trong khi
 so sánh, xét một ví dụ nhỏ khác với bảng chữ nhị phân:
-<code>x = "aabb"</code> (m = 4) trên <code>y = "ababbaaaab"</code>.</p>
+<code>x = "aabb"</code> ($m = 4$) trên <code>y = "ababbaaaab"</code>.</p>
 <ul>
-<li><strong>j = 0</strong>: so <code>x[3]='b'</code> khớp
-<code>y[3]='b'</code>; <code>x[2]='b'</code> lệch với
-<code>y[2]='a'</code> tại <code>i = 2</code>. <code>bmGs[2] = 1</code>
+<li><strong>$j = 0$</strong>: so $x[3] = \text{'b'}$ khớp
+$y[3] = \text{'b'}$; $x[2] = \text{'b'}$ lệch với
+$y[2] = \text{'a'}$ tại $i = 2$. $bmGs[2] = 1$
 thắng thế → dịch 1, và vì bước thắng là <code>bmGs[2]</code>, đoạn nhớ
-<code>u = min(4-1, v=1) = 1</code>.</li>
-<li><strong>j = 1</strong> (<code>shift</code> vừa dùng = 1,
-<code>u = 1</code>): so <code>x[3]='b'</code> khớp
-<code>y[4]='b'</code>; giảm <code>i</code> xuống 2, đúng bằng ranh giới
-<code>m - 1 - shift = 4 - 1 - 1 = 2</code> và <code>u != 0</code>, nên
+$u = \min(4-1, v=1) = 1$.</li>
+<li><strong>$j = 1$</strong> (<code>shift</code> vừa dùng = 1,
+$u = 1$): so $x[3] = \text{'b'}$ khớp
+$y[4] = \text{'b'}$; giảm <code>i</code> xuống 2, đúng bằng ranh giới
+$m - 1 - shift = 4 - 1 - 1 = 2$ và $u \neq 0$, nên
 thuật toán <strong>nhảy thẳng qua đoạn nhớ dài 1</strong>, đặt
-<code>i = 2 - 1 = 1</code> mà không so sánh <code>x[2]</code> với
+$i = 2 - 1 = 1$ mà không so sánh <code>x[2]</code> với
 <code>y[3]</code> (đã biết chắc khớp từ lần thử trước). So tiếp
-<code>x[1]='a'</code> khớp <code>y[2]='a'</code>; <code>x[0]='a'</code>
-lệch với <code>y[1]='b'</code> tại <code>i = 0</code>. Lúc này
-<code>u = 1 \le m-1-shift = 2</code> nên turbo-shift được tính:
-<code>v = 3</code>, <code>turboShift = u - v = -2</code>;
+$x[1] = \text{'a'}$ khớp $y[2] = \text{'a'}$; $x[0] = \text{'a'}$
+lệch với $y[1] = \text{'b'}$ tại $i = 0$. Lúc này
+$u = 1 \le m-1-shift = 2$ nên turbo-shift được tính:
+$v = 3$, $turboShift = u - v = -2$;
 <code>bcShift</code> và <code>bmGs[0]</code> đều dương hơn nên chúng
 quyết định bước dịch, ở đây bằng 4.</li>
-<li><strong>j = 5</strong>: lệch ngay tại <code>i = 3</code>, dịch tiếp
+<li><strong>$j = 5$</strong>: lệch ngay tại $i = 3$, dịch tiếp
 theo bad-character/good-suffix.</li>
 </ul>
 <p>Ví dụ thứ hai cho thấy rõ: nhờ nhớ lại đoạn đã khớp, thuật toán tiết

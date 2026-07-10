@@ -15,16 +15,20 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
 <h1>Thuật toán Quick Search (Sunday)</h1>
 <h2 id="đặc-điểm-chính">Đặc điểm chính</h2>
 <ul>
-<li>Độ phức tạp tiền xử lý: <strong>O(m + σ)</strong> — một bảng
+<li>Độ phức tạp tiền xử lý: <strong>$O(m + \sigma)$</strong> — một bảng
 bad-character duy nhất, gồm cả ký tự cuối mẫu.</li>
-<li>Bộ nhớ phụ: <strong>O(σ)</strong>.</li>
-<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất O(mn)</strong>.</li>
+<li>Bộ nhớ phụ: <strong>$O(\sigma)$</strong>.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất $O(mn)$</strong>.</li>
 <li>Hướng so sánh ký tự trong mỗi cửa sổ: <strong>bất kỳ thứ tự
 nào</strong> (không ảnh hưởng đến tính đúng đắn), thường cài đặt đơn
 giản là trái sang phải.</li>
@@ -44,7 +48,7 @@ không xuất hiện ở bất kỳ đâu trong toàn bộ mẫu <code>x</code> 
 tự cuối <code>x[m-1]</code>, khác với Horspool chỉ xét
 <code>x[0..m-2]</code>), thì <strong>mọi</strong> cách dịch cửa sổ sao
 cho <code>y[j+m]</code> rơi vào bên trong cửa sổ mới đều chắc chắn thất
-bại — nên có thể dịch hẳn <code>m + 1</code> vị trí, vượt qua toàn bộ
+bại — nên có thể dịch hẳn $m + 1$ vị trí, vượt qua toàn bộ
 khả năng đó chỉ trong một bước. Đây là bước dịch lớn nhất có thể trong
 toàn bộ họ thuật toán dựa trên bad-character, và giải thích vì sao Quick
 Search thường vượt trội khi bảng chữ cái lớn (xác suất một ký tự bất kỳ
@@ -58,22 +62,22 @@ sót vị trí nào. Với mỗi ký tự <code>c</code> của bảng chữ cái
 <code>c</code> trong toàn mẫu đến hết mẫu, cộng thêm 1 (vì ta đang xét
 ký tự nằm ngay sau cửa sổ, ứng với vị trí ảo <code>m</code> tính từ đầu
 cửa sổ). Nếu <code>c</code> không xuất hiện trong mẫu,
-<code>qsBc[c] = m + 1</code>.</p>
+$qsBc[c] = m + 1$.</p>
 <p><strong>Pha tìm kiếm</strong>: tại cửa sổ vị trí <code>j</code>, so
 sánh mẫu với <code>y[j..j+m-1]</code> theo thứ tự tuỳ ý (không ảnh hưởng
 kết quả). Nếu khớp, báo một xuất hiện. Bất kể khớp hay không, nếu cửa sổ
-chưa chạm mép phải văn bản (<code>j + m &lt; n</code>), tra ký tự
-<code>c = y[j+m]</code> — ký tự <strong>ngay sau</strong> cửa sổ — và
+chưa chạm mép phải văn bản ($j + m < n$), tra ký tự
+$c = y[j+m]$ — ký tự <strong>ngay sau</strong> cửa sổ — và
 dịch <code>j += qsBc[c]</code>. Nếu cửa sổ đã chạm mép phải (không còn
 ký tự sau cửa sổ để tra), thuật toán dừng.</p>
 <p>Vì bảng <code>qsBc</code> được tính trên toàn bộ mẫu (kể cả
 <code>x[m-1]</code>), giá trị nhỏ nhất có thể của <code>qsBc[c]</code>
-là 1 (khi <code>c = x[m-1]</code>), và giá trị lớn nhất là
-<code>m + 1</code> (khi <code>c</code> không xuất hiện trong mẫu) — lớn
+là 1 (khi $c = x[m-1]$), và giá trị lớn nhất là
+$m + 1$ (khi <code>c</code> không xuất hiện trong mẫu) — lớn
 hơn hẳn giới hạn <code>m</code> của bad-character kiểu Horspool. Đây
 chính là điểm khác biệt cốt lõi, giúp Quick Search đạt bước dịch trung
 bình lớn hơn, đặc biệt hiệu quả khi <code>m</code> nhỏ so với σ (lúc đó
-xác suất <code>qsBc[c] = m+1</code> càng cao).</p>
+xác suất $qsBc[c] = m+1$ càng cao).</p>
 <h2 id="cài-đặt-bằng-c">Cài đặt bằng C</h2>
 <pre class="c"><code>#include &lt;stdio.h&gt;
 #include &lt;string.h&gt;

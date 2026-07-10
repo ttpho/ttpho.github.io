@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,9 +27,9 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Là biến thể của họ Boyer-Moore dùng bad-character theo CẶP hai ký tự nằm NGAY SAU cửa sổ hiện tại.</li>
-<li>Pha tiền xử lý: O(m + σ²) để dựng bảng bad-character hai chiều <code>brBc</code> kích thước σ × σ.</li>
-<li>Bộ nhớ phụ: O(σ²).</li>
-<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất; bước dịch tối đa đạt m + 2.</li>
+<li>Pha tiền xử lý: $O(m + \sigma^2)$ để dựng bảng bad-character hai chiều <code>brBc</code> kích thước $\sigma \times \sigma$.</li>
+<li>Bộ nhớ phụ: $O(\sigma^2)$.</li>
+<li>Pha tìm kiếm: $O(mn)$ trong trường hợp xấu nhất; bước dịch tối đa đạt $m + 2$.</li>
 <li>Hướng so sánh ký tự: tùy ý (bước dịch không phụ thuộc kết quả so khớp), trong cài đặt dưới đây dùng so sánh từ trái sang phải.</li>
 <li>Là sự kết hợp và mở rộng của Quick Search (Sunday) và Zhu-Takaoka.</li>
 </ul>
@@ -35,14 +39,14 @@ a{color:#246}
 <p>Berry và Ravindran đẩy ý tưởng này xa thêm một bậc: thay vì chỉ nhìn một ký tự sau cửa sổ, họ nhìn HAI ký tự liền nhau <code>y[j+m]</code> và <code>y[j+m+1]</code>. Cặp hai ký tự mang nhiều thông tin hơn hẳn một ký tự đơn, nên bước dịch trung bình dài hơn — thậm chí có thể đạt tới m + 2 khi cả cặp hoàn toàn không "dính dáng" gì tới mẫu. Bảng <code>brBc[a][b]</code> được tính sẵn trong pha tiền xử lý cho biết cần dịch bao xa cho từng cặp <code>(a, b)</code>.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p>Bảng <code>brBc</code> là bảng hai chiều σ × σ. Với cặp ký tự <code>(a, b)</code> đứng ngay sau cửa sổ, <code>brBc[a][b]</code> là bước dịch nhỏ nhất sao cho sau khi dịch, cặp <code>(a, b)</code> được căn khớp với nội dung mẫu, cụ thể lấy giá trị nhỏ nhất trong các trường hợp:</p>
+<p>Bảng <code>brBc</code> là bảng hai chiều $\sigma \times \sigma$. Với cặp ký tự <code>(a, b)</code> đứng ngay sau cửa sổ, <code>brBc[a][b]</code> là bước dịch nhỏ nhất sao cho sau khi dịch, cặp <code>(a, b)</code> được căn khớp với nội dung mẫu, cụ thể lấy giá trị nhỏ nhất trong các trường hợp:</p>
 <ul>
-<li>1, nếu <code>x[m-1] = a</code>: dịch 1 để ký tự cuối mẫu đè lên vị trí j+m.</li>
-<li>m - i, nếu <code>x[i] = a</code> và <code>x[i+1] = b</code> (0 ≤ i ≤ m-2): căn cặp <code>(a, b)</code> với cặp liền kề trong mẫu.</li>
-<li>m + 1, nếu <code>x[0] = b</code>: dịch để ký tự đầu mẫu đè lên vị trí j+m+1.</li>
-<li>m + 2, nếu không rơi vào trường hợp nào ở trên: cặp <code>(a, b)</code> không thể nằm trong bất kỳ lần xuất hiện nào chồm qua nó, dịch hẳn qua.</li>
+<li>1, nếu $x[m-1] = a$: dịch 1 để ký tự cuối mẫu đè lên vị trí j+m.</li>
+<li>$m - i$, nếu $x[i] = a$ và $x[i+1] = b$ ($0 \le i \le m-2$): căn cặp <code>(a, b)</code> với cặp liền kề trong mẫu.</li>
+<li>$m + 1$, nếu $x[0] = b$: dịch để ký tự đầu mẫu đè lên vị trí j+m+1.</li>
+<li>$m + 2$, nếu không rơi vào trường hợp nào ở trên: cặp <code>(a, b)</code> không thể nằm trong bất kỳ lần xuất hiện nào chồm qua nó, dịch hẳn qua.</li>
 </ul>
-<p>Trong cài đặt, ta khởi tạo mọi ô bằng m + 2 rồi lần lượt ghi đè theo thứ tự từ bước dịch lớn đến nhỏ (m + 1, rồi m - i với i tăng dần, cuối cùng là 1), nhờ đó giá trị cuối cùng của mỗi ô đúng bằng giá trị nhỏ nhất.</p>
+<p>Trong cài đặt, ta khởi tạo mọi ô bằng $m + 2$ rồi lần lượt ghi đè theo thứ tự từ bước dịch lớn đến nhỏ ($m + 1$, rồi $m - i$ với i tăng dần, cuối cùng là 1), nhờ đó giá trị cuối cùng của mỗi ô đúng bằng giá trị nhỏ nhất.</p>
 <p>Pha tìm kiếm rất đơn giản: tại mỗi vị trí cửa sổ j, so khớp mẫu với <code>y[j..j+m-1]</code> (theo bất kỳ thứ tự nào); nếu khớp thì báo. Sau đó — bất kể kết quả — dịch cửa sổ đi <code>brBc[y[j+m]][y[j+m+1]]</code>. Vì công thức dịch đọc tới <code>y[n]</code> và <code>y[n+1]</code> khi cửa sổ chạm cuối văn bản, ta cần hai byte lính canh sau văn bản.</p>
 
 <h2>Cài đặt bằng C</h2>
@@ -86,7 +90,7 @@ void search(char *x, int m, char *y, int n) {
 
 <h2>Ví dụ minh họa</h2>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
-<p>Một số ô tiêu biểu của bảng <code>brBc</code>: vì <code>x[m-1] = 'G'</code> nên cả hàng <code>brBc[G][*] = 1</code>; cặp <code>(A, G)</code> xuất hiện lần cuối tại x[6..7] nên <code>brBc[A][G] = 2</code>; cặp <code>(C, A)</code> tại x[1..2] cho <code>brBc[C][A] = 7</code>; các cặp <code>(a, G)</code> khác (với a không phải A, G và không tạo cặp trong mẫu) nhận m + 1 = 9; cặp hoàn toàn xa lạ như <code>(T, A)</code> nhận m + 2 = 10.</p>
+<p>Một số ô tiêu biểu của bảng <code>brBc</code>: vì <code>x[m-1] = 'G'</code> nên cả hàng <code>brBc[G][*] = 1</code>; cặp <code>(A, G)</code> xuất hiện lần cuối tại x[6..7] nên <code>brBc[A][G] = 2</code>; cặp <code>(C, A)</code> tại x[1..2] cho <code>brBc[C][A] = 7</code>; các cặp <code>(a, G)</code> khác (với a không phải A, G và không tạo cặp trong mẫu) nhận $m + 1 = 9$; cặp hoàn toàn xa lạ như <code>(T, A)</code> nhận $m + 2 = 10$.</p>
 <ul>
 <li><strong>Bước 1</strong> — j = 0: so khớp <code>y[0..7] = "GCATCGCA"</code> với mẫu, thất bại (khác từ vị trí thứ 3). Cặp sau cửa sổ là <code>(y[8], y[9]) = ('G', 'A')</code>, tra <code>brBc[G][A] = 1</code>. Dịch tới j = 1.</li>
 <li><strong>Bước 2</strong> — j = 1: so khớp <code>y[1..8] = "CATCGCAG"</code>, thất bại ngay ký tự đầu. Cặp sau cửa sổ <code>(y[9], y[10]) = ('A', 'G')</code>, tra <code>brBc[A][G] = 2</code>. Dịch tới j = 3.</li>

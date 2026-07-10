@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,28 +26,28 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li><strong>Tiền xử lý</strong>: O(m) (bỏ qua chi phí phụ thuộc bảng chữ khi lưu trie) — dựng bucket không theo từng ký tự đơn mà theo <strong>factor</strong> (đoạn con) độ dài <code>ℓ</code> của mẫu.</li>
-<li><strong>Độ dài factor</strong>: <code>ℓ = ⌈log_σ(m)⌉</code>, với <code>σ</code> là số ký tự khác nhau; đây là độ dài "vừa đủ" để mỗi factor tương đối hiếm.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m) cho các bucket cộng với cấu trúc trie lưu các factor.</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: trung bình <strong>tối ưu</strong> O(n·log_σ(m) / m); xấu nhất O(mn).</li>
-<li><strong>Bước nhảy</strong>: <code>m - ℓ + 1</code>, lớn hơn ý nghĩa so với bước của Skip Search khi <code>ℓ</code> nhỏ.</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ (bỏ qua chi phí phụ thuộc bảng chữ khi lưu trie) — dựng bucket không theo từng ký tự đơn mà theo <strong>factor</strong> (đoạn con) độ dài <code>ℓ</code> của mẫu.</li>
+<li><strong>Độ dài factor</strong>: $\ell = \lceil \log_\sigma(m) \rceil$, với <code>σ</code> là số ký tự khác nhau; đây là độ dài "vừa đủ" để mỗi factor tương đối hiếm.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m)$ cho các bucket cộng với cấu trúc trie lưu các factor.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: trung bình <strong>tối ưu</strong> $O(n \cdot \log_\sigma(m) / m)$; xấu nhất $O(mn)$.</li>
+<li><strong>Bước nhảy</strong>: $m - \ell + 1$, lớn hơn ý nghĩa so với bước của Skip Search khi <code>ℓ</code> nhỏ.</li>
 <li><strong>Ý tưởng chủ đạo</strong>: tổng quát hoá Skip Search bằng cách lập chỉ mục theo đoạn con thay vì ký tự đơn, giúp bucket thưa hơn và bước nhảy dài hơn.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
 <p>Skip Search lập bucket theo từng ký tự đơn. Với bảng chữ nhỏ (ví dụ ADN chỉ 4 ký tự), mỗi ký tự xuất hiện rất nhiều lần trong mẫu, nên bucket dày và số ứng viên phải kiểm tra lớn.</p>
-<p>Alpha Skip Search khắc phục bằng cách lập chỉ mục theo <strong>factor</strong> (đoạn con liên tiếp) độ dài <code>ℓ</code> thay vì một ký tự. Chọn <code>ℓ = ⌈log_σ(m)⌉</code> sao cho số factor khả dĩ (<code>σ^ℓ ≈ m</code>) cân bằng với số factor thực có trong mẫu (<code>m - ℓ + 1</code>). Khi đó mỗi factor xuất hiện trung bình một số hằng lần, bucket trở nên thưa, và ta có thể nhảy qua văn bản với bước dài <code>m - ℓ + 1</code>. Đây chính là điều đưa thời gian trung bình xuống mức tối ưu O(n·log_σ(m) / m).</p>
+<p>Alpha Skip Search khắc phục bằng cách lập chỉ mục theo <strong>factor</strong> (đoạn con liên tiếp) độ dài <code>ℓ</code> thay vì một ký tự. Chọn $\ell = \lceil \log_\sigma(m) \rceil$ sao cho số factor khả dĩ ($\sigma^\ell \approx m$) cân bằng với số factor thực có trong mẫu ($m - \ell + 1$). Khi đó mỗi factor xuất hiện trung bình một số hằng lần, bucket trở nên thưa, và ta có thể nhảy qua văn bản với bước dài $m - \ell + 1$. Đây chính là điều đưa thời gian trung bình xuống mức tối ưu $O(n \cdot \log_\sigma(m) / m)$.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p><strong>Chọn ℓ.</strong> Đếm số ký tự phân biệt <code>σ</code> trong mẫu, tính <code>ℓ = ⌈log_σ(m)⌉</code> (chặn <code>1 ≤ ℓ ≤ m</code>).</p>
-<p><strong>Trie các factor.</strong> Ta duyệt mọi factor <code>x[i..i+ℓ-1]</code> với <code>i = 0 … m-ℓ</code>, và chèn từng factor vào một <strong>trie</strong> (cây tiền tố). Tại nút lá ứng với mỗi factor, ta gắn một bucket chứa các vị trí bắt đầu <code>i</code> sinh ra factor đó. Nhờ trie, việc tra một factor của văn bản chỉ tốn <code>ℓ</code> bước đi xuống cây.</p>
-<p><strong>Tìm kiếm.</strong> Ta xét các mốc <code>j</code> cách nhau <code>shift = m - ℓ + 1</code>, bắt đầu từ <code>j = m - ℓ</code>. Tại mỗi mốc, đọc factor <code>y[j..j+ℓ-1]</code> và tra trie:</p>
+<p><strong>Chọn ℓ.</strong> Đếm số ký tự phân biệt <code>σ</code> trong mẫu, tính $\ell = \lceil \log_\sigma(m) \rceil$ (chặn $1 \le \ell \le m$).</p>
+<p><strong>Trie các factor.</strong> Ta duyệt mọi factor $x[i..i+\ell-1]$ với $i = 0 \dots m-\ell$, và chèn từng factor vào một <strong>trie</strong> (cây tiền tố). Tại nút lá ứng với mỗi factor, ta gắn một bucket chứa các vị trí bắt đầu <code>i</code> sinh ra factor đó. Nhờ trie, việc tra một factor của văn bản chỉ tốn <code>ℓ</code> bước đi xuống cây.</p>
+<p><strong>Tìm kiếm.</strong> Ta xét các mốc <code>j</code> cách nhau $shift = m - \ell + 1$, bắt đầu từ $j = m - \ell$. Tại mỗi mốc, đọc factor $y[j..j+\ell-1]$ và tra trie:</p>
 <ol>
-<li>Đi xuống trie theo <code>ℓ</code> ký tự <code>y[j], y[j+1], …</code>. Nếu nửa chừng không có nhánh, factor này không phải factor của mẫu → bỏ qua mốc.</li>
-<li>Nếu tới được nút có bucket, với mỗi vị trí <code>i</code> trong bucket, ứng viên đặt mẫu là <code>s = j - i</code>. Nếu <code>0 ≤ s ≤ n - m</code>, so toàn bộ mẫu với <code>y[s..s+m-1]</code>.</li>
+<li>Đi xuống trie theo <code>ℓ</code> ký tự $y[j], y[j+1], \dots$. Nếu nửa chừng không có nhánh, factor này không phải factor của mẫu → bỏ qua mốc.</li>
+<li>Nếu tới được nút có bucket, với mỗi vị trí <code>i</code> trong bucket, ứng viên đặt mẫu là $s = j - i$. Nếu $0 \le s \le n - m$, so toàn bộ mẫu với $y[s..s+m-1]$.</li>
 <li>Nếu khớp hết, ghi nhận xuất hiện tại <code>s</code>.</li>
 </ol>
-<p>Việc chọn <code>shift = m - ℓ + 1</code> là an toàn vì mọi xuất hiện của mẫu (dài <code>m</code>) đều chứa ít nhất một mốc factor: hai mốc liên tiếp cách nhau <code>m - ℓ + 1</code>, nên một cửa sổ dài <code>m</code> luôn phủ trọn ít nhất một đoạn factor được canh với mốc.</p>
+<p>Việc chọn $shift = m - \ell + 1$ là an toàn vì mọi xuất hiện của mẫu (dài <code>m</code>) đều chứa ít nhất một mốc factor: hai mốc liên tiếp cách nhau $m - \ell + 1$, nên một cửa sổ dài <code>m</code> luôn phủ trọn ít nhất một đoạn factor được canh với mốc.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -139,8 +143,8 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
-<p>Mẫu dùng <code>σ = 3</code> ký tự phân biệt (<code>G</code>, <code>C</code>, <code>A</code>), nên <code>ℓ = ⌈log₃ 8⌉ = ⌈1.89⌉ = 2</code>. Ta lập chỉ mục các <strong>factor độ dài 2</strong> của mẫu:</p>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
+<p>Mẫu dùng $\sigma = 3$ ký tự phân biệt (<code>G</code>, <code>C</code>, <code>A</code>), nên $\ell = \lceil \log_3 8 \rceil = \lceil 1.89 \rceil = 2$. Ta lập chỉ mục các <strong>factor độ dài 2</strong> của mẫu:</p>
 <table>
 <tr><th>factor</th><th>các vị trí bắt đầu</th></tr>
 <tr><td>GC</td><td>0</td></tr>
@@ -148,10 +152,10 @@ void search(char *x, int m, char *y, int n) {
 <tr><td>AG</td><td>2, 4, 6</td></tr>
 <tr><td>GA</td><td>3, 5</td></tr>
 </table>
-<p>Bước nhảy <code>shift = m - ℓ + 1 = 7</code>, bắt đầu tại <code>j = m - ℓ = 6</code>.</p>
-<p><strong>Mốc j = 6</strong> (factor <code>y[6..7] = "CA"</code>): tra trie → bucket <code>{1}</code>. Ứng viên <code>s = 6 - 1 = 5</code>. So <code>x</code> với <code>y[5..12] = "GCAGAGAG"</code> → khớp toàn bộ. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong></p>
-<p><strong>Mốc j = 13</strong> (factor <code>y[13..14] = "TA"</code>): tra trie → không có nhánh cho <code>T</code> ở gốc, factor không thuộc mẫu → bỏ qua ngay.</p>
-<p><strong>Mốc j = 20</strong> (factor <code>y[20..21] = "TA"</code>): tương tự, bỏ qua.</p>
+<p>Bước nhảy $shift = m - \ell + 1 = 7$, bắt đầu tại $j = m - \ell = 6$.</p>
+<p><strong>Mốc $j = 6$</strong> (factor <code>y[6..7] = "CA"</code>): tra trie → bucket $\{1\}$. Ứng viên $s = 6 - 1 = 5$. So <code>x</code> với <code>y[5..12] = "GCAGAGAG"</code> → khớp toàn bộ. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong></p>
+<p><strong>Mốc $j = 13$</strong> (factor <code>y[13..14] = "TA"</code>): tra trie → không có nhánh cho <code>T</code> ở gốc, factor không thuộc mẫu → bỏ qua ngay.</p>
+<p><strong>Mốc $j = 20$</strong> (factor <code>y[20..21] = "TA"</code>): tương tự, bỏ qua.</p>
 <p>Chỉ với ba mốc và một lần kiểm tra đầy đủ, thuật toán tìm đúng xuất hiện duy nhất tại vị trí 5. Vì factor <code>"CA"</code> khá hiếm, bucket của nó chỉ có một phần tử — minh hoạ vì sao lập chỉ mục theo factor giúp bucket thưa hơn so với lập chỉ mục theo ký tự đơn.</p>
 
 <h2>Tài liệu tham khảo</h2>

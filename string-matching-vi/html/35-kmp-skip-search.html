@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,26 +26,26 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li><strong>Tiền xử lý</strong>: O(m + σ) — dựng bucket theo ký tự (dạng mảng <code>z</code> và <code>list</code>) cùng hai bảng dịch kiểu Morris-Pratt (<code>mpNext</code>) và Knuth-Morris-Pratt (<code>kmpNext</code>).</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m + σ).</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(n) trong trường hợp xấu nhất — đây chính là điểm cải tiến so với Skip Search thuần.</li>
+<li><strong>Tiền xử lý</strong>: $O(m + \sigma)$ — dựng bucket theo ký tự (dạng mảng <code>z</code> và <code>list</code>) cùng hai bảng dịch kiểu Morris-Pratt (<code>mpNext</code>) và Knuth-Morris-Pratt (<code>kmpNext</code>).</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m + \sigma)$.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: $O(n)$ trong trường hợp xấu nhất — đây chính là điểm cải tiến so với Skip Search thuần.</li>
 <li><strong>Hướng so sánh ký tự</strong>: nhảy qua văn bản theo bước <code>m</code> (như Skip Search), nhưng dùng "bức tường" (<code>wall</code>) và bảng KMP để không so lại vùng đã khớp.</li>
 <li><strong>Ý tưởng chủ đạo</strong>: ghép ưu điểm của Skip Search (nhảy nhanh) với bảo đảm tuyến tính của Knuth-Morris-Pratt.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
-<p>Skip Search thuần có nhược điểm: trong trường hợp xấu, cùng một đoạn văn bản có thể bị so đi so lại nhiều lần, dẫn tới O(mn). KMP Skip Search khắc phục bằng cách mượn kỹ thuật của Knuth-Morris-Pratt.</p>
+<p>Skip Search thuần có nhược điểm: trong trường hợp xấu, cùng một đoạn văn bản có thể bị so đi so lại nhiều lần, dẫn tới $O(mn)$. KMP Skip Search khắc phục bằng cách mượn kỹ thuật của Knuth-Morris-Pratt.</p>
 <p>Ý tưởng cốt lõi là duy trì một <strong>bức tường</strong> <code>wall</code>: vị trí xa nhất trong văn bản mà ta đã từng so tới. Khi kiểm tra một ứng viên mới, ta không bao giờ so lại các ký tự nằm bên trái bức tường — chúng đã được xác nhận trước đó. Kết hợp với các bảng <code>mpNext</code>/<code>kmpNext</code> để dịch trạng thái khớp một cách nhất quán, mỗi ký tự văn bản chỉ được so đúng một số lần hằng, cho tổng thời gian tuyến tính.</p>
 
 <h2>Mô tả chi tiết</h2>
 <p><strong>Cấu trúc bucket rút gọn.</strong> Thay cho danh sách liên kết, ở đây dùng hai mảng số nguyên. <code>z[c]</code> giữ vị trí xuất hiện phải nhất (chỉ số lớn nhất) của ký tự <code>c</code> trong mẫu, hoặc <code>-1</code> nếu không có. <code>list[i]</code> liên kết vị trí <code>i</code> tới vị trí xuất hiện kế trước của cùng ký tự <code>x[i]</code> trong mẫu. Nhờ vậy, từ <code>z[c]</code> ta lần theo <code>list</code> để duyệt mọi vị trí của <code>c</code> mà không cần cấp phát động.</p>
 <p><strong>Hai bảng dịch.</strong></p>
 <ul>
-<li><code>mpNext</code> là bảng "biên" của Morris-Pratt: <code>mpNext[i]</code> là độ dài biên (vừa là tiền tố vừa là hậu tố) dài nhất của <code>x[0..i-1]</code>.</li>
+<li><code>mpNext</code> là bảng "biên" của Morris-Pratt: <code>mpNext[i]</code> là độ dài biên (vừa là tiền tố vừa là hậu tố) dài nhất của $x[0..i-1]$.</li>
 <li><code>kmpNext</code> là biến thể Knuth-Morris-Pratt, được tinh chỉnh để tránh dịch tới vị trí có cùng ký tự sai lệch.</li>
 </ul>
-<p><strong>Chu kỳ mẫu.</strong> <code>per = m - kmpNext[m]</code> là chu kỳ của mẫu, dùng để dịch tiếp sau khi tìm được một xuất hiện.</p>
-<p><strong>Tìm kiếm.</strong> Biến <code>j</code> nhảy theo bước <code>m</code> để tìm mốc mà <code>y[j]</code> xuất hiện trong mẫu (dựa vào <code>z</code>). Từ mốc đó ta suy ra vị trí đặt mẫu <code>start = j - i</code>. Hàm <code>attempt</code> so mẫu với văn bản nhưng <strong>bắt đầu từ bức tường</strong> (<code>wall - start</code>), không so lại phần đã xác nhận, rồi cập nhật <code>wall</code>. Khi khớp đủ <code>m</code> ký tự, in ra <code>start</code> và dịch trạng thái theo chu kỳ <code>per</code>. Khi lệch, ta dùng <code>list</code> để lấy vị trí ứng viên kế tiếp, đồng thời dùng <code>kmpNext</code>/<code>mpNext</code> để đồng bộ <code>kmpStart</code> sao cho không bỏ sót và cũng không so trùng. Chính sự phối hợp giữa bước nhảy Skip Search và cơ chế bức tường KMP đưa độ phức tạp xấu nhất về O(n).</p>
+<p><strong>Chu kỳ mẫu.</strong> $per = m - kmpNext[m]$ là chu kỳ của mẫu, dùng để dịch tiếp sau khi tìm được một xuất hiện.</p>
+<p><strong>Tìm kiếm.</strong> Biến <code>j</code> nhảy theo bước <code>m</code> để tìm mốc mà <code>y[j]</code> xuất hiện trong mẫu (dựa vào <code>z</code>). Từ mốc đó ta suy ra vị trí đặt mẫu $start = j - i$. Hàm <code>attempt</code> so mẫu với văn bản nhưng <strong>bắt đầu từ bức tường</strong> ($wall - start$), không so lại phần đã xác nhận, rồi cập nhật <code>wall</code>. Khi khớp đủ <code>m</code> ký tự, in ra <code>start</code> và dịch trạng thái theo chu kỳ <code>per</code>. Khi lệch, ta dùng <code>list</code> để lấy vị trí ứng viên kế tiếp, đồng thời dùng <code>kmpNext</code>/<code>mpNext</code> để đồng bộ <code>kmpStart</code> sao cho không bỏ sót và cũng không so trùng. Chính sự phối hợp giữa bước nhảy Skip Search và cơ chế bức tường KMP đưa độ phức tạp xấu nhất về $O(n)$.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -154,12 +158,12 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (<code>n = 24</code>).</p>
-<p><strong>Tiền xử lý bucket.</strong> <code>z[G] = 7</code>, <code>z[C] = 1</code>, <code>z[A] = 6</code> (vị trí phải nhất của mỗi ký tự). Chuỗi <code>list</code> cho <code>G</code> là <code>7 → 5 → 3 → 0</code>, cho <code>A</code> là <code>6 → 4 → 2</code>, cho <code>C</code> là <code>1 → (-1)</code>. Chu kỳ mẫu <code>per = m - kmpNext[m] = 2</code> (mẫu có dạng lặp <code>AG</code>).</p>
-<p><strong>Nhảy tìm mốc đầu.</strong> Từ <code>j = m - 1 = 7</code>: <code>y[7] = A</code>, có trong mẫu (<code>z[A] = 6</code>), nên <code>i = 6</code>, <code>start = 7 - 6 = 1</code>.</p>
-<p><strong>Thử tại start = 1.</strong> <code>attempt</code> so <code>x</code> với <code>y[1..] = "CATCG..."</code>; ngay ký tự đầu <code>x[0]=G</code> khác <code>y[1]=C</code>, <code>k = 0</code>. Không khớp, lần theo <code>list[6] = 4</code> → <code>start = 7 - 4 = 3</code>; rồi <code>list[4] = 2</code> → <code>start = 5</code>.</p>
-<p><strong>Thử tại start = 5.</strong> So <code>x</code> với <code>y[5..12] = "GCAGAGAG"</code>, <code>k</code> chạy tới <code>m = 8</code>, cập nhật <code>wall = 13</code>. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong> Nhờ chu kỳ <code>per = 2</code> và bức tường, các phép thử tiếp theo không so lại vùng <code>y[5..12]</code>.</p>
-<p>Quá trình nhảy tiếp qua các mốc <code>j = 15, 23</code>; không có xuất hiện nào khác. Mỗi ký tự văn bản chỉ tham gia một số hằng phép so sánh, bảo đảm tổng thời gian O(n).</p>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> ($n = 24$).</p>
+<p><strong>Tiền xử lý bucket.</strong> $z[G] = 7$, $z[C] = 1$, $z[A] = 6$ (vị trí phải nhất của mỗi ký tự). Chuỗi <code>list</code> cho <code>G</code> là $7 \to 5 \to 3 \to 0$, cho <code>A</code> là $6 \to 4 \to 2$, cho <code>C</code> là $1 \to (-1)$. Chu kỳ mẫu $per = m - kmpNext[m] = 2$ (mẫu có dạng lặp <code>AG</code>).</p>
+<p><strong>Nhảy tìm mốc đầu.</strong> Từ $j = m - 1 = 7$: $y[7] = A$, có trong mẫu ($z[A] = 6$), nên $i = 6$, $start = 7 - 6 = 1$.</p>
+<p><strong>Thử tại $start = 1$.</strong> <code>attempt</code> so <code>x</code> với <code>y[1..] = "CATCG..."</code>; ngay ký tự đầu $x[0]=G$ khác $y[1]=C$, $k = 0$. Không khớp, lần theo $list[6] = 4$ → $start = 7 - 4 = 3$; rồi $list[4] = 2$ → $start = 5$.</p>
+<p><strong>Thử tại $start = 5$.</strong> So <code>x</code> với <code>y[5..12] = "GCAGAGAG"</code>, <code>k</code> chạy tới $m = 8$, cập nhật $wall = 13$. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong> Nhờ chu kỳ $per = 2$ và bức tường, các phép thử tiếp theo không so lại vùng <code>y[5..12]</code>.</p>
+<p>Quá trình nhảy tiếp qua các mốc $j = 15, 23$; không có xuất hiện nào khác. Mỗi ký tự văn bản chỉ tham gia một số hằng phép so sánh, bảo đảm tổng thời gian $O(n)$.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

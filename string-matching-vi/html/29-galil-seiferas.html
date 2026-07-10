@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,34 +26,34 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li>Thuật toán so khớp chuỗi tuyến tính O(n+m) đầu tiên trong lịch sử được chứng minh chỉ cần bộ nhớ phụ HẰNG SỐ O(1) — không cần bảng thất bại như Morris-Pratt/KMP, không cần ôtômat.</li>
-<li>Dựa trên khái niệm "phân tích hoàn hảo" (perfect factorization) của mẫu thành một số hằng số <code>k</code> khối (trong công trình gốc, <code>k = 4</code>), khai thác các bổ đề về tính tuần hoàn của chuỗi (bổ đề Fine–Wilf) để tránh phải lưu trữ thông tin tiền xử lý cỡ lớn.</li>
-<li><strong>Tiền xử lý</strong>: O(m) thời gian, O(1) bộ nhớ phụ (ngoài chuỗi mẫu).</li>
-<li><strong>Pha tìm kiếm</strong>: O(n) thời gian trong trường hợp xấu nhất, O(1) bộ nhớ phụ.</li>
+<li>Thuật toán so khớp chuỗi tuyến tính $O(n+m)$ đầu tiên trong lịch sử được chứng minh chỉ cần bộ nhớ phụ HẰNG SỐ $O(1)$ — không cần bảng thất bại như Morris-Pratt/KMP, không cần ôtômat.</li>
+<li>Dựa trên khái niệm "phân tích hoàn hảo" (perfect factorization) của mẫu thành một số hằng số <code>k</code> khối (trong công trình gốc, $k = 4$), khai thác các bổ đề về tính tuần hoàn của chuỗi (bổ đề Fine–Wilf) để tránh phải lưu trữ thông tin tiền xử lý cỡ lớn.</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ thời gian, $O(1)$ bộ nhớ phụ (ngoài chuỗi mẫu).</li>
+<li><strong>Pha tìm kiếm</strong>: $O(n)$ thời gian trong trường hợp xấu nhất, $O(1)$ bộ nhớ phụ.</li>
 <li><strong>Hướng so sánh ký tự</strong>: về nguyên tắc linh hoạt (thuật toán gốc phối hợp nhiều kỹ thuật: đếm chu kỳ cho phần lặp lại, "đấu loại" — duel — giữa các ứng viên cho phần không lặp).</li>
-<li>Là kết quả lý thuyết nền tảng, mở đường cho các thuật toán O(1)-bộ-nhớ thực dụng hơn về sau như Two Way (Crochemore–Perrin).</li>
+<li>Là kết quả lý thuyết nền tảng, mở đường cho các thuật toán $O(1)$-bộ-nhớ thực dụng hơn về sau như Two Way (Crochemore–Perrin).</li>
 </ul>
 
 <h2>Ý tưởng</h2>
-<p>Trước Galil-Seiferas, các thuật toán tuyến tính (Morris-Pratt, KMP) đều cần một bảng phụ kích thước O(m) — hàm thất bại — được tính trước và tra cứu liên tục trong lúc quét văn bản. Câu hỏi đặt ra: liệu có thể đạt cùng độ phức tạp thời gian O(n+m) mà HOÀN TOÀN không cần bảng phụ nào, chỉ dùng một số hằng số biến đếm?</p>
+<p>Trước Galil-Seiferas, các thuật toán tuyến tính (Morris-Pratt, KMP) đều cần một bảng phụ kích thước $O(m)$ — hàm thất bại — được tính trước và tra cứu liên tục trong lúc quét văn bản. Câu hỏi đặt ra: liệu có thể đạt cùng độ phức tạp thời gian $O(n+m)$ mà HOÀN TOÀN không cần bảng phụ nào, chỉ dùng một số hằng số biến đếm?</p>
 <p>Galil và Seiferas (1983) trả lời có, bằng một quan sát sâu sắc về cấu trúc tuần hoàn của chuỗi: mọi mẫu đều có thể phân tích thành một số hằng số khối, trong đó mỗi khối hoặc có "chu kỳ nhỏ" (tự lặp lại với một chu kỳ ngắn) hoặc "gần như không lặp" (không có chu kỳ đáng kể). Với khối có chu kỳ nhỏ, việc so khớp có thể thực hiện chỉ bằng cách ĐẾM số lần chu kỳ lặp lại khớp với văn bản — không cần bảng, chỉ cần một bộ đếm. Với khối gần như không lặp, hai vị trí ứng viên gần nhau trong văn bản không thể cùng là điểm bắt đầu của một xuất hiện thật (dựa trên bổ đề tuần hoàn Fine–Wilf), nên ta có thể tổ chức các phép so sánh dưới dạng "đấu loại" (duel): so sánh một ký tự witness giữa hai ứng viên để loại bỏ ít nhất một trong hai, mà không cần lưu một bảng witness đầy đủ — witness được tính lại ngay tại chỗ bằng một phép so sánh trực tiếp với chính mẫu.</p>
 <p>Nhờ phối hợp hai kỹ thuật "đếm chu kỳ" và "đấu loại witness tính-tại-chỗ", toàn bộ thuật toán không cần lưu trữ gì ngoài một vài chỉ số nguyên, trong khi vẫn giữ được tổng số phép so sánh ký tự ở mức tuyến tính.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p>Cấu trúc trình bày dưới đây là một cách hiện thực hóa đơn giản hóa, mang đúng tinh thần của Galil-Seiferas (đếm chu kỳ cho phần lặp lại, dịch an toàn dựa trên phân tích tuần hoàn cho phần còn lại, tất cả chỉ dùng O(1) biến phụ), dựa trên công cụ "hậu tố cực đại" (maximal suffix) để xác định điểm phân tích và chu kỳ liên quan — công cụ nền tảng chung cho cả họ thuật toán O(1)-bộ-nhớ (bao gồm cả Two Way trình bày ở mục sau).</p>
-<p><strong>Tiền xử lý.</strong> Tính hai hậu tố cực đại của mẫu <code>x</code> (theo thứ tự so sánh thông thường và thứ tự ngược), lấy điểm <code>ell</code> (độ dài phần đầu <code>x[0..ell-1]</code>) lớn hơn trong hai kết quả, cùng chu kỳ <code>per</code> tương ứng. Kiểm tra xem <code>per</code> có thực sự là một chu kỳ bao trùm cả phần đầu hay không (<code>per ≤ m − ell</code> và <code>x[0..ell-1] = x[per..per+ell-1]</code>) — nếu đúng, mẫu có "chu kỳ nhỏ" toàn cục, cho phép dùng kỹ thuật đếm chu kỳ.</p>
+<p>Cấu trúc trình bày dưới đây là một cách hiện thực hóa đơn giản hóa, mang đúng tinh thần của Galil-Seiferas (đếm chu kỳ cho phần lặp lại, dịch an toàn dựa trên phân tích tuần hoàn cho phần còn lại, tất cả chỉ dùng $O(1)$ biến phụ), dựa trên công cụ "hậu tố cực đại" (maximal suffix) để xác định điểm phân tích và chu kỳ liên quan — công cụ nền tảng chung cho cả họ thuật toán $O(1)$-bộ-nhớ (bao gồm cả Two Way trình bày ở mục sau).</p>
+<p><strong>Tiền xử lý.</strong> Tính hai hậu tố cực đại của mẫu <code>x</code> (theo thứ tự so sánh thông thường và thứ tự ngược), lấy điểm <code>ell</code> (độ dài phần đầu $x[0..ell-1]$) lớn hơn trong hai kết quả, cùng chu kỳ <code>per</code> tương ứng. Kiểm tra xem <code>per</code> có thực sự là một chu kỳ bao trùm cả phần đầu hay không ($per \le m - ell$ và $x[0..ell-1] = x[per..per+ell-1]$) — nếu đúng, mẫu có "chu kỳ nhỏ" toàn cục, cho phép dùng kỹ thuật đếm chu kỳ.</p>
 <p><strong>Tìm kiếm.</strong> Quét văn bản bằng một cửa sổ trượt duy nhất theo một hướng (trái sang phải), duy trì một biến <code>run</code> — số ký tự ở đầu cửa sổ hiện tại đã được BIẾT CHẮC là khớp với mẫu nhờ thông tin từ lần thử ngay trước (tương tự bộ đếm chu kỳ, không cần so sánh lại):</p>
 <ol>
-<li>So sánh <code>x[i]</code> với <code>y[pos+i]</code> bắt đầu từ <code>i = run</code>, tăng dần cho tới khi gặp sai lệch hoặc <code>i</code> đạt tới <code>m</code>.</li>
-<li>Nếu <code>i = m</code>: toàn bộ cửa sổ khớp, báo một xuất hiện tại <code>pos</code>.
+<li>So sánh <code>x[i]</code> với $y[pos+i]$ bắt đầu từ $i = run$, tăng dần cho tới khi gặp sai lệch hoặc <code>i</code> đạt tới <code>m</code>.</li>
+<li>Nếu $i = m$: toàn bộ cửa sổ khớp, báo một xuất hiện tại <code>pos</code>.
 <ul>
-<li>Nếu mẫu có chu kỳ nhỏ toàn cục (đã xác định ở bước tiền xử lý): đây chính là tình huống "đếm chu kỳ" — dịch cửa sổ đúng bằng độ dài chu kỳ <code>per</code> (không hơn không kém, đảm bảo không bỏ sót xuất hiện chồng lấn nào), và đặt <code>run = m − per</code>, tức là phần chồng lấn giữa cửa sổ cũ và mới (dài <code>m − per</code> ký tự) được xem là đã biết khớp, khỏi cần so sánh lại — đây chính là "bộ đếm" tăng dần một cách ngầm định.</li>
+<li>Nếu mẫu có chu kỳ nhỏ toàn cục (đã xác định ở bước tiền xử lý): đây chính là tình huống "đếm chu kỳ" — dịch cửa sổ đúng bằng độ dài chu kỳ <code>per</code> (không hơn không kém, đảm bảo không bỏ sót xuất hiện chồng lấn nào), và đặt $run = m - per$, tức là phần chồng lấn giữa cửa sổ cũ và mới (dài $m - per$ ký tự) được xem là đã biết khớp, khỏi cần so sánh lại — đây chính là "bộ đếm" tăng dần một cách ngầm định.</li>
 <li>Nếu không, xử lý như bước 3 dưới đây.</li>
 </ul>
 </li>
-<li>Nếu <code>i &lt; m</code> (có sai lệch) hoặc mẫu không có chu kỳ nhỏ: đây là tình huống "đấu loại" — dựa trên phân tích tuần hoàn tại điểm <code>ell</code>, ta biết chắc không có xuất hiện nào của mẫu bắt đầu trong khoảng <code>(pos, pos + i − ell)</code>, nên có thể dịch an toàn <code>shift = max(i − ell, 1)</code> mà không cần kiểm tra riêng lẻ từng vị trí bị bỏ qua — đây chính là hiệu quả của phép "đấu loại" witness, chỉ khác là được suy ra trực tiếp từ cấu trúc phân tích thay vì tra bảng. Đặt lại <code>run = 0</code> (không còn gì được biết chắc để tận dụng).</li>
+<li>Nếu $i < m$ (có sai lệch) hoặc mẫu không có chu kỳ nhỏ: đây là tình huống "đấu loại" — dựa trên phân tích tuần hoàn tại điểm <code>ell</code>, ta biết chắc không có xuất hiện nào của mẫu bắt đầu trong khoảng $(pos, pos + i - ell)$, nên có thể dịch an toàn $shift = \max(i - ell, 1)$ mà không cần kiểm tra riêng lẻ từng vị trí bị bỏ qua — đây chính là hiệu quả của phép "đấu loại" witness, chỉ khác là được suy ra trực tiếp từ cấu trúc phân tích thay vì tra bảng. Đặt lại $run = 0$ (không còn gì được biết chắc để tận dụng).</li>
 </ol>
-<p>Vì mỗi ký tự văn bản chỉ tham gia vào một số lượng hằng số các phép so sánh trên toàn bộ quá trình (phần được <code>run</code> bỏ qua không tính thêm chi phí so sánh), tổng độ phức tạp thời gian vẫn là O(n+m), trong khi không có bảng phụ nào tỉ lệ với <code>m</code> được lưu trữ — chỉ vài biến nguyên (<code>ell</code>, <code>per</code>, <code>pos</code>, <code>run</code>, <code>i</code>).</p>
+<p>Vì mỗi ký tự văn bản chỉ tham gia vào một số lượng hằng số các phép so sánh trên toàn bộ quá trình (phần được <code>run</code> bỏ qua không tính thêm chi phí so sánh), tổng độ phức tạp thời gian vẫn là $O(n+m)$, trong khi không có bảng phụ nào tỉ lệ với <code>m</code> được lưu trữ — chỉ vài biến nguyên (<code>ell</code>, <code>per</code>, <code>pos</code>, <code>run</code>, <code>i</code>).</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -122,24 +126,24 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
-<p><strong>Tiền xử lý.</strong> Giống ví dụ đã tính ở Two Way: <code>ell = 2</code>, <code>per = 2</code> (<code>x[0..1] = "GC"</code>, phần còn lại <code>"AGAGAG"</code> có chu kỳ 2). Nhưng kiểm tra <code>x[0..1] = "GC"</code> so với <code>x[2..3] = "AG"</code> — KHÔNG bằng nhau, nên mẫu này KHÔNG có chu kỳ nhỏ bao trùm toàn cục; thuật toán sẽ luôn dùng nhánh "dịch an toàn" (không đếm chu kỳ) cho ví dụ cụ thể này.</p>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> ($n = 24$).</p>
+<p><strong>Tiền xử lý.</strong> Giống ví dụ đã tính ở Two Way: $ell = 2$, $per = 2$ ($x[0..1] = \text{"GC"}$, phần còn lại <code>"AGAGAG"</code> có chu kỳ 2). Nhưng kiểm tra $x[0..1] = \text{"GC"}$ so với $x[2..3] = \text{"AG"}$ — KHÔNG bằng nhau, nên mẫu này KHÔNG có chu kỳ nhỏ bao trùm toàn cục; thuật toán sẽ luôn dùng nhánh "dịch an toàn" (không đếm chu kỳ) cho ví dụ cụ thể này.</p>
 <p><strong>Tìm kiếm.</strong></p>
 <ul>
-<li><code>pos = 0, run = 0</code>: so sánh từ <code>i=0</code>: <code>G,C,A</code> khớp (<code>i</code> tăng tới 3), <code>x[3]='G'</code> với <code>y[3]='T'</code> sai lệch. <code>shift = 3 − 2 = 1</code>. Dịch tới <code>pos = 1</code>.</li>
-<li><code>pos = 1</code>: <code>x[0]='G'</code> với <code>y[1]='C'</code> sai lệch ngay (<code>i=0</code>). <code>shift = 0 − 2 = −2</code>, ghim về 1. Dịch tới <code>pos = 2</code>.</li>
-<li>Tương tự, các vị trí <code>pos = 2, 3, 4</code> đều sai lệch ngay ở ký tự đầu, mỗi lần dịch thêm 1.</li>
-<li><code>pos = 5</code>: so sánh từ <code>i=0</code>, toàn bộ 8 ký tự <code>"GCAGAGAG"</code> khớp trọn (<code>i</code> đạt 8 = m). Báo <strong>"Khop tai vi tri 5"</strong>. Vì mẫu không có chu kỳ nhỏ toàn cục, dùng <code>shift = i − ell = 8 − 2 = 6</code>. Dịch tới <code>pos = 11</code>.</li>
+<li>$pos = 0, run = 0$: so sánh từ $i=0$: <code>G,C,A</code> khớp (<code>i</code> tăng tới 3), $x[3]='G'$ với $y[3]='T'$ sai lệch. $shift = 3 - 2 = 1$. Dịch tới $pos = 1$.</li>
+<li>$pos = 1$: $x[0]='G'$ với $y[1]='C'$ sai lệch ngay ($i=0$). $shift = 0 - 2 = -2$, ghim về 1. Dịch tới $pos = 2$.</li>
+<li>Tương tự, các vị trí $pos = 2, 3, 4$ đều sai lệch ngay ở ký tự đầu, mỗi lần dịch thêm 1.</li>
+<li>$pos = 5$: so sánh từ $i=0$, toàn bộ 8 ký tự <code>"GCAGAGAG"</code> khớp trọn ($i$ đạt $8 = m$). Báo <strong>"Khop tai vi tri 5"</strong>. Vì mẫu không có chu kỳ nhỏ toàn cục, dùng $shift = i - ell = 8 - 2 = 6$. Dịch tới $pos = 11$.</li>
 <li>Quá trình tiếp tục quét hết văn bản; không có xuất hiện nào khác.</li>
 </ul>
-<p>So với Two Way trên cùng ví dụ, chuỗi các bước dịch ở đây có phần khác biệt (quét một lượt duy nhất trái sang phải thay vì tách <code>xr</code>/<code>xl</code> hai chiều), nhưng cùng đạt được tính đúng đắn và độ phức tạp O(n+m), O(1) bộ nhớ phụ. Cài đặt trên đã được kiểm chứng bằng kiểm thử ngẫu nhiên diện rộng (hơn một triệu cặp mẫu/văn bản, bao gồm cả mẫu có chu kỳ nhỏ và mẫu không tuần hoàn) so với thuật toán vét cạn, không phát hiện sai lệch.</p>
+<p>So với Two Way trên cùng ví dụ, chuỗi các bước dịch ở đây có phần khác biệt (quét một lượt duy nhất trái sang phải thay vì tách <code>xr</code>/<code>xl</code> hai chiều), nhưng cùng đạt được tính đúng đắn và độ phức tạp $O(n+m)$, $O(1)$ bộ nhớ phụ. Cài đặt trên đã được kiểm chứng bằng kiểm thử ngẫu nhiên diện rộng (hơn một triệu cặp mẫu/văn bản, bao gồm cả mẫu có chu kỳ nhỏ và mẫu không tuần hoàn) so với thuật toán vét cạn, không phát hiện sai lệch.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>
 <li>Z. Galil, J. Seiferas, "Time-space-optimal string matching", Journal of Computer and System Sciences, 1983.</li>
 <li>Z. Galil, J. Seiferas, "A linear-time on-line recognition algorithm for 'Palstar'", Journal of the ACM, 1978 (kỹ thuật nền tảng liên quan).</li>
 <li>N. J. Fine, H. S. Wilf, "Uniqueness theorems for periodic functions", Proceedings of the American Mathematical Society, 1965 (bổ đề tuần hoàn làm nền tảng lý thuyết).</li>
-<li>M. Crochemore, W. Rytter, "Text Algorithms", Oxford University Press, 1994 (trình bày lại và đơn giản hóa các kỹ thuật O(1) bộ nhớ).</li>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", Oxford University Press, 1994 (trình bày lại và đơn giản hóa các kỹ thuật $O(1)$ bộ nhớ).</li>
 </ul>
 </body>
 </html>

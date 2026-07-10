@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,10 +27,10 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Biến thể đơn giản của brute-force: thay vì so sánh mẫu với văn bản bắt đầu từ ký tự đầu tiên, thuật toán <strong>so sánh ký tự thứ hai của mẫu (<code>x[1]</code>) trước</strong>, rồi mới quay lại so từ đầu nếu ký tự đó khớp.</li>
-<li>Tiền xử lý cực nhẹ: chỉ <strong>O(1)</strong> — so sánh <code>x[0]</code> với <code>x[1]</code> một lần để xác định độ dịch chuyển <code>k</code> và <code>ℓ</code>.</li>
+<li>Tiền xử lý cực nhẹ: chỉ <strong>$O(1)$</strong> — so sánh <code>x[0]</code> với <code>x[1]</code> một lần để xác định độ dịch chuyển <code>k</code> và <code>ℓ</code>.</li>
 <li>Không cần bộ nhớ phụ đáng kể (không bảng tiền xử lý).</li>
-<li>Độ phức tạp pha tìm kiếm trong trường hợp xấu nhất vẫn là <strong>O(m·n)</strong> (giống brute-force), nhưng <strong>trung bình rất tốt</strong>, gần với các thuật toán tinh vi hơn.</li>
-<li>So sánh ký tự theo hướng đặc biệt: kiểm tra <code>y[j+1]</code> trước, rồi nếu khớp mới so <code>x[2], x[3], …</code> và cuối cùng <code>x[0]</code>.</li>
+<li>Độ phức tạp pha tìm kiếm trong trường hợp xấu nhất vẫn là <strong>$O(m \cdot n)$</strong> (giống brute-force), nhưng <strong>trung bình rất tốt</strong>, gần với các thuật toán tinh vi hơn.</li>
+<li>So sánh ký tự theo hướng đặc biệt: kiểm tra $y[j+1]$ trước, rồi nếu khớp mới so $x[2], x[3], \dots$ và cuối cùng <code>x[0]</code>.</li>
 <li>Độ dịch chuyển cửa sổ là <strong>1</strong> hoặc <strong>2</strong> tuỳ vào kết quả so sánh ký tự thứ hai.</li>
 </ul>
 
@@ -34,24 +38,24 @@ a{color:#246}
 <p>Brute-force cổ điển so <code>x[0]</code> với <code>y[j]</code> trước; nếu khớp mới so tiếp <code>x[1]</code>, <code>x[2]</code>, … Nhưng trong thực tế, với bảng chữ cái không quá nhỏ, xác suất <code>x[0]</code> khớp ngẫu nhiên với một ký tự văn bản đã tương đối thấp — brute-force gần như luôn dừng ở phép so đầu tiên. Not So Naive khai thác một quan sát tinh tế hơn: nếu ta biết trước quan hệ giữa <code>x[0]</code> và <code>x[1]</code>, ta có thể chọn so sánh ký tự thứ hai của mẫu trước, giúp loại bỏ nhanh hơn các vị trí sai, đồng thời cho phép <strong>dịch chuyển 2 vị trí</strong> thay vì 1 trong nhiều trường hợp — giảm đáng kể số cửa sổ phải xét trong thực tế, dù độ phức tạp lý thuyết xấu nhất không đổi.</p>
 <p>Cụ thể, xét quan hệ giữa hai ký tự đầu mẫu:</p>
 <ul>
-<li>Nếu <code>x[0] == x[1]</code>: khi <code>x[1]</code> khớp với <code>y[j+1]</code> nhưng <code>x[0]</code> cuối cùng lại không khớp <code>y[j]</code>, ta biết chắc cửa sổ tiếp theo (<code>j+1</code>) cũng sẽ thất bại ngay tại vị trí đó (vì <code>y[j+1]</code> đã đối chiếu). Vì vậy có thể dịch <strong>2</strong> khi <code>x[1]</code> khớp, và dịch <strong>2</strong> cả khi <code>x[1]</code> không khớp — chọn <code>k = 2</code>.</li>
-<li>Nếu <code>x[0] != x[1]</code>: khi <code>x[1]</code> không khớp <code>y[j+1]</code>, ta chỉ chắc chắn dịch được <strong>1</strong> vị trí; còn khi <code>x[1]</code> khớp thì có thể dịch <strong>2</strong>.</li>
+<li>Nếu $x[0] = x[1]$: khi <code>x[1]</code> khớp với $y[j+1]$ nhưng <code>x[0]</code> cuối cùng lại không khớp <code>y[j]</code>, ta biết chắc cửa sổ tiếp theo ($j+1$) cũng sẽ thất bại ngay tại vị trí đó (vì $y[j+1]$ đã đối chiếu). Vì vậy có thể dịch <strong>2</strong> khi <code>x[1]</code> khớp, và dịch <strong>2</strong> cả khi <code>x[1]</code> không khớp — chọn $k = 2$.</li>
+<li>Nếu $x[0] \neq x[1]$: khi <code>x[1]</code> không khớp $y[j+1]$, ta chỉ chắc chắn dịch được <strong>1</strong> vị trí; còn khi <code>x[1]</code> khớp thì có thể dịch <strong>2</strong>.</li>
 </ul>
-<p>Điểm mấu chốt: việc kiểm tra <code>x[1]</code> so với <code>y[j+1]</code> trước tiên đóng vai trò một "bộ lọc" rẻ tiền giúp loại nhanh phần lớn các vị trí sai mà không cần bảng tiền xử lý phức tạp.</p>
+<p>Điểm mấu chốt: việc kiểm tra <code>x[1]</code> so với $y[j+1]$ trước tiên đóng vai trò một "bộ lọc" rẻ tiền giúp loại nhanh phần lớn các vị trí sai mà không cần bảng tiền xử lý phức tạp.</p>
 
 <h2>Mô tả chi tiết</h2>
 <p>Tiền xử lý chỉ gồm một phép so sánh: kiểm tra <code>x[0]</code> có bằng <code>x[1]</code> hay không, từ đó ấn định hai hằng số điều khiển dịch chuyển:</p>
 <ul>
-<li>Nếu <code>x[0] == x[1]</code>: đặt <code>k = 2</code> (dịch khi <code>x[1]</code> không khớp) và <code>ℓ = 1</code> (dịch khi toàn bộ so sánh hoàn tất, dù khớp hay không).</li>
-<li>Nếu <code>x[0] != x[1]</code>: đặt <code>k = 1</code> và <code>ℓ = 2</code>.</li>
+<li>Nếu $x[0] = x[1]$: đặt $k = 2$ (dịch khi <code>x[1]</code> không khớp) và $\ell = 1$ (dịch khi toàn bộ so sánh hoàn tất, dù khớp hay không).</li>
+<li>Nếu $x[0] \neq x[1]$: đặt $k = 1$ và $\ell = 2$.</li>
 </ul>
 <p>Pha tìm kiếm, với mỗi vị trí cửa sổ <code>j</code>:</p>
 <ol>
-<li>So <code>x[1]</code> với <code>y[j+1]</code>.</li>
+<li>So <code>x[1]</code> với $y[j+1]$.</li>
 <li>Nếu khác nhau: dịch cửa sổ đi <code>k</code> vị trí (không so gì thêm).</li>
-<li>Nếu giống nhau: so tiếp <code>x[2], x[3], …, x[m-1]</code> với phần văn bản tương ứng; nếu tất cả khớp, so nốt <code>x[0]</code> với <code>y[j]</code> — nếu khớp thì báo tìm thấy tại <code>j</code>. Dù kết quả thế nào, dịch cửa sổ đi <code>ℓ</code> vị trí.</li>
+<li>Nếu giống nhau: so tiếp $x[2], x[3], \dots, x[m-1]$ với phần văn bản tương ứng; nếu tất cả khớp, so nốt <code>x[0]</code> với <code>y[j]</code> — nếu khớp thì báo tìm thấy tại <code>j</code>. Dù kết quả thế nào, dịch cửa sổ đi <code>ℓ</code> vị trí.</li>
 </ol>
-<p>Trường hợp <code>m = 1</code> xử lý riêng: chỉ so từng ký tự văn bản với <code>x[0]</code>.</p>
+<p>Trường hợp $m = 1$ xử lý riêng: chỉ so từng ký tự văn bản với <code>x[0]</code>.</p>
 <p>Có thể thấy thuật toán về bản chất vẫn là brute-force nhưng đổi <strong>thứ tự và điểm khởi đầu</strong> của việc so sánh để tận dụng thông tin rẻ tiền từ hai ký tự đầu mẫu, giúp giảm đáng kể số phép so sánh trung bình trên dữ liệu thực tế mà không phải trả chi phí tiền xử lý nào đáng kể.</p>
 
 <h2>Cài đặt bằng C</h2>
@@ -87,16 +91,16 @@ void search(char *x, int m, char *y, int n) {
 
 <h2>Ví dụ minh họa</h2>
 <p>Xét <code>x = "GCAGAGAG"</code> (m = 8) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
-<p>Vì <code>x[0]=G</code> khác <code>x[1]=C</code>, ta có <code>k = 1</code>, <code>ℓ = 2</code>.</p>
+<p>Vì $x[0]=G$ khác $x[1]=C$, ta có $k = 1$, $\ell = 2$.</p>
 <p>Vài lần thử đầu:</p>
 <ul>
-<li><code>j = 0</code>: so <code>x[1]=C</code> với <code>y[1]=C</code> — khớp. So tiếp <code>x[2..7]</code> với <code>y[2..7]</code>: <code>x[2]=A</code> khớp <code>y[2]=A</code>, nhưng <code>x[3]=G</code> khác <code>y[3]=T</code> — dừng, không khớp toàn bộ. Dịch <code>ℓ = 2</code>.</li>
-<li><code>j = 2</code>: so <code>x[1]=C</code> với <code>y[3]=T</code> — khác. Dịch <code>k = 1</code>.</li>
-<li><code>j = 3</code>: so <code>x[1]=C</code> với <code>y[4]=C</code> — khớp. So tiếp: <code>x[2]=A</code> khác <code>y[5]=G</code> — dừng. Dịch <code>ℓ = 2</code>.</li>
-<li><code>j = 5</code>: so <code>x[1]=C</code> với <code>y[6]=C</code> — khớp. So tiếp toàn bộ <code>x[2..7]</code> với <code>y[7..12]</code>, đều khớp; so nốt <code>x[0]=G</code> với <code>y[5]=G</code> — khớp → <strong>tìm thấy tại vị trí 5</strong>. Dịch <code>ℓ = 2</code>.</li>
-<li><code>j = 7</code>: so <code>x[1]=C</code> với <code>y[8]=G</code> — khác. Dịch <code>k = 1</code>.</li>
+<li>$j = 0$: so $x[1]=C$ với $y[1]=C$ — khớp. So tiếp $x[2..7]$ với $y[2..7]$: $x[2]=A$ khớp $y[2]=A$, nhưng $x[3]=G$ khác $y[3]=T$ — dừng, không khớp toàn bộ. Dịch $\ell = 2$.</li>
+<li>$j = 2$: so $x[1]=C$ với $y[3]=T$ — khác. Dịch $k = 1$.</li>
+<li>$j = 3$: so $x[1]=C$ với $y[4]=C$ — khớp. So tiếp: $x[2]=A$ khác $y[5]=G$ — dừng. Dịch $\ell = 2$.</li>
+<li>$j = 5$: so $x[1]=C$ với $y[6]=C$ — khớp. So tiếp toàn bộ $x[2..7]$ với $y[7..12]$, đều khớp; so nốt $x[0]=G$ với $y[5]=G$ — khớp → <strong>tìm thấy tại vị trí 5</strong>. Dịch $\ell = 2$.</li>
+<li>$j = 7$: so $x[1]=C$ với $y[8]=G$ — khác. Dịch $k = 1$.</li>
 </ul>
-<p>Nhờ so <code>x[1]</code> trước, thuật toán loại nhanh vị trí <code>j = 2</code> và <code>j = 7</code> chỉ bằng một phép so sánh, không cần chạm tới <code>x[0]</code>.</p>
+<p>Nhờ so <code>x[1]</code> trước, thuật toán loại nhanh vị trí $j = 2$ và $j = 7$ chỉ bằng một phép so sánh, không cần chạm tới <code>x[0]</code>.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

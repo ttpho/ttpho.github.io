@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,9 +27,9 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Dùng "factor oracle" (ôtômat oracle) của mẫu đảo ngược thay cho ôtômat hậu tố đầy đủ (suffix automaton/DAWG) như Reverse Factor.</li>
-<li><strong>Tiền xử lý</strong>: O(m) thời gian và bộ nhớ — factor oracle có đúng <code>m + 1</code> trạng thái và tối đa <code>2m − 1</code> cạnh, cấu trúc đơn giản hơn hẳn suffix automaton.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m × σ) cho bảng chuyển (hoặc O(m) nếu dùng danh sách kề); nhẹ hơn suffix automaton vì không cần lưu độ dài <code>len</code> hay xử lý việc tách trạng thái (clone).</li>
-<li><strong>Pha tìm kiếm</strong>: trung bình tối ưu O(n·log<sub>σ</sub>(m)/m); xấu nhất O(mn).</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ thời gian và bộ nhớ — factor oracle có đúng $m + 1$ trạng thái và tối đa $2m - 1$ cạnh, cấu trúc đơn giản hơn hẳn suffix automaton.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m \times \sigma)$ cho bảng chuyển (hoặc $O(m)$ nếu dùng danh sách kề); nhẹ hơn suffix automaton vì không cần lưu độ dài <code>len</code> hay xử lý việc tách trạng thái (clone).</li>
+<li><strong>Pha tìm kiếm</strong>: trung bình tối ưu $O(n \cdot \log_\sigma(m)/m)$; xấu nhất $O(mn)$.</li>
 <li><strong>Hướng so sánh ký tự</strong>: quét cửa sổ từ PHẢI sang TRÁI, giống Reverse Factor.</li>
 <li>Do oracle có thể nhận diện "thừa" một số chuỗi không phải factor thật của mẫu (superset), khi cửa sổ được nhận diện trọn vẹn cần một bước kiểm tra xác nhận (verification) bằng so sánh trực tiếp để loại bỏ khả năng nhận nhầm.</li>
 </ul>
@@ -38,15 +42,15 @@ a{color:#246}
 <h2>Mô tả chi tiết</h2>
 <p><strong>Tiền xử lý — xây dựng factor oracle.</strong> Với mẫu đảo ngược có <code>m</code> ký tự, factor oracle có các trạng thái đánh số <code>0..m</code>. Xây dựng trực tuyến, thêm từng ký tự một, duy trì một hàm "supply" (đóng vai trò giống liên kết hậu tố):</p>
 <ol>
-<li>Trạng thái <code>0</code> là trạng thái gốc, <code>supply[0] = -1</code>.</li>
-<li>Khi thêm ký tự <code>x[i]</code> (i chạy từ 0 đến m-1): tạo trạng thái mới <code>i+1</code>, thêm cạnh <code>trans[i][x[i]] = i+1</code>.</li>
-<li>Đi ngược theo chuỗi supply bắt đầu từ <code>k = supply[i]</code>: với mỗi <code>k ≥ 0</code> mà <code>trans[k][x[i]]</code> chưa xác định, thêm cạnh <code>trans[k][x[i]] = i+1</code> rồi tiếp tục <code>k = supply[k]</code>.</li>
-<li>Dừng lại khi <code>k = -1</code> (đặt <code>supply[i+1] = 0</code>) hoặc khi gặp <code>k</code> đã có cạnh trên <code>x[i]</code> (đặt <code>supply[i+1] = trans[k][x[i]]</code>).</li>
+<li>Trạng thái <code>0</code> là trạng thái gốc, $supply[0] = -1$.</li>
+<li>Khi thêm ký tự <code>x[i]</code> (i chạy từ 0 đến m-1): tạo trạng thái mới $i+1$, thêm cạnh $trans[i][x[i]] = i+1$.</li>
+<li>Đi ngược theo chuỗi supply bắt đầu từ $k = supply[i]$: với mỗi $k \ge 0$ mà <code>trans[k][x[i]]</code> chưa xác định, thêm cạnh $trans[k][x[i]] = i+1$ rồi tiếp tục $k = supply[k]$.</li>
+<li>Dừng lại khi $k = -1$ (đặt $supply[i+1] = 0$) hoặc khi gặp <code>k</code> đã có cạnh trên <code>x[i]</code> (đặt $supply[i+1] = trans[k][x[i]]$).</li>
 </ol>
 <p>Kết quả là một ôtômat phi tuần hoàn (DAG) với đúng <code>m+1</code> trạng thái, được chứng minh là nhận diện được mọi factor của chuỗi đưa vào (có thể nhận thêm một số chuỗi khác nữa, nhưng không bao giờ thiếu).</p>
-<p><strong>Tìm kiếm.</strong> Với mỗi vị trí cửa sổ <code>pos</code>, đọc lùi từ <code>y[pos+m-1]</code> về <code>y[pos]</code> bằng oracle (đã xây trên mẫu đảo ngược):</p>
+<p><strong>Tìm kiếm.</strong> Với mỗi vị trí cửa sổ <code>pos</code>, đọc lùi từ $y[pos+m-1]$ về <code>y[pos]</code> bằng oracle (đã xây trên mẫu đảo ngược):</p>
 <ul>
-<li>Nếu tại một điểm nào đó không còn cạnh chuyển hợp lệ (oracle "kẹt") ở chỉ số <code>j</code>, dịch cửa sổ tới <code>pos + j + 1</code> — an toàn vì mọi xuất hiện thật của mẫu chứa đoạn vừa đọc đều phải được oracle nhận diện, nên việc kẹt chứng tỏ không có xuất hiện nào bắt đầu trước vị trí đó.</li>
+<li>Nếu tại một điểm nào đó không còn cạnh chuyển hợp lệ (oracle "kẹt") ở chỉ số <code>j</code>, dịch cửa sổ tới $pos + j + 1$ — an toàn vì mọi xuất hiện thật của mẫu chứa đoạn vừa đọc đều phải được oracle nhận diện, nên việc kẹt chứng tỏ không có xuất hiện nào bắt đầu trước vị trí đó.</li>
 <li>Nếu đọc hết toàn bộ <code>m</code> ký tự mà oracle không kẹt, ta có một ứng viên khớp tại <code>pos</code>; do oracle có thể nhận nhầm, cần xác nhận lại bằng cách so sánh trực tiếp <code>y[pos..pos+m-1]</code> với mẫu gốc trước khi báo kết quả. Sau đó dịch cửa sổ thêm 1 (bước dịch an toàn tối thiểu).</li>
 </ul>
 <p>Vì oracle không có cơ chế đánh dấu "tiền tố" nhiều tầng như suffix automaton, BOM không tận dụng được các bước dịch trung gian dài như Reverse Factor có thể làm được trong một số trường hợp, nhưng bù lại việc xây dựng và duy trì ôtômat đơn giản hơn nhiều, và trên thực nghiệm BOM thường chạy nhanh tương đương hoặc nhanh hơn Reverse Factor.</p>
@@ -127,8 +131,8 @@ void search(char *x, int m, char *y, int n) {
 <h2>Ví dụ minh họa</h2>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24). Ta xây factor oracle cho mẫu đảo ngược <code>"GAGAGACG"</code>.</p>
 <ul>
-<li><strong>Cửa sổ tại pos = 0</strong> (<code>y[0..7] = "GCATCGCA"</code>): quét ngược <code>y[7]='A'</code>, <code>y[6]='C'</code>, <code>y[5]='G'</code> — các bước này còn có cạnh hợp lệ trong oracle (vì "A", "CA", "GCA" đều là factor của mẫu gốc, do đó cũng được oracle của mẫu đảo ngược nhận diện theo chiều tương ứng). Tại <code>y[4]='C'</code>, đoạn đọc được (ứng với "CGCA" đọc ngược) không còn khớp bất kỳ cạnh nào trong oracle — kẹt tại <code>j = 4</code>. Dịch cửa sổ tới <code>pos = 0 + 4 + 1 = 5</code>.</li>
-<li><strong>Cửa sổ tại pos = 5</strong> (<code>y[5..12] = "GCAGAGAG"</code>): quét ngược toàn bộ 8 ký tự, oracle không kẹt (<code>j</code> giảm xuống dưới 0). Xác nhận lại bằng so sánh trực tiếp: <code>y[5..12]</code> đúng bằng <code>x</code>, nên chương trình in ra <strong>"Khop tai vi tri 5"</strong>. Dịch cửa sổ tới <code>pos = 6</code>.</li>
+<li><strong>Cửa sổ tại pos = 0</strong> (<code>y[0..7] = "GCATCGCA"</code>): quét ngược <code>y[7]='A'</code>, <code>y[6]='C'</code>, <code>y[5]='G'</code> — các bước này còn có cạnh hợp lệ trong oracle (vì "A", "CA", "GCA" đều là factor của mẫu gốc, do đó cũng được oracle của mẫu đảo ngược nhận diện theo chiều tương ứng). Tại <code>y[4]='C'</code>, đoạn đọc được (ứng với "CGCA" đọc ngược) không còn khớp bất kỳ cạnh nào trong oracle — kẹt tại $j = 4$. Dịch cửa sổ tới $pos = 0 + 4 + 1 = 5$.</li>
+<li><strong>Cửa sổ tại pos = 5</strong> (<code>y[5..12] = "GCAGAGAG"</code>): quét ngược toàn bộ 8 ký tự, oracle không kẹt (<code>j</code> giảm xuống dưới 0). Xác nhận lại bằng so sánh trực tiếp: <code>y[5..12]</code> đúng bằng <code>x</code>, nên chương trình in ra <strong>"Khop tai vi tri 5"</strong>. Dịch cửa sổ tới $pos = 6$.</li>
 <li>Quá trình tiếp tục quét hết văn bản; không tìm thấy xuất hiện nào khác.</li>
 </ul>
 <p>Cài đặt trên đã được kiểm chứng đúng (bao gồm cả bước xác nhận sau khi oracle nhận diện trọn cửa sổ) bằng cách đối chiếu với thuật toán vét cạn trên hàng vạn cặp mẫu/văn bản ngẫu nhiên, cũng như trên các mẫu có cấu trúc gần tuần hoàn — không ghi nhận trường hợp bỏ sót hay báo khớp giả nào lọt qua bước xác nhận.</p>

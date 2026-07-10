@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -22,9 +26,9 @@ a{color:#246}
 
 <h2>Đặc điểm chính</h2>
 <ul>
-<li><strong>Tiền xử lý</strong>: O(m² + σ) — dựng bảng <code>minShift</code> cho từng vị trí, bảng dịch Quick Search cỡ σ và bảng <code>adaptedGs</code> cỡ m.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m + σ).</li>
-<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(mn) trong trường hợp xấu nhất, nhưng nhanh trong thực tế.</li>
+<li><strong>Tiền xử lý</strong>: $O(m^2 + \sigma)$ — dựng bảng <code>minShift</code> cho từng vị trí, bảng dịch Quick Search cỡ $\sigma$ và bảng <code>adaptedGs</code> cỡ m.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m + \sigma)$.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: $O(mn)$ trong trường hợp xấu nhất, nhưng nhanh trong thực tế.</li>
 <li><strong>Hướng so sánh ký tự</strong>: các vị trí của mẫu được so <strong>không tuần tự</strong>, theo thứ tự sao cho khi sai lệch xảy ra thì lượng dịch cửa sổ là <strong>lớn nhất</strong>.</li>
 <li><strong>Ý tưởng chủ đạo</strong>: khác với Optimal Mismatch (tối ưu xác suất bắt sai lệch sớm), Maximal Shift tối ưu độ dài bước dịch.</li>
 </ul>

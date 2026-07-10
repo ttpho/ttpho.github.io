@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,27 +27,27 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Là bản tinh chỉnh của Knuth-Morris-Pratt: chia các vị trí của mẫu thành <strong>hai tập</strong> và so sánh theo <strong>hai pha</strong> với thứ tự khéo léo.</li>
-<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> thời gian và bộ nhớ phụ.</li>
-<li>Độ phức tạp pha tìm kiếm: <strong>O(n)</strong>.</li>
-<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>3n/2</strong> (tức không quá 1,5 lần độ dài văn bản).</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>$O(m)$</strong> thời gian và bộ nhớ phụ.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>$O(n)$</strong>.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>$3n/2$</strong> (tức không quá 1,5 lần độ dài văn bản).</li>
 <li>So sánh ký tự theo thứ tự đặc biệt: trước hết duyệt các vị trí "nohole" từ trái sang phải, rồi các vị trí "hole" từ phải sang trái.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
 <p>Trong KMP, khi so mẫu với cửa sổ hiện tại và gặp lệch, ta trượt cửa sổ nhưng lại quên rằng một số ký tự văn bản đã được so khớp thành công ở lần thử trước. Colussi khai thác triệt để hơn thông tin này.</p>
-<p>Chìa khoá là phân loại các vị trí <code>i</code> của mẫu theo bảng dịch chuyển KMP. Một vị trí <code>i</code> gọi là <strong>nohole</strong> nếu <code>kmpNext[i] &gt; kmpNext[i+1]</code> (theo cách định nghĩa của Colussi, đây là vị trí mà giá trị hàm biên "giảm", ứng với những vị trí mà khi so khớp ta thu được thông tin thật sự mới); các vị trí còn lại gọi là <strong>hole</strong>. Ý tưởng: khi thử một cửa sổ, trước tiên chỉ so các vị trí nohole theo chiều tăng dần; nếu tất cả nohole khớp thì mới quay lại so các vị trí hole theo chiều giảm dần. Cách sắp xếp này bảo đảm mỗi ký tự văn bản không bị so quá một số lần có kiểm soát, dẫn tới cận 3n/2.</p>
+<p>Chìa khoá là phân loại các vị trí <code>i</code> của mẫu theo bảng dịch chuyển KMP. Một vị trí <code>i</code> gọi là <strong>nohole</strong> nếu $kmpNext[i] > kmpNext[i+1]$ (theo cách định nghĩa của Colussi, đây là vị trí mà giá trị hàm biên "giảm", ứng với những vị trí mà khi so khớp ta thu được thông tin thật sự mới); các vị trí còn lại gọi là <strong>hole</strong>. Ý tưởng: khi thử một cửa sổ, trước tiên chỉ so các vị trí nohole theo chiều tăng dần; nếu tất cả nohole khớp thì mới quay lại so các vị trí hole theo chiều giảm dần. Cách sắp xếp này bảo đảm mỗi ký tự văn bản không bị so quá một số lần có kiểm soát, dẫn tới cận $3n/2$.</p>
 
 <h2>Mô tả chi tiết</h2>
 <p>Pha tiền xử lý tính một loạt bảng:</p>
 <ul>
-<li><code>hmax[k]</code>: vị trí <code>i</code> lớn nhất sao cho <code>k</code> là một chu kỳ của tiền tố <code>x[0..i-1]</code> (tức <code>x[j] = x[j-k]</code> với mọi <code>k ≤ j &lt; i</code>). Bảng này được xây bằng thuật toán tính chu kỳ trên mẫu.</li>
-<li><code>kmin[i]</code>: chu kỳ <code>k</code> nhỏ nhất sao cho <code>hmax[k] = i</code>; bằng 0 nếu không tồn tại. <code>kmin[i] &gt; 0</code> đánh dấu <code>i</code> là vị trí <strong>nohole</strong>, <code>kmin[i] = 0</code> đánh dấu <strong>hole</strong>.</li>
+<li><code>hmax[k]</code>: vị trí <code>i</code> lớn nhất sao cho <code>k</code> là một chu kỳ của tiền tố <code>x[0..i-1]</code> (tức $x[j] = x[j-k]$ với mọi $k \le j < i$). Bảng này được xây bằng thuật toán tính chu kỳ trên mẫu.</li>
+<li><code>kmin[i]</code>: chu kỳ <code>k</code> nhỏ nhất sao cho $hmax[k] = i$; bằng 0 nếu không tồn tại. $kmin[i] > 0$ đánh dấu <code>i</code> là vị trí <strong>nohole</strong>, $kmin[i] = 0$ đánh dấu <strong>hole</strong>.</li>
 <li><code>rmin[i]</code>: chu kỳ nhỏ nhất của mẫu lớn hơn <code>i</code>, dùng cho các vị trí hole.</li>
-<li>Mảng <code>h</code>: liệt kê thứ tự duyệt các vị trí — các vị trí nohole xếp ở đầu (theo chiều tăng), các vị trí hole xếp ở cuối (theo chiều giảm). Số phần tử nohole là <code>nd + 1</code>.</li>
+<li>Mảng <code>h</code>: liệt kê thứ tự duyệt các vị trí — các vị trí nohole xếp ở đầu (theo chiều tăng), các vị trí hole xếp ở cuối (theo chiều giảm). Số phần tử nohole là $nd + 1$.</li>
 <li><code>nhd0[i]</code>: số vị trí nohole nằm trước <code>i</code>.</li>
-<li>Từ đó suy ra hai bảng điều khiển: <code>shift[i]</code> (độ trượt cửa sổ) và <code>nxt[i]</code> (chỉ số bắt đầu duyệt lại trong <code>h</code> cho cửa sổ mới), cho mỗi khả năng dừng <code>i</code> (kể cả <code>i = m</code> khi khớp trọn).</li>
+<li>Từ đó suy ra hai bảng điều khiển: <code>shift[i]</code> (độ trượt cửa sổ) và <code>nxt[i]</code> (chỉ số bắt đầu duyệt lại trong <code>h</code> cho cửa sổ mới), cho mỗi khả năng dừng <code>i</code> (kể cả $i = m$ khi khớp trọn).</li>
 </ul>
-<p>Pha tìm kiếm dùng một biến <code>last</code> ghi lại chỉ số văn bản lớn nhất đã được so khớp chắc chắn ở lần thử trước. Với mỗi cửa sổ đặt tại <code>j</code>, ta duyệt <code>h</code> từ chỉ số <code>i</code>: chừng nào vị trí <code>h[i]</code> chưa vượt qua <code>last</code> (điều kiện <code>last &lt; j + h[i]</code>) và ký tự khớp thì tăng <code>i</code>. Khi phát hiện lệch (hoặc đã duyệt xong toàn bộ), ta cập nhật <code>last</code> nếu đã bước sang phần hole, rồi trượt cửa sổ <code>j += shift[i]</code> và đặt <code>i = nxt[i]</code>.</p>
+<p>Pha tìm kiếm dùng một biến <code>last</code> ghi lại chỉ số văn bản lớn nhất đã được so khớp chắc chắn ở lần thử trước. Với mỗi cửa sổ đặt tại <code>j</code>, ta duyệt <code>h</code> từ chỉ số <code>i</code>: chừng nào vị trí <code>h[i]</code> chưa vượt qua <code>last</code> (điều kiện $last < j + h[i]$) và ký tự khớp thì tăng <code>i</code>. Khi phát hiện lệch (hoặc đã duyệt xong toàn bộ), ta cập nhật <code>last</code> nếu đã bước sang phần hole, rồi trượt cửa sổ <code>j += shift[i]</code> và đặt $i = nxt[i]$.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;
@@ -137,8 +141,8 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Xét <code>x = "GCAGAGAG"</code> (m = 8) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
-<p>Tiền xử lý cho: <code>nd = 3</code> (bốn vị trí nohole), thứ tự duyệt</p>
+<p>Xét <code>x = "GCAGAGAG"</code> ($m = 8$) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> ($n = 24$).</p>
+<p>Tiền xử lý cho: $nd = 3$ (bốn vị trí nohole), thứ tự duyệt</p>
 <table>
 <tr><th>chỉ số i</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
 <tr><th>h[i]</th><td>1</td><td>2</td><td>4</td><td>6</td><td>7</td><td>5</td><td>3</td><td>0</td></tr>
@@ -146,11 +150,11 @@ void search(char *x, int m, char *y, int n) {
 <p>Bốn vị trí đầu (1, 2, 4, 6) là nohole (duyệt tăng), bốn vị trí sau (7, 5, 3, 0) là hole (duyệt giảm).</p>
 <p>Vài lần thử đầu:</p>
 <ul>
-<li>Cửa sổ <code>j = 0</code>: so <code>x[1]=C</code> với <code>y[1]=C</code> (khớp), <code>x[2]=A</code> với <code>y[2]=A</code> (khớp), <code>x[4]=A</code> với <code>y[4]=C</code> — <strong>lệch</strong>. Trượt <code>shift[2] = 3</code>, <code>i = 0</code>.</li>
-<li>Cửa sổ <code>j = 3</code>: <code>x[1]=C</code> với <code>y[4]=C</code> (khớp), <code>x[2]=A</code> với <code>y[5]=G</code> — lệch. Trượt <code>shift[1] = 2</code>.</li>
-<li>Cửa sổ <code>j = 5</code>: lần lượt các nohole rồi các hole đều khớp → <strong>tìm thấy tại vị trí 5</strong>. Trượt <code>shift[8] = 7</code>.</li>
+<li>Cửa sổ $j = 0$: so $x[1] = C$ với $y[1] = C$ (khớp), $x[2] = A$ với $y[2] = A$ (khớp), $x[4] = A$ với $y[4] = C$ — <strong>lệch</strong>. Trượt $shift[2] = 3$, $i = 0$.</li>
+<li>Cửa sổ $j = 3$: $x[1] = C$ với $y[4] = C$ (khớp), $x[2] = A$ với $y[5] = G$ — lệch. Trượt $shift[1] = 2$.</li>
+<li>Cửa sổ $j = 5$: lần lượt các nohole rồi các hole đều khớp → <strong>tìm thấy tại vị trí 5</strong>. Trượt $shift[8] = 7$.</li>
 </ul>
-<p>Cách duyệt nohole trước, hole sau giúp Colussi phát hiện lệch sớm và trượt xa, đồng thời khống chế tổng số phép so sánh dưới 3n/2.</p>
+<p>Cách duyệt nohole trước, hole sau giúp Colussi phát hiện lệch sớm và trượt xa, đồng thời khống chế tổng số phép so sánh dưới $3n/2$.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

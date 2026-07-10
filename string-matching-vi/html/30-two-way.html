@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,15 +27,15 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Phân tích mẫu <code>x</code> thành hai phần <code>x = xl · xr</code> tại một điểm gọi là "phân tích tới hạn" (critical factorization), dựa trên hậu tố cực đại (maximal suffix) của mẫu.</li>
-<li><strong>Tiền xử lý</strong>: O(m) thời gian, tính hai lần hậu tố cực đại (theo hai thứ tự so sánh khác nhau) cùng chu kỳ tương ứng.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(1) — chỉ vài biến nguyên (không cần bảng, không cần ôtômat, không cần hàm thất bại lưu trữ mảng).</li>
-<li><strong>Pha tìm kiếm</strong>: O(n + m) thời gian trong trường hợp xấu nhất; số phép so sánh ký tự tối đa là <code>2n − m</code> khi mẫu không có chu kỳ nhỏ ở phần bên trái.</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ thời gian, tính hai lần hậu tố cực đại (theo hai thứ tự so sánh khác nhau) cùng chu kỳ tương ứng.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(1)$ — chỉ vài biến nguyên (không cần bảng, không cần ôtômat, không cần hàm thất bại lưu trữ mảng).</li>
+<li><strong>Pha tìm kiếm</strong>: $O(n + m)$ thời gian trong trường hợp xấu nhất; số phép so sánh ký tự tối đa là <code>2n − m</code> khi mẫu không có chu kỳ nhỏ ở phần bên trái.</li>
 <li><strong>Hướng so sánh ký tự</strong>: so sánh phần bên phải <code>xr</code> từ TRÁI sang PHẢI trước, sau đó so sánh phần bên trái <code>xl</code> từ PHẢI sang TRÁI.</li>
 <li>Là nền tảng thuật toán cho hàm <code>strstr</code>/<code>memmem</code> của thư viện chuẩn glibc nhờ sự kết hợp giữa tốc độ thực tế cao và bộ nhớ phụ hằng số.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
-<p>Phần lớn thuật toán so khớp chuỗi tuyến tính cổ điển (Morris-Pratt, KMP) cần lưu một bảng phụ (hàm thất bại) có kích thước tỉ lệ với độ dài mẫu. Two Way đặt mục tiêu tham vọng hơn: đạt thời gian tuyến tính O(n+m) mà CHỈ dùng bộ nhớ phụ hằng số O(1).</p>
+<p>Phần lớn thuật toán so khớp chuỗi tuyến tính cổ điển (Morris-Pratt, KMP) cần lưu một bảng phụ (hàm thất bại) có kích thước tỉ lệ với độ dài mẫu. Two Way đặt mục tiêu tham vọng hơn: đạt thời gian tuyến tính $O(n+m)$ mà CHỈ dùng bộ nhớ phụ hằng số $O(1)$.</p>
 <p>Chìa khóa là khái niệm phân tích tới hạn: mọi chuỗi đều có thể tách thành <code>x = xl · xr</code> tại một vị trí đặc biệt sao cho việc so khớp phần <code>xr</code> trước (trái sang phải) rồi phần <code>xl</code> sau (phải sang trái, tức từ điểm cắt lùi về đầu mẫu) sẽ không bao giờ bỏ sót một sai lệch thực sự nào — điểm cắt này được xác định thông qua hậu tố cực đại của mẫu theo hai thứ tự so sánh từ điển khác nhau (thông thường và đảo ngược), lấy điểm cho hậu tố dài hơn trong hai kết quả.</p>
 <p>Nhờ tính chất đặc biệt của điểm phân tích tới hạn này, khi việc so khớp <code>xr</code> thất bại ở một vị trí nào đó, ta có thể suy ra ngay một bước dịch cửa sổ an toàn mà không cần tra bảng — chỉ cần dùng hiệu số vị trí. Khi <code>xr</code> khớp trọn vẹn, ta so khớp tiếp <code>xl</code> (phải sang trái); nếu mẫu có "chu kỳ nhỏ" phủ được phần <code>xl</code>, thuật toán còn ghi nhớ (biến <code>memory</code>) phần đã biết chắc chắn khớp từ lần thử trước để không phải so sánh lại, giữ tổng số phép so sánh trong giới hạn tuyến tính.</p>
 
@@ -51,7 +55,7 @@ a{color:#246}
 <li>Nếu <code>i</code> giảm xuống dưới 0, toàn bộ mẫu đã khớp — báo xuất hiện tại <code>pos</code>. Dù có khớp hay không, dịch cửa sổ thêm <code>shift</code>.</li>
 </ol>
 <p><strong>Tìm kiếm — trường hợp có chu kỳ nhỏ.</strong> Tương tự nhưng dùng biến <code>memory</code> (khởi tạo 0) để nhớ ranh giới đã xác nhận khớp ở lần thử trước: khi so sánh <code>xr</code>, bắt đầu từ <code>i = max(ell, memory)</code> thay vì luôn từ <code>ell</code>; khi so sánh <code>xl</code>, chỉ so sánh tới <code>i = memory</code> thay vì tới tận đầu mẫu — phần còn lại đã được đảm bảo khớp nhờ tính chu kỳ. Sau khi khớp trọn cửa sổ, dịch cửa sổ đúng bằng chu kỳ <code>per</code> (thay vì <code>shift</code> cố định) và cập nhật <code>memory = m − per</code>, tận dụng phần chồng lấn giữa hai cửa sổ liên tiếp.</p>
-<p>Nhờ cách phân tích này, tổng số phép so sánh ký tự trong toàn bộ quá trình tìm kiếm bị chặn bởi <code>2n</code> trong trường hợp tổng quát, cho thời gian chạy tuyến tính O(n+m) mà không cần bất kỳ bảng phụ nào có kích thước phụ thuộc <code>m</code>.</p>
+<p>Nhờ cách phân tích này, tổng số phép so sánh ký tự trong toàn bộ quá trình tìm kiếm bị chặn bởi <code>2n</code> trong trường hợp tổng quát, cho thời gian chạy tuyến tính $O(n+m)$ mà không cần bất kỳ bảng phụ nào có kích thước phụ thuộc <code>m</code>.</p>
 
 <h2>Cài đặt bằng C</h2>
 <pre><code>#include &lt;stdio.h&gt;

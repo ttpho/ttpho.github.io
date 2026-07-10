@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,34 +27,34 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Là bản tinh chỉnh của thuật toán Colussi, đẩy cận số phép so sánh xuống thấp hơn nữa.</li>
-<li>Ý tưởng cốt lõi: khi mẫu <strong>không có dạng lũy thừa</strong> (không viết được thành <code>w^k</code> với k ≥ 2 và một tiền tố nào đó là lũy thừa của ký tự đầu), thuật toán tận dụng thông tin về loạt ký tự đầu đã khớp ở lần thử trước để không so lại.</li>
-<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> thời gian và bộ nhớ phụ.</li>
-<li>Độ phức tạp pha tìm kiếm: <strong>O(n)</strong>.</li>
-<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>4n/3</strong> — cải thiện so với cận 3n/2 của Colussi.</li>
+<li>Ý tưởng cốt lõi: khi mẫu <strong>không có dạng lũy thừa</strong> (không viết được thành $w^k$ với $k \ge 2$ và một tiền tố nào đó là lũy thừa của ký tự đầu), thuật toán tận dụng thông tin về loạt ký tự đầu đã khớp ở lần thử trước để không so lại.</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>$O(m)$</strong> thời gian và bộ nhớ phụ.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>$O(n)$</strong>.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>$4n/3$</strong> — cải thiện so với cận $3n/2$ của Colussi.</li>
 <li>So sánh ký tự theo cùng thứ tự nohole/hole như Colussi.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
 <p>Colussi đã giảm số phép so sánh bằng cách khéo léo chọn thứ tự so các vị trí, nhưng vẫn "quên" một dạng thông tin: khi mẫu bắt đầu bằng một loạt ký tự giống nhau (ví dụ mẫu <code>aac…</code> bắt đầu bằng hai chữ <code>a</code>), sau một lần thử thành công một phần, ta thường đã biết chắc một đoạn văn bản gồm toàn ký tự <code>x[0]</code>. Trong lần thử kế tiếp, thay vì so lại từng ký tự của đoạn đó, ta có thể "quét nhanh" để kéo dài loạt ký tự và bỏ qua các so sánh thừa.</p>
-<p>Đặt <code>ℓ</code> là chỉ số sao cho <code>x[0] = x[1] = … = x[ℓ]</code> nhưng <code>x[ℓ+1] ≠ x[0]</code> — nghĩa là mẫu mở đầu bằng loạt <code>(ℓ+1)</code> ký tự <code>x[0]</code>. Galil-Giancarlo phân biệt hai chế độ:</p>
+<p>Đặt $\ell$ là chỉ số sao cho $x[0] = x[1] = \dots = x[\ell]$ nhưng $x[\ell+1] \neq x[0]$ — nghĩa là mẫu mở đầu bằng loạt $(\ell+1)$ ký tự <code>x[0]</code>. Galil-Giancarlo phân biệt hai chế độ:</p>
 <ul>
 <li>Chế độ "nhẹ" (light): thử cửa sổ như Colussi.</li>
 <li>Chế độ "nặng" (heavy): kích hoạt sau một lần thử mà thuật toán đã xác nhận một đoạn văn bản <code>y[j..last]</code> gồm toàn ký tự <code>x[0]</code>. Khi đó ta kéo dài loạt ký tự đó về phía phải mà không so lại phần đã biết, rồi căn chỉnh cửa sổ dựa trên độ dài loạt và ký tự đầu tiên khác <code>x[0]</code>.</li>
 </ul>
-<p>Với mẫu là lũy thừa của một ký tự (<code>x = a^m</code>), bài toán suy biến thành đếm loạt ký tự và được xử lý riêng bằng một vòng lặp đơn giản.</p>
+<p>Với mẫu là lũy thừa của một ký tự ($x = a^m$), bài toán suy biến thành đếm loạt ký tự và được xử lý riêng bằng một vòng lặp đơn giản.</p>
 
 <h2>Mô tả chi tiết</h2>
-<p>Tiền xử lý dùng lại toàn bộ bảng của Colussi (<code>h</code>, <code>shift</code>, <code>nxt</code>, và <code>nd</code>), cộng thêm việc tính <code>ℓ</code>.</p>
+<p>Tiền xử lý dùng lại toàn bộ bảng của Colussi (<code>h</code>, <code>shift</code>, <code>nxt</code>, và <code>nd</code>), cộng thêm việc tính $\ell$.</p>
 <p>Trong pha tìm kiếm ta duy trì thêm cờ <code>heavy</code> và biến <code>last</code>:</p>
 <ul>
 <li><code>last</code> = chỉ số văn bản lớn nhất đã khớp chắc chắn (như Colussi).</li>
 <li><code>heavy</code> = đúng khi lần thử trước kết thúc ở "pha hai" và cửa sổ mới vẫn nằm trong vùng <code>[j, last]</code> đã khớp, tức ta đang có sẵn một loạt ký tự <code>x[0]</code>.</li>
 </ul>
-<p>Khi <code>heavy</code> bật và ta đang ở đầu mẫu (<code>i = 0</code>):</p>
+<p>Khi <code>heavy</code> bật và ta đang ở đầu mẫu ($i = 0$):</p>
 <ol>
-<li>Biết <code>y[j..last]</code> toàn là <code>x[0]</code>, ta đặt độ dài loạt <code>k = last − j + 1</code> rồi tiếp tục quét <code>y[j+k]</code>, <code>y[j+k+1]</code>, … chừng nào còn bằng <code>x[0]</code>.</li>
-<li>Nếu loạt quá ngắn (<code>k ≤ ℓ</code>) hoặc ký tự dừng <code>y[j+k]</code> khác <code>x[ℓ+1]</code>: không thể khớp bắt đầu trong loạt này, ta nhảy cửa sổ tới <code>j + k + 1</code>.</li>
-<li>Nếu ngược lại: căn chỉnh cửa sổ để phần đầu mẫu (<code>ℓ+1</code> ký tự <code>x[0]</code> rồi <code>x[ℓ+1]</code>) khớp với cuối loạt, đặt <code>i = 1</code> và tiếp tục ở chế độ nhẹ.</li>
+<li>Biết <code>y[j..last]</code> toàn là <code>x[0]</code>, ta đặt độ dài loạt $k = last - j + 1$ rồi tiếp tục quét <code>y[j+k]</code>, <code>y[j+k+1]</code>, … chừng nào còn bằng <code>x[0]</code>.</li>
+<li>Nếu loạt quá ngắn ($k \le \ell$) hoặc ký tự dừng <code>y[j+k]</code> khác <code>x[ℓ+1]</code>: không thể khớp bắt đầu trong loạt này, ta nhảy cửa sổ tới $j + k + 1$.</li>
+<li>Nếu ngược lại: căn chỉnh cửa sổ để phần đầu mẫu ($\ell+1$ ký tự <code>x[0]</code> rồi <code>x[ℓ+1]</code>) khớp với cuối loạt, đặt $i = 1$ và tiếp tục ở chế độ nhẹ.</li>
 </ol>
 <p>Khi <code>heavy</code> tắt, mỗi lần thử diễn ra hệt như Colussi; sau đó ta tính lại <code>heavy</code> dựa trên việc lần thử vừa rồi có bước sang pha hai và cửa sổ mới có còn nằm trong vùng đã khớp không.</p>
 
@@ -120,15 +124,15 @@ void search(char *x, int m, char *y, int n) {
 }</code></pre>
 
 <h2>Ví dụ minh họa</h2>
-<p>Với mẫu <code>x = "GCAGAGAG"</code>, do <code>x[0]=G</code> khác ngay <code>x[1]=C</code> nên <code>ℓ = 0</code>: mẫu không mở đầu bằng loạt ký tự lặp, cờ <code>heavy</code> không mang lại lợi ích và thuật toán chạy y hệt Colussi.</p>
-<p>Để thấy rõ chế độ "nặng", ta lấy mẫu <code>x = "aacaa"</code> (m = 5, <code>ℓ = 1</code>, tức mở đầu bằng hai chữ <code>a</code> rồi <code>x[2]=c</code>) trên văn bản <code>y = "aaaaacaacaaa"</code> (n = 12).</p>
+<p>Với mẫu <code>x = "GCAGAGAG"</code>, do $x[0] = G$ khác ngay $x[1] = C$ nên $\ell = 0$: mẫu không mở đầu bằng loạt ký tự lặp, cờ <code>heavy</code> không mang lại lợi ích và thuật toán chạy y hệt Colussi.</p>
+<p>Để thấy rõ chế độ "nặng", ta lấy mẫu <code>x = "aacaa"</code> ($m = 5$, $\ell = 1$, tức mở đầu bằng hai chữ <code>a</code> rồi $x[2] = c$) trên văn bản <code>y = "aaaaacaacaaa"</code> ($n = 12$).</p>
 <ul>
-<li>Các cửa sổ <code>j = 0, 1, 2</code>: so <code>x[2]=c</code> với <code>y[2], y[3], y[4]</code> đều là <code>a</code> → lệch, trượt 1.</li>
-<li>Cửa sổ <code>j = 3</code>: mọi vị trí khớp → <strong>tìm thấy tại vị trí 3</strong>; lần thử này sang pha hai nên đặt <code>last = 7</code>, trượt tới <code>j = 6</code>, bật <code>heavy</code>.</li>
-<li>Cửa sổ <code>j = 6</code> (chế độ nặng): đã biết <code>y[6..7] = "aa"</code>, kéo dài loạt tới <code>y[8]=c</code>. Vì <code>k = 2 &gt; ℓ</code> và <code>y[8] = c = x[ℓ+1]</code>, ta căn chỉnh và đặt <code>i = 1</code>.</li>
+<li>Các cửa sổ $j = 0, 1, 2$: so $x[2] = c$ với $y[2], y[3], y[4]$ đều là <code>a</code> → lệch, trượt 1.</li>
+<li>Cửa sổ $j = 3$: mọi vị trí khớp → <strong>tìm thấy tại vị trí 3</strong>; lần thử này sang pha hai nên đặt $last = 7$, trượt tới $j = 6$, bật <code>heavy</code>.</li>
+<li>Cửa sổ $j = 6$ (chế độ nặng): đã biết <code>y[6..7] = "aa"</code>, kéo dài loạt tới $y[8] = c$. Vì $k = 2 > \ell$ và $y[8] = c = x[\ell+1]$, ta căn chỉnh và đặt $i = 1$.</li>
 <li>Tiếp tục ở chế độ nhẹ, các vị trí còn lại khớp → <strong>tìm thấy tại vị trí 6</strong>.</li>
 </ul>
-<p>Nhờ khai thác loạt <code>a</code> đã biết, thuật toán tránh so lại những ký tự đã xác nhận, giữ tổng số so sánh không vượt 4n/3.</p>
+<p>Nhờ khai thác loạt <code>a</code> đã biết, thuật toán tránh so lại những ký tự đã xác nhận, giữ tổng số so sánh không vượt $4n/3$.</p>
 
 <h2>Tài liệu tham khảo</h2>
 <ul>

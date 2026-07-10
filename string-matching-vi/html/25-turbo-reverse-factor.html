@@ -15,6 +15,10 @@ td,th{border:1px solid #ccc;padding:.4rem .8rem}
 nav{margin-bottom:1.5rem}
 a{color:#246}
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
 <nav><a href="index.html">← Mục lục</a></nav>
@@ -23,15 +27,15 @@ a{color:#246}
 <h2>Đặc điểm chính</h2>
 <ul>
 <li>Cải tiến của Reverse Factor (BDM): dùng cùng ôtômat hậu tố (suffix automaton / DAWG) của mẫu đảo ngược, thêm cơ chế "bộ nhớ" (memory / turbo shift) giữa hai lần thử liên tiếp.</li>
-<li><strong>Tiền xử lý</strong>: O(m) để dựng ôtômat hậu tố của mẫu đảo ngược.</li>
-<li><strong>Bộ nhớ phụ</strong>: O(m × σ) cho hàm chuyển (như Reverse Factor), cộng thêm vài biến O(1) để lưu "bộ nhớ" giữa hai lần thử.</li>
-<li><strong>Pha tìm kiếm</strong>: xấu nhất O(n) — tuyến tính, khắc phục điểm yếu O(mn) của Reverse Factor gốc; trung bình vẫn giữ được tính tối ưu O(n·log<sub>σ</sub>(m)/m).</li>
+<li><strong>Tiền xử lý</strong>: $O(m)$ để dựng ôtômat hậu tố của mẫu đảo ngược.</li>
+<li><strong>Bộ nhớ phụ</strong>: $O(m \times \sigma)$ cho hàm chuyển (như Reverse Factor), cộng thêm vài biến $O(1)$ để lưu "bộ nhớ" giữa hai lần thử.</li>
+<li><strong>Pha tìm kiếm</strong>: xấu nhất $O(n)$ — tuyến tính, khắc phục điểm yếu $O(mn)$ của Reverse Factor gốc; trung bình vẫn giữ được tính tối ưu $O(n \cdot \log_\sigma(m)/m)$.</li>
 <li><strong>Hướng so sánh ký tự</strong>: quét cửa sổ từ PHẢI sang TRÁI, như Reverse Factor.</li>
 <li>Ý tưởng cốt lõi tương tự Turbo Boyer-Moore: ghi nhớ đoạn factor đã khớp ở lần thử trước để tránh việc phải dịch những bước rất ngắn lặp đi lặp lại.</li>
 </ul>
 
 <h2>Ý tưởng</h2>
-<p>Reverse Factor có một nhược điểm: trên một số mẫu có cấu trúc lặp gần đều (near-periodic), bước dịch cửa sổ sau mỗi lần thử có thể chỉ dài 1, trong khi mỗi lần thử lại phải quét lại gần như toàn bộ cửa sổ trước khi ôtômat "kẹt". Hệ quả là tổng chi phí có thể lên tới O(mn) — chẳng hạn với mẫu dạng <code>"aaa...ab"</code> trên văn bản toàn ký tự <code>a</code>, ở mỗi vị trí cửa sổ, đoạn "tiền tố khớp" gần như luôn được tìm thấy ở những chỉ số rất gần điểm bắt đầu cửa sổ, buộc bước dịch chỉ tiến được 1 ô mỗi lần.</p>
+<p>Reverse Factor có một nhược điểm: trên một số mẫu có cấu trúc lặp gần đều (near-periodic), bước dịch cửa sổ sau mỗi lần thử có thể chỉ dài 1, trong khi mỗi lần thử lại phải quét lại gần như toàn bộ cửa sổ trước khi ôtômat "kẹt". Hệ quả là tổng chi phí có thể lên tới $O(mn)$ — chẳng hạn với mẫu dạng <code>"aaa...ab"</code> trên văn bản toàn ký tự <code>a</code>, ở mỗi vị trí cửa sổ, đoạn "tiền tố khớp" gần như luôn được tìm thấy ở những chỉ số rất gần điểm bắt đầu cửa sổ, buộc bước dịch chỉ tiến được 1 ô mỗi lần.</p>
 <p>Turbo Reverse Factor khắc phục điều này bằng cách ghi nhớ, sau mỗi lần thử, độ dài của factor vừa khớp được (gọi là bộ nhớ, memory). Ở lần thử kế tiếp, nếu factor khớp được lần này ngắn hơn nhiều so với factor đã ghi nhớ từ lần trước, đó là dấu hiệu cho thấy có thể an toàn để dịch cửa sổ xa hơn mức tối thiểu mà bước dịch thông thường đề xuất — vì phần chênh lệch giữa hai độ dài khớp đã "chứng minh" rằng không có xuất hiện nào của mẫu nằm trong khoảng đó. Cơ chế này (turbo shift) hoàn toàn tương tự ý tưởng dùng trong Turbo Boyer-Moore, chỉ khác là áp dụng cho việc quét factor bằng ôtômat thay vì so sánh ký tự trực tiếp.</p>
 
 <h2>Mô tả chi tiết</h2>
@@ -39,9 +43,9 @@ a{color:#246}
 <p><strong>Tìm kiếm.</strong> Duy trì hai biến bổ sung ngoài các biến của Reverse Factor:</p>
 <ul>
 <li><code>u</code> — độ dài factor đã khớp được ở lần thử ngay trước đó (số ký tự đọc được trước khi ôtômat kẹt hoặc khớp trọn mẫu);</li>
-<li>tại mỗi lần thử mới, sau khi quét cửa sổ hiện tại và thu được độ dài khớp <code>v</code> cùng bước dịch cơ sở <code>last</code> (tính như Reverse Factor — vị trí nhỏ nhất <code>j</code> mà trạng thái là "kết"), ta tính thêm một bước dịch "turbo": <code>ts = u − v</code>.</li>
+<li>tại mỗi lần thử mới, sau khi quét cửa sổ hiện tại và thu được độ dài khớp <code>v</code> cùng bước dịch cơ sở <code>last</code> (tính như Reverse Factor — vị trí nhỏ nhất <code>j</code> mà trạng thái là "kết"), ta tính thêm một bước dịch "turbo": $ts = u - v$.</li>
 </ul>
-<p>Bước dịch cuối cùng được chọn là <code>shift = max(last, ts, 1)</code>. Trực giác: nếu lần trước ta đã xác nhận một đoạn dài <code>u</code> ký tự là factor của mẫu, còn lần này chỉ khớp được <code>v &lt; u</code> ký tự rồi kẹt, thì phần chênh lệch <code>u − v</code> ký tự ở giữa chắc chắn không thể chứa điểm bắt đầu của một xuất hiện mới mà bước dịch thông thường bỏ sót — nhờ vậy tổng số bước dịch "quá ngắn" liên tiếp bị chặn, giúp tổng chi phí toàn bộ quá trình tìm kiếm còn O(n) trong trường hợp xấu nhất, thay vì O(mn) như Reverse Factor gốc. Biến <code>u</code> sau đó được cập nhật bằng <code>v</code> của lần thử hiện tại để dùng cho lần kế tiếp.</p>
+<p>Bước dịch cuối cùng được chọn là $shift = \max(last, ts, 1)$. Trực giác: nếu lần trước ta đã xác nhận một đoạn dài <code>u</code> ký tự là factor của mẫu, còn lần này chỉ khớp được $v < u$ ký tự rồi kẹt, thì phần chênh lệch $u - v$ ký tự ở giữa chắc chắn không thể chứa điểm bắt đầu của một xuất hiện mới mà bước dịch thông thường bỏ sót — nhờ vậy tổng số bước dịch "quá ngắn" liên tiếp bị chặn, giúp tổng chi phí toàn bộ quá trình tìm kiếm còn $O(n)$ trong trường hợp xấu nhất, thay vì $O(mn)$ như Reverse Factor gốc. Biến <code>u</code> sau đó được cập nhật bằng <code>v</code> của lần thử hiện tại để dùng cho lần kế tiếp.</p>
 <p>Khi <code>j</code> giảm xuống dưới 0 trong lúc quét (tức toàn bộ cửa sổ đã được đọc mà ôtômat không kẹt), ta ghi nhận một xuất hiện của mẫu tại vị trí cửa sổ hiện tại, giống Reverse Factor.</p>
 
 <h2>Cài đặt bằng C</h2>
@@ -163,9 +167,9 @@ void search(char *x, int m, char *y, int n) {
 <h2>Ví dụ minh họa</h2>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24), giống ví dụ đã dùng cho Reverse Factor.</p>
 <ul>
-<li><strong>Lần thử tại pos = 0</strong> — quét từ phải: đọc <code>y[7..0]</code> ngược lại, ôtômat kẹt sớm (đoạn <code>"...CGCA"</code> không phải factor của mẫu); biến <code>last</code> được cập nhật theo tiền tố dài nhất từng gặp, <code>v</code> là số ký tự đã khớp trước khi kẹt. Vì đây là lần thử đầu tiên, <code>u = 0</code>, nên <code>ts = 0 − v ≤ 0</code>, bước dịch turbo không phát huy tác dụng — cửa sổ dịch theo <code>last</code> như Reverse Factor thông thường. Cập nhật <code>u = v</code> để dùng cho lần sau.</li>
+<li><strong>Lần thử tại pos = 0</strong> — quét từ phải: đọc <code>y[7..0]</code> ngược lại, ôtômat kẹt sớm (đoạn <code>"...CGCA"</code> không phải factor của mẫu); biến <code>last</code> được cập nhật theo tiền tố dài nhất từng gặp, <code>v</code> là số ký tự đã khớp trước khi kẹt. Vì đây là lần thử đầu tiên, $u = 0$, nên $ts = 0 - v \le 0$, bước dịch turbo không phát huy tác dụng — cửa sổ dịch theo <code>last</code> như Reverse Factor thông thường. Cập nhật $u = v$ để dùng cho lần sau.</li>
 <li><strong>Lần thử tại pos = 5</strong> — quét ngược toàn bộ cửa sổ <code>"GCAGAGAG"</code>, ôtômat đi hết 8 ký tự mà không kẹt (<code>j</code> giảm xuống dưới 0). Chương trình in ra <strong>"Khop tai vi tri 5"</strong>.</li>
-<li>Trên mẫu nhỏ này, giá trị <code>u − v</code> không đủ lớn để vượt qua <code>last</code>, nên hành vi giống hệt Reverse Factor gốc. Sự khác biệt giữa hai thuật toán chỉ bộc lộ rõ trên các mẫu có cấu trúc gần tuần hoàn (ví dụ mẫu dạng <code>"aaa...ab"</code> so khớp trên văn bản có những đoạn dài toàn ký tự <code>a</code>): khi đó, cơ chế bộ nhớ giúp tránh được kiểu dịch chuyển từng-bước-một liên tục vốn gây ra chi phí bậc hai ở Reverse Factor thông thường.</li>
+<li>Trên mẫu nhỏ này, giá trị $u - v$ không đủ lớn để vượt qua <code>last</code>, nên hành vi giống hệt Reverse Factor gốc. Sự khác biệt giữa hai thuật toán chỉ bộc lộ rõ trên các mẫu có cấu trúc gần tuần hoàn (ví dụ mẫu dạng <code>"aaa...ab"</code> so khớp trên văn bản có những đoạn dài toàn ký tự <code>a</code>): khi đó, cơ chế bộ nhớ giúp tránh được kiểu dịch chuyển từng-bước-một liên tục vốn gây ra chi phí bậc hai ở Reverse Factor thông thường.</li>
 <li>Đã kiểm chứng cài đặt trên bằng cách so sánh kết quả với thuật toán vét cạn trên hàng vạn cặp mẫu/văn bản ngẫu nhiên: hai bên luôn cho cùng tập vị trí khớp.</li>
 </ul>
 
