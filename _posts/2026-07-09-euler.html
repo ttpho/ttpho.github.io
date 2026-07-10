@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Minh hoạ Trực quan các Định lý Hình học"
-subtitle: "Sử dụng HTML5 Canvas để mô phỏng tương tác các định lý nổi tiếng về tam giác: Đường thẳng & Đường tròn Euler, Định lý Feuerbach, Thebault và Lamuna. Kéo thả các đỉnh A, B, C để xem các định lý luôn đúng."
+subtitle: "Sử dụng HTML5 Canvas để mô phỏng tương tác các định lý nổi tiếng về tam giác: Đường thẳng & Đường tròn Euler, Định lý Feuerbach, Thébault và Van Lamoen. Kéo thả các đỉnh A, B, C để xem các định lý luôn đúng."
 tags: [math, canvas]
 full-width: true
 ---
@@ -12,8 +12,12 @@ full-width: true
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minh hoạ các Định lý Hình học: Euler, Feuerbach, Thebault, Lamuna</title>
+    <title>Minh hoạ các Định lý Hình học: Euler, Feuerbach, Thébault, Van Lamoen</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
     <style>
         canvas {
             border: 1px solid #e2e8f0;
@@ -59,6 +63,79 @@ full-width: true
             <div class="canvas-container">
                 <canvas id="canvasEulerLine" width="800" height="600"></canvas>
             </div>
+
+            <div class="mt-10 pt-8 border-t border-slate-100 space-y-8">
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Lịch sử</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Tính chất này được nhà toán học <strong>Leonhard Euler</strong> phát hiện năm
+                        <strong>1765</strong>. Ông chứng minh rằng trong một tam giác bất kỳ (không đều), ba điểm đặc
+                        biệt là trực tâm (H), trọng tâm (G) và tâm đường tròn ngoại tiếp (O) luôn <strong>thẳng
+                        hàng</strong>. Đường thẳng nối chúng về sau được gọi là <em>Đường thẳng Euler</em>. Tâm đường
+                        tròn chín điểm (N) — được xác định muộn hơn — cũng nằm trên đường thẳng này.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Tỉ lệ khoảng cách</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Trọng tâm $G$ chia đoạn $OH$ theo tỉ lệ <strong>$1 : 2$</strong>. Tâm đường tròn chín điểm $N$ là
+                        <strong>trung điểm</strong> của $OH$. Cụ thể:
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$OG : GH = 1 : 2, \qquad OH = 3\,OG$$
+                        $$ON = NH, \qquad OG = 2\,GN, \qquad NH = 3\,GN$$
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Công thức véc-tơ &amp; độ dài</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Với gốc đặt tại tâm ngoại tiếp $O$, véc-tơ tới trực tâm là tổng ba véc-tơ đỉnh. Khoảng cách $OH$
+                        được tính qua bán kính ngoại tiếp $R$ và ba cạnh $a, b, c$:
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$\vec{OH} = \vec{OA} + \vec{OB} + \vec{OC}$$
+                        $$OH^2 = 9R^2 - (a^2 + b^2 + c^2)$$
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Phương trình đường thẳng Euler</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Trong hệ toạ độ tam tuyến (trilinear) và hệ toạ độ trọng tâm (barycentric) với các góc $A, B, C$,
+                        đường thẳng Euler có phương trình:
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$\sin 2A \sin(B - C)\,x + \sin 2B \sin(C - A)\,y + \sin 2C \sin(A - B)\,z = 0$$
+                        $$(\tan C - \tan B)\,\alpha + (\tan A - \tan C)\,\beta + (\tan B - \tan A)\,\gamma = 0$$
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Các điểm đặc biệt &amp; trường hợp riêng</h4>
+                    <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                        <li>Ngoài $H, G, O, N$, đường thẳng Euler còn đi qua nhiều tâm khác như <em>điểm de
+                            Longchamps</em>, <em>điểm Schiffler</em>, <em>điểm Exeter</em> và <em>Gossard
+                            perspector</em>.</li>
+                        <li><strong>Tam giác đều:</strong> bốn điểm $H, G, O, N$ trùng nhau nên đường thẳng Euler không
+                            xác định.</li>
+                        <li><strong>Tam giác cân:</strong> tâm đường tròn nội tiếp ($I$) cũng nằm trên đường thẳng Euler
+                            (đây là điều kiện cần và đủ).</li>
+                        <li>Đường thẳng Euler <strong>song song với cạnh $BC$</strong> khi và chỉ khi
+                            $\tan B \cdot \tan C = 3$.</li>
+                    </ul>
+                </div>
+
+                <p class="text-xs text-slate-400">
+                    Nguồn: <a href="https://vi.wikipedia.org/wiki/%C4%90%C6%B0%E1%BB%9Dng_th%E1%BA%B3ng_Euler"
+                        class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — Đường thẳng
+                        Euler</a>.
+                </p>
+            </div>
         </section>
 
         <!-- 2. Đường tròn 9 điểm Euler -->
@@ -72,6 +149,75 @@ full-width: true
             </div>
             <div class="canvas-container">
                 <canvas id="canvasEulerCircle" width="800" height="600"></canvas>
+            </div>
+
+            <div class="mt-10 pt-8 border-t border-slate-100 space-y-8">
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Lịch sử &amp; tên gọi</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Năm <strong>1822</strong>, <strong>Karl Wilhelm Feuerbach</strong> chứng minh 6 điểm (3 chân
+                        đường cao và 3 trung điểm cạnh) cùng nằm trên một đường tròn. Sau đó <strong>Olry
+                        Terquem</strong> bổ sung 3 điểm còn lại và đặt tên <em>đường tròn chín điểm</em>. Vì vậy đường
+                        tròn này còn được gọi là <em>đường tròn Feuerbach</em>, <em>đường tròn Terquem</em>, hay
+                        <em>đường tròn trung bình</em>.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Chín điểm đặc biệt</h4>
+                    <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                        <li>3 <strong>trung điểm</strong> các cạnh tam giác ($M_a, M_b, M_c$).</li>
+                        <li>3 <strong>chân đường cao</strong> hạ từ mỗi đỉnh ($H_a, H_b, H_c$).</li>
+                        <li>3 <strong>trung điểm</strong> của đoạn nối mỗi đỉnh với trực tâm ($E_a, E_b, E_c$).</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Tâm &amp; bán kính</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Tâm chín điểm $N$ là <strong>trung điểm</strong> của đoạn nối trực tâm $H$ và tâm ngoại tiếp $O$;
+                        bán kính bằng <strong>một nửa</strong> bán kính đường tròn ngoại tiếp $R$:
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$N = \frac{O + H}{2}, \qquad ON = NH, \qquad R_N = \frac{R}{2}$$
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Quan hệ với đường thẳng Euler</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Tâm $N$ nằm trên <strong>đường thẳng Euler</strong>, ở vị trí một phần tư đoạn tính từ trọng tâm
+                        $G$ đến trực tâm $H$:
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$HN = 3\,NG$$
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Phép vị tự với đường tròn ngoại tiếp</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Đường tròn chín điểm là <strong>ảnh của đường tròn ngoại tiếp</strong> qua phép vị tự tâm $H$
+                        (trực tâm) với tỉ số $k = \tfrac{1}{2}$. Điều này giải thích vì sao bán kính giảm đúng một nửa.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Định lý Feuerbach</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Đường tròn chín điểm <strong>tiếp xúc trong</strong> với đường tròn nội tiếp và
+                        <strong>tiếp xúc ngoài</strong> với cả ba đường tròn bàng tiếp của tam giác. Tiếp điểm với đường
+                        tròn nội tiếp được gọi là <em>điểm Feuerbach</em>. (Xem minh hoạ ở mục 3.)
+                    </p>
+                </div>
+
+                <p class="text-xs text-slate-400">
+                    Nguồn: <a href="https://vi.wikipedia.org/wiki/%C4%90%C6%B0%E1%BB%9Dng_tr%C3%B2n_Euler"
+                        class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — Đường tròn
+                        Euler</a>.
+                </p>
             </div>
         </section>
 
@@ -87,6 +233,61 @@ full-width: true
             <div class="canvas-container">
                 <canvas id="canvasFeuerbach" width="800" height="600"></canvas>
             </div>
+
+            <div class="mt-10 pt-8 border-t border-slate-100 space-y-8">
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Phát biểu định lý</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Được <strong>Karl Wilhelm Feuerbach</strong> công bố năm <strong>1822</strong>: <em>Đường tròn
+                        chín điểm của một tam giác tiếp xúc <strong>trong</strong> với đường tròn nội tiếp và tiếp xúc
+                        <strong>ngoài</strong> với cả ba đường tròn bàng tiếp.</em> Như vậy đường tròn chín điểm tiếp xúc
+                        với đúng <strong>bốn</strong> đường tròn đặc biệt của tam giác.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Điểm Feuerbach &amp; tam giác Feuerbach</h4>
+                    <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                        <li><strong>Điểm Feuerbach</strong> $\big(X(11)\big)$: tiếp điểm giữa đường tròn chín điểm và
+                            đường tròn nội tiếp.</li>
+                        <li>Ba tiếp điểm còn lại với ba đường tròn bàng tiếp tạo thành <strong>tam giác
+                            Feuerbach</strong>.</li>
+                        <li>Điểm Feuerbach nằm trên đường thẳng nối tâm nội tiếp $I$ và tâm chín điểm $N$ — hai tâm của
+                            hai đường tròn tiếp xúc.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Toạ độ điểm Feuerbach</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Với các góc $A, B, C$, các cạnh $a, b, c$ và nửa chu vi $s = \tfrac{a+b+c}{2}$, điểm Feuerbach có
+                        toạ độ tam tuyến (trilinear) và toạ độ trọng tâm (barycentric):
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$1 - \cos(B - C) \;:\; 1 - \cos(C - A) \;:\; 1 - \cos(A - B)$$
+                        $$(s - a)(b - c)^2 \;:\; (s - b)(c - a)^2 \;:\; (s - c)(a - b)^2$$
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Tính chất &amp; lịch sử</h4>
+                    <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                        <li>Xét khoảng cách từ điểm Feuerbach tới ba đỉnh của tam giác trung bình (medial triangle):
+                            <strong>khoảng cách lớn nhất bằng tổng hai khoảng cách còn lại</strong>.</li>
+                        <li>Năm <strong>1866</strong>, John Casey đưa ra một chứng minh rất ngắn gọn dựa trên
+                            <em>định lý Casey</em>.</li>
+                        <li>Định lý Feuerbach nay trở thành một bài toán kiểm chứng kinh điển cho các hệ
+                            <em>chứng minh định lý tự động</em>.</li>
+                    </ul>
+                </div>
+
+                <p class="text-xs text-slate-400">
+                    Nguồn: <a href="https://en.wikipedia.org/wiki/Feuerbach_point"
+                        class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — Feuerbach
+                        point</a>.
+                </p>
+            </div>
         </section>
 
         <!-- 4. Thebault's Theorem 4 -->
@@ -101,19 +302,108 @@ full-width: true
             <div class="canvas-container">
                 <canvas id="canvasThebault" width="800" height="600"></canvas>
             </div>
+
+            <div class="mt-10 pt-8 border-t border-slate-100 space-y-8">
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Phát biểu định lý</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Được <strong>Victor Thébault</strong> đề xuất năm <strong>1949</strong> trên
+                        <em>American Mathematical Monthly</em> (lời giải công bố năm 1951): <em>Cho tam giác $ABC$ với ba
+                        chân đường cao $A', B', C'$. Ba đường thẳng Euler của ba tam giác $AB'C'$, $A'BC'$, $A'B'C$
+                        <strong>đồng quy</strong> tại một điểm $P$ nằm trên đường tròn chín điểm của tam giác $ABC$.</em>
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Ý tưởng chứng minh</h4>
+                    <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                        <li>Ba tam giác $AB'C'$, $A'BC'$, $A'B'C$ được cắt ra khỏi tam giác $ABC$ bởi
+                            <strong>tam giác orthic</strong> (tam giác chân đường cao $A'B'C'$) qua ba đường phản song
+                            (antiparallel), nên chúng <strong>đồng dạng thuận</strong> với nhau.</li>
+                        <li>Tâm của các phép vị tự quay (spiral similarity) chính là các chân đường cao.</li>
+                        <li>Tam giác orthic $A'B'C'$ đóng vai trò <em>tam giác đồng dạng</em>, còn đường tròn chín điểm
+                            của $ABC$ là <em>đường tròn đồng dạng</em> — nơi ba đường thẳng Euler gặp nhau.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-3">Tính chất điểm đồng quy</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                        Điểm đồng quy $P$ có một tính chất khoảng cách đẹp: trong ba khoảng cách từ $P$ tới ba chân đường
+                        cao, <strong>khoảng cách lớn nhất bằng tổng hai khoảng cách còn lại</strong>:
+                    </p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$\max(PA', PB', PC') = \text{(tổng hai khoảng cách còn lại)}$$
+                    </div>
+                </div>
+
+                <p class="text-xs text-slate-400">
+                    Nguồn: <a href="http://www.cut-the-knot.org/Curriculum/Geometry/Thebault4.shtml"
+                        class="underline hover:text-slate-600" target="_blank" rel="noopener">cut-the-knot — Thébault's
+                        Problem IV</a>.
+                </p>
+            </div>
         </section>
 
         <!-- 5. Lamuna Theorem -->
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
             <div class="mb-8">
-                <h3 class="text-2xl font-bold text-slate-900">5. Định lý Lamuna (2000)</h3>
+                <h3 class="text-2xl font-bold text-slate-900">5. Định lý Van Lamoen (2000)</h3>
                 <p class="text-slate-600 mt-2">
                     3 đường trung tuyến chia tam giác ABC thành 6 tam giác nhỏ. Tâm đường tròn ngoại tiếp của 6 tam giác
-                    nhỏ này (các chấm đỏ) cùng nằm trên một đường tròn (Đường tròn Lamuna - Tím).
+                    nhỏ này (các chấm đỏ) cùng nằm trên một đường tròn (Đường tròn Van Lamoen - Tím).
                 </p>
             </div>
             <div class="canvas-container">
                 <canvas id="canvasLamuna" width="800" height="600"></canvas>
+            </div>
+
+            <div class="mt-10 pt-8 border-t border-slate-100 space-y-8">
+                <div class="p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm">
+                    <span class="font-bold">Lưu ý tên gọi: </span> Định lý này thường được gọi chính xác là
+                    <strong>đường tròn Van Lamoen</strong> (van Lamoen circle), theo tên nhà toán học Hà Lan
+                    <strong>Floor van Lamoen</strong> — "Lamuna" là cách viết sai lệch phổ biến.
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Phát biểu &amp; lịch sử</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        <strong>Floor van Lamoen</strong> nêu bài toán năm <strong>2000</strong>: <em>Ba đường trung
+                        tuyến chia tam giác thành 6 tam giác nhỏ; tâm đường tròn ngoại tiếp của 6 tam giác nhỏ này cùng
+                        nằm trên một đường tròn</em> — gọi là <strong>đường tròn Van Lamoen</strong>. Lời giải được
+                        Kin Y. Li đưa ra năm 2001 và ban biên tập <em>American Mathematical Monthly</em> xác nhận năm
+                        2002.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Cấu tạo 6 tam giác nhỏ</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Sáu tam giác nhỏ được tạo thành khi nối mỗi đỉnh với <strong>trọng tâm</strong> $G$ và với trung
+                        điểm hai cạnh kề. Vì cả ba trung tuyến đều đi qua $G$, mỗi tam giác nhỏ đều có một đỉnh chung là
+                        trọng tâm.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-lg text-slate-900 mb-2">Tâm đường tròn &amp; tính duy nhất</h4>
+                    <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                        <li>Tâm của đường tròn Van Lamoen là một tâm tam giác, ứng với số hiệu $X(1153)$ trong bảng
+                            Encyclopedia of Triangle Centers của Clark Kimberling.</li>
+                        <li>Kết quả chỉ đúng khi dùng <strong>trọng tâm</strong>. Năm 2003, Myakishev và Woo chứng minh
+                            rằng nếu thay bằng một điểm trong bất kỳ khác, 6 tâm ngoại tiếp nói chung
+                            <strong>không</strong> đồng viên.</li>
+                        <li>Nếu thay trọng tâm bằng <strong>trực tâm</strong>, 6 tâm ngoại tiếp suy biến thành 3 điểm
+                            Euler trên đường tròn chín điểm (liên hệ với mục 2).</li>
+                    </ul>
+                </div>
+
+                <p class="text-xs text-slate-400">
+                    Nguồn: <a href="https://en.wikipedia.org/wiki/Van_Lamoen_circle"
+                        class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — Van Lamoen
+                        circle</a>.
+                </p>
             </div>
         </section>
 
