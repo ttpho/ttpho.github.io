@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Not So Naive — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Not So Naive</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Biến thể đơn giản của brute-force: thay vì so sánh mẫu với văn bản bắt đầu từ ký tự đầu tiên, thuật toán <strong>so sánh ký tự thứ hai của mẫu (<code>x[1]</code>) trước</strong>, rồi mới quay lại so từ đầu nếu ký tự đó khớp.</li>
+<li>Tiền xử lý cực nhẹ: chỉ <strong>O(1)</strong> — so sánh <code>x[0]</code> với <code>x[1]</code> một lần để xác định độ dịch chuyển <code>k</code> và <code>ℓ</code>.</li>
+<li>Không cần bộ nhớ phụ đáng kể (không bảng tiền xử lý).</li>
+<li>Độ phức tạp pha tìm kiếm trong trường hợp xấu nhất vẫn là <strong>O(m·n)</strong> (giống brute-force), nhưng <strong>trung bình rất tốt</strong>, gần với các thuật toán tinh vi hơn.</li>
+<li>So sánh ký tự theo hướng đặc biệt: kiểm tra <code>y[j+1]</code> trước, rồi nếu khớp mới so <code>x[2], x[3], …</code> và cuối cùng <code>x[0]</code>.</li>
+<li>Độ dịch chuyển cửa sổ là <strong>1</strong> hoặc <strong>2</strong> tuỳ vào kết quả so sánh ký tự thứ hai.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Brute-force cổ điển so <code>x[0]</code> với <code>y[j]</code> trước; nếu khớp mới so tiếp <code>x[1]</code>, <code>x[2]</code>, … Nhưng trong thực tế, với bảng chữ cái không quá nhỏ, xác suất <code>x[0]</code> khớp ngẫu nhiên với một ký tự văn bản đã tương đối thấp — brute-force gần như luôn dừng ở phép so đầu tiên. Not So Naive khai thác một quan sát tinh tế hơn: nếu ta biết trước quan hệ giữa <code>x[0]</code> và <code>x[1]</code>, ta có thể chọn so sánh ký tự thứ hai của mẫu trước, giúp loại bỏ nhanh hơn các vị trí sai, đồng thời cho phép <strong>dịch chuyển 2 vị trí</strong> thay vì 1 trong nhiều trường hợp — giảm đáng kể số cửa sổ phải xét trong thực tế, dù độ phức tạp lý thuyết xấu nhất không đổi.</p>
+<p>Cụ thể, xét quan hệ giữa hai ký tự đầu mẫu:</p>
+<ul>
+<li>Nếu <code>x[0] == x[1]</code>: khi <code>x[1]</code> khớp với <code>y[j+1]</code> nhưng <code>x[0]</code> cuối cùng lại không khớp <code>y[j]</code>, ta biết chắc cửa sổ tiếp theo (<code>j+1</code>) cũng sẽ thất bại ngay tại vị trí đó (vì <code>y[j+1]</code> đã đối chiếu). Vì vậy có thể dịch <strong>2</strong> khi <code>x[1]</code> khớp, và dịch <strong>2</strong> cả khi <code>x[1]</code> không khớp — chọn <code>k = 2</code>.</li>
+<li>Nếu <code>x[0] != x[1]</code>: khi <code>x[1]</code> không khớp <code>y[j+1]</code>, ta chỉ chắc chắn dịch được <strong>1</strong> vị trí; còn khi <code>x[1]</code> khớp thì có thể dịch <strong>2</strong>.</li>
+</ul>
+<p>Điểm mấu chốt: việc kiểm tra <code>x[1]</code> so với <code>y[j+1]</code> trước tiên đóng vai trò một "bộ lọc" rẻ tiền giúp loại nhanh phần lớn các vị trí sai mà không cần bảng tiền xử lý phức tạp.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Tiền xử lý chỉ gồm một phép so sánh: kiểm tra <code>x[0]</code> có bằng <code>x[1]</code> hay không, từ đó ấn định hai hằng số điều khiển dịch chuyển:</p>
+<ul>
+<li>Nếu <code>x[0] == x[1]</code>: đặt <code>k = 2</code> (dịch khi <code>x[1]</code> không khớp) và <code>ℓ = 1</code> (dịch khi toàn bộ so sánh hoàn tất, dù khớp hay không).</li>
+<li>Nếu <code>x[0] != x[1]</code>: đặt <code>k = 1</code> và <code>ℓ = 2</code>.</li>
+</ul>
+<p>Pha tìm kiếm, với mỗi vị trí cửa sổ <code>j</code>:</p>
+<ol>
+<li>So <code>x[1]</code> với <code>y[j+1]</code>.</li>
+<li>Nếu khác nhau: dịch cửa sổ đi <code>k</code> vị trí (không so gì thêm).</li>
+<li>Nếu giống nhau: so tiếp <code>x[2], x[3], …, x[m-1]</code> với phần văn bản tương ứng; nếu tất cả khớp, so nốt <code>x[0]</code> với <code>y[j]</code> — nếu khớp thì báo tìm thấy tại <code>j</code>. Dù kết quả thế nào, dịch cửa sổ đi <code>ℓ</code> vị trí.</li>
+</ol>
+<p>Trường hợp <code>m = 1</code> xử lý riêng: chỉ so từng ký tự văn bản với <code>x[0]</code>.</p>
+<p>Có thể thấy thuật toán về bản chất vẫn là brute-force nhưng đổi <strong>thứ tự và điểm khởi đầu</strong> của việc so sánh để tận dụng thông tin rẻ tiền từ hai ký tự đầu mẫu, giúp giảm đáng kể số phép so sánh trung bình trên dữ liệu thực tế mà không phải trả chi phí tiền xử lý nào đáng kể.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, k, ell;
+
+    if (m == 1) {
+        for (j = 0; j &lt; n; ++j)
+            if (y[j] == x[0])
+                printf("Tim thay tai vi tri %d\n", j);
+        return;
+    }
+
+    /* Tiền xử lý: O(1) */
+    if (x[0] == x[1]) { k = 2; ell = 1; }
+    else              { k = 1; ell = 2; }
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j + m &lt;= n) {
+        if (x[1] != y[j + 1])
+            j += k;
+        else {
+            for (i = 2; i &lt; m &amp;&amp; x[i] == y[j + i]; ++i);
+            if (i &gt;= m &amp;&amp; x[0] == y[j])
+                printf("Tim thay tai vi tri %d\n", j);
+            j += ell;
+        }
+    }
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét <code>x = "GCAGAGAG"</code> (m = 8) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Vì <code>x[0]=G</code> khác <code>x[1]=C</code>, ta có <code>k = 1</code>, <code>ℓ = 2</code>.</p>
+<p>Vài lần thử đầu:</p>
+<ul>
+<li><code>j = 0</code>: so <code>x[1]=C</code> với <code>y[1]=C</code> — khớp. So tiếp <code>x[2..7]</code> với <code>y[2..7]</code>: <code>x[2]=A</code> khớp <code>y[2]=A</code>, nhưng <code>x[3]=G</code> khác <code>y[3]=T</code> — dừng, không khớp toàn bộ. Dịch <code>ℓ = 2</code>.</li>
+<li><code>j = 2</code>: so <code>x[1]=C</code> với <code>y[3]=T</code> — khác. Dịch <code>k = 1</code>.</li>
+<li><code>j = 3</code>: so <code>x[1]=C</code> với <code>y[4]=C</code> — khớp. So tiếp: <code>x[2]=A</code> khác <code>y[5]=G</code> — dừng. Dịch <code>ℓ = 2</code>.</li>
+<li><code>j = 5</code>: so <code>x[1]=C</code> với <code>y[6]=C</code> — khớp. So tiếp toàn bộ <code>x[2..7]</code> với <code>y[7..12]</code>, đều khớp; so nốt <code>x[0]=G</code> với <code>y[5]=G</code> — khớp → <strong>tìm thấy tại vị trí 5</strong>. Dịch <code>ℓ = 2</code>.</li>
+<li><code>j = 7</code>: so <code>x[1]=C</code> với <code>y[8]=G</code> — khác. Dịch <code>k = 1</code>.</li>
+</ul>
+<p>Nhờ so <code>x[1]</code> trước, thuật toán loại nhanh vị trí <code>j = 2</code> và <code>j = 7</code> chỉ bằng một phép so sánh, không cần chạm tới <code>x[0]</code>.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>T. Lecroq, "Experiments on string matching in memory structures", 1997 (thảo luận các biến thể thực dụng của brute-force).</li>
+<li>C. Charras, T. Lecroq, sách chuyên khảo về các thuật toán so khớp chuỗi (khảo sát các biến thể brute-force cải tiến).</li>
+</ul>
+</body>
+</html>

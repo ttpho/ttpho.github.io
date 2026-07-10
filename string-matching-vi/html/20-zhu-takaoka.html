@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Zhu-Takaoka — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Zhu-Takaoka</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Là biến thể của Boyer-Moore dùng quy tắc bad-character mở rộng theo CẶP hai ký tự thay vì một ký tự.</li>
+<li>Pha tiền xử lý: O(m + σ²), do phải khởi tạo bảng bad-character hai chiều kích thước σ × σ.</li>
+<li>Bộ nhớ phụ: O(m + σ²) — bảng good-suffix cỡ m và bảng bad-character cỡ σ².</li>
+<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất.</li>
+<li>Hướng so sánh ký tự: từ phải sang trái trong mỗi cửa sổ.</li>
+<li>Nhờ dùng cặp hai ký tự, bước dịch trung bình lớn hơn Boyer-Moore cổ điển, đặc biệt lợi trên bảng chữ cái nhỏ (như DNA).</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Trong Boyer-Moore, quy tắc bad-character quyết định bước dịch dựa trên MỘT ký tự văn bản gây ra sự không khớp. Với bảng chữ cái nhỏ, một ký tự đơn lẻ mang ít thông tin nên bước dịch thường ngắn. Zhu và Takaoka nhận xét rằng nếu ta xét ĐỒNG THỜI hai ký tự cuối cùng của cửa sổ hiện tại, ta có nhiều thông tin hơn để quyết định dịch xa hơn.</p>
+<p>Cụ thể, thuật toán xây dựng một bảng hai chiều <code>ztBc[a][b]</code> cho biết: nếu hai ký tự áp chót và chót của cửa sổ lần lượt là <code>a</code> và <code>b</code> thì cửa sổ có thể được dịch bao nhiêu để căn cho cặp <code>(a, b)</code> này trùng với một cặp ký tự liền kề trong mẫu. Quy tắc bad-character theo cặp này được kết hợp với quy tắc good-suffix truyền thống của Boyer-Moore để lấy bước dịch lớn hơn.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Thuật toán dùng hai cấu trúc tiền xử lý:</p>
+<p><strong>Bảng bad-character theo cặp <code>ztBc</code>.</strong> Đây là bảng σ × σ. Với mỗi cặp <code>(a, b)</code>, giá trị <code>ztBc[a][b]</code> là khoảng cách dịch nhỏ nhất sao cho cặp ký tự <code>(a, b)</code> được căn thẳng với một cặp ký tự liền kề <code>x[i-1], x[i]</code> trong mẫu. Cách khởi tạo:</p>
+<ul>
+<li>Ban đầu mọi <code>ztBc[a][b] = m</code>.</li>
+<li>Với mỗi <code>a</code>, đặt <code>ztBc[a][x[0]] = m - 1</code> (trường hợp cặp chỉ căn được với ký tự đầu mẫu).</li>
+<li>Với mỗi vị trí <code>i</code> từ 1 đến m-2, đặt <code>ztBc[x[i-1]][x[i]] = m - 1 - i</code>, ghi lại lần xuất hiện gần cuối nhất của mỗi cặp liền kề trong mẫu.</li>
+</ul>
+<p><strong>Bảng good-suffix <code>bmGs</code>.</strong> Được tính giống hệt Boyer-Moore, dựa trên mảng <code>suff</code>, trong đó <code>suff[i]</code> là độ dài hậu tố chung dài nhất giữa mẫu và tiền tố <code>x[0..i]</code>. Bảng này cho phép dịch dựa trên đoạn hậu tố đã khớp.</p>
+<p>Trong pha tìm kiếm, với cửa sổ tại vị trí j, ta so sánh mẫu với văn bản từ phải sang trái. Nếu khớp toàn bộ, báo một lần xuất hiện rồi dịch theo <code>bmGs[0]</code>. Nếu gặp không khớp tại vị trí i, ta lấy bước dịch bằng giá trị lớn nhất trong hai lựa chọn: <code>bmGs[i]</code> (good-suffix) và <code>ztBc[y[j+m-2]][y[j+m-1]]</code> (bad-character theo cặp hai ký tự cuối của cửa sổ). Việc dùng hai ký tự cuối cửa sổ (chứ không phải ký tự tại vị trí không khớp) là điểm mấu chốt: cặp này cố định với mỗi cửa sổ nên tra bảng được ngay, không phụ thuộc vị trí xảy ra không khớp.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+#define XSIZE 128
+#define MAX(a, b) ((a) &gt; (b) ? (a) : (b))
+
+/* Bảng bad-character hai chiều của Zhu-Takaoka */
+void preZtBc(char *x, int m, int ztBc[ASIZE][ASIZE]) {
+    int a, b, i;
+    for (a = 0; a &lt; ASIZE; ++a)
+        for (b = 0; b &lt; ASIZE; ++b)
+            ztBc[a][b] = m;
+    for (a = 0; a &lt; ASIZE; ++a)
+        ztBc[a][(unsigned char) x[0]] = m - 1;
+    for (i = 1; i &lt; m - 1; ++i)
+        ztBc[(unsigned char) x[i - 1]][(unsigned char) x[i]] = m - 1 - i;
+}
+
+/* suff[i] = độ dài hậu tố chung dài nhất của x[0..i] và x */
+void suffixes(char *x, int m, int *suff) {
+    int f, g, i;
+    suff[m - 1] = m;
+    g = m - 1;
+    f = m - 1;
+    for (i = m - 2; i &gt;= 0; --i) {
+        if (i &gt; g &amp;&amp; suff[i + m - 1 - f] &lt; i - g)
+            suff[i] = suff[i + m - 1 - f];
+        else {
+            if (i &lt; g)
+                g = i;
+            f = i;
+            while (g &gt;= 0 &amp;&amp; x[g] == x[g + m - 1 - f])
+                --g;
+            suff[i] = f - g;
+        }
+    }
+}
+
+/* Bảng dịch good-suffix như trong Boyer-Moore */
+void preBmGs(char *x, int m, int bmGs[]) {
+    int i, j, suff[XSIZE];
+    suffixes(x, m, suff);
+    for (i = 0; i &lt; m; ++i)
+        bmGs[i] = m;
+    j = 0;
+    for (i = m - 1; i &gt;= 0; --i)
+        if (suff[i] == i + 1)
+            for (; j &lt; m - 1 - i; ++j)
+                if (bmGs[j] == m)
+                    bmGs[j] = m - 1 - i;
+    for (i = 0; i &lt;= m - 2; ++i)
+        bmGs[m - 1 - suff[i]] = m - 1 - i;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, bmGs[XSIZE];
+    static int ztBc[ASIZE][ASIZE];
+
+    /* Tiền xử lý */
+    preZtBc(x, m, ztBc);
+    preBmGs(x, m, bmGs);
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j &lt;= n - m) {
+        i = m - 1;
+        while (i &gt;= 0 &amp;&amp; x[i] == y[i + j])
+            --i;
+        if (i &lt; 0) {
+            printf("Khop tai vi tri %d\n", j);
+            j += bmGs[0];
+        } else
+            j += MAX(bmGs[i],
+                     ztBc[(unsigned char) y[j + m - 2]]
+                         [(unsigned char) y[j + m - 1]]);
+    }
+}
+</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Bảng good-suffix tính được: <code>bmGs = [7, 7, 7, 2, 7, 4, 7, 1]</code>. Một vài ô đáng chú ý của bảng <code>ztBc</code>: cặp <code>(C, A)</code> xuất hiện tại x[1..2] nên <code>ztBc[C][A] = 5</code>; cặp <code>(A, G)</code> xuất hiện lần cuối tại x[4..5] nên <code>ztBc[A][G] = 2</code>; cặp <code>(G, A)</code> xuất hiện lần cuối tại x[5..6] nên <code>ztBc[G][A] = 1</code>; các cặp <code>(a, G)</code> chưa được gán khác nhận giá trị 7 (căn với ký tự đầu mẫu); cặp không liên quan nhận giá trị 8.</p>
+<ul>
+<li><strong>Bước 1</strong> — cửa sổ tại j = 0: so từ phải, <code>x[7] = 'G'</code> với <code>y[7] = 'A'</code> không khớp ngay tại i = 7. Cặp hai ký tự cuối cửa sổ là <code>(y[6], y[7]) = ('C', 'A')</code>. Bước dịch = max(<code>bmGs[7]</code> = 1, <code>ztBc[C][A]</code> = 5) = 5. Dịch tới j = 5.</li>
+<li><strong>Bước 2</strong> — cửa sổ tại j = 5: so từ phải toàn bộ, <code>y[5..12] = "GCAGAGAG"</code> khớp hoàn toàn. Báo một lần xuất hiện tại vị trí 5, rồi dịch theo <code>bmGs[0]</code> = 7, tới j = 12.</li>
+<li><strong>Bước 3</strong> — cửa sổ tại j = 12: <code>y[12..19] = "GTATACAG"</code>. So từ phải: khớp <code>G</code>, khớp <code>A</code>, rồi không khớp tại i = 5 (<code>x[5] = 'G'</code> với <code>y[17] = 'C'</code>). Bước dịch = max(<code>bmGs[5]</code> = 4, <code>ztBc[y[18]][y[19]]</code> = <code>ztBc[A][G]</code> = 2) = 4. Dịch tới j = 16.</li>
+</ul>
+<p>So với bad-character đơn ký tự (thường chỉ dịch 1-2 vị trí trên bảng chữ cái 4 ký tự), bad-character theo cặp cho bước dịch trung bình xa hơn rõ rệt.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>R. F. Zhu, T. Takaoka, "On improving the average case of the Boyer-Moore string matching algorithm", 1987.</li>
+<li>R. S. Boyer, J. S. Moore, "A fast string searching algorithm", 1977.</li>
+</ul>
+</body>
+</html>

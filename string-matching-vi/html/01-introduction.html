@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giới thiệu — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Giới thiệu về so khớp chuỗi chính xác</h1>
+
+<h2>Bài toán</h2>
+<p>So khớp chuỗi chính xác (exact string matching) là một trong những bài toán nền tảng của khoa học máy tính. Cho trước một <strong>mẫu</strong> (pattern) <code>x</code> có độ dài <code>m</code> và một <strong>văn bản</strong> (text) <code>y</code> có độ dài <code>n</code>, cả hai được viết trên cùng một <strong>bảng chữ cái</strong> (alphabet) <code>Σ</code> có kích thước <code>σ</code>. Nhiệm vụ là tìm <strong>tất cả</strong> các vị trí mà mẫu <code>x</code> xuất hiện trong văn bản <code>y</code>.</p>
+<p>Nói chính xác hơn, ta cần tìm mọi chỉ số <code>j</code> (với <code>0 ≤ j ≤ n - m</code>) sao cho:</p>
+<pre><code>y[j .. j + m - 1] = x[0 .. m - 1]</code></pre>
+<p>nghĩa là <code>y[j + i] = x[i]</code> với mọi <code>i</code> từ <code>0</code> đến <code>m - 1</code>. Khi điều kiện này thỏa mãn, ta nói mẫu xuất hiện tại vị trí <code>j</code>.</p>
+<p>Bài toán này xuất hiện ở khắp nơi: tìm kiếm trong trình soạn thảo văn bản, lọc gói tin trong mạng, tra cứu ADN trong tin sinh học, công cụ tìm kiếm, chống virus dựa trên chữ ký, v.v. Vì dữ liệu có thể rất lớn, hiệu năng của thuật toán so khớp chuỗi có ý nghĩa thực tiễn quan trọng.</p>
+
+<h2>Quy ước ký hiệu</h2>
+<p>Trong toàn bộ tài liệu này, ta thống nhất các ký hiệu sau:</p>
+<ul>
+<li><code>x</code> — mẫu cần tìm, độ dài <code>m</code>, các ký tự đánh chỉ số từ <code>x[0]</code> đến <code>x[m-1]</code>.</li>
+<li><code>y</code> — văn bản, độ dài <code>n</code>, các ký tự từ <code>y[0]</code> đến <code>y[n-1]</code>.</li>
+<li><code>Σ</code> — bảng chữ cái; <code>σ = |Σ|</code> là số ký tự phân biệt.</li>
+<li>Chỉ số bắt đầu từ <code>0</code> (theo phong cách ngôn ngữ C).</li>
+<li>Một <strong>chuỗi con</strong> (factor / substring) của <code>y</code> là một đoạn liên tiếp <code>y[i .. j]</code>.</li>
+<li>Một <strong>tiền tố</strong> (prefix) của <code>x</code> là đoạn <code>x[0 .. i]</code>; một <strong>hậu tố</strong> (suffix) là đoạn <code>x[i .. m-1]</code>.</li>
+<li>Một <strong>biên</strong> (border) của một chuỗi là một chuỗi vừa là tiền tố thực sự vừa là hậu tố thực sự của chuỗi đó.</li>
+</ul>
+<p>Thông thường ta giả định <code>m ≤ n</code>, vì nếu mẫu dài hơn văn bản thì hiển nhiên không có xuất hiện nào.</p>
+
+<h2>Cửa sổ trượt, phép thử và bước dịch</h2>
+<p>Hầu hết các thuật toán so khớp chuỗi hoạt động theo mô hình <strong>cửa sổ trượt</strong> (sliding window). Ta hình dung một cửa sổ có độ dài <code>m</code> đúng bằng độ dài mẫu, đặt chồng lên văn bản. Ban đầu cửa sổ nằm ở đầu văn bản, canh thẳng với <code>y[0 .. m-1]</code>.</p>
+<p>Tại mỗi vị trí của cửa sổ, thuật toán thực hiện một <strong>phép thử</strong> (attempt): so sánh các ký tự của mẫu với các ký tự văn bản nằm trong cửa sổ, theo một thứ tự nào đó. Phép thử có thể kết thúc thành công (tìm thấy một xuất hiện) hoặc thất bại (gặp một cặp ký tự không khớp, gọi là điểm sai lệch — mismatch).</p>
+<p>Sau mỗi phép thử, thuật toán dịch cửa sổ sang phải một khoảng gọi là <strong>bước dịch</strong> (shift). Điểm mấu chốt phân biệt các thuật toán chính là: chúng dịch cửa sổ bao xa và dựa trên thông tin gì. Thuật toán ngây thơ nhất luôn dịch đúng một vị trí; các thuật toán tinh vi hơn tận dụng thông tin thu được trong phép thử để dịch xa hơn mà vẫn không bỏ sót xuất hiện nào.</p>
+
+<h2>Phân loại theo thứ tự so sánh ký tự</h2>
+<p>Một cách phân loại hữu ích là dựa trên <strong>thứ tự</strong> mà thuật toán so sánh các ký tự bên trong cửa sổ:</p>
+<ul>
+<li><strong>Trái sang phải</strong>: so sánh bắt đầu từ ký tự trái nhất của cửa sổ. Đây là hướng tự nhiên nhất. Tiêu biểu: Brute Force, Morris-Pratt, Knuth-Morris-Pratt, ôtômat hữu hạn đơn định, Shift-Or.</li>
+<li><strong>Phải sang trái</strong>: so sánh bắt đầu từ ký tự phải nhất. Hướng này thường cho bước dịch dài nhất trong thực tế. Tiêu biểu: Boyer-Moore và các biến thể (Horspool, Sunday...).</li>
+<li><strong>Thứ tự đặc thù</strong>: thuật toán tự chọn một thứ tự so sánh riêng, được tính trước dựa trên cấu trúc mẫu. Tiêu biểu: Colussi, Galil-Giancarlo.</li>
+<li><strong>Thứ tự bất kỳ</strong>: kết quả không phụ thuộc thứ tự so sánh. Tiêu biểu: các thuật toán dựa trên ôtômat hậu tố hoặc so khớp bằng phép toán bit.</li>
+</ul>
+
+<h2>Các đại lượng độ phức tạp quan tâm</h2>
+<ul>
+<li><strong>Độ phức tạp tiền xử lý</strong> (preprocessing): thời gian và bộ nhớ để xây dựng các cấu trúc dữ liệu phụ (bảng biên, bảng dịch, ôtômat...) từ mẫu, trước khi quét văn bản. Thường phụ thuộc <code>m</code> và đôi khi <code>σ</code>.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong> (searching): thời gian để quét văn bản, thường biểu diễn theo <code>n</code>, <code>m</code>.</li>
+<li><strong>Bộ nhớ phụ</strong>: dung lượng bộ nhớ ngoài mẫu và văn bản mà thuật toán cần.</li>
+<li><strong>Độ trễ</strong> (delay): số phép so sánh tối đa thực hiện trên một ký tự văn bản trước khi cửa sổ dịch. Đại lượng này quan trọng cho các ứng dụng xử lý dòng dữ liệu thời gian thực, nơi mỗi ký tự đến cần được xử lý trong thời gian bị chặn.</li>
+<li><strong>Số phép so sánh ký tự</strong>: nhiều thuật toán có cận trên chặt về tổng số phép so sánh trong trường hợp xấu nhất (ví dụ <code>2n - 1</code> với Morris-Pratt).</li>
+</ul>
+
+<h2>Bảng tóm tắt các nhóm thuật toán tiêu biểu</h2>
+<table>
+<tr><th>Thuật toán</th><th>Tiền xử lý</th><th>Tìm kiếm</th><th>Bộ nhớ phụ</th><th>Hướng so sánh</th></tr>
+<tr><td>Brute Force</td><td>không</td><td>O(mn)</td><td>O(1)</td><td>trái → phải</td></tr>
+<tr><td>Morris-Pratt</td><td>O(m)</td><td>O(n+m)</td><td>O(m)</td><td>trái → phải</td></tr>
+<tr><td>Knuth-Morris-Pratt</td><td>O(m)</td><td>O(n+m)</td><td>O(m)</td><td>trái → phải</td></tr>
+<tr><td>Otomat hữu hạn đơn định</td><td>O(mσ)</td><td>O(n)</td><td>O(mσ)</td><td>trái → phải</td></tr>
+<tr><td>Shift-Or</td><td>O(m+σ)</td><td>O(n)</td><td>O(σ)</td><td>trái → phải</td></tr>
+<tr><td>Karp-Rabin</td><td>O(m)</td><td>O(mn) xấu nhất, O(n+m) kỳ vọng</td><td>O(1)</td><td>trái → phải</td></tr>
+<tr><td>Boyer-Moore</td><td>O(m+σ)</td><td>O(mn) xấu nhất, dưới tuyến tính TB</td><td>O(m+σ)</td><td>phải → trái</td></tr>
+<tr><td>Horspool</td><td>O(m+σ)</td><td>O(mn) xấu nhất, dưới tuyến tính TB</td><td>O(σ)</td><td>phải → trái</td></tr>
+</table>
+<p>Các mục tiếp theo trình bày chi tiết từng thuật toán: ý tưởng, cơ chế tiền xử lý, cài đặt bằng C, và ví dụ minh họa.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>D. E. Knuth, J. H. Morris, V. R. Pratt, "Fast pattern matching in strings", 1977.</li>
+<li>R. S. Boyer, J. S. Moore, "A fast string searching algorithm", 1977.</li>
+<li>A. V. Aho, J. E. Hopcroft, J. D. Ullman, "The Design and Analysis of Computer Algorithms", 1974.</li>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", 1994.</li>
+<li>G. A. Stephen, "String Searching Algorithms", 1994.</li>
+<li>T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, "Introduction to Algorithms", 2009.</li>
+</ul>
+</body>
+</html>

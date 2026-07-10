@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mục lục — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+ol{columns:2;column-gap:3rem}
+ol li{break-inside:avoid;margin-bottom:.3rem}
+@media (max-width:600px){ol{columns:1}}
+</style>
+</head>
+<body>
+<h1>Các thuật toán so khớp chuỗi chính xác</h1>
+<p>Bộ tài liệu tiếng Việt về <strong>36 thuật toán so khớp chuỗi chính xác</strong> (exact string matching): tìm mọi vị trí xuất hiện của một mẫu <code>x</code> độ dài <code>m</code> trong văn bản <code>y</code> độ dài <code>n</code>.</p>
+<p><em>Nội dung do Claude biên soạn cho mục đích học tập, lấy cảm hứng từ danh mục thuật toán kinh điển trong lĩnh vực so khớp chuỗi (Charras &amp; Lecroq). Mọi văn bản và mã nguồn trong bộ tài liệu này đều được viết mới.</em></p>
+
+<h2>Mục lục</h2>
+<ol>
+<li><a href="01-introduction.html">Giới thiệu</a></li>
+<li><a href="02-brute-force.html">Brute Force (vét cạn)</a></li>
+<li><a href="03-deterministic-finite-automaton.html">Otomat hữu hạn đơn định (DFA)</a></li>
+<li><a href="04-karp-rabin.html">Karp-Rabin</a></li>
+<li><a href="05-shift-or.html">Shift-Or</a></li>
+<li><a href="06-morris-pratt.html">Morris-Pratt</a></li>
+<li><a href="07-knuth-morris-pratt.html">Knuth-Morris-Pratt</a></li>
+<li><a href="08-simon.html">Simon</a></li>
+<li><a href="09-colussi.html">Colussi</a></li>
+<li><a href="10-galil-giancarlo.html">Galil-Giancarlo</a></li>
+<li><a href="11-apostolico-crochemore.html">Apostolico-Crochemore</a></li>
+<li><a href="12-not-so-naive.html">Not So Naive</a></li>
+<li><a href="13-boyer-moore.html">Boyer-Moore</a></li>
+<li><a href="14-turbo-bm.html">Turbo Boyer-Moore</a></li>
+<li><a href="15-apostolico-giancarlo.html">Apostolico-Giancarlo</a></li>
+<li><a href="16-reverse-colussi.html">Reverse Colussi</a></li>
+<li><a href="17-horspool.html">Horspool</a></li>
+<li><a href="18-quick-search.html">Quick Search</a></li>
+<li><a href="19-tuned-boyer-moore.html">Tuned Boyer-Moore</a></li>
+<li><a href="20-zhu-takaoka.html">Zhu-Takaoka</a></li>
+<li><a href="21-berry-ravindran.html">Berry-Ravindran</a></li>
+<li><a href="22-smith.html">Smith</a></li>
+<li><a href="23-raita.html">Raita</a></li>
+<li><a href="24-reverse-factor.html">Reverse Factor (BDM)</a></li>
+<li><a href="25-turbo-reverse-factor.html">Turbo Reverse Factor</a></li>
+<li><a href="26-forward-dawg-matching.html">Forward Dawg Matching</a></li>
+<li><a href="27-backward-nondeterministic-dawg.html">BNDM</a></li>
+<li><a href="28-backward-oracle-matching.html">Backward Oracle Matching</a></li>
+<li><a href="29-galil-seiferas.html">Galil-Seiferas</a></li>
+<li><a href="30-two-way.html">Two Way</a></li>
+<li><a href="31-ordered-alphabets.html">So khớp trên bảng chữ có thứ tự</a></li>
+<li><a href="32-optimal-mismatch.html">Optimal Mismatch</a></li>
+<li><a href="33-maximal-shift.html">Maximal Shift</a></li>
+<li><a href="34-skip-search.html">Skip Search</a></li>
+<li><a href="35-kmp-skip-search.html">KMP Skip Search</a></li>
+<li><a href="36-alpha-skip-search.html">Alpha Skip Search</a></li>
+</ol>
+
+<h2>Cấu trúc mỗi bài</h2>
+<p>Mỗi thuật toán (từ mục 2 trở đi) gồm: <strong>Đặc điểm chính</strong> (độ phức tạp tiền xử lý / tìm kiếm, bộ nhớ phụ, hướng so sánh), <strong>Ý tưởng</strong>, <strong>Mô tả chi tiết</strong>, <strong>Cài đặt bằng C</strong>, <strong>Ví dụ minh họa</strong> và <strong>Tài liệu tham khảo</strong>.</p>
+</body>
+</html>

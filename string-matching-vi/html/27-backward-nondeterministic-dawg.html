@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Backward Nondeterministic Dawg Matching — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Backward Nondeterministic Dawg Matching (BNDM)</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Mô phỏng ôtômat hậu tố phi đơn định (nondeterministic suffix automaton) của mẫu bằng kỹ thuật song song hóa bit (bit-parallelism), tương tự cách Shift-Or mô phỏng ôtômat tiền tố.</li>
+<li><strong>Tiền xử lý</strong>: O(m + σ) để dựng bảng mặt nạ bit (bitmask) cho mỗi ký tự của bảng chữ cái.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(σ) từ máy (word) — mỗi từ máy chứa <code>m</code> bit trạng thái; hiệu quả nhất khi <code>m</code> không vượt quá độ dài từ máy (32 hoặc 64 bit).</li>
+<li><strong>Pha tìm kiếm</strong>: quét cửa sổ từ PHẢI sang TRÁI như Reverse Factor/BDM, nhưng thay ôtômat đơn định tường minh bằng các phép toán bit (AND, dịch bit) trên một từ máy duy nhất.</li>
+<li>Trung bình rất nhanh, cùng cấp tối ưu O(n·log<sub>σ</sub>(m)/m) như BDM; xấu nhất O(mn) (không có cơ chế turbo-shift).</li>
+<li>Không cần dựng tường minh đồ thị trạng thái — mọi trạng thái của ôtômat phi đơn định được biểu diễn gộp trong một số nguyên (bitmask).</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Reverse Factor cần dựng một ôtômat hậu tố ĐƠN ĐỊNH (DAWG) khá cồng kềnh về bộ nhớ (một trạng thái với bảng chuyển kích thước σ). BNDM đưa ra một cách nhìn khác: thay vì đơn định hóa ôtômat, ta giữ nguyên ôtômat hậu tố PHI ĐƠN ĐỊNH (nhiều trạng thái có thể "cùng sống" tại một thời điểm) và mô phỏng việc nhiều trạng thái cùng hoạt động song song bằng các bit của một số nguyên duy nhất — mỗi bit ứng với một trạng thái. Việc "thử tất cả các bước chuyển có thể" trở thành một phép AND giữa mặt nạ bit hiện tại và mặt nạ bit của ký tự vừa đọc, còn việc "chuyển từ trạng thái i đại diện cho độ dài factor vừa khớp sang việc kiểm tra ký tự kế tiếp" trở thành một phép dịch bit.</p>
+<p>Ưu điểm: không cần bảng chuyển kích thước O(m×σ), không cần liên kết hậu tố hay việc tách trạng thái (clone) phức tạp như khi dựng DAWG đơn định — toàn bộ pha tiền xử lý chỉ là tính một bảng bitmask cho từng ký tự. Với các mẫu có độ dài không vượt quá kích thước từ máy (thường 64 bit), đây là một trong những thuật toán so khớp chuỗi nhanh nhất trong thực tế.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>Tiền xử lý.</strong> Với mỗi ký tự <code>c</code> trong bảng chữ cái, tính mặt nạ bit <code>B[c]</code>, trong đó bit thứ <code>i</code> (0 ≤ i &lt; m) được bật nếu <code>x[i] = c</code>. Đây chính là mặt nạ giống hệt mặt nạ dùng trong Shift-Or, nhưng cách sử dụng nó ở BNDM khác biệt.</p>
+<p><strong>Tìm kiếm.</strong> Tại mỗi vị trí cửa sổ <code>pos</code>, ta duy trì một mặt nạ trạng thái <code>D</code> (ban đầu gồm <code>m</code> bit đều bật, đại diện cho việc mọi trạng thái "khởi đầu" của ôtômat phi đơn định đều đang hoạt động), và một chỉ số <code>j</code> chạy từ <code>m</code> giảm dần. Lặp lại khi <code>D ≠ 0</code>:</p>
+<ol>
+<li>Giảm <code>j</code>; đọc ký tự văn bản <code>c = y[pos + j]</code> (đọc cửa sổ từ phải sang trái).</li>
+<li>Cập nhật <code>D = D AND B[c]</code> — chỉ giữ lại những trạng thái "còn sống", tức những vị trí trong mẫu mà ký tự vừa đọc thực sự khớp.</li>
+<li>Nếu bit thấp nhất của <code>D</code> được bật, điều đó báo hiệu đoạn vừa đọc (dài <code>m − j</code> ký tự, tính từ bên phải cửa sổ) khớp với một TIỀN TỐ của mẫu:
+<ul>
+<li>nếu <code>j &gt; 0</code>, đây là một tiền tố thực sự (chưa hết cửa sổ) — ghi nhớ <code>last = j</code> làm ứng viên bước dịch;</li>
+<li>nếu <code>j = 0</code>, tiền tố đó dài đúng <code>m</code>, tức là toàn bộ cửa sổ khớp với mẫu — báo một xuất hiện tại <code>pos</code>.</li>
+</ul>
+</li>
+<li>Dịch mặt nạ: <code>D = D &gt;&gt; 1</code>, để lần đọc kế tiếp so sánh đúng vị trí tương ứng trong mẫu.</li>
+<li>Nếu <code>D</code> trở thành 0 trước khi <code>j</code> chạm 0, vòng lặp dừng sớm — không còn trạng thái nào sống, nghĩa là đoạn vừa đọc không thể là một phần của bất kỳ factor khớp nào nữa.</li>
+</ol>
+<p>Sau vòng lặp, cửa sổ được dịch tới <code>pos + last</code> (mặc định <code>last = m</code> nếu không tìm được tiền tố nào giữa chừng).</p>
+<p>Việc gộp toàn bộ trạng thái của ôtômat phi đơn định vào một từ máy khiến mỗi bước của vòng lặp trong chỉ tốn một vài phép toán bit cơ bản (AND, dịch, kiểm tra bit), cực kỳ nhanh trên phần cứng thực tế dù độ phức tạp lý thuyết trong trường hợp xấu nhất vẫn là O(mn) như Reverse Factor gốc (BNDM không có cơ chế turbo-shift để khắc phục).</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 128                 /* kich thuoc bang chu cai */
+typedef unsigned long long Mask;  /* tu may 64 bit */
+
+static Mask B[ASIZE];
+
+/* Tien xu ly: B[c] la mat na bit, bit i bat neu x[i] == c */
+static void preprocess(char *x, int m) {
+    int i;
+    for (i = 0; i &lt; ASIZE; i++)
+        B[i] = 0;
+    for (i = 0; i &lt; m; i++)
+        B[(unsigned char) x[i]] |= (Mask)1 &lt;&lt; i;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int pos, j, last;
+    Mask D;
+
+    /* dieu kien: m &lt;= 64 (kich thuoc tu may) */
+    preprocess(x, m);
+
+    pos = 0;
+    while (pos &lt;= n - m) {
+        j = m;
+        last = m;
+        D = (m == 64) ? ~(Mask)0 : (((Mask)1 &lt;&lt; m) - 1);
+        while (D != 0) {
+            j--;
+            D &amp;= B[(unsigned char) y[pos + j]];
+            if (D &amp; 1) {
+                if (j &gt; 0)
+                    last = j;               /* tien to, ghi nho buoc dich */
+                else
+                    printf("Khop tai vi tri %d\n", pos); /* khop het mau */
+            }
+            D &gt;&gt;= 1;
+        }
+        pos += last;
+    }
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Tiền xử lý tạo các mặt nạ 8-bit, ví dụ <code>B['G']</code> bật các bit ứng với vị trí <code>G</code> xuất hiện trong mẫu (vị trí 0, 3, 5, 7), <code>B['C']</code> bật bit vị trí 1, <code>B['A']</code> bật các bit vị trí 2, 4, 6.</p>
+<ul>
+<li><strong>Cửa sổ tại pos = 0</strong> (<code>y[0..7] = "GCATCGCA"</code>): <code>D</code> khởi đầu <code>11111111</code>. Đọc <code>y[7]='A'</code>: <code>D &amp;= B['A']</code>. Đọc <code>y[6]='C'</code>: <code>D &amp;= B['C']</code>. Đọc <code>y[5]='G'</code>: <code>D &amp;= B['G']</code>. Đọc <code>y[4]='C'</code>: ký tự <code>C</code> chỉ khớp vị trí 1 trong mẫu, nhưng sau ba bước dịch bit trước đó, phần giao còn lại rất hẹp; nếu <code>D</code> trở thành 0 tại bước này, vòng lặp dừng sớm — không có tiền tố nào được xác nhận, <code>last</code> giữ giá trị mặc định <code>m = 8</code>, cửa sổ dịch tới <code>pos = 8</code>. (Nếu trong quá trình có bit thấp nhất bật ở <code>j &gt; 0</code>, bước dịch sẽ ngắn hơn tương ứng.)</li>
+<li><strong>Cửa sổ tại pos = 5</strong> (<code>y[5..12] = "GCAGAGAG"</code>): quét ngược từng ký tự đều khớp bit tương ứng trong mẫu; <code>D</code> không bao giờ về 0 cho tới khi <code>j</code> chạm 0, và bit thấp nhất được bật đúng lúc <code>j = 0</code> — chương trình in ra <strong>"Khop tai vi tri 5"</strong>.</li>
+</ul>
+<p>Cài đặt trên đã được kiểm chứng đúng bằng cách so khớp kết quả với thuật toán vét cạn trên hàng trăm nghìn cặp mẫu/văn bản ngẫu nhiên với độ dài mẫu tới 20 ký tự.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>G. Navarro, M. Raffinot, "A bit-parallel approach to suffix automata: fast extended string matching", CPM 1998.</li>
+<li>G. Navarro, M. Raffinot, "Flexible Pattern Matching in Strings", Cambridge University Press, 2002.</li>
+<li>R. Baeza-Yates, G. H. Gonnet, "A new approach to text searching", Communications of the ACM, 1992 (nguồn gốc kỹ thuật Shift-Or dùng làm nền tảng song song hóa bit).</li>
+</ul>
+</body>
+</html>

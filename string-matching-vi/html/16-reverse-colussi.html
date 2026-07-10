@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Reverse Colussi — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Reverse Colussi</h1>
+<h2 id="đặc-điểm-chính">Đặc điểm chính</h2>
+<ul>
+<li>Độ phức tạp tiền xử lý: <strong>O(m²)</strong> thời gian và bộ nhớ
+phụ O(m + σ·m).</li>
+<li>Bộ nhớ phụ: bảng thứ tự so sánh <code>h[0..m-1]</code>, bảng bước
+dịch an toàn <code>rcGs[0..m]</code>, và bảng bad-character hai chiều
+<code>rcBc[σ][m]</code> (mở rộng so với Boyer-Moore vì bước dịch
+bad-character phụ thuộc cả ký tự lẫn bước dịch hiện hành).</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>O(n)</strong>.</li>
+<li>Hướng so sánh ký tự: <strong>theo một thứ tự đặc biệt được tính
+sẵn</strong>, không đơn thuần trái sang phải hay phải sang trái — thứ tự
+này cố định cho một mẫu, không phụ thuộc văn bản.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm bị chặn chặt bởi
+<strong>2n</strong>.</li>
+</ul>
+<h2 id="ý-tưởng">Ý tưởng</h2>
+<p>Reverse Colussi là sự lai ghép giữa hai dòng tư tưởng: cách "so sánh
+theo thứ tự thông minh" của Colussi (áp dụng cho họ Morris-Pratt, so
+trái sang phải) và cách "so cuối mẫu trước, dịch xa" của Boyer-Moore.
+Thay vì luôn so sánh mẫu với cửa sổ theo đúng thứ tự từ cuối về đầu,
+Reverse Colussi tính trước — chỉ dựa vào cấu trúc chu kỳ nội tại của mẫu
+— một <strong>hoán vị các vị trí</strong>
+<code>h[0], h[1], ..., h[m-1]</code> (với <code>h[0] = m-1</code>, tức
+ký tự cuối mẫu luôn được so đầu tiên, giữ vai trò "bộ lọc nhanh" kiểu
+Boyer-Moore-Horspool) sao cho việc dừng sớm ở bất kỳ vị trí nào trong
+thứ tự đó đều cho phép suy ra một bước dịch an toàn, đủ lớn để tổng chi
+phí so sánh toàn cục không vượt quá <code>2n</code>.</p>
+<p>Nói cách khác, nếu Colussi nguyên bản chia vị trí mẫu thành
+nohole/hole và so hai đợt (tăng dần rồi giảm dần), Reverse Colussi tổng
+quát hoá thành một thứ tự duy nhất được tính tối ưu qua phân tích chu kỳ
+của mẫu, kết hợp thêm quy tắc bad-character mở rộng để tăng tốc bước
+"lọc nhanh" ban đầu.</p>
+<h2 id="mô-tả-chi-tiết">Mô tả chi tiết</h2>
+<p><strong>Xây thứ tự so sánh <code>h</code></strong>: dựa trên các bảng
+chu kỳ tương tự Colussi — <code>hmin[k]</code> (vị trí dừng khi tìm chu
+kỳ độ dài <code>k</code>), <code>kmin[i]</code> (chu kỳ nhỏ nhất ứng với
+mỗi vị trí, đánh dấu các vị trí có tính chất chu kỳ đặc biệt), và
+<code>rmin[i]</code> (chu kỳ nhỏ nhất lớn hơn <code>i</code>). Các vị
+trí có <code>kmin</code> khác 0 được xếp trước theo một thứ tự do
+<code>hmin</code>/<code>kmin</code> quyết định (những vị trí "giàu thông
+tin chu kỳ" nhất được ưu tiên so sớm), các vị trí còn lại xếp sau. Vị
+trí <code>m-1</code> (ký tự cuối mẫu) luôn được đặt ở đầu bảng
+<code>h</code> để đóng vai trò lọc nhanh kiểu bad-character trước khi đi
+vào so sánh chi tiết theo thứ tự đã tính.</p>
+<p><strong>Bảng bước dịch an toàn <code>rcGs[r]</code></strong>: với mỗi
+"hạng" dừng <code>r</code> (nghĩa là các vị trí
+<code>h[0], ..., h[r-1]</code> đã so khớp, còn <code>h[r]</code> bị lệch
+hoặc <code>r = m</code> khi khớp toàn bộ mẫu), <code>rcGs[r]</code> là
+bước dịch nhỏ nhất đảm bảo <strong>không bỏ sót</strong> bất kỳ xuất
+hiện nào của mẫu: với bước dịch <code>s = rcGs[r]</code>, mọi vị trí đã
+biết khớp <code>h[t]</code> (<code>t &lt; r</code>) mà còn nằm trong mẫu
+sau khi dịch (<code>h[t] &gt;= s</code>) đều phải tiếp tục khớp
+(<code>x[h[t]-s] = x[h[t]]</code>), và nếu có vị trí lệch
+<code>h[r]</code> còn nằm trong mẫu sau khi dịch thì tại đó không được
+khớp (<code>x[h[r]-s] != x[h[r]]</code>) — nếu không, một xuất hiện tiềm
+năng có thể bị bỏ qua. Giá trị <code>rcGs[r]</code> được xác định là
+bước dịch nhỏ nhất thỏa hai điều kiện trên, tính được ngay trong pha
+tiền xử lý bằng cách duyệt thử các bước dịch tăng dần từ 1, do đó góp
+phần vào độ phức tạp O(m²) của tiền xử lý.</p>
+<p><strong>Bảng bad-character mở rộng <code>rcBc[c][s]</code></strong>:
+khác với Boyer-Moore (chỉ phụ thuộc ký tự gây lệch), ở đây bước dịch
+bad-character còn phụ thuộc vào bước dịch hiện hành <code>s</code> đang
+dùng để lọc nhanh (vì việc lọc nhanh lặp lại nhiều lần liên tiếp trước
+khi vào so sánh chi tiết, mỗi lần với một bước dịch tiềm năng khác
+nhau). <code>rcBc[c][s]</code> cho biết, khi ký tự cuối cửa sổ là
+<code>c</code> và bước dịch đang dùng để lọc nhanh là <code>s</code>,
+bước dịch tiếp theo nên là bao nhiêu để tới lần xuất hiện gần nhất (nhìn
+từ phải) của <code>c</code> trong mẫu mà khoảng cách so với cuối mẫu tối
+thiểu bằng <code>s</code>.</p>
+<p><strong>Pha tìm kiếm</strong>: tại mỗi vị trí cửa sổ, trước tiên lặp
+"lọc nhanh": chừng nào ký tự cuối cửa sổ <code>y[j+m-1]</code> khác
+<code>x[m-1]</code>, tra <code>rcBc[y[j+m-1]][s]</code> để có bước dịch
+mới và dịch cửa sổ, không cần đọc thêm ký tự nào khác. Khi ký tự cuối
+cửa sổ đã trùng <code>x[m-1]</code>, chuyển sang so sánh chi tiết theo
+đúng thứ tự <code>h[1], h[2], ...</code> cho tới khi lệch ở hạng
+<code>r</code> (hoặc khớp hết, <code>r = m</code>); báo xuất hiện nếu
+<code>r = m</code>, rồi dịch cửa sổ theo <code>rcGs[r]</code>.</p>
+<h2 id="cài-đặt-bằng-c">Cài đặt bằng C</h2>
+<pre class="c"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+#define XSIZE 64
+#define MAX(a, b) ((a) &gt; (b) ? (a) : (b))
+
+/* Buoc dich an toan nho nhat khi dung so sanh o hang r: h[0..r-1] da khop,
+   h[r] le (hoac r = m neu khop het). Duyet tang dan s = 1, 2, ... va kiem
+   dieu kien an toan truc tiep tren mau x. */
+static int safeShift(char *x, int m, int *h, int r) {
+    int s, t, ok, q, p;
+    p = (r &lt; m) ? h[r] : -1;
+    for (s = 1; s &lt;= m; ++s) {
+        ok = 1;
+        for (t = 0; t &lt; r &amp;&amp; ok; ++t) {
+            q = h[t];
+            if (q &gt;= s &amp;&amp; x[q - s] != x[q])
+                ok = 0;
+        }
+        if (ok &amp;&amp; p &gt;= 0 &amp;&amp; p &gt;= s &amp;&amp; x[p - s] == x[p])
+            ok = 0;
+        if (ok)
+            return s;
+    }
+    return m;
+}
+
+void preRc(char *x, int m, int h[], int rcBc[ASIZE][XSIZE], int rcGs[]) {
+    int a, i, j, k, q, r, s;
+    int hmin[XSIZE], kmin[XSIZE], link[XSIZE], locc[ASIZE], rmin[XSIZE];
+
+    /* link/locc: chuoi cac vi tri xuat hien (tinh nguoc) cua tung ky tu trong x[0..m-2] */
+    for (a = 0; a &lt; ASIZE; ++a)
+        locc[a] = -1;
+    link[0] = -1;
+    for (i = 0; i &lt; m - 1; ++i) {
+        link[i + 1] = locc[(unsigned char) x[i]];
+        locc[(unsigned char) x[i]] = i;
+    }
+
+    /* rcBc[a][s]: buoc dich khi ky tu cuoi cua so la a, dang loc nhanh voi buoc s */
+    for (a = 0; a &lt; ASIZE; ++a)
+        for (s = 1; s &lt;= m; ++s) {
+            i = locc[a];
+            j = link[m - s];
+            while (i - j != s &amp;&amp; j &gt;= 0)
+                if (i - j &gt; s) i = link[i + 1];
+                else           j = link[j + 1];
+            while (i - j &gt; s)
+                i = link[i + 1];
+            rcBc[a][s] = m - i - 1;
+        }
+
+    /* hmin/kmin: phan tich chu ky cua mau, dung de xac dinh thu tu so sanh h */
+    k = 1;
+    i = m - 1;
+    while (k &lt;= m) {
+        while (i - k &gt;= 0 &amp;&amp; x[i - k] == x[i])
+            --i;
+        hmin[k] = i;
+        q = k + 1;
+        while (q &lt;= m &amp;&amp; hmin[q - k] - (q - k) &gt; i) {
+            hmin[q] = hmin[q - k];
+            ++q;
+        }
+        i += (q - k);
+        k = q;
+        if (i &gt;= m)
+            i = m - 1;
+    }
+    memset(kmin, 0, (m + 1) * sizeof(int));
+    for (k = m; k &gt; 0; --k)
+        kmin[hmin[k]] = k;
+    r = 0;
+    for (i = m - 1; i &gt;= 0; --i) {
+        if (hmin[i + 1] == i)
+            r = i + 1;
+        rmin[i] = (kmin[i] == 0) ? r : 0;
+    }
+
+    /* Xay thu tu so sanh h: h[0] = m-1 (loc nhanh), roi cac vi tri &quot;giau chu ky&quot;
+       theo hmin/kmin, cuoi cung la cac vi tri con lai */
+    h[0] = m - 1;
+    i = 1;
+    for (k = 1; k &lt;= m; ++k)
+        if (hmin[k] != m - 1 &amp;&amp; kmin[hmin[k]] == k)
+            h[i++] = hmin[k];
+    for (j = m - 2; j &gt;= 0; --j)
+        if (kmin[j] == 0)
+            h[i++] = j;
+
+    /* rcGs[r]: buoc dich an toan khi dung o hang r (1..m) */
+    for (r = 1; r &lt;= m; ++r)
+        rcGs[r] = safeShift(x, m, h, r);
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, s;
+    static int rcBc[ASIZE][XSIZE];
+    int rcGs[XSIZE], h[XSIZE];
+
+    preRc(x, m, h, rcBc, rcGs);
+
+    j = 0;
+    s = m;
+    while (j &lt;= n - m) {
+        /* Loc nhanh bang ky tu cuoi cua so */
+        while (j &lt;= n - m &amp;&amp; x[m - 1] != y[j + m - 1]) {
+            s = rcBc[(unsigned char) y[j + m - 1]][s];
+            j += s;
+        }
+        if (j &gt; n - m)
+            break;
+
+        /* So sanh chi tiet theo thu tu h[1..m-1] */
+        for (i = 1; i &lt; m &amp;&amp; x[h[i]] == y[j + h[i]]; ++i)
+            ;
+        if (i &gt;= m)
+            printf(&quot;Tim thay tai vi tri %d\n&quot;, j);
+        s = rcGs[i];
+        j += s;
+    }
+}</code></pre>
+<h2 id="ví-dụ-minh-họa">Ví dụ minh họa</h2>
+<p>Xét lại <code>x = "GCAGAGAG"</code> (m = 8) trên
+<code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Thứ tự so sánh tính được: <code>h = [7, 3, 5, 6, 4, 2, 1, 0]</code>
+(vị trí 7 — ký tự cuối — luôn được lọc nhanh đầu tiên). Một phần bảng
+bước dịch an toàn: <code>rcGs[1] = 2</code>, <code>rcGs[2] = 4</code>,
+<code>rcGs[3..8] = 7</code>.</p>
+<p>Diễn biến các lần thử đầu tiên:</p>
+<ul>
+<li><strong>j = 0</strong>: lọc nhanh, <code>x[7]='G'</code> khác
+<code>y[7]='A'</code>, dịch theo <code>rcBc['A'][8] = 1</code>.</li>
+<li><strong>j = 1</strong>: <code>x[7]='G'</code> khớp
+<code>y[8]='G'</code>. Vào so sánh chi tiết: hạng 1 so
+<code>x[h[1]]=x[3]='G'</code> với <code>y[4]='C'</code> — lệch ngay ở
+hạng <code>r = 1</code>. Dịch <code>rcGs[1] = 2</code>.</li>
+<li><strong>j = 3</strong>: <code>x[7]='G'</code> khớp
+<code>y[10]='G'</code>. Hạng 1: <code>x[3]='G'</code> với
+<code>y[6]='C'</code> — lệch tại <code>r = 1</code>. Dịch
+<code>rcGs[1] = 2</code>.</li>
+<li><strong>j = 5</strong>: <code>x[7]='G'</code> khớp
+<code>y[12]='G'</code>. So lần lượt theo
+<code>h[1..7] = 3,5,6,4,2,1,0</code>, tất cả đều khớp với
+<code>y[8],y[10],y[11],y[9],y[7],y[6],y[5]</code> → <strong>tìm thấy tại
+vị trí 5</strong>. Dịch <code>rcGs[8] = 7</code>.</li>
+<li><strong>j = 12</strong>: <code>x[7]='G'</code> khớp
+<code>y[19]='G'</code>. Hạng 1: <code>x[3]='G'</code> với
+<code>y[15]='T'</code> — lệch tại <code>r = 1</code>. Dịch
+<code>rcGs[1] = 2</code>.</li>
+<li><strong>j = 14</strong>: lọc nhanh, <code>x[7]='G'</code> khác
+<code>y[21]='A'</code>, dịch tiếp theo bảng <code>rcBc</code>, vượt quá
+văn bản sau vài bước và thuật toán dừng.</li>
+</ul>
+<p>Có thể thấy vai trò hai tầng rõ rệt: bước lọc nhanh (so ký tự cuối
+cửa sổ, giống Horspool) loại nhanh phần lớn các vị trí sai, còn khi ký
+tự cuối đã khớp thì thứ tự <code>h</code> được tính sẵn giúp phát hiện
+lệch ở ngay hạng đầu tiên (<code>h[1] = 3</code>) tại các cửa sổ
+<code>j = 1, 3, 12</code>, cho một bước dịch ổn định
+<code>rcGs[1] = 2</code> mà không cần so thêm ký tự nào khác.</p>
+<h2 id="tài-liệu-tham-khảo">Tài liệu tham khảo</h2>
+<ul>
+<li>L. Colussi, "Fastest pattern matching in strings", <em>Journal of
+Algorithms</em>, 1994.</li>
+<li>M. Crochemore, W. Rytter, <em>Text Algorithms</em>, Oxford
+University Press, 1994.</li>
+<li>C. Charras, T. Lecroq, "Handbook of Exact String Matching
+Algorithms", King's College London Publications, 2004 (khảo cứu tổng hợp
+về họ thuật toán dựa trên chu kỳ mẫu).</li>
+</ul>
+</body>
+</html>

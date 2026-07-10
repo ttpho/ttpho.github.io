@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Raita — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Raita</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Dựa trên thuật toán Horspool nhưng thay đổi THỨ TỰ so sánh các ký tự trong cửa sổ.</li>
+<li>Pha tiền xử lý: O(m + σ) để dựng bảng bad-character kiểu Horspool.</li>
+<li>Bộ nhớ phụ: O(σ).</li>
+<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất; nhanh trong thực tế trên văn bản ngôn ngữ tự nhiên.</li>
+<li>Hướng so sánh ký tự: đặc biệt — cuối, đầu, giữa, rồi phần còn lại từ trái sang phải.</li>
+<li>Bước dịch giống hệt Horspool, chỉ khác ở cách kiểm tra khớp.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Raita nhận xét rằng trong văn bản ngôn ngữ tự nhiên, các ký tự liền kề có phụ thuộc thống kê mạnh: nếu ký tự cuối của cửa sổ đã trùng ký tự cuối của mẫu, thì các ký tự lân cận cũng có xu hướng trùng theo. Vì vậy, để phát hiện sớm một cửa sổ KHÔNG khớp (đó là đại đa số trường hợp), nên so những ký tự ít tương quan với nhau trước, nhằm tối đa hóa xác suất bắt gặp sai khác ngay từ vài phép so sánh đầu.</p>
+<p>Thứ tự Raita đề xuất là: so <strong>ký tự cuối</strong> trước (để tận dụng bảng bad-character), rồi <strong>ký tự đầu</strong>, rồi <strong>ký tự giữa</strong>, và chỉ khi ba ký tự "mốc" này đều trùng mới so nốt phần thân còn lại. Ba vị trí đầu-giữa-cuối cách xa nhau nên ít tương quan, giúp loại bỏ cửa sổ sai nhanh hơn so với việc quét tuần tự.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Pha tiền xử lý chỉ dựng đúng bảng <code>bmBc</code> của Horspool: <code>bmBc[a]</code> = khoảng cách từ lần xuất hiện cuối của <code>a</code> trong <code>m-1</code> ký tự đầu mẫu tới cuối mẫu, hoặc m nếu không có. Ngoài ra ta lưu sẵn ba ký tự mốc để tránh truy cập lặp: <code>firstCh = x[0]</code>, <code>middleCh = x[m/2]</code>, <code>lastCh = x[m-1]</code>.</p>
+<p>Tại mỗi cửa sổ j, gọi <code>c = y[j+m-1]</code> là ký tự văn bản thẳng hàng với ký tự cuối mẫu. Ta kiểm tra theo thứ tự với đoản mạch (short-circuit):</p>
+<ol>
+<li><code>lastCh == c</code>? Nếu sai, bỏ qua ngay.</li>
+<li><code>middleCh == y[j + m/2]</code>? So ký tự giữa.</li>
+<li><code>firstCh == y[j]</code>? So ký tự đầu.</li>
+<li>Cuối cùng so phần thân <code>x[1..m-2]</code> với <code>y[j+1..j+m-2]</code> từ trái sang phải.</li>
+</ol>
+<p>Nếu cả bốn điều kiện đều đúng thì có một lần xuất hiện tại j. Dù khớp hay không, cửa sổ luôn dịch đi <code>bmBc[c]</code> — chính xác là bước dịch của Horspool. Như vậy Raita giữ nguyên tính đúng đắn và bước dịch của Horspool, chỉ tối ưu chi phí so khớp trung bình bằng cách sắp xếp lại thứ tự kiểm tra.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+
+/* Bảng dịch bad-character kiểu Horspool */
+void preBmBc(char *x, int m, int bmBc[]) {
+    int i;
+    for (i = 0; i &lt; ASIZE; ++i)
+        bmBc[i] = m;
+    for (i = 0; i &lt; m - 1; ++i)
+        bmBc[(unsigned char) x[i]] = m - 1 - i;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int j, bmBc[ASIZE];
+    char c, firstCh, middleCh, lastCh;
+
+    /* Tiền xử lý */
+    preBmBc(x, m, bmBc);
+    firstCh  = x[0];
+    middleCh = x[m / 2];
+    lastCh   = x[m - 1];
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j &lt;= n - m) {
+        c = y[j + m - 1];
+        if (lastCh == c &amp;&amp;
+            middleCh == y[j + m / 2] &amp;&amp;
+            firstCh == y[j] &amp;&amp;
+            memcmp(x + 1, y + j + 1, m - 2) == 0)
+            printf("Khop tai vi tri %d\n", j);
+        j += bmBc[(unsigned char) c];
+    }
+}
+</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24). Ba ký tự mốc: <code>firstCh = x[0] = 'G'</code>, <code>middleCh = x[4] = 'G'</code>, <code>lastCh = x[7] = 'G'</code>. Bảng bad-character: <code>bmBc[A] = 1</code>, <code>bmBc[G] = 2</code>, <code>bmBc[C] = 6</code>, còn lại 8.</p>
+<ul>
+<li><strong>Bước 1</strong> — j = 0: <code>c = y[7] = 'A'</code>. So <code>lastCh ('G') == 'A'</code>? Sai ngay lập tức — bỏ qua chỉ sau một phép so sánh. Dịch đi <code>bmBc[A] = 1</code>, j = 1.</li>
+<li><strong>Bước 2</strong> — j = 1: <code>c = y[8] = 'G'</code>. <code>lastCh == 'G'</code>? Đúng. So <code>middleCh ('G') == y[5] = 'G'</code>? Đúng. So <code>firstCh ('G') == y[1] = 'C'</code>? Sai — dừng sau ba phép so. Dịch đi <code>bmBc[G] = 2</code>, j = 3.</li>
+<li><strong>Bước 3</strong> — j = 3: <code>c = y[10] = 'G'</code>. <code>lastCh</code> đúng; <code>middleCh == y[7] = 'A'</code>? Sai — dừng. Dịch đi 2, j = 5.</li>
+<li><strong>Bước 4</strong> — j = 5: <code>c = y[12] = 'G'</code>. <code>lastCh</code> đúng; <code>middleCh == y[9] = 'G'</code>? Đúng; <code>firstCh == y[5] = 'G'</code>? Đúng; so phần thân <code>x[1..6]</code> với <code>y[6..11]</code>: tất cả trùng. Báo một lần xuất hiện tại vị trí 5. Dịch đi 2.</li>
+</ul>
+<p>Nhờ so ký tự cuối rồi đầu rồi giữa trước, đa số cửa sổ sai bị loại chỉ sau 1-3 phép so sánh thay vì phải quét cả 8 ký tự.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>T. Raita, "Tuning the Boyer-Moore-Horspool string searching algorithm", 1992.</li>
+<li>R. N. Horspool, "Practical fast searching in strings", 1980.</li>
+</ul>
+</body>
+</html>

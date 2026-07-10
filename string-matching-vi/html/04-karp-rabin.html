@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Karp-Rabin — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Karp-Rabin</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li><strong>Tiền xử lý</strong>: O(m) để tính giá trị băm của mẫu và hằng số lũy thừa dùng cho việc gỡ ký tự đầu cửa sổ.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(1) — chỉ một vài biến số nguyên.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: kỳ vọng O(n + m) với hàm băm tốt; trường hợp xấu nhất O(mn) khi xảy ra nhiều va chạm băm.</li>
+<li><strong>Hướng so sánh ký tự</strong>: trái sang phải (khi cần kiểm tra lại sau va chạm băm).</li>
+<li><strong>Rehash</strong>: cập nhật giá trị băm khi cửa sổ trượt một vị trí chỉ tốn O(1) nhờ kỹ thuật băm cuộn (rolling hash).</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Thay vì so sánh trực tiếp từng ký tự tại mỗi vị trí cửa sổ, Karp-Rabin biến việc so sánh chuỗi thành việc so sánh <strong>số</strong>. Ta dùng một hàm băm ánh xạ mỗi chuỗi độ dài <code>m</code> sang một số nguyên. Nếu giá trị băm của mẫu và của cửa sổ hiện tại khác nhau thì chắc chắn chúng là hai chuỗi khác nhau, ta bỏ qua ngay mà không cần so sánh ký tự. Chỉ khi hai giá trị băm bằng nhau, ta mới kiểm tra lại từng ký tự để xác nhận (vì hai chuỗi khác nhau vẫn có thể tình cờ cùng giá trị băm — gọi là va chạm).</p>
+<p>Mấu chốt để thuật toán nhanh là hàm băm phải cho phép tính giá trị của cửa sổ tiếp theo từ cửa sổ hiện tại trong thời gian hằng số, thay vì tính lại từ đầu. Đây chính là kỹ thuật <strong>băm cuộn</strong>.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Coi mỗi ký tự như một chữ số trong hệ cơ số <code>d</code> (thường lấy <code>d = 2</code> để nhân bằng phép dịch bit, hoặc <code>d</code> bằng kích thước bảng chữ cái). Giá trị băm của chuỗi <code>y[j .. j+m-1]</code> được định nghĩa theo kiểu đa thức:</p>
+<pre><code>hash = y[j]·d^(m-1) + y[j+1]·d^(m-2) + ... + y[j+m-1]·d^0</code></pre>
+<p>thường được lấy dư theo một số nguyên tố lớn <code>q</code> để tránh tràn số.</p>
+<p>Khi trượt cửa sổ từ vị trí <code>j</code> sang <code>j+1</code>, ta cần <strong>gỡ</strong> ký tự <code>y[j]</code> ở đầu và <strong>thêm</strong> ký tự <code>y[j+m]</code> ở cuối:</p>
+<pre><code>hash_moi = (hash_cu - y[j]·d^(m-1))·d + y[j+m]</code></pre>
+<p>Phép cập nhật này chỉ gồm vài phép nhân, trừ, cộng, nên tốn O(1). Hằng số <code>d^(m-1)</code> được tính sẵn trong pha tiền xử lý.</p>
+<p>Thuật toán tính giá trị băm <code>hx</code> của mẫu và <code>hy</code> của cửa sổ đầu tiên, rồi trượt cửa sổ dọc văn bản. Tại mỗi vị trí, nếu <code>hx == hy</code> thì kiểm tra lại toàn bộ ký tự để loại trừ va chạm; nếu khớp thật thì báo xuất hiện. Với hàm băm phân bố tốt, số va chạm rất ít nên tổng thời gian kỳ vọng là O(n + m).</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+/* Dùng cơ số 2 (phép dịch bit); băm theo số học modulo tự nhiên của int.
+   REHASH: gỡ ký tự a ở đầu, thêm ký tự b ở cuối, d = 2^(m-1). */
+#define REHASH(a, b, h, d) (((h) - (a) * (d)) &lt;&lt; 1) + (b)
+
+void search(char *x, int m, char *y, int n) {
+    int hx, hy, i, j, d;
+
+    /* Tiền xử lý: d = 2^(m-1), tính băm của mẫu và cửa sổ đầu tiên */
+    d = 1;
+    for (i = 1; i &lt; m; i++)
+        d = (d &lt;&lt; 1);            /* d = 2^(m-1) */
+
+    hx = hy = 0;
+    for (i = 0; i &lt; m; i++) {
+        hx = ((hx &lt;&lt; 1) + x[i]);
+        hy = ((hy &lt;&lt; 1) + y[i]);
+    }
+
+    /* Pha tìm kiếm */
+    j = 0;
+    while (j &lt;= n - m) {
+        if (hx == hy &amp;&amp; memcmp(x, y + j, m) == 0)
+            printf("Tim thay tai vi tri %d\n", j);
+        /* Trượt cửa sổ: cập nhật băm trong O(1) */
+        if (j &lt; n - m)
+            hy = REHASH((int)y[j], (int)y[j + m], hy, d);
+        j++;
+    }
+}</code></pre>
+<p>Ở đây phép so sánh xác nhận dùng <code>memcmp</code> để đối chiếu <code>m</code> ký tự khi hai băm trùng nhau. Kỹ thuật băm dùng cơ số 2 và để số học <code>int</code> tự tràn (một dạng modulo <code>2^k</code>) giúp cài đặt gọn.</p>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>. Giả sử mã ASCII: <code>G=71, C=67, A=65, T=84</code>.</p>
+<p>Tính <code>hx</code> = giá trị băm của <code>"GCAGAGAG"</code> và <code>hy</code> = giá trị băm của cửa sổ đầu tiên <code>"GCATCGCA"</code>. Hai giá trị này khác nhau (vì hai chuỗi khác nhau), nên tại <code>j = 0</code> ta bỏ qua mà không so sánh ký tự.</p>
+<p>Trượt cửa sổ: gỡ <code>y[0]='G'</code>, thêm <code>y[8]='A'</code>, cập nhật <code>hy</code> cho cửa sổ <code>"CATCGCAG"</code> chỉ bằng công thức REHASH — một phép trừ, một phép dịch, một phép cộng. So <code>hx</code> với <code>hy</code> mới; vẫn khác nhau, bỏ qua.</p>
+<p>Cứ thế trượt tiếp. Khi cửa sổ đến vị trí <code>j = 5</code>, ứng với đoạn <code>y[5..12] = "GCAGAGAG"</code>, giá trị <code>hy</code> sẽ <strong>bằng</strong> <code>hx</code>. Lúc này thuật toán kiểm tra lại 8 ký tự bằng <code>memcmp</code>, thấy khớp hoàn toàn, và báo <strong>xuất hiện tại vị trí 5</strong>.</p>
+<p>Điểm đáng chú ý: tại các vị trí <code>j = 0, 1, 2, ...</code> trước đó, ta gần như không tốn phép so sánh ký tự nào — toàn bộ công việc chỉ là so sánh hai số nguyên. Đây chính là nguồn gốc hiệu quả của Karp-Rabin.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>R. M. Karp, M. O. Rabin, "Efficient randomized pattern-matching algorithms", 1987.</li>
+<li>T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, "Introduction to Algorithms", 2009.</li>
+<li>D. Gusfield, "Algorithms on Strings, Trees, and Sequences", 1997.</li>
+</ul>
+</body>
+</html>

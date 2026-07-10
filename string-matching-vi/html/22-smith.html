@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Smith — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Smith</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Là thuật toán lai (hybrid) kết hợp hai quy tắc bad-character: của Horspool và của Quick Search.</li>
+<li>Pha tiền xử lý: O(m + σ) để dựng hai bảng dịch một chiều.</li>
+<li>Bộ nhớ phụ: O(σ) — hai bảng, mỗi bảng cỡ σ.</li>
+<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất.</li>
+<li>Hướng so sánh ký tự: tùy ý (bước dịch không phụ thuộc vị trí không khớp); cài đặt dưới đây so khớp cả khối.</li>
+<li>Bước dịch mỗi bước là giá trị LỚN NHẤT trong hai đề xuất, nên không bao giờ kém hơn cả Horspool lẫn Quick Search.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Smith quan sát rằng hai heuristic bad-character phổ biến đôi khi cho bước dịch khác nhau, và không cái nào luôn thắng cái nào. Horspool dùng ký tự văn bản thẳng hàng với ký tự CUỐI của mẫu, tức <code>y[j+m-1]</code>. Quick Search (Sunday) dùng ký tự NGAY SAU cửa sổ, tức <code>y[j+m]</code>. Ý tưởng của Smith đơn giản mà hiệu quả: tính cả hai bước dịch rồi lấy giá trị lớn hơn. Vì cả hai bước dịch đều "an toàn" (không bỏ sót lần xuất hiện nào), lấy max vẫn an toàn nhưng luôn dịch xa ít nhất bằng cái tốt hơn trong hai heuristic.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Thuật toán dùng hai bảng tiền xử lý:</p>
+<p><strong>Bảng Horspool <code>bmBc</code>.</strong> Với mỗi ký tự <code>a</code>: <code>bmBc[a]</code> bằng khoảng cách từ lần xuất hiện cuối của <code>a</code> trong <code>m-1</code> ký tự đầu mẫu tới cuối mẫu, hoặc m nếu <code>a</code> không xuất hiện ở đó. Bảng này tra bằng <code>y[j+m-1]</code>. Miền giá trị: từ 1 đến m.</p>
+<p><strong>Bảng Quick Search <code>qsBc</code>.</strong> Với mỗi ký tự <code>a</code>: <code>qsBc[a]</code> bằng khoảng cách từ lần xuất hiện cuối của <code>a</code> trong TOÀN BỘ mẫu tới vị trí ngay sau mẫu, cụ thể <code>m - i</code> với i là chỉ số lớn nhất mà <code>x[i] = a</code>; nếu <code>a</code> không có trong mẫu thì bằng m + 1. Bảng này tra bằng <code>y[j+m]</code> — ký tự ngay sau cửa sổ. Miền giá trị: từ 1 đến m + 1.</p>
+<p>Tại mỗi cửa sổ j, ta so khớp mẫu với <code>y[j..j+m-1]</code>. Nếu khớp, báo một lần xuất hiện. Bất kể kết quả, dịch cửa sổ đi:</p>
+<pre><code>shift = max( bmBc[y[j+m-1]] , qsBc[y[j+m]] )</code></pre>
+<p>Vì <code>qsBc</code> đọc <code>y[j+m]</code>, khi cửa sổ ở sát cuối văn bản ta cần <code>y[n]</code> truy cập được — với chuỗi C kết thúc bằng ký tự <code>\0</code> thì điều này tự thỏa mãn (và <code>\0</code> thường không nằm trong mẫu nên <code>qsBc</code> trả về m + 1).</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+#define MAX(a, b) ((a) &gt; (b) ? (a) : (b))
+
+/* Bảng bad-character kiểu Horspool: dựa trên y[j + m - 1] */
+void preBmBc(char *x, int m, int bmBc[]) {
+    int i;
+    for (i = 0; i &lt; ASIZE; ++i)
+        bmBc[i] = m;
+    for (i = 0; i &lt; m - 1; ++i)
+        bmBc[(unsigned char) x[i]] = m - 1 - i;
+}
+
+/* Bảng bad-character kiểu Quick Search: dựa trên y[j + m] */
+void preQsBc(char *x, int m, int qsBc[]) {
+    int i;
+    for (i = 0; i &lt; ASIZE; ++i)
+        qsBc[i] = m + 1;
+    for (i = 0; i &lt; m; ++i)
+        qsBc[(unsigned char) x[i]] = m - i;
+}
+
+/* Lưu ý: y[n] phải đọc được (chuỗi C kết thúc bằng '\0' là đủ). */
+void search(char *x, int m, char *y, int n) {
+    int j, bmBc[ASIZE], qsBc[ASIZE];
+
+    /* Tiền xử lý */
+    preBmBc(x, m, bmBc);
+    preQsBc(x, m, qsBc);
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j &lt;= n - m) {
+        if (memcmp(x, y + j, m) == 0)
+            printf("Khop tai vi tri %d\n", j);
+        j += MAX(bmBc[(unsigned char) y[j + m - 1]],
+                 qsBc[(unsigned char) y[j + m]]);
+    }
+}
+</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Bảng Horspool (m-1 = 7 ký tự đầu <code>GCAGAGA</code>): <code>bmBc[A] = 1</code>, <code>bmBc[G] = 2</code>, <code>bmBc[C] = 6</code>, còn lại 8.<br>
+Bảng Quick Search (toàn bộ mẫu): <code>qsBc[G] = 1</code> (G ở vị trí cuối), <code>qsBc[A] = 2</code>, <code>qsBc[C] = 7</code>, còn lại 9.</p>
+<ul>
+<li><strong>Bước 1</strong> — j = 0: so khớp <code>y[0..7] = "GCATCGCA"</code>, thất bại. Horspool tra <code>y[7] = 'A'</code> được 1; Quick Search tra <code>y[8] = 'G'</code> được 1. shift = max(1, 1) = 1, dịch tới j = 1.</li>
+<li><strong>Bước 2</strong> — j = 1: so khớp <code>y[1..8] = "CATCGCAG"</code>, thất bại. Horspool tra <code>y[8] = 'G'</code> được 2; Quick Search tra <code>y[9] = 'A'</code> được 2. shift = 2, dịch tới j = 3.</li>
+<li><strong>Bước 3</strong> — j = 3: so khớp <code>y[3..10] = "TCGCAGAG"</code>, thất bại. Horspool tra <code>y[10] = 'G'</code> được 2; Quick Search tra <code>y[11] = 'A'</code> được 2. shift = 2, dịch tới j = 5.</li>
+<li><strong>Bước 4</strong> — j = 5: so khớp <code>y[5..12] = "GCAGAGAG"</code>, KHỚP toàn bộ, báo tại vị trí 5. Horspool tra <code>y[12] = 'G'</code> được 2; Quick Search tra <code>y[13] = 'T'</code> được 9. shift = max(2, 9) = 9, dịch tới j = 14.</li>
+</ul>
+<p>Bước cuối cho thấy lợi ích rõ: một mình Horspool chỉ dịch 2, nhưng nhờ lấy max với Quick Search ta nhảy hẳn 9 vị trí.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>P. D. Smith, "Experiments with a very fast substring search algorithm", 1991.</li>
+<li>R. N. Horspool, "Practical fast searching in strings", 1980.</li>
+<li>D. M. Sunday, "A very fast substring search algorithm", 1990.</li>
+</ul>
+</body>
+</html>

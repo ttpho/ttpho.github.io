@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skip Search — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Skip Search</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li><strong>Tiền xử lý</strong>: O(m + σ) — dựng cho mỗi ký tự của bảng chữ một danh sách (bucket) các vị trí mà nó xuất hiện trong mẫu.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(m + σ) — tổng số phần tử trong các bucket đúng bằng <code>m</code>, cộng với σ con trỏ đầu danh sách.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: trung bình rất tốt (kỳ vọng cỡ O(n·log_σ(m) / m) trên văn bản ngẫu nhiên); xấu nhất O(mn).</li>
+<li><strong>Hướng so sánh ký tự</strong>: nhảy qua văn bản theo bước <code>m</code>; tại mỗi điểm dừng, mỗi vị trí ứng viên được kiểm tra đầy đủ.</li>
+<li><strong>Ý tưởng chủ đạo</strong>: chỉ cần đọc một ký tự văn bản là suy ra ngay tất cả các vị trí đặt mẫu tương thích với ký tự đó.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Nếu ta đứng tại vị trí <code>j</code> trong văn bản và biết ký tự <code>y[j]</code>, thì mẫu chỉ có thể phủ lên <code>y[j]</code> ở những cách canh mà một ký tự nào đó của mẫu trùng với <code>y[j]</code>. Nói cách khác, nếu <code>y[j] = c</code> và <code>c</code> xuất hiện trong mẫu tại các vị trí <code>i₁, i₂, …</code>, thì các vị trí đặt mẫu khả dĩ là <code>j - i₁, j - i₂, …</code>.</p>
+<p>Skip Search khai thác điều này: với mỗi ký tự lưu sẵn danh sách các vị trí của nó trong mẫu (bucket). Khi đọc <code>y[j]</code>, ta lấy ngay bucket của <code>y[j]</code> và với mỗi vị trí <code>i</code> trong đó, thử đặt mẫu tại <code>j - i</code>. Vì mỗi lần chỉ cần một ký tự văn bản là sinh được các ứng viên, ta có thể <strong>nhảy</strong> cửa sổ theo bước <code>m</code> và vẫn không bỏ sót xuất hiện nào.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>Tiền xử lý — các bucket.</strong> Với mỗi ký tự <code>c</code> của bảng chữ, <code>z[c]</code> là một danh sách liên kết chứa mọi chỉ số <code>i</code> sao cho <code>x[i] = c</code>. Nếu <code>c</code> không xuất hiện trong mẫu, danh sách rỗng. Tổng độ dài các danh sách bằng <code>m</code>, nên dựng chúng tốn O(m + σ).</p>
+<p><strong>Tìm kiếm.</strong> Ta xét các vị trí <code>j = m-1, 2m-1, 3m-1, …</code> (bước nhảy bằng <code>m</code>). Việc chọn các mốc cách nhau đúng <code>m</code> là an toàn: bất kỳ xuất hiện nào của mẫu bắt đầu ở <code>s</code> đều phủ khoảng <code>[s, s+m-1]</code> dài đúng <code>m</code>, nên chắc chắn chứa ít nhất một trong các mốc <code>j</code>. Tại mỗi mốc <code>j</code>:</p>
+<ol>
+<li>Lấy bucket <code>z[y[j]]</code>.</li>
+<li>Với mỗi vị trí <code>i</code> trong bucket, ứng viên đặt mẫu là <code>s = j - i</code>. Nếu <code>0 ≤ s ≤ n - m</code>, ta so toàn bộ mẫu với <code>y[s..s+m-1]</code>.</li>
+<li>Nếu khớp hết, ghi nhận xuất hiện tại <code>s</code>.</li>
+</ol>
+<p>Với văn bản ngẫu nhiên trên bảng chữ đủ lớn, đa số bucket được truy cập là rỗng hoặc chỉ có vài phần tử, nên số lần kiểm tra ít; cộng với bước nhảy <code>m</code> giữa các mốc, thuật toán rất nhanh trên trung bình. Trường hợp xấu nhất (mẫu và văn bản chỉ dùng một ký tự) thì mỗi mốc có tới <code>m</code> ứng viên, mỗi ứng viên tốn <code>m</code> phép so sánh, cho O(mn).</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+
+/* Danh sách liên kết các vị trí (bucket) */
+typedef struct _cell {
+    int element;
+    struct _cell *next;
+} *List;
+
+void search(char *x, int m, char *y, int n) {
+    int i, j;
+    List ptr, z[ASIZE];
+
+    /* Tiền xử lý: với mỗi ký tự, danh sách vị trí trong mẫu */
+    memset(z, 0, ASIZE * sizeof(List));
+    for (i = 0; i &lt; m; ++i) {
+        ptr = (List)malloc(sizeof(struct _cell));
+        ptr-&gt;element = i;
+        ptr-&gt;next = z[(unsigned char)x[i]];
+        z[(unsigned char)x[i]] = ptr;
+    }
+
+    /* Tìm kiếm: nhảy qua văn bản theo bước m */
+    for (j = m - 1; j &lt; n; j += m)
+        for (ptr = z[(unsigned char)y[j]]; ptr != NULL; ptr = ptr-&gt;next)
+            if (j - ptr-&gt;element &lt;= n - m &amp;&amp;
+                memcmp(x, y + j - ptr-&gt;element, m) == 0)
+                printf("Tim thay tai vi tri %d\n", j - ptr-&gt;element);
+
+    /* Giải phóng bộ nhớ các bucket */
+    for (i = 0; i &lt; ASIZE; ++i)
+        while (z[i] != NULL) {
+            ptr = z[i];
+            z[i] = ptr-&gt;next;
+            free(ptr);
+        }
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (<code>n = 24</code>).</p>
+<p><strong>Bucket sau tiền xử lý</strong> (mỗi ký tự → các vị trí trong mẫu):</p>
+<table>
+<tr><th>ký tự</th><th>vị trí trong mẫu</th></tr>
+<tr><td>G</td><td>0, 3, 5, 7</td></tr>
+<tr><td>C</td><td>1</td></tr>
+<tr><td>A</td><td>2, 4, 6</td></tr>
+</table>
+<p><strong>Mốc j = 7</strong> (<code>y[7] = A</code>): bucket của <code>A</code> là <code>{2, 4, 6}</code>. Các ứng viên là <code>s = 7-2 = 5</code>, <code>s = 7-4 = 3</code>, <code>s = 7-6 = 1</code>.</p>
+<ul>
+<li><code>s = 5</code>: so <code>x</code> với <code>y[5..12] = "GCAGAGAG"</code> → khớp toàn bộ. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong></li>
+<li><code>s = 3</code>: so <code>x</code> với <code>y[3..10] = "TCGCAGAG"</code> → sai lệch ngay ký tự đầu.</li>
+<li><code>s = 1</code>: so <code>x</code> với <code>y[1..8] = "CATCGCAG"</code> → sai lệch ngay.</li>
+</ul>
+<p><strong>Mốc j = 15</strong> (<code>y[15] = T</code>): bucket của <code>T</code> rỗng → không có ứng viên, bỏ qua ngay.</p>
+<p><strong>Mốc j = 23</strong> (<code>y[23] = G</code>): bucket của <code>G</code> là <code>{0, 3, 5, 7}</code>, cho các ứng viên <code>s = 23, 20, 18, 16</code>; kiểm tra thấy đều vượt <code>n - m = 16</code> hoặc không khớp.</p>
+<p>Chỉ với vài lần đọc ký tự, thuật toán đã quét hết văn bản và tìm đúng xuất hiện duy nhất ở vị trí 5.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>C. Charras, T. Lecroq, J. D. Pehoushek, "A very fast string matching algorithm for small alphabets and long patterns", Combinatorial Pattern Matching (CPM), 1998.</li>
+<li>T. Lecroq, "Experimental results on string matching algorithms", Software — Practice and Experience, 1995.</li>
+<li>M. Crochemore, C. Hancart, T. Lecroq, "Algorithms on Strings", 2007.</li>
+</ul>
+</body>
+</html>

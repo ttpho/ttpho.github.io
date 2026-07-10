@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maximal Shift — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Maximal Shift</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li><strong>Tiền xử lý</strong>: O(m² + σ) — dựng bảng <code>minShift</code> cho từng vị trí, bảng dịch Quick Search cỡ σ và bảng <code>adaptedGs</code> cỡ m.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(m + σ).</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(mn) trong trường hợp xấu nhất, nhưng nhanh trong thực tế.</li>
+<li><strong>Hướng so sánh ký tự</strong>: các vị trí của mẫu được so <strong>không tuần tự</strong>, theo thứ tự sao cho khi sai lệch xảy ra thì lượng dịch cửa sổ là <strong>lớn nhất</strong>.</li>
+<li><strong>Ý tưởng chủ đạo</strong>: khác với Optimal Mismatch (tối ưu xác suất bắt sai lệch sớm), Maximal Shift tối ưu độ dài bước dịch.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Maximal Shift, cũng do Sunday đề xuất, là "người anh em" của Optimal Mismatch. Cả hai đều thay đổi <strong>thứ tự</strong> so sánh các vị trí của mẫu, nhưng theo tiêu chí khác nhau.</p>
+<p>Ở đây tiêu chí không phải là tần suất ký tự trong văn bản, mà là <strong>lượng dịch cửa sổ</strong> mà mỗi vị trí đảm bảo khi xảy ra sai lệch tại đó. Một vị trí mà nếu lệch cho phép dịch cửa sổ xa thì nên được so sớm: như vậy khi ta gặp sai lệch (dù đã kiểm tra được vài vị trí), tổng lượng dịch tích luỹ sẽ lớn, giúp trượt qua văn bản nhanh hơn.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>1. Bảng <code>minShift</code>.</strong> Với mỗi vị trí <code>i</code> của mẫu, <code>minShift[i]</code> là khoảng cách tới lần xuất hiện gần nhất trước đó của cùng ký tự <code>x[i]</code> trong mẫu, tức <code>minShift[i] = i - s</code> với <code>s</code> là chỉ số lớn nhất <code>&lt; i</code> sao cho <code>x[s] = x[i]</code> (nếu không có thì <code>s = -1</code>, cho <code>minShift[i] = i + 1</code>). Đại lượng này phản ánh: nếu vị trí <code>i</code> lệch, mẫu phải dịch tối thiểu bao nhiêu để ký tự đó có cơ hội khớp lại.</p>
+<p><strong>2. Thứ tự so sánh (<code>orderPattern</code>).</strong> Ta lập các cặp <code>(loc = i, c = x[i])</code> rồi sắp xếp sao cho vị trí có <code>minShift</code> <strong>lớn</strong> đứng trước (dịch được xa hơn thì ưu tiên so trước); phá hoà bằng vị trí lớn hơn xếp trước. Mảng kết quả <code>pat[]</code> định thứ tự duyệt các vị trí trong pha tìm kiếm.</p>
+<p><strong>3. Bảng <code>qsBc</code> và <code>adaptedGs</code>.</strong> Hoàn toàn giống Optimal Mismatch: <code>qsBc</code> là bảng dịch kiểu Quick Search dựa vào ký tự <code>y[j+m]</code> ngay sau cửa sổ; <code>adaptedGs[k]</code> là lượng dịch khi đã khớp <code>k</code> vị trí đầu (theo thứ tự <code>pat</code>) rồi gặp sai lệch, được dựng bằng <code>matchShift</code>.</p>
+<p>Điểm khác biệt duy nhất so với Optimal Mismatch là <strong>hàm so sánh dùng để sắp <code>pat</code></strong>. Toàn bộ phần còn lại — cách dựng <code>adaptedGs</code>, cách tính bước dịch trong tìm kiếm — là như nhau. Tại mỗi vị trí cửa sổ <code>j</code>, so <code>pat[0], pat[1], …</code>; nếu khớp hết <code>m</code> vị trí thì báo xuất hiện; dịch cửa sổ <code>max(adaptedGs[i], qsBc[y[j+m]])</code>.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+#define XSIZE 1024
+#define MAX(a, b) ((a) &gt; (b) ? (a) : (b))
+
+typedef struct {
+    int loc;
+    unsigned char c;
+} Pair;
+
+static int minShift[XSIZE];
+
+/* minShift[i]: khoảng cách tới lần xuất hiện trước của x[i] trong mẫu */
+void computeMinShift(char *x, int m) {
+    int i, s;
+    for (i = 0; i &lt; m; ++i) {
+        for (s = i - 1; s &gt;= 0; --s)
+            if (x[i] == x[s])
+                break;
+        minShift[i] = i - s;
+    }
+}
+
+/* So sánh: vị trí có minShift lớn xếp trước (so trước) */
+int maxShiftPcmp(const void *a, const void *b) {
+    const Pair *p1 = (const Pair *)a, *p2 = (const Pair *)b;
+    int d = minShift[p2-&gt;loc] - minShift[p1-&gt;loc];
+    return d != 0 ? d : (p2-&gt;loc - p1-&gt;loc);
+}
+
+void orderPattern(char *x, int m,
+                  int (*pcmp)(const void *, const void *), Pair *pat) {
+    int i;
+    for (i = 0; i &lt; m; ++i) {
+        pat[i].loc = i;
+        pat[i].c = (unsigned char)x[i];
+    }
+    qsort(pat, m, sizeof(Pair), pcmp);
+}
+
+void preQsBc(char *x, int m, int qsBc[]) {
+    int i;
+    for (i = 0; i &lt; ASIZE; ++i)
+        qsBc[i] = m + 1;
+    for (i = 0; i &lt; m; ++i)
+        qsBc[(unsigned char)x[i]] = m - i;
+}
+
+int matchShift(char *x, int m, int ploc, int lshift, Pair *pat) {
+    int i, j;
+    for (; lshift &lt; m; ++lshift) {
+        i = ploc;
+        while (--i &gt;= 0) {
+            j = pat[i].loc - lshift;
+            if (j &lt; 0)
+                continue;
+            if (pat[i].c != (unsigned char)x[j])
+                break;
+        }
+        if (i &lt; 0)
+            break;
+    }
+    return lshift;
+}
+
+void preAdaptedGs(char *x, int m, int adaptedGs[], Pair *pat) {
+    int lshift, i, ploc;
+
+    adaptedGs[0] = lshift = 1;
+    for (ploc = 1; ploc &lt;= m; ++ploc) {
+        lshift = matchShift(x, m, ploc, lshift, pat);
+        adaptedGs[ploc] = lshift;
+    }
+    for (ploc = 0; ploc &lt; m; ++ploc) {
+        lshift = adaptedGs[ploc];
+        while (lshift &lt; m) {
+            i = pat[ploc].loc - lshift;
+            if (i &lt; 0 || pat[ploc].c != (unsigned char)x[i])
+                break;
+            ++lshift;
+            lshift = matchShift(x, m, ploc, lshift, pat);
+        }
+        adaptedGs[ploc] = lshift;
+    }
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j;
+    int adaptedGs[XSIZE + 1], qsBc[ASIZE];
+    Pair pat[XSIZE];
+
+    /* Tiền xử lý */
+    computeMinShift(x, m);
+    orderPattern(x, m, maxShiftPcmp, pat);
+    preQsBc(x, m, qsBc);
+    preAdaptedGs(x, m, adaptedGs, pat);
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j &lt;= n - m) {
+        i = 0;
+        while (i &lt; m &amp;&amp; pat[i].c == (unsigned char)y[j + pat[i].loc])
+            ++i;
+        if (i &gt;= m)
+            printf("Tim thay tai vi tri %d\n", j);
+        j += MAX(adaptedGs[i], qsBc[(unsigned char)y[j + m]]);
+    }
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>).</p>
+<p>Trước hết tính <code>minShift</code>. Duyệt từng vị trí:</p>
+<table>
+<tr><th>i</th><th>x[i]</th><th>lần trước cùng ký tự</th><th>minShift[i]</th></tr>
+<tr><td>0</td><td>G</td><td>không có</td><td>1</td></tr>
+<tr><td>1</td><td>C</td><td>không có</td><td>2</td></tr>
+<tr><td>2</td><td>A</td><td>không có</td><td>3</td></tr>
+<tr><td>3</td><td>G</td><td>tại 0</td><td>3</td></tr>
+<tr><td>4</td><td>A</td><td>tại 2</td><td>2</td></tr>
+<tr><td>5</td><td>G</td><td>tại 3</td><td>2</td></tr>
+<tr><td>6</td><td>A</td><td>tại 4</td><td>2</td></tr>
+<tr><td>7</td><td>G</td><td>tại 5</td><td>2</td></tr>
+</table>
+<p>Vị trí 2 (<code>A</code>) và vị trí 3 (<code>G</code>) có <code>minShift = 3</code> lớn nhất, nên chúng được xếp so trước; các vị trí <code>minShift = 2</code> xếp sau; vị trí 0 (<code>minShift = 1</code>) so sau cùng.</p>
+<p><strong>Vị trí cửa sổ j = 0</strong> (<code>y[0..7] = "GCATCGCA"</code>): thuật toán so vị trí ưu tiên trước. Khi tới vị trí mang <code>G</code> mà <code>y[0+3] = T</code>, xảy ra <strong>sai lệch</strong>; nhờ đã ưu tiên các vị trí "dịch xa", <code>adaptedGs</code> tại đây cho lượng dịch lớn, cửa sổ nhảy nhanh về phía trước.</p>
+<p><strong>Vị trí cửa sổ j = 5</strong> (<code>y[5..12] = "GCAGAGAG"</code>): mọi vị trí trong <code>pat</code> đều khớp, <strong>ghi nhận xuất hiện tại vị trí 5</strong>.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>D. M. Sunday, "A very fast substring search algorithm", Communications of the ACM, 1990.</li>
+<li>G. A. Stephen, "String Searching Algorithms", 1994.</li>
+<li>M. Crochemore, C. Hancart, T. Lecroq, "Algorithms on Strings", 2007.</li>
+</ul>
+</body>
+</html>

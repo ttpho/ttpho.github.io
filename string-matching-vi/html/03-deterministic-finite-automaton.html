@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Otomat hữu hạn đơn định — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Otomat hữu hạn đơn định</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li><strong>Tiền xử lý</strong>: O(mσ) thời gian và bộ nhớ để xây dựng bảng chuyển trạng thái của ôtômat.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(mσ) cho bảng chuyển.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(n) — tuyến tính theo độ dài văn bản, độc lập với <code>m</code>.</li>
+<li><strong>Hướng so sánh ký tự</strong>: trái sang phải.</li>
+<li><strong>Số lần đọc</strong>: mỗi ký tự văn bản được đọc và xử lý <strong>đúng một lần</strong>; độ trễ trên mỗi ký tự là hằng số.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Ý tưởng cốt lõi là xây dựng một <strong>ôtômat hữu hạn đơn định</strong> (Deterministic Finite Automaton — DFA) nhận diện ngôn ngữ <code>Σ*x</code>, tức tập mọi chuỗi kết thúc bằng mẫu <code>x</code>. Sau khi có ôtômat, việc tìm kiếm trở nên cực kỳ hiệu quả: ta chỉ việc "cho" từng ký tự văn bản vào ôtômat, theo dõi trạng thái hiện tại, và mỗi khi ôtômat đạt trạng thái kết thúc thì ta biết mẫu vừa xuất hiện.</p>
+<p>Điểm mạnh là mỗi ký tự văn bản được xử lý đúng một lần với một phép tra bảng thời gian hằng số, cho nên pha tìm kiếm luôn là O(n) bất kể cấu trúc mẫu hay văn bản. Cái giá phải trả là bộ nhớ và thời gian tiền xử lý O(mσ), có thể lớn khi bảng chữ cái rộng.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Otomat gồm <code>m + 1</code> trạng thái, đánh số từ <code>0</code> đến <code>m</code>. Trạng thái <code>q</code> biểu diễn ý nghĩa "hậu tố dài nhất của phần văn bản đã đọc mà đồng thời là tiền tố của mẫu có độ dài <code>q</code>". Trạng thái <code>0</code> là trạng thái khởi đầu; trạng thái <code>m</code> là trạng thái kết thúc (nhận diện), ứng với việc toàn bộ mẫu vừa được đọc.</p>
+<p><strong>Hàm chuyển</strong> <code>δ(q, a)</code> cho biết: nếu đang ở trạng thái <code>q</code> và đọc ký tự <code>a</code>, ta chuyển sang trạng thái nào. Nó được định nghĩa như sau: <code>δ(q, a)</code> là độ dài của tiền tố dài nhất của <code>x</code> đồng thời là hậu tố của chuỗi <code>x[0..q-1]a</code>. Nói cách khác, sau khi ghép ký tự <code>a</code> vào phần khớp hiện có, ta tìm phần khớp mới dài nhất có thể.</p>
+<p>Để xây bảng chuyển một cách hiệu quả, ta dùng khái niệm <strong>trạng thái sao lưu</strong> (một biến <code>k</code> đóng vai trò tương tự hàm biên của Morris-Pratt). Với mỗi trạng thái mới, hầu hết các chuyển đi được sao chép từ trạng thái sao lưu, chỉ riêng chuyển theo ký tự khớp được đặt tăng một bậc. Cách xây này cho tổng chi phí O(mσ).</p>
+<p>Trong pha tìm kiếm, ta duy trì biến trạng thái hiện tại. Với mỗi ký tự văn bản <code>y[i]</code>, ta cập nhật trạng thái bằng một lần tra bảng: <code>state = δ(state, y[i])</code>. Khi <code>state == m</code>, mẫu xuất hiện kết thúc tại <code>y[i]</code>, tức bắt đầu tại vị trí <code>i - m + 1</code>.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define ASIZE 256   /* kích thước bảng chữ cái */
+
+/* Xây bảng chuyển delta[state][char] cho ôtômat nhận diện Sigma* x */
+int **preAutomaton(char *x, int m) {
+    int i, state, k;
+    int c;
+    int **delta = malloc((m + 1) * sizeof(int *));
+    for (i = 0; i &lt;= m; i++) {
+        delta[i] = malloc(ASIZE * sizeof(int));
+    }
+
+    /* Trạng thái 0: mọi ký tự dẫn về 0, trừ x[0] dẫn tới 1 */
+    for (c = 0; c &lt; ASIZE; c++)
+        delta[0][c] = 0;
+    delta[0][(unsigned char)x[0]] = 1;
+
+    k = 0;   /* trạng thái sao lưu */
+    for (state = 1; state &lt;= m; state++) {
+        /* Sao chép các chuyển đi từ trạng thái sao lưu k */
+        for (c = 0; c &lt; ASIZE; c++)
+            delta[state][c] = delta[k][c];
+        if (state &lt; m) {
+            /* Chuyển theo ký tự khớp x[state] tăng một bậc */
+            delta[state][(unsigned char)x[state]] = state + 1;
+            /* Cập nhật trạng thái sao lưu */
+            k = delta[k][(unsigned char)x[state]];
+        }
+    }
+    return delta;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, state;
+    int **delta = preAutomaton(x, m);
+
+    /* Duyệt văn bản, mỗi ký tự một lần tra bảng */
+    state = 0;
+    for (i = 0; i &lt; n; i++) {
+        state = delta[state][(unsigned char)y[i]];
+        if (state == m)
+            printf("Tim thay tai vi tri %d\n", i - m + 1);
+    }
+
+    for (i = 0; i &lt;= m; i++)
+        free(delta[i]);
+    free(delta);
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>.</p>
+<p>Otomat có 9 trạng thái (0 đến 8). Chuyển "thẳng" theo mẫu là:</p>
+<pre><code>0 --G--&gt; 1 --C--&gt; 2 --A--&gt; 3 --G--&gt; 4 --A--&gt; 5 --G--&gt; 6 --A--&gt; 7 --G--&gt; 8</code></pre>
+<p>Ngoài các chuyển thẳng này, mọi ký tự khác đưa trạng thái quay về một trạng thái nhỏ hơn (tính theo phần khớp còn giữ được).</p>
+<p>Cho văn bản chạy qua ôtômat, trạng thái biến đổi như sau (chỉ liệt kê vài bước đầu):</p>
+<table>
+<tr><th>i</th><th>y[i]</th><th>state trước</th><th>state sau</th></tr>
+<tr><td>0</td><td>G</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>C</td><td>1</td><td>2</td></tr>
+<tr><td>2</td><td>A</td><td>2</td><td>3</td></tr>
+<tr><td>3</td><td>T</td><td>3</td><td>0</td></tr>
+<tr><td>4</td><td>C</td><td>0</td><td>0</td></tr>
+<tr><td>5</td><td>G</td><td>0</td><td>1</td></tr>
+<tr><td>6</td><td>C</td><td>1</td><td>2</td></tr>
+<tr><td>7</td><td>A</td><td>2</td><td>3</td></tr>
+<tr><td>8</td><td>G</td><td>3</td><td>4</td></tr>
+</table>
+<p>Ở bước <code>i = 3</code>, ký tự <code>T</code> không nối tiếp được phần khớp <code>GCA</code>, nên trạng thái rơi về 0. Từ <code>i = 5</code> mẫu bắt đầu khớp lại, trạng thái tăng dần. Tiếp tục đọc <code>A, G, A, G</code> (tại <code>i = 9..12</code>), trạng thái sẽ lần lượt lên 5, 6, 7, 8. Khi đạt trạng thái 8 tại <code>i = 12</code>, ta báo xuất hiện tại vị trí <code>12 - 8 + 1 = 5</code>.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>A. V. Aho, J. E. Hopcroft, J. D. Ullman, "The Design and Analysis of Computer Algorithms", 1974.</li>
+<li>A. V. Aho, M. J. Corasick, "Efficient string matching: an aid to bibliographic search", 1975.</li>
+<li>T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, "Introduction to Algorithms", 2009.</li>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", 1994.</li>
+</ul>
+</body>
+</html>

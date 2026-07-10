@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Reverse Factor (BDM) — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Reverse Factor (BDM)</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Còn gọi là thuật toán BDM (Backward DAWG Matching); dùng ôtômat nhận diện factor (đoạn con) của mẫu.</li>
+<li>Pha tiền xử lý: O(m) để dựng ôtômat hậu tố (suffix automaton / DAWG) của mẫu ĐẢO NGƯỢC.</li>
+<li>Bộ nhớ phụ: O(m × σ) cho hàm chuyển của ôtômat (với hiện thực mảng); số trạng thái là O(m).</li>
+<li>Pha tìm kiếm: trung bình tối ưu O(n · log_σ(m) / m); xấu nhất O(mn).</li>
+<li>Hướng so sánh ký tự: quét cửa sổ từ PHẢI sang TRÁI.</li>
+<li>Là nền tảng cho các thuật toán tối ưu về trung bình như BOM và Turbo-BDM/Turbo-RF.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Các thuật toán họ Boyer-Moore quét cửa sổ từ phải sang trái để phát hiện hậu tố đã khớp. Reverse Factor đi xa hơn: nó không chỉ theo dõi hậu tố mà theo dõi factor (đoạn con bất kỳ) dài nhất của mẫu, tính từ đầu bên phải của cửa sổ đọc ngược vào. Muốn vậy, ta dùng một ôtômat có thể nhận diện mọi factor của mẫu.</p>
+<p>Có một mẹo: nhận diện factor của mẫu <code>x</code> khi đọc văn bản từ phải sang trái tương đương với nhận diện tiền tố của <code>x</code> đảo ngược khi đọc xuôi. Otomat hậu tố (suffix automaton, còn gọi là DAWG — Directed Acyclic Word Graph) của <code>x</code> đảo ngược chính là công cụ nhận mọi factor này, với kích thước tuyến tính O(m). Khi quét ngược cửa sổ mà ôtômat vẫn còn đường đi hợp lệ, ta biết đoạn vừa đọc là một factor của mẫu; khi ôtômat "kẹt" (không còn chuyển hợp lệ), đoạn đọc được không còn là factor nữa và ta có căn cứ để dịch cửa sổ.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>Tiền xử lý.</strong> Dựng ôtômat hậu tố cho <code>x</code> đảo ngược bằng thuật toán online kinh điển (thêm từng ký tự, quản lý liên kết hậu tố suffix link và tách trạng thái - clone khi cần). Otomat này nhận diện đúng tập hợp mọi factor của mẫu gốc khi ta nạp ký tự theo chiều đọc ngược. Ta đánh dấu các trạng thái "kết" (terminal): đó là những trạng thái nằm trên chuỗi suffix link xuất phát từ trạng thái cuối cùng — chúng tương ứng với các tiền tố của <code>x</code> đảo ngược, tức các HẬU TỐ của <code>x</code>; nhưng theo hướng nhận diện factor, một trạng thái kết ứng với việc đoạn vừa đọc là một tiền tố của mẫu.</p>
+<p><strong>Tìm kiếm.</strong> Đặt cửa sổ tại vị trí j, quét biến <code>i</code> từ <code>m-1</code> về 0, mỗi bước nạp ký tự <code>y[j+i]</code> vào ôtômat (khởi đầu từ trạng thái gốc):</p>
+<ul>
+<li>Nếu ôtômat còn chuyển hợp lệ, đoạn <code>y[j+i .. j+m-1]</code> là một factor của mẫu. Mỗi khi gặp trạng thái kết với <code>i &gt; 0</code>, ta ghi nhớ <code>last = i</code>: đây là factor đồng thời là một tiền tố của mẫu, cho biết một khả năng dịch cửa sổ tới vị trí <code>j + last</code>.</li>
+<li>Nếu ôtômat kẹt (không còn chuyển) tại một <code>i</code> nào đó, ta dừng vòng quét: đoạn <code>y[j+i .. j+m-1]</code> không phải factor của mẫu, nên không có lần xuất hiện nào của mẫu chứa trọn đoạn này. Ta dịch cửa sổ tới <code>j + last</code>.</li>
+<li>Nếu vòng quét đọc hết cả cửa sổ (i giảm xuống dưới 0) mà ôtômat vẫn hợp lệ, nghĩa là cả cửa sổ <code>y[j..j+m-1]</code> là một factor độ dài m của mẫu — tức chính là mẫu — nên báo một lần xuất hiện tại j, rồi dịch bằng bước mặc định (ở đây dùng <code>last</code>, đã được cập nhật thành tiền tố dài nhất tìm thấy).</li>
+</ul>
+<p>Giá trị <code>last</code> khởi tạo bằng m (dịch tối đa khi không tìm được tiền tố nào). Bước dịch trung bình lớn cỡ m nên tổng chi phí đạt cận dưới tối ưu O(n · log_σ(m) / m).</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 128          /* kích thước bảng chữ cái */
+#define XSIZE 64           /* độ dài mẫu tối đa */
+#define UNDEFINED (-1)
+
+/* Ô-tô-mát hậu tố (suffix automaton) của mẫu đảo ngược */
+typedef struct {
+    int len;               /* độ dài factor dài nhất của trạng thái */
+    int link;              /* liên kết hậu tố */
+    int term;              /* 1 nếu là trạng thái kết (nhận tiền tố mẫu) */
+    int next[ASIZE];       /* hàm chuyển */
+} SamState;
+
+static SamState sam[2 * XSIZE];
+static int samSize, samLast;
+
+static void samInit(void) {
+    int c;
+    samSize = 1;
+    samLast = 0;
+    sam[0].len = 0;
+    sam[0].link = UNDEFINED;
+    sam[0].term = 0;
+    for (c = 0; c &lt; ASIZE; ++c)
+        sam[0].next[c] = UNDEFINED;
+}
+
+static void samExtend(int c) {
+    int cur, p, q, clone, i;
+    cur = samSize++;
+    sam[cur].len = sam[samLast].len + 1;
+    sam[cur].term = 0;
+    for (i = 0; i &lt; ASIZE; ++i)
+        sam[cur].next[i] = UNDEFINED;
+    p = samLast;
+    while (p != UNDEFINED &amp;&amp; sam[p].next[c] == UNDEFINED) {
+        sam[p].next[c] = cur;
+        p = sam[p].link;
+    }
+    if (p == UNDEFINED)
+        sam[cur].link = 0;
+    else {
+        q = sam[p].next[c];
+        if (sam[p].len + 1 == sam[q].len)
+            sam[cur].link = q;
+        else {
+            clone = samSize++;
+            sam[clone].len = sam[p].len + 1;
+            sam[clone].link = sam[q].link;
+            sam[clone].term = 0;
+            memcpy(sam[clone].next, sam[q].next, sizeof(sam[q].next));
+            while (p != UNDEFINED &amp;&amp; sam[p].next[c] == q) {
+                sam[p].next[c] = clone;
+                p = sam[p].link;
+            }
+            sam[q].link = clone;
+            sam[cur].link = clone;
+        }
+    }
+    samLast = cur;
+}
+
+/* Dựng ô-tô-mát hậu tố cho x đảo ngược và đánh dấu trạng thái kết */
+static void buildReverseSam(char *x, int m) {
+    int i, p;
+    samInit();
+    for (i = m - 1; i &gt;= 0; --i)          /* nạp x từ phải sang trái */
+        samExtend((unsigned char) x[i]);
+    p = samLast;                          /* đánh dấu các trạng thái kết */
+    while (p != UNDEFINED) {
+        sam[p].term = 1;
+        p = sam[p].link;
+    }
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, state, last;
+
+    /* Tiền xử lý */
+    buildReverseSam(x, m);
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j &lt;= n - m) {
+        i = m - 1;
+        state = 0;
+        last = m;                          /* bước dịch mặc định */
+        while (i &gt;= 0 &amp;&amp;
+               (state = sam[state].next[(unsigned char) y[j + i]])
+                   != UNDEFINED) {
+            if (sam[state].term &amp;&amp; i &gt; 0)
+                last = i;                  /* ghi nhớ tiền tố dài nhất */
+            --i;
+        }
+        if (i &lt; 0)                         /* đọc hết cửa sổ: khớp */
+            printf("Khop tai vi tri %d\n", j);
+        j += last;
+    }
+}
+</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24). Ta dựng ôtômat hậu tố cho mẫu đảo ngược <code>"GAGAGACG"</code>.</p>
+<ul>
+<li><strong>Bước 1</strong> — cửa sổ tại j = 0, quét từ phải: nạp <code>y[7] = 'A'</code> (factor "A" hợp lệ), <code>y[6] = 'C'</code> (factor "CA" hợp lệ), <code>y[5] = 'G'</code> (factor "GCA" hợp lệ), <code>y[4] = 'C'</code> — đoạn "CGCA" không phải factor của mẫu, ôtômat kẹt tại i = 4. Trong quá trình, tiền tố dài nhất tìm được (trạng thái kết với i &gt; 0) cho một giá trị <code>last</code>; giả sử <code>last</code> vẫn là m = 8 nếu chưa gặp tiền tố hợp lệ nào, cửa sổ dịch tới j = 8. (Tùy đường đi cụ thể, bước dịch có thể ngắn hơn khi bắt gặp một tiền tố của mẫu.)</li>
+<li><strong>Bước 2</strong> — cửa sổ tại j = 5: quét từ phải <code>y[12] y[11] ... y[5]</code> = "GAGAGACG" đọc ngược lại chính là mẫu; ôtômat đi hết m ký tự mà không kẹt, i giảm xuống dưới 0. Báo một lần xuất hiện tại vị trí 5.</li>
+</ul>
+<p>Điểm mạnh của BDM: khi cửa sổ không khớp, việc đọc ngược thường kẹt rất sớm và cho phép dịch cửa sổ những bước dài xấp xỉ m, đưa tới độ phức tạp trung bình dưới tuyến tính O(n · log_σ(m) / m).</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", 1994.</li>
+<li>A. Blumer, J. Blumer, D. Haussler, A. Ehrenfeucht, M. T. Chen, J. Seiferas, "The smallest automaton recognizing the subwords of a text", 1985.</li>
+<li>M. Crochemore, A. Czumaj, L. Gąsieniec, S. Jarominek, T. Lecroq, W. Plandowski, W. Rytter, "Speeding up two string-matching algorithms", 1994.</li>
+</ul>
+</body>
+</html>

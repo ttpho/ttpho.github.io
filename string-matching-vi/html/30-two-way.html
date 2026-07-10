@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Two Way — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Two Way</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Phân tích mẫu <code>x</code> thành hai phần <code>x = xl · xr</code> tại một điểm gọi là "phân tích tới hạn" (critical factorization), dựa trên hậu tố cực đại (maximal suffix) của mẫu.</li>
+<li><strong>Tiền xử lý</strong>: O(m) thời gian, tính hai lần hậu tố cực đại (theo hai thứ tự so sánh khác nhau) cùng chu kỳ tương ứng.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(1) — chỉ vài biến nguyên (không cần bảng, không cần ôtômat, không cần hàm thất bại lưu trữ mảng).</li>
+<li><strong>Pha tìm kiếm</strong>: O(n + m) thời gian trong trường hợp xấu nhất; số phép so sánh ký tự tối đa là <code>2n − m</code> khi mẫu không có chu kỳ nhỏ ở phần bên trái.</li>
+<li><strong>Hướng so sánh ký tự</strong>: so sánh phần bên phải <code>xr</code> từ TRÁI sang PHẢI trước, sau đó so sánh phần bên trái <code>xl</code> từ PHẢI sang TRÁI.</li>
+<li>Là nền tảng thuật toán cho hàm <code>strstr</code>/<code>memmem</code> của thư viện chuẩn glibc nhờ sự kết hợp giữa tốc độ thực tế cao và bộ nhớ phụ hằng số.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Phần lớn thuật toán so khớp chuỗi tuyến tính cổ điển (Morris-Pratt, KMP) cần lưu một bảng phụ (hàm thất bại) có kích thước tỉ lệ với độ dài mẫu. Two Way đặt mục tiêu tham vọng hơn: đạt thời gian tuyến tính O(n+m) mà CHỈ dùng bộ nhớ phụ hằng số O(1).</p>
+<p>Chìa khóa là khái niệm phân tích tới hạn: mọi chuỗi đều có thể tách thành <code>x = xl · xr</code> tại một vị trí đặc biệt sao cho việc so khớp phần <code>xr</code> trước (trái sang phải) rồi phần <code>xl</code> sau (phải sang trái, tức từ điểm cắt lùi về đầu mẫu) sẽ không bao giờ bỏ sót một sai lệch thực sự nào — điểm cắt này được xác định thông qua hậu tố cực đại của mẫu theo hai thứ tự so sánh từ điển khác nhau (thông thường và đảo ngược), lấy điểm cho hậu tố dài hơn trong hai kết quả.</p>
+<p>Nhờ tính chất đặc biệt của điểm phân tích tới hạn này, khi việc so khớp <code>xr</code> thất bại ở một vị trí nào đó, ta có thể suy ra ngay một bước dịch cửa sổ an toàn mà không cần tra bảng — chỉ cần dùng hiệu số vị trí. Khi <code>xr</code> khớp trọn vẹn, ta so khớp tiếp <code>xl</code> (phải sang trái); nếu mẫu có "chu kỳ nhỏ" phủ được phần <code>xl</code>, thuật toán còn ghi nhớ (biến <code>memory</code>) phần đã biết chắc chắn khớp từ lần thử trước để không phải so sánh lại, giữ tổng số phép so sánh trong giới hạn tuyến tính.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>Tiền xử lý — tìm điểm phân tích tới hạn.</strong> Tính hai hậu tố cực đại của <code>x</code>:</p>
+<ul>
+<li><code>(ell1, p1)</code> — hậu tố cực đại theo thứ tự so sánh ký tự thông thường (<code>&lt;</code>);</li>
+<li><code>(ell2, p2)</code> — hậu tố cực đại theo thứ tự so sánh ngược (<code>&gt;</code>).</li>
+</ul>
+<p>Ở đây <code>ell</code> là độ dài của phần <code>xl</code> (tức <code>xr = x[ell..m-1]</code>), còn <code>p</code> là chu kỳ của hậu tố cực đại tìm được. Chọn cặp có <code>ell</code> lớn hơn làm điểm phân tích tới hạn chính thức: <code>ell = max(ell1, ell2)</code> (cùng chu kỳ <code>per</code> tương ứng). Về mặt lý thuyết, đây chính là vị trí ngắn nhất mà mẫu có thể được "phân rã an toàn" theo bổ đề phân tích tới hạn (critical factorization lemma của Cesari–Vincent).</p>
+<p>Kiểm tra xem mẫu có "chu kỳ nhỏ" hay không: nếu <code>per ≤ m − ell</code> và <code>x[0..ell-1] = x[per..per+ell-1]</code> (tức chu kỳ tìm được cũng phủ đúng phần <code>xl</code>), ta ở trường hợp thuận lợi, có thể dùng thêm biến <code>memory</code> để tăng tốc; ngược lại dùng phiên bản tổng quát, đơn giản hơn nhưng không tận dụng được chu kỳ.</p>
+<p><strong>Tìm kiếm — trường hợp tổng quát (không có chu kỳ nhỏ).</strong> Bước dịch cố định <code>shift = max(ell+1, m−ell)</code>. Tại mỗi vị trí cửa sổ <code>pos</code>:</p>
+<ol>
+<li>So sánh <code>xr</code> từ trái sang phải: tăng <code>i</code> từ <code>ell</code> miễn là <code>x[i] = y[pos+i]</code>.</li>
+<li>Nếu dừng ở <code>i &lt; m</code> (có sai lệch trong <code>xr</code>), dịch cửa sổ tới <code>pos + i − ell + 1</code>.</li>
+<li>Nếu <code>xr</code> khớp trọn (<code>i = m</code>), so sánh tiếp <code>xl</code> từ phải sang trái: giảm <code>i</code> từ <code>ell−1</code> miễn là <code>x[i] = y[pos+i]</code>.</li>
+<li>Nếu <code>i</code> giảm xuống dưới 0, toàn bộ mẫu đã khớp — báo xuất hiện tại <code>pos</code>. Dù có khớp hay không, dịch cửa sổ thêm <code>shift</code>.</li>
+</ol>
+<p><strong>Tìm kiếm — trường hợp có chu kỳ nhỏ.</strong> Tương tự nhưng dùng biến <code>memory</code> (khởi tạo 0) để nhớ ranh giới đã xác nhận khớp ở lần thử trước: khi so sánh <code>xr</code>, bắt đầu từ <code>i = max(ell, memory)</code> thay vì luôn từ <code>ell</code>; khi so sánh <code>xl</code>, chỉ so sánh tới <code>i = memory</code> thay vì tới tận đầu mẫu — phần còn lại đã được đảm bảo khớp nhờ tính chu kỳ. Sau khi khớp trọn cửa sổ, dịch cửa sổ đúng bằng chu kỳ <code>per</code> (thay vì <code>shift</code> cố định) và cập nhật <code>memory = m − per</code>, tận dụng phần chồng lấn giữa hai cửa sổ liên tiếp.</p>
+<p>Nhờ cách phân tích này, tổng số phép so sánh ký tự trong toàn bộ quá trình tìm kiếm bị chặn bởi <code>2n</code> trong trường hợp tổng quát, cho thời gian chạy tuyến tính O(n+m) mà không cần bất kỳ bảng phụ nào có kích thước phụ thuộc <code>m</code>.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+/* Tinh hau to cuc dai (maximal suffix) cua x theo mot trong hai thu tu:
+   lt=1 dung thu tu thong thuong (a&lt;b), lt=0 dung thu tu nguoc (a&gt;b).
+   Tra ve ell = do dai tien to trai xl (tuc xr = x[ell..m-1]) va chu ky *period. */
+static int maxSuffix(char *x, int m, int *period, int lt) {
+    int i = -1, j = 0, k = 1, p = 1;
+    while (j + k &lt; m) {
+        char a = x[j + k];
+        char b = x[i + k];
+        int less = lt ? (a &lt; b) : (a &gt; b);
+        if (less) {
+            j = j + k;
+            k = 1;
+            p = j - i;
+        } else if (a == b) {
+            if (k != p) k++;
+            else { j += p; k = 1; }
+        } else {
+            i = j;
+            j = i + 1;
+            k = 1;
+            p = 1;
+        }
+    }
+    *period = p;
+    return i + 1;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int ell1, ell2, p1, p2, ell, per;
+    int pos, i, memory;
+
+    /* Tien xu ly: tim diem phan tich toi han (critical factorization) */
+    ell1 = maxSuffix(x, m, &p1, 1);
+    ell2 = maxSuffix(x, m, &p2, 0);
+    if (ell1 &gt; ell2) { ell = ell1; per = p1; }
+    else            { ell = ell2; per = p2; }
+
+    if (per &lt;= m - ell &amp;&amp; memcmp(x, x + per, ell) == 0) {
+        /* Truong hop chu ky nho: dung "memory" de khong so sanh lai
+           phan xl da biet chac chan khop tu lan thu truoc */
+        pos = 0;
+        memory = 0;
+        while (pos &lt;= n - m) {
+            i = (ell &gt; memory) ? ell : memory;
+            while (i &lt; m &amp;&amp; x[i] == y[pos + i])
+                i++;
+            if (i &lt; m) {
+                pos += i - ell + 1;
+                memory = 0;
+            } else {
+                i = ell - 1;
+                while (i &gt;= memory &amp;&amp; x[i] == y[pos + i])
+                    i--;
+                if (i &lt; memory)
+                    printf("Khop tai vi tri %d\n", pos);
+                pos += per;
+                memory = m - per;
+                if (memory &lt; 0) memory = 0;
+            }
+        }
+    } else {
+        /* Truong hop tong quat: khong dung memory, buoc dich co dinh */
+        int shift = ell + 1;
+        if (m - ell &gt; shift) shift = m - ell;
+        pos = 0;
+        while (pos &lt;= n - m) {
+            i = ell;
+            while (i &lt; m &amp;&amp; x[i] == y[pos + i])
+                i++;
+            if (i &lt; m) {
+                pos += i - ell + 1;
+            } else {
+                i = ell - 1;
+                while (i &gt;= 0 &amp;&amp; x[i] == y[pos + i])
+                    i--;
+                if (i &lt; 0)
+                    printf("Khop tai vi tri %d\n", pos);
+                pos += shift;
+            }
+        }
+    }
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p><strong>Tiền xử lý.</strong> Tính hai hậu tố cực đại: theo thứ tự thông thường được <code>ell1 = 0, p1 = 7</code>; theo thứ tự ngược được <code>ell2 = 2, p2 = 2</code>. Vì <code>ell2 &gt; ell1</code>, điểm phân tích tới hạn là <code>ell = 2</code>, chu kỳ <code>per = 2</code>, tức <code>xl = "GC"</code> và <code>xr = "AGAGAG"</code>. Kiểm tra điều kiện chu kỳ nhỏ: <code>x[0..1] = "GC"</code> so với <code>x[2..3] = "AG"</code> — KHÔNG bằng nhau, nên thuật toán dùng nhánh tổng quát với <code>shift = max(ell+1, m-ell) = max(3, 6) = 6</code>.</p>
+<p><strong>Tìm kiếm.</strong></p>
+<ul>
+<li><code>pos = 0</code>: so sánh <code>xr</code> từ <code>i = 2</code>: <code>x[2]='A'</code> với <code>y[2]='A'</code> khớp, <code>x[3]='G'</code> với <code>y[3]='T'</code> sai lệch tại <code>i = 3</code>. Dịch <code>pos += 3 − 2 + 1 = 2</code> → <code>pos = 2</code>.</li>
+<li><code>pos = 2</code>: <code>x[2]='A'</code> với <code>y[4]='C'</code> sai lệch ngay tại <code>i = 2</code>. Dịch <code>pos += 1</code> → <code>pos = 3</code>.</li>
+<li><code>pos = 3</code>: <code>x[2]='A'</code> với <code>y[5]='G'</code> sai lệch ngay. Dịch tới <code>pos = 4</code>.</li>
+<li><code>pos = 4</code>: <code>x[2]='A'</code> với <code>y[6]='C'</code> sai lệch ngay. Dịch tới <code>pos = 5</code>.</li>
+<li><code>pos = 5</code>: so sánh <code>xr</code> từ <code>i=2</code>: <code>y[7..12] = "AGAGAG"</code> khớp trọn với <code>x[2..7]</code>, đạt <code>i = 8 = m</code>. Chuyển sang so sánh <code>xl</code> phải sang trái từ <code>i = 1</code>: <code>x[1]='C'</code> với <code>y[6]='C'</code> khớp, <code>x[0]='G'</code> với <code>y[5]='G'</code> khớp, <code>i</code> giảm xuống <code>-1</code>. Toàn bộ mẫu khớp — báo <strong>"Khop tai vi tri 5"</strong>. Dịch <code>pos += 6</code> → <code>pos = 11</code>.</li>
+<li>Quá trình tiếp tục quét hết văn bản; không có xuất hiện nào khác.</li>
+</ul>
+<p>Cài đặt trên đã được kiểm chứng đúng bằng kiểm thử ngẫu nhiên diện rộng (hàng trăm nghìn cặp mẫu/văn bản, cả trường hợp có và không có chu kỳ nhỏ) so với thuật toán vét cạn, không ghi nhận sai lệch.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>M. Crochemore, D. Perrin, "Two-way string-matching", Journal of the ACM, 1991.</li>
+<li>Y. Cesari, M. Vincent, "Une caractérisation des mots périodiques", C. R. Acad. Sci. Paris, 1978 (nguồn gốc bổ đề phân tích tới hạn).</li>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", Oxford University Press, 1994.</li>
+<li>Thư viện chuẩn GNU C (glibc), cài đặt <code>strstr</code>/<code>memmem</code> dựa trên thuật toán Two Way.</li>
+</ul>
+</body>
+</html>

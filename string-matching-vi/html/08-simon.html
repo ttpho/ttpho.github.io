@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Simon — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Simon</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Mô phỏng ôtômat hữu hạn đơn định nhận dạng mọi văn bản kết thúc bằng mẫu, nhưng chỉ lưu các <strong>cạnh "đáng kể"</strong> (significant edges) thay vì toàn bộ hàm chuyển.</li>
+<li>Số cạnh đáng kể (cạnh lui) tối đa là <strong>m − 1</strong>, nên tổng bộ nhớ chỉ <strong>O(m)</strong> thay vì O(m·σ) như DFA đầy đủ.</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> (kèm chi phí sắp xếp/tra cứu tuỳ cách cài đặt cấu trúc danh sách cạnh).</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>O(n + m)</strong>.</li>
+<li>So sánh ký tự theo hướng <strong>từ trái sang phải</strong>.</li>
+<li>Độ trễ (số cạnh phải dò trước khi tiến một ký tự văn bản) bị chặn bởi <strong>min(1 + log₂ m, σ)</strong>, với σ là kích thước bảng chữ cái.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Otomat so khớp chuỗi kinh điển (xem thuật toán DFA) có <code>m + 1</code> trạng thái <code>0, 1, …, m</code>; từ trạng thái <code>q</code> gặp ký tự <code>x[q]</code> thì đi tiếp sang <code>q+1</code> (cạnh "tiến"), còn với mọi ký tự khác thì lùi về một trạng thái nào đó (cạnh "lui"). DFA đầy đủ phải lưu σ cạnh cho mỗi trạng thái, tốn O(m·σ) bộ nhớ.</p>
+<p>Simon nhận xét rằng đa số các cạnh lui đều dẫn về cùng những trạng thái mà ta có thể suy lại từ bảng biên của mẫu; chỉ một số ít cạnh là thật sự "đáng kể" — tức không thể tái tạo bằng quy tắc mặc định. Cụ thể, cạnh lui từ <code>q</code> theo ký tự <code>c</code> là đáng kể khi nó dẫn tới một trạng thái <em>lớn hơn</em> trạng thái mà quy tắc mặc định (dựa trên biên) đưa ra. Người ta chứng minh được số cạnh đáng kể như vậy không vượt quá <code>m − 1</code>. Nhờ đó ta lưu ôtômat bằng O(m) bộ nhớ mà vẫn tính được hàm chuyển trong thời gian phân bổ hằng số.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Trước hết tính bảng biên <code>border[q]</code> = độ dài biên dài nhất của <code>x[0..q-1]</code>, giống Morris-Pratt.</p>
+<p>Với mỗi trạng thái <code>q</code> (từ 2 đến m − 1), ta xét chuỗi các biên <code>b = border[q], border[border[q]], …</code>. Với mỗi biên <code>b &gt; 0</code> mà ký tự đi sau nó <code>x[b]</code> <strong>khác</strong> <code>x[q]</code> (nghĩa là không phải cạnh tiến), cạnh chuyển từ <code>q</code> theo ký tự <code>x[b]</code> sang trạng thái <code>b + 1</code> là một cạnh đáng kể — trừ khi đã có một cạnh đáng kể khác từ <code>q</code> theo cùng ký tự <code>x[b]</code> dẫn tới trạng thái lớn hơn (khi đó cạnh dài hơn "phủ" cạnh này). Ta lưu tập cạnh đáng kể của mỗi trạng thái trong một danh sách móc nối <code>L[q]</code>.</p>
+<p>Hàm chuyển <code>δ(q, c)</code> được tính như sau:</p>
+<ol>
+<li>Nếu <code>q &lt; m</code> và <code>c == x[q]</code>: trả về <code>q + 1</code> (cạnh tiến).</li>
+<li>Ngược lại, dò danh sách <code>L[q]</code>: nếu có cạnh đáng kể theo ký tự <code>c</code> thì trả về trạng thái đích của nó.</li>
+<li>Nếu không: áp quy tắc mặc định — trả về <code>1</code> khi <code>c == x[0]</code>, và <code>0</code> trong các trường hợp còn lại.</li>
+</ol>
+<p>Pha tìm kiếm chỉ việc chạy ôtômat: đọc lần lượt từng ký tự văn bản, cập nhật trạng thái; mỗi khi trạng thái đạt <code>m</code> thì báo tìm thấy và lùi trạng thái về <code>border[m]</code> để tiếp tục.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Cell {
+    int target;           /* trạng thái đích của cạnh đáng kể (&gt;= 2) */
+    struct Cell *next;
+} Cell;
+
+static int transition(char *x, int m, Cell **L, int q, char c) {
+    Cell *p;
+    if (q &lt; m &amp;&amp; c == x[q])
+        return q + 1;                 /* cạnh tiến */
+    for (p = L[q]; p != NULL; p = p-&gt;next)
+        if (c == x[p-&gt;target - 1])    /* x[b] với b = target-1 */
+            return p-&gt;target;         /* cạnh lui đáng kể */
+    return (c == x[0]) ? 1 : 0;       /* cạnh mặc định */
+}
+
+void preSimon(char *x, int m, Cell **L, int *border) {
+    int q, b, covered;
+    Cell *cell, *p;
+
+    border[0] = -1;
+    for (q = 1; q &lt;= m; ++q) {
+        b = border[q - 1];
+        while (b &gt; -1 &amp;&amp; x[b] != x[q - 1])
+            b = border[b];
+        border[q] = b + 1;
+    }
+
+    for (q = 0; q &lt;= m; ++q)
+        L[q] = NULL;
+
+    for (q = 2; q &lt; m; ++q)
+        for (b = border[q]; b &gt; 0; b = border[b]) {
+            if (x[b] == x[q])
+                continue;             /* trùng cạnh tiến, bỏ qua */
+            covered = 0;
+            for (p = L[q]; p != NULL; p = p-&gt;next)
+                if (x[p-&gt;target - 1] == x[b]) { covered = 1; break; }
+            if (!covered) {
+                cell = (Cell *) malloc(sizeof(Cell));
+                cell-&gt;target = b + 1;
+                cell-&gt;next = L[q];
+                L[q] = cell;
+            }
+        }
+}
+
+void search(char *x, int m, char *y, int n) {
+    int j, q;
+    Cell **L = (Cell **) malloc((m + 1) * sizeof(Cell *));
+    int *border = (int *) malloc((m + 1) * sizeof(int));
+
+    preSimon(x, m, L, border);
+
+    q = 0;
+    for (j = 0; j &lt; n; ++j) {
+        q = transition(x, m, L, q, y[j]);
+        if (q == m) {
+            printf("Tim thay tai vi tri %d\n", j - m + 1);
+            q = border[m];
+        }
+    }
+
+    for (j = 0; j &lt;= m; ++j) {
+        Cell *p = L[j];
+        while (p) { Cell *t = p-&gt;next; free(p); p = t; }
+    }
+    free(L);
+    free(border);
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét <code>x = "GCAGAGAG"</code> (m = 8) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Bảng biên:</p>
+<table>
+<tr><th>q</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+<tr><th>border[q]</th><td>−1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+</table>
+<p>Các cạnh lui đáng kể tìm được (ngoài các cạnh tiến và cạnh mặc định về 0/1):</p>
+<ul>
+<li>Từ trạng thái 4, gặp ký tự <code>C</code> → sang trạng thái 2.</li>
+<li>Từ trạng thái 6, gặp ký tự <code>C</code> → sang trạng thái 2.</li>
+</ul>
+<p>Chạy ôtômat trên các ký tự đầu:</p>
+<pre><code>q=0 --G--&gt; 1 --C--&gt; 2 --A--&gt; 3 --T--&gt; 0 --C--&gt; 0 --G--&gt; 1
+    --C--&gt; 2 --A--&gt; 3 --G--&gt; 4 --A--&gt; 5 --G--&gt; 6 --A--&gt; 7
+    --G--&gt; 8   =&gt; tìm thấy tại vị trí 5, lùi về border[8]=1</code></pre>
+<p>Ta thấy hầu hết các bước chỉ dùng cạnh tiến hoặc cạnh mặc định; các cạnh đáng kể (như <code>4 --C--&gt; 2</code>) chỉ được dùng khi văn bản dẫn thuật toán vào đúng tình huống cần đến chúng.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>I. Simon, "String matching algorithms and automata", trong <em>Results and Trends in Theoretical Computer Science</em>, 1994.</li>
+<li>M. Crochemore, C. Hancart, "Automata for matching patterns", trong <em>Handbook of Formal Languages</em>, 1997.</li>
+<li>M. Crochemore, W. Rytter, <em>Text Algorithms</em>, 1994.</li>
+</ul>
+</body>
+</html>

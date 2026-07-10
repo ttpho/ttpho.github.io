@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Morris-Pratt — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Morris-Pratt</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li><strong>Tiền xử lý</strong>: O(m) để xây bảng biên (border table / failure function) của mẫu.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(m) cho bảng biên gồm <code>m + 1</code> phần tử.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(n + m); tổng số phép so sánh ký tự tối đa <code>2n - 1</code>.</li>
+<li><strong>Hướng so sánh ký tự</strong>: trái sang phải.</li>
+<li><strong>Độ trễ</strong>: số phép so sánh trên một ký tự văn bản bị chặn bởi độ trễ ≤ m (do có thể lùi nhiều bước trong bảng biên trước khi tiến).</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Điểm yếu chí mạng của thuật toán vét cạn là mỗi khi gặp điểm sai lệch, nó vứt bỏ toàn bộ công sức so sánh và bắt đầu lại từ vị trí kế tiếp, khiến nhiều ký tự văn bản bị so sánh nhiều lần. Morris-Pratt khắc phục điều này bằng một nhận xét đơn giản: khi ta đã khớp được một phần đầu của mẫu với văn bản rồi mới gặp sai lệch, ta đã "biết" chính những ký tự văn bản đó (chúng bằng phần mẫu vừa khớp). Ta có thể dùng thông tin này để dịch cửa sổ đi xa mà không cần đọc lại các ký tự văn bản đã đọc.</p>
+<p>Cụ thể, sau một sai lệch, thay vì dịch cửa sổ một bước và so lại từ đầu, ta dịch cửa sổ sao cho <strong>biên</strong> (phần vừa là tiền tố vừa là hậu tố) dài nhất của phần đã khớp được canh lại đúng vị trí. Con trỏ trên văn bản không bao giờ lùi.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>Khái niệm biên</strong>: một biên của chuỗi <code>u</code> là một chuỗi vừa là tiền tố thực sự, vừa là hậu tố thực sự của <code>u</code>. Ví dụ, chuỗi <code>"abcab"</code> có biên <code>"ab"</code>.</p>
+<p><strong>Bảng biên <code>mpNext</code></strong>: mảng <code>mpNext[0..m]</code> trong đó <code>mpNext[i]</code> là độ dài của biên dài nhất của tiền tố <code>x[0..i-1]</code> (phần mẫu đã khớp gồm <code>i</code> ký tự đầu). Theo quy ước, <code>mpNext[0] = -1</code> để xử lý gọn trường hợp sai lệch ngay ký tự đầu.</p>
+<p>Ý nghĩa vận hành: giả sử ta đã khớp <code>i</code> ký tự của mẫu rồi gặp sai lệch tại <code>x[i]</code>. Khi đó không cần thử lại từ đầu; ta biết <code>mpNext[i]</code> ký tự đầu của mẫu vẫn đang khớp (vì chúng là biên của phần vừa khớp, nên trùng với phần đuôi văn bản vừa đọc). Ta chỉ việc đặt con trỏ mẫu về vị trí <code>mpNext[i]</code> và tiếp tục so từ đó, không dịch chuyển con trỏ văn bản.</p>
+<p><strong>Xây bảng biên</strong> cũng chính là bài toán so khớp mẫu với chính nó, thực hiện trong O(m):</p>
+<pre><code>i = 0, j = mpNext[0] = -1
+lặp i từ 0 đến m-1:
+    trong khi j &gt; -1 và x[i] != x[j]: j = mpNext[j]
+    i++, j++
+    mpNext[i] = j</code></pre>
+<p><strong>Pha tìm kiếm</strong>: dùng cùng cơ chế con trỏ. Duy trì con trỏ <code>j</code> chỉ vào mẫu; duyệt văn bản bằng con trỏ <code>i</code>. Khi <code>x[j]</code> khác <code>y[i]</code>, ta lùi <code>j</code> theo bảng biên (<code>j = mpNext[j]</code>) cho tới khi khớp lại hoặc <code>j = -1</code>. Khi <code>j</code> đạt <code>m</code>, ta báo một xuất hiện rồi tiếp tục lùi <code>j</code> theo bảng biên để tìm xuất hiện chồng lấn tiếp theo.</p>
+<p>Vì con trỏ văn bản <code>i</code> chỉ tăng, và mỗi lần lùi <code>j</code> tương ứng với một lần <code>j</code> đã tăng trước đó, tổng số thao tác bị chặn tuyến tính; số phép so sánh ký tự trong pha tìm kiếm tối đa là <code>2n - 1</code>.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* Tiền xử lý: xây bảng biên mpNext[0..m] */
+void preMp(char *x, int m, int mpNext[]) {
+    int i, j;
+    i = 0;
+    j = mpNext[0] = -1;
+    while (i &lt; m) {
+        while (j &gt; -1 &amp;&amp; x[i] != x[j])
+            j = mpNext[j];
+        i++;
+        j++;
+        mpNext[i] = j;
+    }
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j;
+    int *mpNext = malloc((m + 1) * sizeof(int));
+
+    /* Tiền xử lý */
+    preMp(x, m, mpNext);
+
+    /* Pha tìm kiếm */
+    i = j = 0;
+    while (j &lt; n) {
+        while (i &gt; -1 &amp;&amp; x[i] != y[j])
+            i = mpNext[i];
+        i++;
+        j++;
+        if (i &gt;= m) {
+            printf("Tim thay tai vi tri %d\n", j - i);
+            i = mpNext[i];
+        }
+    }
+
+    free(mpNext);
+}</code></pre>
+<p>Ở đây <code>i</code> là con trỏ trên mẫu, <code>j</code> là con trỏ trên văn bản (luôn tăng). Mỗi khi <code>i</code> đạt <code>m</code>, ta in vị trí bắt đầu <code>j - i</code> rồi lùi <code>i</code> về <code>mpNext[i]</code> để tiếp tục.</p>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>).</p>
+<p><strong>Bảng biên <code>mpNext</code></strong> cho mẫu này:</p>
+<table>
+<tr><th>i</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+<tr><th>x[i]</th><td>G</td><td>C</td><td>A</td><td>G</td><td>A</td><td>G</td><td>A</td><td>G</td><td></td></tr>
+<tr><th>mpNext[i]</th><td>-1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+</table>
+<p>Ví dụ, tiền tố <code>"GCAG"</code> (i = 4) có biên dài nhất là <code>"G"</code> độ dài 1, nên <code>mpNext[4] = 1</code>.</p>
+<p><strong>Tìm kiếm</strong> trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>:</p>
+<p>Bắt đầu <code>i = 0, j = 0</code>. So khớp <code>x[0..2] = "GCA"</code> với <code>y[0..2] = "GCA"</code> thành công, <code>i</code> và <code>j</code> cùng tăng tới <code>i = 3, j = 3</code>. Tại đây <code>x[3]='G'</code> khác <code>y[3]='T'</code> → sai lệch. Ta lùi <code>i = mpNext[3] = 0</code>. Vì <code>x[0]='G'</code> vẫn khác <code>y[3]='T'</code>, lùi tiếp <code>i = mpNext[0] = -1</code>, rồi <code>i++, j++</code> thành <code>i = 0, j = 4</code>.</p>
+<p>Điểm quan trọng: <strong>con trỏ văn bản <code>j</code> không hề lùi</strong> — ta không so lại <code>y[0..2]</code>. Đây chính là ưu điểm so với vét cạn.</p>
+<p>Tiếp tục: tại <code>j = 4</code> (<code>y[4]='C'</code>), <code>x[0]='G'</code> khác nên <code>i</code> giữ ở 0, <code>j</code> tăng lên 5. Từ <code>j = 5</code>, đoạn <code>y[5..12] = "GCAGAGAG"</code> khớp toàn bộ mẫu; <code>i</code> tăng dần tới <code>i = 8</code> khi <code>j = 13</code>. Lúc <code>i</code> đạt <code>m = 8</code>, ta báo <strong>xuất hiện tại vị trí <code>j - i = 13 - 8 = 5</code></strong>, rồi lùi <code>i = mpNext[8] = 1</code> để tiếp tục tìm.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>J. H. Morris, V. R. Pratt, "A linear pattern-matching algorithm", 1970.</li>
+<li>D. E. Knuth, J. H. Morris, V. R. Pratt, "Fast pattern matching in strings", 1977.</li>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", 1994.</li>
+<li>T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, "Introduction to Algorithms", 2009.</li>
+</ul>
+</body>
+</html>

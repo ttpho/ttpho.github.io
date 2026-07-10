@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Brute Force — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Brute Force (vét cạn)</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li><strong>Tiền xử lý</strong>: không cần.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(1) — chỉ vài biến đếm.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(mn) trong trường hợp xấu nhất; tổng số phép so sánh ký tự tối đa là <code>m(n - m + 1)</code>.</li>
+<li><strong>Hướng so sánh ký tự</strong>: trái sang phải (nhưng thứ tự không ảnh hưởng đến tính đúng đắn).</li>
+<li><strong>Bước dịch</strong>: luôn dịch cửa sổ đúng một vị trí sau mỗi phép thử.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Thuật toán vét cạn là cách trực tiếp và tự nhiên nhất để giải bài toán so khớp chuỗi. Ý tưởng đơn giản: thử đặt mẫu tại mọi vị trí có thể trong văn bản, và tại mỗi vị trí, kiểm tra xem mẫu có khớp hoàn toàn với đoạn văn bản tương ứng hay không.</p>
+<p>Không có bước tiền xử lý, không có cấu trúc dữ liệu phụ. Toàn bộ công việc nằm ở việc so sánh trực tiếp từng ký tự. Vì thế thuật toán rất dễ hiểu, dễ cài đặt, và luôn cho kết quả đúng, nhưng đổi lại hiệu năng không tối ưu vì nó không tận dụng thông tin đã thu được từ các phép so sánh trước đó.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Ta có một cửa sổ độ dài <code>m</code> đặt tại vị trí <code>j</code> của văn bản, ban đầu <code>j = 0</code>. Tại mỗi vị trí:</p>
+<ol>
+<li>So sánh lần lượt <code>x[0]</code> với <code>y[j]</code>, <code>x[1]</code> với <code>y[j+1]</code>, ...</li>
+<li>Nếu tất cả <code>m</code> ký tự đều khớp, ta ghi nhận một xuất hiện tại vị trí <code>j</code>.</li>
+<li>Nếu gặp một cặp ký tự không khớp, ta dừng phép thử ngay lập tức.</li>
+<li>Trong cả hai trường hợp, dịch cửa sổ sang phải một vị trí (<code>j = j + 1</code>) và lặp lại.</li>
+</ol>
+<p>Quá trình dừng khi <code>j > n - m</code>, tức là cửa sổ đã trượt hết văn bản.</p>
+<p>Điểm yếu của thuật toán là ở chỗ: sau một điểm sai lệch, nó "quên" hết mọi ký tự vừa so sánh và bắt đầu lại từ đầu ở vị trí kế tiếp. Điều này dẫn đến việc so sánh lặp lại nhiều lần trên cùng những ký tự văn bản. Trong trường hợp xấu nhất — chẳng hạn mẫu <code>x = "aaab"</code> trên văn bản gồm toàn ký tự <code>a</code> — mỗi phép thử phải so sánh gần <code>m</code> ký tự trước khi thất bại, dẫn đến độ phức tạp O(mn).</p>
+<p>Tuy vậy, trên dữ liệu thực tế với bảng chữ cái lớn, các điểm sai lệch thường xảy ra rất sớm, nên trên thực tế thuật toán vét cạn chạy khá nhanh, gần với O(n).</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+void search(char *x, int m, char *y, int n) {
+    int i, j;
+
+    /* Thử đặt mẫu tại mọi vị trí j từ 0 đến n - m */
+    for (j = 0; j &lt;= n - m; j++) {
+        /* So sánh mẫu với cửa sổ y[j .. j+m-1] từ trái sang phải */
+        for (i = 0; i &lt; m &amp;&amp; x[i] == y[i + j]; i++)
+            ;
+        /* Nếu i chạy hết mẫu, ta có một xuất hiện */
+        if (i == m)
+            printf("Tim thay tai vi tri %d\n", j);
+    }
+}</code></pre>
+<p>Vòng lặp ngoài duyệt mọi vị trí đặt cửa sổ; vòng lặp trong so sánh ký tự cho tới khi hết mẫu hoặc gặp sai lệch. Nếu <code>i</code> đạt tới <code>m</code>, mọi ký tự đã khớp và ta in ra vị trí.</p>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (độ dài <code>m = 8</code>) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (độ dài <code>n = 24</code>).</p>
+<p><strong>Phép thử tại j = 0</strong>: cửa sổ canh với <code>GCATCGCA</code>.</p>
+<pre><code>Vị trí:  0 1 2 3 4 5 6 7
+Văn bản: G C A T C G C A
+Mẫu:     G C A G ...</code></pre>
+<p>So sánh <code>x[0]=G</code> với <code>y[0]=G</code> khớp; <code>x[1]=C</code> với <code>y[1]=C</code> khớp; <code>x[2]=A</code> với <code>y[2]=A</code> khớp; <code>x[3]=G</code> với <code>y[3]=T</code> <strong>sai lệch</strong>. Dừng, dịch một vị trí.</p>
+<p><strong>Phép thử tại j = 1</strong>: <code>x[0]=G</code> với <code>y[1]=C</code> <strong>sai lệch</strong> ngay lập tức. Dịch một vị trí.</p>
+<p><strong>Phép thử tại j = 2</strong>: <code>x[0]=G</code> với <code>y[2]=A</code> <strong>sai lệch</strong> ngay. Dịch một vị trí.</p>
+<p>Các phép thử tại <code>j = 3, 4</code> cũng thất bại ngay ở ký tự đầu (<code>y[3]=T</code>, <code>y[4]=C</code>).</p>
+<p><strong>Phép thử tại j = 5</strong>: <code>x[0]=G</code> với <code>y[5]=G</code> khớp, <code>x[1]=C</code> với <code>y[6]=C</code> khớp, <code>x[2]=A</code> với <code>y[7]=A</code> khớp, <code>x[3]=G</code> với <code>y[8]=G</code> khớp... tiếp tục cho tới <code>y[5..12] = "GCAGAGAG"</code> khớp toàn bộ. <strong>Tìm thấy xuất hiện tại vị trí 5.</strong></p>
+<p>Quá trình tiếp tục dịch cửa sổ cho tới cuối văn bản; không có xuất hiện nào khác.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>D. E. Knuth, J. H. Morris, V. R. Pratt, "Fast pattern matching in strings", 1977.</li>
+<li>T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, "Introduction to Algorithms", 2009.</li>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", 1994.</li>
+</ul>
+</body>
+</html>

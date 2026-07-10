@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Berry-Ravindran — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Berry-Ravindran</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Là biến thể của họ Boyer-Moore dùng bad-character theo CẶP hai ký tự nằm NGAY SAU cửa sổ hiện tại.</li>
+<li>Pha tiền xử lý: O(m + σ²) để dựng bảng bad-character hai chiều <code>brBc</code> kích thước σ × σ.</li>
+<li>Bộ nhớ phụ: O(σ²).</li>
+<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất; bước dịch tối đa đạt m + 2.</li>
+<li>Hướng so sánh ký tự: tùy ý (bước dịch không phụ thuộc kết quả so khớp), trong cài đặt dưới đây dùng so sánh từ trái sang phải.</li>
+<li>Là sự kết hợp và mở rộng của Quick Search (Sunday) và Zhu-Takaoka.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Thuật toán Quick Search của Sunday quyết định bước dịch dựa trên ký tự văn bản <code>y[j+m]</code> — ký tự đầu tiên NGAY SAU cửa sổ. Lý do: bất kể cửa sổ hiện tại khớp hay không, mọi lần xuất hiện tiếp theo của mẫu (với bước dịch từ 1 đến m) đều phải "che" vị trí j+m, nên ký tự này luôn cho thông tin dịch hợp lệ.</p>
+<p>Berry và Ravindran đẩy ý tưởng này xa thêm một bậc: thay vì chỉ nhìn một ký tự sau cửa sổ, họ nhìn HAI ký tự liền nhau <code>y[j+m]</code> và <code>y[j+m+1]</code>. Cặp hai ký tự mang nhiều thông tin hơn hẳn một ký tự đơn, nên bước dịch trung bình dài hơn — thậm chí có thể đạt tới m + 2 khi cả cặp hoàn toàn không "dính dáng" gì tới mẫu. Bảng <code>brBc[a][b]</code> được tính sẵn trong pha tiền xử lý cho biết cần dịch bao xa cho từng cặp <code>(a, b)</code>.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Bảng <code>brBc</code> là bảng hai chiều σ × σ. Với cặp ký tự <code>(a, b)</code> đứng ngay sau cửa sổ, <code>brBc[a][b]</code> là bước dịch nhỏ nhất sao cho sau khi dịch, cặp <code>(a, b)</code> được căn khớp với nội dung mẫu, cụ thể lấy giá trị nhỏ nhất trong các trường hợp:</p>
+<ul>
+<li>1, nếu <code>x[m-1] = a</code>: dịch 1 để ký tự cuối mẫu đè lên vị trí j+m.</li>
+<li>m - i, nếu <code>x[i] = a</code> và <code>x[i+1] = b</code> (0 ≤ i ≤ m-2): căn cặp <code>(a, b)</code> với cặp liền kề trong mẫu.</li>
+<li>m + 1, nếu <code>x[0] = b</code>: dịch để ký tự đầu mẫu đè lên vị trí j+m+1.</li>
+<li>m + 2, nếu không rơi vào trường hợp nào ở trên: cặp <code>(a, b)</code> không thể nằm trong bất kỳ lần xuất hiện nào chồm qua nó, dịch hẳn qua.</li>
+</ul>
+<p>Trong cài đặt, ta khởi tạo mọi ô bằng m + 2 rồi lần lượt ghi đè theo thứ tự từ bước dịch lớn đến nhỏ (m + 1, rồi m - i với i tăng dần, cuối cùng là 1), nhờ đó giá trị cuối cùng của mỗi ô đúng bằng giá trị nhỏ nhất.</p>
+<p>Pha tìm kiếm rất đơn giản: tại mỗi vị trí cửa sổ j, so khớp mẫu với <code>y[j..j+m-1]</code> (theo bất kỳ thứ tự nào); nếu khớp thì báo. Sau đó — bất kể kết quả — dịch cửa sổ đi <code>brBc[y[j+m]][y[j+m+1]]</code>. Vì công thức dịch đọc tới <code>y[n]</code> và <code>y[n+1]</code> khi cửa sổ chạm cuối văn bản, ta cần hai byte lính canh sau văn bản.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+
+/* Bảng dịch theo cặp ký tự (y[j+m], y[j+m+1]) */
+void preBrBc(char *x, int m, int brBc[ASIZE][ASIZE]) {
+    int a, b, i;
+    for (a = 0; a &lt; ASIZE; ++a)
+        for (b = 0; b &lt; ASIZE; ++b)
+            brBc[a][b] = m + 2;
+    for (a = 0; a &lt; ASIZE; ++a)
+        brBc[a][(unsigned char) x[0]] = m + 1;
+    for (i = 0; i &lt; m - 1; ++i)
+        brBc[(unsigned char) x[i]][(unsigned char) x[i + 1]] = m - i;
+    for (b = 0; b &lt; ASIZE; ++b)
+        brBc[(unsigned char) x[m - 1]][b] = 1;
+}
+
+/* Lưu ý: vùng nhớ của y phải có thêm 2 byte y[n] và y[n+1]. */
+void search(char *x, int m, char *y, int n) {
+    int j;
+    static int brBc[ASIZE][ASIZE];
+
+    /* Tiền xử lý */
+    preBrBc(x, m, brBc);
+    y[n] = y[n + 1] = '\0';   /* hai ký tự lính canh */
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j &lt;= n - m) {
+        if (memcmp(x, y + j, m) == 0)
+            printf("Khop tai vi tri %d\n", j);
+        j += brBc[(unsigned char) y[j + m]][(unsigned char) y[j + m + 1]];
+    }
+}
+</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Một số ô tiêu biểu của bảng <code>brBc</code>: vì <code>x[m-1] = 'G'</code> nên cả hàng <code>brBc[G][*] = 1</code>; cặp <code>(A, G)</code> xuất hiện lần cuối tại x[6..7] nên <code>brBc[A][G] = 2</code>; cặp <code>(C, A)</code> tại x[1..2] cho <code>brBc[C][A] = 7</code>; các cặp <code>(a, G)</code> khác (với a không phải A, G và không tạo cặp trong mẫu) nhận m + 1 = 9; cặp hoàn toàn xa lạ như <code>(T, A)</code> nhận m + 2 = 10.</p>
+<ul>
+<li><strong>Bước 1</strong> — j = 0: so khớp <code>y[0..7] = "GCATCGCA"</code> với mẫu, thất bại (khác từ vị trí thứ 3). Cặp sau cửa sổ là <code>(y[8], y[9]) = ('G', 'A')</code>, tra <code>brBc[G][A] = 1</code>. Dịch tới j = 1.</li>
+<li><strong>Bước 2</strong> — j = 1: so khớp <code>y[1..8] = "CATCGCAG"</code>, thất bại ngay ký tự đầu. Cặp sau cửa sổ <code>(y[9], y[10]) = ('A', 'G')</code>, tra <code>brBc[A][G] = 2</code>. Dịch tới j = 3.</li>
+<li><strong>Bước 3</strong> — j = 3: so khớp <code>y[3..10] = "TCGCAGAG"</code>, thất bại. Cặp <code>(y[11], y[12]) = ('A', 'G')</code>, dịch thêm 2 tới j = 5.</li>
+<li><strong>Bước 4</strong> — j = 5: so khớp <code>y[5..12] = "GCAGAGAG"</code>, KHỚP toàn bộ, báo một lần xuất hiện tại vị trí 5. Cặp sau cửa sổ <code>(y[13], y[14]) = ('T', 'A')</code>, tra <code>brBc[T][A] = 10</code>, nhảy vọt tới j = 15, bỏ qua cả một vùng chắc chắn không chứa mẫu.</li>
+</ul>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>T. Berry, S. Ravindran, "A fast string matching algorithm and experimental results", 1999.</li>
+<li>D. M. Sunday, "A very fast substring search algorithm", 1990.</li>
+<li>R. F. Zhu, T. Takaoka, "On improving the average case of the Boyer-Moore string matching algorithm", 1987.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Colussi — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Colussi</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Là bản tinh chỉnh của Knuth-Morris-Pratt: chia các vị trí của mẫu thành <strong>hai tập</strong> và so sánh theo <strong>hai pha</strong> với thứ tự khéo léo.</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> thời gian và bộ nhớ phụ.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>O(n)</strong>.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>3n/2</strong> (tức không quá 1,5 lần độ dài văn bản).</li>
+<li>So sánh ký tự theo thứ tự đặc biệt: trước hết duyệt các vị trí "nohole" từ trái sang phải, rồi các vị trí "hole" từ phải sang trái.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Trong KMP, khi so mẫu với cửa sổ hiện tại và gặp lệch, ta trượt cửa sổ nhưng lại quên rằng một số ký tự văn bản đã được so khớp thành công ở lần thử trước. Colussi khai thác triệt để hơn thông tin này.</p>
+<p>Chìa khoá là phân loại các vị trí <code>i</code> của mẫu theo bảng dịch chuyển KMP. Một vị trí <code>i</code> gọi là <strong>nohole</strong> nếu <code>kmpNext[i] &gt; kmpNext[i+1]</code> (theo cách định nghĩa của Colussi, đây là vị trí mà giá trị hàm biên "giảm", ứng với những vị trí mà khi so khớp ta thu được thông tin thật sự mới); các vị trí còn lại gọi là <strong>hole</strong>. Ý tưởng: khi thử một cửa sổ, trước tiên chỉ so các vị trí nohole theo chiều tăng dần; nếu tất cả nohole khớp thì mới quay lại so các vị trí hole theo chiều giảm dần. Cách sắp xếp này bảo đảm mỗi ký tự văn bản không bị so quá một số lần có kiểm soát, dẫn tới cận 3n/2.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Pha tiền xử lý tính một loạt bảng:</p>
+<ul>
+<li><code>hmax[k]</code>: vị trí <code>i</code> lớn nhất sao cho <code>k</code> là một chu kỳ của tiền tố <code>x[0..i-1]</code> (tức <code>x[j] = x[j-k]</code> với mọi <code>k ≤ j &lt; i</code>). Bảng này được xây bằng thuật toán tính chu kỳ trên mẫu.</li>
+<li><code>kmin[i]</code>: chu kỳ <code>k</code> nhỏ nhất sao cho <code>hmax[k] = i</code>; bằng 0 nếu không tồn tại. <code>kmin[i] &gt; 0</code> đánh dấu <code>i</code> là vị trí <strong>nohole</strong>, <code>kmin[i] = 0</code> đánh dấu <strong>hole</strong>.</li>
+<li><code>rmin[i]</code>: chu kỳ nhỏ nhất của mẫu lớn hơn <code>i</code>, dùng cho các vị trí hole.</li>
+<li>Mảng <code>h</code>: liệt kê thứ tự duyệt các vị trí — các vị trí nohole xếp ở đầu (theo chiều tăng), các vị trí hole xếp ở cuối (theo chiều giảm). Số phần tử nohole là <code>nd + 1</code>.</li>
+<li><code>nhd0[i]</code>: số vị trí nohole nằm trước <code>i</code>.</li>
+<li>Từ đó suy ra hai bảng điều khiển: <code>shift[i]</code> (độ trượt cửa sổ) và <code>nxt[i]</code> (chỉ số bắt đầu duyệt lại trong <code>h</code> cho cửa sổ mới), cho mỗi khả năng dừng <code>i</code> (kể cả <code>i = m</code> khi khớp trọn).</li>
+</ul>
+<p>Pha tìm kiếm dùng một biến <code>last</code> ghi lại chỉ số văn bản lớn nhất đã được so khớp chắc chắn ở lần thử trước. Với mỗi cửa sổ đặt tại <code>j</code>, ta duyệt <code>h</code> từ chỉ số <code>i</code>: chừng nào vị trí <code>h[i]</code> chưa vượt qua <code>last</code> (điều kiện <code>last &lt; j + h[i]</code>) và ký tự khớp thì tăng <code>i</code>. Khi phát hiện lệch (hoặc đã duyệt xong toàn bộ), ta cập nhật <code>last</code> nếu đã bước sang phần hole, rồi trượt cửa sổ <code>j += shift[i]</code> và đặt <code>i = nxt[i]</code>.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int preColussi(char *x, int m, int h[], int nxt[], int shift[]) {
+    int i, k, q, r, s, nd;
+    int *hmax = (int *) malloc((m + 1) * sizeof(int));
+    int *kmin = (int *) calloc(m, sizeof(int));
+    int *rmin = (int *) calloc(m, sizeof(int));
+    int *nhd0 = (int *) calloc(m + 1, sizeof(int));
+
+    /* hmax: chu kỳ dài nhất của mỗi tiền tố */
+    i = k = 1;
+    do {
+        while (i &lt; m &amp;&amp; x[i] == x[i - k]) ++i;
+        hmax[k] = i;
+        q = k + 1;
+        while (q &lt;= m &amp;&amp; hmax[q - k] + k &lt; i) {
+            hmax[q] = hmax[q - k] + k;
+            ++q;
+        }
+        k = q;
+        if (k == i + 1) i = k;
+    } while (k &lt;= m);
+
+    /* kmin[i]: chu kỳ nhỏ nhất k với hmax[k] = i */
+    for (k = m; k &gt;= 1; --k)
+        if (hmax[k] &lt; m) kmin[hmax[k]] = k;
+
+    /* rmin[i]: chu kỳ nhỏ nhất của x lớn hơn i (cho các hole) */
+    r = 0;
+    for (i = m - 1; i &gt;= 0; --i) {
+        if (hmax[i + 1] == m) r = i + 1;
+        rmin[i] = (kmin[i] == 0) ? r : 0;
+    }
+
+    /* h: nohole tăng dần ở đầu, hole giảm dần ở cuối */
+    s = -1; r = m;
+    for (i = 0; i &lt; m; ++i)
+        if (kmin[i] == 0) h[--r] = i;
+        else              h[++s] = i;
+    nd = s;
+
+    /* nhd0[i]: số nohole ở các vị trí &lt; i */
+    s = 0;
+    for (i = 0; i &lt; m; ++i) {
+        nhd0[i] = s;
+        if (kmin[i] &gt; 0) ++s;
+    }
+    nhd0[m] = s;
+
+    /* shift và nxt */
+    for (i = 0; i &lt;= nd; ++i) {
+        shift[i] = kmin[h[i]];
+        nxt[i]   = nhd0[h[i] - kmin[h[i]]];
+    }
+    for (i = nd + 1; i &lt; m; ++i) {
+        shift[i] = rmin[h[i]];
+        nxt[i]   = nhd0[m - rmin[h[i]]];
+    }
+    shift[m] = rmin[0];
+    nxt[m]   = nhd0[m - rmin[0]];
+
+    free(hmax); free(kmin); free(rmin); free(nhd0);
+    return nd;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, last, nd;
+    int *h     = (int *) malloc((m + 1) * sizeof(int));
+    int *nxt   = (int *) malloc((m + 1) * sizeof(int));
+    int *shift = (int *) malloc((m + 1) * sizeof(int));
+
+    nd = preColussi(x, m, h, nxt, shift);
+
+    i = j = 0;
+    last = -1;
+    while (j + m &lt;= n) {
+        while (i &lt; m &amp;&amp; last &lt; j + h[i] &amp;&amp; x[h[i]] == y[j + h[i]])
+            ++i;
+        if (i &gt;= m || last &gt;= j + h[i]) {
+            printf("Tim thay tai vi tri %d\n", j);
+            i = m;
+        }
+        if (i &gt; nd) last = j + m - 1;
+        j += shift[i];
+        i = nxt[i];
+    }
+    free(h); free(nxt); free(shift);
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét <code>x = "GCAGAGAG"</code> (m = 8) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Tiền xử lý cho: <code>nd = 3</code> (bốn vị trí nohole), thứ tự duyệt</p>
+<table>
+<tr><th>chỉ số i</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+<tr><th>h[i]</th><td>1</td><td>2</td><td>4</td><td>6</td><td>7</td><td>5</td><td>3</td><td>0</td></tr>
+</table>
+<p>Bốn vị trí đầu (1, 2, 4, 6) là nohole (duyệt tăng), bốn vị trí sau (7, 5, 3, 0) là hole (duyệt giảm).</p>
+<p>Vài lần thử đầu:</p>
+<ul>
+<li>Cửa sổ <code>j = 0</code>: so <code>x[1]=C</code> với <code>y[1]=C</code> (khớp), <code>x[2]=A</code> với <code>y[2]=A</code> (khớp), <code>x[4]=A</code> với <code>y[4]=C</code> — <strong>lệch</strong>. Trượt <code>shift[2] = 3</code>, <code>i = 0</code>.</li>
+<li>Cửa sổ <code>j = 3</code>: <code>x[1]=C</code> với <code>y[4]=C</code> (khớp), <code>x[2]=A</code> với <code>y[5]=G</code> — lệch. Trượt <code>shift[1] = 2</code>.</li>
+<li>Cửa sổ <code>j = 5</code>: lần lượt các nohole rồi các hole đều khớp → <strong>tìm thấy tại vị trí 5</strong>. Trượt <code>shift[8] = 7</code>.</li>
+</ul>
+<p>Cách duyệt nohole trước, hole sau giúp Colussi phát hiện lệch sớm và trượt xa, đồng thời khống chế tổng số phép so sánh dưới 3n/2.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>L. Colussi, "Correctness and efficiency of pattern matching algorithms", <em>Information and Computation</em>, 1991.</li>
+<li>M. Crochemore, W. Rytter, <em>Text Algorithms</em>, 1994.</li>
+</ul>
+</body>
+</html>

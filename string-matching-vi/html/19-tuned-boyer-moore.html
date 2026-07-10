@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Tuned Boyer-Moore — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Tuned Boyer-Moore</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Là bản tinh chỉnh về mặt hiện thực của thuật toán Boyer-Moore-Horspool, tập trung vào tốc độ chạy thực tế chứ không thay đổi độ phức tạp lý thuyết.</li>
+<li>Pha tiền xử lý: O(m + σ), trong đó m là độ dài mẫu và σ là kích thước bảng chữ cái.</li>
+<li>Bộ nhớ phụ: O(σ) cho một bảng bad-character duy nhất.</li>
+<li>Pha tìm kiếm: O(mn) trong trường hợp xấu nhất, nhưng dưới tuyến tính (sublinear) trong thực tế; số phép so sánh trung bình rất thấp.</li>
+<li>Hướng so sánh ký tự: từ phải sang trái trong mỗi cửa sổ (giống Horspool).</li>
+<li>Không có chặn tuyến tính chặt chẽ về số phép so sánh, nhưng "vòng lặp nhanh" giúp loại bỏ phần lớn chi phí điều kiện dừng.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Trong thuật toán Horspool, phần lớn thời gian chạy được tiêu tốn ở việc dịch chuyển cửa sổ khi ký tự cuối cùng của cửa sổ không khớp. Ý tưởng của Tuned Boyer-Moore là tách riêng bước "dò tìm nhanh" ký tự cuối cùng ra khỏi bước "kiểm tra khớp thật sự". Trước tiên ta chỉ liên tục dịch cửa sổ cho tới khi ký tự văn bản thẳng hàng với ký tự cuối của mẫu bằng đúng ký tự cuối đó; chỉ khi điều kiện này thỏa mãn ta mới bỏ công so khớp toàn bộ mẫu.</p>
+<p>Để vòng dò tìm này chạy nhanh nhất có thể, người ta áp dụng hai kỹ thuật hiện thực quan trọng: (1) giãn vòng lặp (loop unrolling) ba lần để giảm chi phí kiểm tra điều kiện dừng của vòng lặp, và (2) đặt một "lính canh" (sentinel) bằng cách chép chính mẫu vào ngay sau cuối văn bản, nhờ đó vòng dò tìm luôn dừng lại một cách tự nhiên mà không cần so sánh chỉ số j với n ở mỗi bước.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Thuật toán dùng một bảng <code>bmBc</code> giống hệt Horspool: với mỗi ký tự <code>a</code> của bảng chữ cái, <code>bmBc[a]</code> bằng khoảng cách từ lần xuất hiện cuối cùng của <code>a</code> trong <code>m-1</code> ký tự đầu của mẫu tới cuối mẫu; nếu <code>a</code> không xuất hiện thì giá trị bằng m.</p>
+<p>Điểm khác biệt nằm ở cơ chế điều khiển vòng lặp:</p>
+<ul>
+<li>Ta lưu lại giá trị dịch thật sự của ký tự cuối mẫu, gọi là <code>shift = bmBc[x[m-1]]</code> (giá trị này luôn dương và bằng khoảng cách tới lần xuất hiện áp chót của ký tự cuối, hoặc m nếu không có).</li>
+<li>Sau đó ta ĐẶT <code>bmBc[x[m-1]] = 0</code>. Nhờ vậy, trong vòng dò tìm, khi ký tự văn bản đối diện ký tự cuối mẫu chính là ký tự cuối mẫu, giá trị dịch tra được sẽ bằng 0 và vòng dò tìm dừng lại.</li>
+<li>Vòng dò tìm nhanh liên tục cộng giá trị <code>bmBc[y[j+m-1]]</code> vào j. Vì ta đã giãn vòng lặp ba lần, mỗi vòng thực hiện ba lần cộng dồn liên tiếp mà chỉ kiểm tra điều kiện dừng một lần.</li>
+<li>Để vòng dò tìm không vượt quá mảng, ta chép mẫu vào vị trí <code>y[n..n+m-1]</code> làm lính canh. Do lính canh chính là mẫu nên ký tự cuối của nó luôn khiến vòng dò tìm dừng, đảm bảo j không chạy vô hạn.</li>
+</ul>
+<p>Khi vòng dò tìm dừng (giá trị dịch bằng 0, tức ký tự cuối đã khớp), ta thực hiện so khớp "ngây thơ" (naive) <code>m-1</code> ký tự còn lại từ trái sang phải. Nếu tất cả khớp và j vẫn nằm trong văn bản thật (j &lt; n) thì báo một lần xuất hiện. Cuối cùng dịch cửa sổ đi <code>shift</code> để tiếp tục.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+
+/* Bảng dịch bad-character kiểu Horspool */
+void preBmBc(char *x, int m, int bmBc[]) {
+    int i;
+    for (i = 0; i &lt; ASIZE; ++i)
+        bmBc[i] = m;
+    for (i = 0; i &lt; m - 1; ++i)
+        bmBc[(unsigned char) x[i]] = m - 1 - i;
+}
+
+/* Lưu ý: vùng nhớ của y phải còn ít nhất m byte trống sau y[n-1]
+   để chép mẫu vào làm "lính canh" (sentinel). */
+void search(char *x, int m, char *y, int n) {
+    int j, k, shift, bmBc[ASIZE];
+
+    /* Tiền xử lý */
+    preBmBc(x, m, bmBc);
+    shift = bmBc[(unsigned char) x[m - 1]]; /* bước dịch thật của ký tự cuối */
+    bmBc[(unsigned char) x[m - 1]] = 0;     /* để vòng lặp nhanh dừng lại */
+    memcpy(y + n, x, m);                    /* lính canh ở cuối văn bản */
+
+    /* Tìm kiếm */
+    j = 0;
+    while (j &lt; n) {
+        k = bmBc[(unsigned char) y[j + m - 1]];
+        while (k != 0) {                    /* vòng lặp nhanh, giãn 3 lần */
+            j += k; k = bmBc[(unsigned char) y[j + m - 1]];
+            j += k; k = bmBc[(unsigned char) y[j + m - 1]];
+            j += k; k = bmBc[(unsigned char) y[j + m - 1]];
+        }
+        if (memcmp(x, y + j, m - 1) == 0 &amp;&amp; j &lt; n)
+            printf("Khop tai vi tri %d\n", j);
+        j += shift;
+    }
+}
+</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) và văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Ký tự cuối mẫu là <code>G</code>. Bảng bad-character (chỉ liệt kê các ký tự có mặt trong mẫu): với 7 ký tự đầu <code>GCAGAGA</code>, ta có <code>bmBc[A] = 1</code>, <code>bmBc[G] = 2</code>, <code>bmBc[C] = 6</code>, các ký tự khác bằng 8. Do đó <code>shift = bmBc[G] = 2</code>, và sau đó ta gán <code>bmBc[G] = 0</code>.</p>
+<table>
+<tr><th>Ký tự</th><th>A</th><th>C</th><th>G</th><th>T</th><th>khác</th></tr>
+<tr><td>bmBc (sau khi gán)</td><td>1</td><td>6</td><td>0</td><td>8</td><td>8</td></tr>
+</table>
+<ul>
+<li>Cửa sổ đầu tiên đặt tại j = 0. Ký tự đối diện ký tự cuối mẫu là <code>y[7] = 'A'</code>, tra bảng được <code>bmBc[A] = 1</code>, khác 0 nên vòng dò tìm dịch j lên 1.</li>
+<li>Tại j = 1, <code>y[8] = 'G'</code>, tra bảng được 0 (do đã gán). Vòng dò tìm dừng. Ta so khớp ngây thơ mẫu tại vị trí 1: <code>y[1] = 'C'</code> nhưng <code>x[0] = 'G'</code>, không khớp. Dịch cửa sổ đi <code>shift = 2</code>, j = 3.</li>
+<li>Tại j = 3, <code>y[10] = 'G'</code>, tra bảng 0, dừng. So khớp tại 3: <code>y[3] = 'T'</code> khác <code>x[0] = 'G'</code>, thất bại. Dịch đi 2, j = 5.</li>
+<li>Tại j = 5, <code>y[12] = 'G'</code>, dừng. So khớp tại 5: <code>y[5..12] = "GCAGAGAG"</code> khớp toàn bộ mẫu, báo một lần xuất hiện tại vị trí 5. Dịch tiếp đi 2.</li>
+</ul>
+<p>Các bước dò tìm bằng vòng lặp nhanh giúp thuật toán chỉ dừng lại ở những cửa sổ mà ký tự cuối đã trùng, tránh so khớp vô ích tại phần lớn vị trí.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>R. S. Boyer, J. S. Moore, "A fast string searching algorithm", 1977.</li>
+<li>A. Hume, D. Sunday, "Fast string searching", 1991.</li>
+<li>R. N. Horspool, "Practical fast searching in strings", 1980.</li>
+</ul>
+</body>
+</html>

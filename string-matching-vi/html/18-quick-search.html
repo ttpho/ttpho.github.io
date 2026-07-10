@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Quick Search (Sunday) — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Quick Search (Sunday)</h1>
+<h2 id="đặc-điểm-chính">Đặc điểm chính</h2>
+<ul>
+<li>Độ phức tạp tiền xử lý: <strong>O(m + σ)</strong> — một bảng
+bad-character duy nhất, gồm cả ký tự cuối mẫu.</li>
+<li>Bộ nhớ phụ: <strong>O(σ)</strong>.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất O(mn)</strong>.</li>
+<li>Hướng so sánh ký tự trong mỗi cửa sổ: <strong>bất kỳ thứ tự
+nào</strong> (không ảnh hưởng đến tính đúng đắn), thường cài đặt đơn
+giản là trái sang phải.</li>
+<li>Rất nhanh trong thực tế với <strong>mẫu ngắn</strong> và
+<strong>bảng chữ cái lớn</strong>, nhờ bước dịch trung bình lớn hơn hẳn
+Horspool/Boyer-Moore trong các điều kiện đó.</li>
+</ul>
+<h2 id="ý-tưởng">Ý tưởng</h2>
+<p>Horspool tính bước dịch dựa trên ký tự cuối cùng của cửa sổ hiện tại.
+Daniel Sunday nhận ra rằng ta có thể khai thác thêm một ký tự nữa mà
+không tốn thêm chi phí đáng kể: ký tự văn bản <strong>ngay sau cửa sổ
+hiện tại</strong>, tức <code>y[j+m]</code>. Ký tự này chưa hề tham gia
+vào cửa sổ hiện tại, nhưng nó chắc chắn sẽ là một phần của cửa sổ kế
+tiếp (vì bước dịch tối thiểu là 1).</p>
+<p>Lý do dùng ký tự này cho bước dịch lớn hơn: nếu <code>y[j+m]</code>
+không xuất hiện ở bất kỳ đâu trong toàn bộ mẫu <code>x</code> (kể cả ký
+tự cuối <code>x[m-1]</code>, khác với Horspool chỉ xét
+<code>x[0..m-2]</code>), thì <strong>mọi</strong> cách dịch cửa sổ sao
+cho <code>y[j+m]</code> rơi vào bên trong cửa sổ mới đều chắc chắn thất
+bại — nên có thể dịch hẳn <code>m + 1</code> vị trí, vượt qua toàn bộ
+khả năng đó chỉ trong một bước. Đây là bước dịch lớn nhất có thể trong
+toàn bộ họ thuật toán dựa trên bad-character, và giải thích vì sao Quick
+Search thường vượt trội khi bảng chữ cái lớn (xác suất một ký tự bất kỳ
+không xuất hiện trong mẫu ngắn là khá cao).</p>
+<h2 id="mô-tả-chi-tiết">Mô tả chi tiết</h2>
+<p><strong>Bảng bad-character <code>qsBc</code></strong>: khác biệt so
+với Boyer-Moore/Horspool ở chỗ bảng này tính trên <strong>toàn bộ
+mẫu</strong> <code>x[0..m-1]</code> (bao gồm cả ký tự cuối), không bỏ
+sót vị trí nào. Với mỗi ký tự <code>c</code> của bảng chữ cái:
+<code>qsBc[c]</code> là khoảng cách từ lần xuất hiện cuối cùng của
+<code>c</code> trong toàn mẫu đến hết mẫu, cộng thêm 1 (vì ta đang xét
+ký tự nằm ngay sau cửa sổ, ứng với vị trí ảo <code>m</code> tính từ đầu
+cửa sổ). Nếu <code>c</code> không xuất hiện trong mẫu,
+<code>qsBc[c] = m + 1</code>.</p>
+<p><strong>Pha tìm kiếm</strong>: tại cửa sổ vị trí <code>j</code>, so
+sánh mẫu với <code>y[j..j+m-1]</code> theo thứ tự tuỳ ý (không ảnh hưởng
+kết quả). Nếu khớp, báo một xuất hiện. Bất kể khớp hay không, nếu cửa sổ
+chưa chạm mép phải văn bản (<code>j + m &lt; n</code>), tra ký tự
+<code>c = y[j+m]</code> — ký tự <strong>ngay sau</strong> cửa sổ — và
+dịch <code>j += qsBc[c]</code>. Nếu cửa sổ đã chạm mép phải (không còn
+ký tự sau cửa sổ để tra), thuật toán dừng.</p>
+<p>Vì bảng <code>qsBc</code> được tính trên toàn bộ mẫu (kể cả
+<code>x[m-1]</code>), giá trị nhỏ nhất có thể của <code>qsBc[c]</code>
+là 1 (khi <code>c = x[m-1]</code>), và giá trị lớn nhất là
+<code>m + 1</code> (khi <code>c</code> không xuất hiện trong mẫu) — lớn
+hơn hẳn giới hạn <code>m</code> của bad-character kiểu Horspool. Đây
+chính là điểm khác biệt cốt lõi, giúp Quick Search đạt bước dịch trung
+bình lớn hơn, đặc biệt hiệu quả khi <code>m</code> nhỏ so với σ (lúc đó
+xác suất <code>qsBc[c] = m+1</code> càng cao).</p>
+<h2 id="cài-đặt-bằng-c">Cài đặt bằng C</h2>
+<pre class="c"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+
+/* Tien xu ly bad-character kieu Quick Search: xet toan bo mau, gia tri mac
+   dinh la m + 1 (ung voi ky tu ngay sau cua so khong xuat hien trong mau). */
+void preQsBc(char *x, int m, int qsBc[]) {
+    int i;
+    for (i = 0; i &lt; ASIZE; ++i)
+        qsBc[i] = m + 1;
+    for (i = 0; i &lt; m; ++i)
+        qsBc[(unsigned char) x[i]] = m - i;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int j, qsBc[ASIZE];
+
+    preQsBc(x, m, qsBc);
+
+    j = 0;
+    while (j &lt;= n - m) {
+        if (memcmp(x, y + j, m) == 0)
+            printf(&quot;Tim thay tai vi tri %d\n&quot;, j);
+        if (j + m &gt;= n)
+            break;
+        /* Tra bang theo ky tu NGAY SAU cua so, khong phai ky tu cuoi cua so */
+        j += qsBc[(unsigned char) y[j + m]];
+    }
+}</code></pre>
+<h2 id="ví-dụ-minh-họa">Ví dụ minh họa</h2>
+<p>Xét lại <code>x = "GCAGAGAG"</code> (m = 8) trên
+<code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Bảng bad-character kiểu Quick Search (tính trên toàn bộ mẫu, kể cả ký
+tự cuối):</p>
+<table>
+<thead>
+<tr class="header">
+<th>ký tự</th>
+<th>A</th>
+<th>C</th>
+<th>G</th>
+<th>T</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>qsBc</td>
+<td>2</td>
+<td>7</td>
+<td>1</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>(Ví dụ <code>qsBc['G'] = 1</code> vì <code>G</code> xuất hiện ở chính
+vị trí cuối mẫu <code>x[7]</code>; <code>qsBc['T'] = 9 = m+1</code> vì
+<code>T</code> không xuất hiện trong mẫu.)</p>
+<p>Diễn biến các lần thử đầu tiên (dịch tra theo <code>y[j+m]</code>, ký
+tự ngay sau cửa sổ):</p>
+<ul>
+<li><strong>j = 0</strong>: so <code>y[0..7]</code> với mẫu — không
+khớp. Ký tự ngay sau cửa sổ <code>y[8] = 'G'</code>. Dịch
+<code>qsBc['G'] = 1</code>.</li>
+<li><strong>j = 1</strong>: so <code>y[1..8]</code> — không khớp. Ký tự
+sau cửa sổ <code>y[9] = 'A'</code>. Dịch
+<code>qsBc['A'] = 2</code>.</li>
+<li><strong>j = 3</strong>: so <code>y[3..10]</code> — không khớp. Ký tự
+sau cửa sổ <code>y[11] = 'A'</code>. Dịch
+<code>qsBc['A'] = 2</code>.</li>
+<li><strong>j = 5</strong>: so <code>y[5..12] = "GCAGAGAG"</code> — khớp
+→ <strong>tìm thấy tại vị trí 5</strong>. Ký tự sau cửa sổ
+<code>y[13] = 'T'</code>. Dịch <code>qsBc['T'] = 9</code>.</li>
+<li><strong>j = 14</strong>: so <code>y[14..21]</code> — không khớp. Ký
+tự sau cửa sổ <code>y[22] = 'C'</code>. Dịch <code>qsBc['C'] = 7</code>,
+đưa <code>j = 21</code>, vượt quá <code>n - m = 16</code>, thuật toán
+dừng.</li>
+</ul>
+<p>Chỉ với 5 lần thử cửa sổ (ít hơn cả Boyer-Moore đầy đủ trong ví dụ
+này nhờ bước nhảy <code>qsBc['T'] = 9</code> rất lớn ngay sau khi tìm
+thấy xuất hiện), Quick Search minh hoạ rõ lợi thế của việc khai thác
+thêm một ký tự nằm ngoài cửa sổ hiện tại.</p>
+<h2 id="tài-liệu-tham-khảo">Tài liệu tham khảo</h2>
+<ul>
+<li>D. M. Sunday, "A very fast substring search algorithm",
+<em>Communications of the ACM</em>, 1990.</li>
+<li>R. N. Horspool, "Practical fast searching in strings", <em>Software:
+Practice and Experience</em>, 1980.</li>
+</ul>
+</body>
+</html>

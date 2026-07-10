@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Apostolico-Crochemore — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Apostolico-Crochemore</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Cải tiến KMP theo hướng khác với Colussi/Galil-Giancarlo: bắt đầu so sánh <strong>không phải từ đầu mẫu</strong> mà từ vị trí <code>ℓ</code> — độ dài tiền tố lớn nhất của mẫu có dạng <code>u^k</code> (lũy thừa của một chu kỳ <code>u</code>).</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> thời gian và bộ nhớ phụ (dùng lại bảng <code>kmpNext</code> của KMP).</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>O(n + m)</strong>.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>3n/2</strong>.</li>
+<li>So sánh ký tự theo hướng <strong>từ trái sang phải</strong> trong phần thân, và một lượt kiểm tra tiền tố bổ sung khi thân đã khớp.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Bảng biên của KMP cho biết, ứng với mỗi tiền tố <code>x[0..i-1]</code> của mẫu, biên "mạnh" dài nhất. Nếu tiền tố mẫu <code>x[0..ℓ-1]</code> (với <code>ℓ</code> được chọn phù hợp) là luỹ thừa của một chu kỳ ngắn <code>u</code>, thì khi so cửa sổ với văn bản, phần đầu <code>x[0..ℓ-1]</code> thường lặp lại có quy luật — ta không cần so từng ký tự của nó ngay từ đầu mà có thể <strong>hoãn lại</strong>, so phần thân mẫu (từ vị trí <code>ℓ</code> trở đi) trước, và chỉ quay lại kiểm tra phần đầu khi phần thân đã khớp trọn.</p>
+<p>Cách làm này giúp tránh lặp lại các phép so sánh trên đoạn đầu có tính chu kỳ mỗi khi cửa sổ trượt một khoảng ngắn — vốn là điểm yếu của brute-force/Morris-Pratt khi mẫu có cấu trúc lặp ở đầu. Bằng cách trì hoãn và dùng thêm một con trỏ <code>k</code> theo dõi tiến độ khớp của phần đầu, Apostolico-Crochemore đạt cận 3n/2 so sánh, tương đương Colussi nhưng với cách tiếp cận và cấu trúc dữ liệu đơn giản hơn nhiều (không cần các bảng <code>hmax</code>, <code>kmin</code>, <code>rmin</code>).</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Trước hết tính <code>ℓ</code>: chỉ số nhỏ nhất sao cho <code>x[0..ℓ-1]</code> là tiền tố "chu kỳ" — cụ thể, <code>ℓ</code> là độ dài lớn nhất mà <code>x[i-1] == x[i]</code> liên tiếp kể từ đầu (tức đoạn đầu là luỹ thừa của ký tự <code>x[0]</code>); nếu toàn mẫu chỉ gồm một ký tự lặp lại, xử lý riêng bằng việc đếm loạt ký tự. Đây là định nghĩa đơn giản hoá phổ biến của <code>ℓ</code>; ý nghĩa cốt lõi là <code>x[0..ℓ-1]</code> đủ "đơn giản/lặp" để có thể kiểm tra riêng ở cuối.</p>
+<p>Tính bảng <code>kmpNext</code> như trong KMP.</p>
+<p>Pha tìm kiếm dùng ba con trỏ:</p>
+<ul>
+<li><code>i</code>: vị trí đang so trong phần <strong>thân</strong> mẫu, khởi tạo bằng <code>ℓ</code>.</li>
+<li><code>j</code>: vị trí cửa sổ trên văn bản.</li>
+<li><code>k</code>: tiến độ đã xác nhận của phần <strong>đầu</strong> mẫu (<code>x[0..ℓ-1]</code>) so với văn bản, mang từ lần thử trước sang.</li>
+</ul>
+<p>Với mỗi cửa sổ: so <code>x[i]</code> với <code>y[i+j]</code> tăng dần <code>i</code> chừng nào còn khớp. Nếu <code>i</code> đạt <code>m</code> (thân khớp trọn), kiểm tra thêm phần đầu bằng cách so <code>x[k]</code> với <code>y[j+k]</code> tăng <code>k</code> tới khi đủ <code>ℓ</code> ký tự hoặc lệch; nếu <code>k</code> đạt <code>ℓ</code> thì báo khớp toàn bộ tại <code>j</code>.</p>
+<p>Sau đó trượt cửa sổ đi <code>i - kmpNext[i]</code> (như KMP) và cập nhật <code>k</code>:</p>
+<ul>
+<li>Nếu <code>i == ℓ</code> (lệch ngay tại ranh giới đầu/thân): giảm <code>k</code> đi đúng lượng cửa sổ vừa trượt (không âm).</li>
+<li>Nếu <code>kmpNext[i] ≤ ℓ</code>: đặt <code>k = max(kmpNext[i], 0)</code> và <code>i = ℓ</code> (thân bắt đầu lại từ <code>ℓ</code>).</li>
+<li>Ngược lại (<code>kmpNext[i] &gt; ℓ</code>): đặt <code>k = ℓ</code> (phần đầu coi như đã xác nhận đủ) và <code>i = kmpNext[i]</code>.</li>
+</ul>
+<p>Nhờ mang giá trị <code>k</code> giữa các lần thử, thuật toán tránh so lại những ký tự của phần đầu đã được xác nhận khớp trước đó.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void preKmp(char *x, int m, int kmpNext[]) {
+    int i = 0, j = -1;
+    kmpNext[0] = -1;
+    while (i &lt; m) {
+        while (j &gt; -1 &amp;&amp; x[i] != x[j]) j = kmpNext[j];
+        i++; j++;
+        if (i &lt; m &amp;&amp; x[i] == x[j]) kmpNext[i] = kmpNext[j];
+        else kmpNext[i] = j;
+    }
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, k, ell;
+    int *kmpNext;
+
+    /* độ dài phần đầu có tính chu kỳ đơn giản (ở đây: loạt ký tự lặp) */
+    for (ell = 1; ell &lt; m &amp;&amp; x[ell - 1] == x[ell]; ++ell);
+
+    if (ell == m) {                 /* mẫu là a^m: đếm loạt trực tiếp */
+        k = 0;
+        for (j = 0; j &lt; n; ++j) {
+            if (y[j] == x[0]) { ++k; if (k &gt;= m) printf("Tim thay tai vi tri %d\n", j - m + 1); }
+            else k = 0;
+        }
+        return;
+    }
+
+    kmpNext = (int *) malloc((m + 1) * sizeof(int));
+    preKmp(x, m, kmpNext);
+
+    i = ell; j = k = 0;
+    while (j + m &lt;= n) {
+        while (i &lt; m &amp;&amp; x[i] == y[i + j]) ++i;
+        if (i &gt;= m) {
+            while (k &lt; ell &amp;&amp; x[k] == y[j + k]) ++k;
+            if (k &gt;= ell) printf("Tim thay tai vi tri %d\n", j);
+        }
+        j += i - kmpNext[i];
+        if (i == ell)
+            k = (k - 1 &gt; 0) ? k - 1 : 0;
+        else if (kmpNext[i] &lt;= ell) {
+            k = (kmpNext[i] &gt; 0) ? kmpNext[i] : 0;
+            i = ell;
+        } else {
+            k = ell;
+            i = kmpNext[i];
+        }
+    }
+    free(kmpNext);
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét <code>x = "GCAGAGAG"</code> (m = 8) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Vì <code>x[0]=G</code> khác ngay <code>x[1]=C</code>, phần đầu không có loạt lặp thật sự dài: <code>ℓ = 1</code>. Con trỏ thân <code>i</code> bắt đầu từ 1.</p>
+<p>Bảng <code>kmpNext</code> (như ở bài KMP): <code>-1 0 0 -1 1 -1 1 -1 1</code>.</p>
+<p>Vài lần thử đầu (con trỏ <code>j</code> là vị trí cửa sổ, <code>i</code> bắt đầu lại từ <code>ℓ = 1</code>):</p>
+<ul>
+<li><code>j = 0, i = 1</code>: so <code>x[1]=C</code> với <code>y[1]=C</code> (khớp), <code>x[2]=A</code> với <code>y[2]=A</code> (khớp), <code>x[3]=G</code> với <code>y[3]=T</code> — lệch. Trượt <code>i - kmpNext[i] = 3 - (-1) = 4</code>. Vì <code>i ≠ ℓ</code> và <code>kmpNext[3] = -1 ≤ ℓ</code>, đặt <code>k = 0</code>, <code>i = ℓ = 1</code>.</li>
+<li><code>j = 4, i = 1</code>: <code>x[1]=C</code> với <code>y[5]=G</code> — lệch ngay. Trượt <code>1 - kmpNext[1] = 1</code>.</li>
+<li><code>j = 5, i = 1</code>: thân khớp liên tục <code>x[1..7]</code> với <code>y[6..12]</code>; kiểm tra phần đầu <code>x[0]=G</code> với <code>y[5]=G</code> — khớp (<code>k</code> đạt <code>ℓ=1</code>) → <strong>tìm thấy tại vị trí 5</strong>.</li>
+</ul>
+<p>Việc trì hoãn kiểm tra ký tự đầu <code>x[0]</code> cho tới khi phần thân đã khớp trọn giúp thuật toán tiết kiệm so sánh trong các lần thử thất bại sớm.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>A. Apostolico, R. Giancarlo, "The Boyer-Moore-Galil string searching strategies revisited", <em>SIAM Journal on Computing</em>, 1986 (nền tảng ý tưởng liên quan).</li>
+<li>A. Apostolico, M. Crochemore, "Optimal canonization of all substrings of a string", <em>Information and Computation</em>, 1991.</li>
+<li>M. Crochemore, W. Rytter, <em>Text Algorithms</em>, 1994.</li>
+</ul>
+</body>
+</html>

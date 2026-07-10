@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Shift-Or — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Shift-Or</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li><strong>Tiền xử lý</strong>: O(m + σ) để xây các mặt nạ bit cho từng ký tự của bảng chữ cái.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(σ) — một mảng mặt nạ bit chỉ mục theo ký tự.</li>
+<li><strong>Độ phức tạp pha tìm kiếm</strong>: O(n) khi <code>m</code> không vượt quá số bit trong một từ máy (word); nói chung O(⌈m/w⌉·n) với <code>w</code> là kích thước word.</li>
+<li><strong>Hướng so sánh ký tự</strong>: trái sang phải (mô phỏng song song bằng bit).</li>
+<li><strong>Đặc điểm</strong>: dùng phép toán bit, mã hóa toàn bộ trạng thái so khớp trong một vector bit duy nhất.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Shift-Or thuộc họ thuật toán "song song bit" (bit-parallelism): nó tận dụng việc một từ máy có thể chứa nhiều bit, và các phép toán bit (dịch, hoặc, và) tác động đồng thời lên tất cả các bit trong một lệnh. Nhờ đó, thuật toán mô phỏng hoạt động của một ôtômat không đơn định nhận diện mẫu, nhưng thực thi song song trên nhiều trạng thái cùng lúc.</p>
+<p>Ta duy trì một vector bit <code>R</code> mô tả tình trạng khớp hiện tại: bit thứ <code>i</code> của <code>R</code> cho biết liệu tiền tố <code>x[0..i]</code> có đang khớp với đoạn văn bản kết thúc tại ký tự vừa đọc hay không. Mỗi khi đọc một ký tự văn bản mới, ta cập nhật toàn bộ vector <code>R</code> chỉ bằng hai phép toán bit.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>Quy ước bit</strong>: ta dùng quy ước "0 nghĩa là đang khớp" (đây là lý do có tên "Shift-Or"). Bit thứ <code>i</code> của <code>R</code> bằng <code>0</code> nếu tiền tố độ dài <code>i+1</code> của mẫu khớp với hậu tố của phần văn bản đã đọc.</p>
+<p><strong>Tiền xử lý — mảng mặt nạ <code>S</code></strong>: với mỗi ký tự <code>c</code> của bảng chữ cái, ta tính một mặt nạ bit <code>S[c]</code>. Bit thứ <code>i</code> của <code>S[c]</code> bằng <code>0</code> nếu <code>x[i] == c</code>, ngược lại bằng <code>1</code>. Nói cách khác, <code>S[c]</code> đánh dấu (bằng bit 0) mọi vị trí trong mẫu mà ký tự đúng là <code>c</code>.</p>
+<p><strong>Cập nhật</strong>: khi đọc ký tự <code>y[j]</code>, ta cập nhật vector trạng thái theo công thức:</p>
+<pre><code>R = (R &lt;&lt; 1) | S[y[j]]</code></pre>
+<p>Phép dịch trái <code>R &lt;&lt; 1</code> tương ứng với việc "kéo dài" mọi phần khớp thêm một ký tự (và tự động đưa bit 0 vào vị trí thấp nhất, khởi động một phép thử mới từ đầu mẫu). Phép <code>OR</code> với <code>S[y[j]]</code> giữ bit 0 (đang khớp) chỉ tại những vị trí mà ký tự văn bản trùng ký tự mẫu tương ứng.</p>
+<p><strong>Phát hiện xuất hiện</strong>: mẫu xuất hiện kết thúc tại <code>y[j]</code> khi và chỉ khi bit thứ <code>m-1</code> của <code>R</code> bằng <code>0</code>. Ta kiểm tra điều này bằng cách <code>AND</code> với mặt nạ <code>1 &lt;&lt; (m-1)</code>.</p>
+<p>Vì mọi phép toán trên <code>R</code> là thao tác trên một từ máy, mỗi bước tốn O(1) miễn là <code>m ≤ w</code>. Với mẫu dài hơn word, ta phải dùng nhiều word và chi phí nhân thêm hệ số <code>⌈m/w⌉</code>.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;limits.h&gt;
+
+#define ASIZE 256
+#define WORD_BITS (sizeof(unsigned long) * CHAR_BIT)
+
+void search(char *x, int m, char *y, int n) {
+    unsigned long S[ASIZE], R, lim;
+    int i, j;
+
+    if (m &gt; (int)WORD_BITS) {
+        printf("Mau qua dai cho mot tu may\n");
+        return;
+    }
+
+    /* Tiền xử lý: mặt nạ S[c], bit i = 0 nếu x[i] == c */
+    for (i = 0; i &lt; ASIZE; i++)
+        S[i] = ~0UL;                 /* tất cả bit = 1 */
+    for (i = 0; i &lt; m; i++)
+        S[(unsigned char)x[i]] &amp;= ~(1UL &lt;&lt; i);
+
+    /* lim đánh dấu bit thứ m-1 để phát hiện khớp trọn vẹn */
+    lim = 1UL &lt;&lt; (m - 1);
+
+    /* Pha tìm kiếm */
+    R = ~0UL;                        /* chưa khớp gì: mọi bit = 1 */
+    for (j = 0; j &lt; n; j++) {
+        R = (R &lt;&lt; 1) | S[(unsigned char)y[j]];
+        if ((R &amp; lim) == 0)
+            printf("Tim thay tai vi tri %d\n", j - m + 1);
+    }
+}</code></pre>
+<p>Chú ý: khi khởi tạo, <code>R</code> được đặt toàn bit 1 (chưa có phần khớp nào). Phép <code>R &lt;&lt; 1</code> mỗi bước tự đưa một bit 0 vào vị trí 0, tương đương với việc luôn khởi động một phép thử mới bắt đầu từ ký tự đầu của mẫu.</p>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>. Ta dùng 8 bit thấp của <code>R</code>, bit 0 là bit thấp nhất.</p>
+<p><strong>Tiền xử lý</strong> — mặt nạ (viết bit 0 ở vị trí ký tự tương ứng, các vị trí mẫu là <code>G C A G A G A G</code> cho index 0..7):</p>
+<ul>
+<li><code>S['G']</code>: mẫu có <code>G</code> tại các vị trí 0, 3, 5, 7 → bit 0 tại các vị trí đó.</li>
+<li><code>S['C']</code>: <code>C</code> tại vị trí 1.</li>
+<li><code>S['A']</code>: <code>A</code> tại các vị trí 2, 4, 6.</li>
+<li>Mọi ký tự khác (ví dụ <code>T</code>): mặt nạ toàn bit 1 (không có vị trí nào khớp).</li>
+</ul>
+<p><strong>Duyệt văn bản</strong> (bit 0 = đang khớp; ta theo dõi bit thấp nhất trở lên):</p>
+<ul>
+<li><code>y[0]='G'</code>: <code>R = (R&lt;&lt;1) | S['G']</code>. Bit 0 của <code>R</code> thành 0 vì <code>x[0]='G'</code> khớp → tiền tố <code>"G"</code> đang khớp.</li>
+<li><code>y[1]='C'</code>: sau cập nhật, bit 1 thành 0 vì <code>x[1]='C'</code> khớp và bit 0 trước đó đang là 0 → tiền tố <code>"GC"</code> khớp.</li>
+<li><code>y[2]='A'</code>: bit 2 thành 0 → tiền tố <code>"GCA"</code> khớp.</li>
+<li><code>y[3]='T'</code>: <code>S['T']</code> toàn bit 1, mọi phần khớp bị xóa → không tiền tố nào khớp, <code>R</code> trở lại toàn 1 (trừ bit 0 vẫn được reset thử lại). Phần khớp <code>GCA</code> bị hủy vì <code>T</code> không nối tiếp được.</li>
+</ul>
+<p>Quá trình tiếp tục. Đến khi đọc hết đoạn <code>y[5..12] = "GCAGAGAG"</code>, các bit lần lượt được đưa về 0 cho tới bit thứ 7. Tại <code>j = 12</code>, bit thứ <code>m-1 = 7</code> của <code>R</code> bằng 0, thỏa <code>R &amp; lim == 0</code>, nên báo <strong>xuất hiện tại vị trí <code>12 - 8 + 1 = 5</code></strong>.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>R. Baeza-Yates, G. H. Gonnet, "A new approach to text searching", 1992.</li>
+<li>U. Manber, S. Wu, "Fast text searching allowing errors", 1992.</li>
+<li>G. Navarro, M. Raffinot, "Flexible Pattern Matching in Strings", 2002.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Apostolico-Giancarlo — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Apostolico-Giancarlo</h1>
+<h2 id="đặc-điểm-chính">Đặc điểm chính</h2>
+<ul>
+<li>Độ phức tạp tiền xử lý: <strong>O(m + σ)</strong> — dùng lại các
+bảng của Boyer-Moore (<code>bmBc</code>, <code>bmGs</code>, và bảng phụ
+<code>suff</code>).</li>
+<li>Bộ nhớ phụ: <strong>O(m + σ)</strong> cho các bảng cố định, cộng
+thêm một mảng động <code>skip[0..m-1]</code> cập nhật qua từng lần
+thử.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>xấu nhất O(n)</strong> — không còn
+khả năng rơi vào O(mn) như Boyer-Moore gốc.</li>
+<li>Hướng so sánh ký tự: <strong>phải sang trái</strong> trong mỗi cửa
+sổ, như Boyer-Moore.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm bị chặn chặt bởi
+<strong>3n/2</strong>.</li>
+</ul>
+<h2 id="ý-tưởng">Ý tưởng</h2>
+<p>Boyer-Moore có thể phải so sánh lại, ở một cửa sổ mới, những đoạn văn
+bản đã từng được so sánh (và biết kết quả) ở một cửa sổ trước đó, nếu
+cửa sổ mới chồng lấn cửa sổ cũ. Turbo Boyer-Moore giải quyết một phần
+vấn đề này bằng cách nhớ <strong>một</strong> đoạn khớp gần nhất.
+Apostolico và Giancarlo đẩy ý tưởng đó lên một mức tổng quát hơn: thay
+vì chỉ nhớ một cặp <code>(u, v)</code>, thuật toán duy trì một
+<strong>bảng <code>skip</code> đầy đủ</strong>, ghi lại tại mỗi vị trí
+trong cửa sổ hiện tại độ dài của đoạn hậu tố đã biết là khớp với mẫu
+tính từ vị trí đó — thông tin này được suy ra trực tiếp từ chính kết quả
+so sánh của (các) lần thử trước đó, dịch chuyển tương ứng theo bước dịch
+đã dùng.</p>
+<p>Nhờ có sẵn thông tin "đã biết trước" tại mọi vị trí trong cửa sổ (chứ
+không chỉ ở đúng ranh giới đoạn nhớ như Turbo-BM), thuật toán có thể bỏ
+qua nhiều đoạn so sánh trùng lặp hơn, và quan trọng hơn, chứng minh được
+cận trên chặt cho tổng số phép so sánh: không quá <code>3n/2</code>,
+đồng thời không còn kịch bản xấu nhất bậc hai nào.</p>
+<h2 id="mô-tả-chi-tiết">Mô tả chi tiết</h2>
+<p>Thuật toán vẫn dùng bảng <code>bmBc</code>, <code>bmGs</code> giống
+Boyer-Moore để tính bước dịch, và bảng <code>suff</code> (độ dài hậu tố
+dài nhất của <code>x[0..i]</code> đồng thời là hậu tố của toàn mẫu, đã
+dùng để xây <code>bmGs</code>). Điểm khác biệt là một mảng phụ
+<code>skip[0..m-1]</code>, trong đó <code>skip[i]</code> ghi nhận: nếu
+đặt cửa sổ ở vị trí hiện tại, đoạn văn bản bắt đầu từ chỉ số
+<code>i</code> trong cửa sổ (tức <code>y[i+j..]</code>) đã được biết
+chắc khớp với <code>x[i..i+skip[i]-1]</code> nhờ kết quả của (các) lần
+thử trước, mà không cần so sánh lại.</p>
+<p>Tại một lần thử, khi so sánh lùi từ <code>i = m-1</code>, tại mỗi vị
+trí <code>i</code> ta tra <code>k = skip[i]</code> và
+<code>s = suff[i]</code> (độ dài hậu tố mẫu đồng thời khớp với hậu tố
+toàn cục tại vị trí đó):</p>
+<ul>
+<li>Nếu <code>k = 0</code> (chưa có thông tin ghi nhớ), so sánh trực
+tiếp <code>x[i]</code> với <code>y[i+j]</code> như bình thường.</li>
+<li>Nếu <code>k &gt; 0</code>, dùng thông tin đã biết:
+<ul>
+<li>Nếu <code>k &gt; s</code>: đoạn đã biết dài hơn cả đoạn "an toàn"
+tối đa mà mẫu có thể tự lặp lại tại vị trí đó, nên chắc chắn đây chính
+là điểm dừng thực sự của việc so khớp — có thể suy luận thẳng vị trí
+lệch (hoặc khớp toàn bộ nếu <code>i + 1 = s</code>) mà <strong>không cần
+đọc thêm ký tự văn bản nào</strong>.</li>
+<li>Nếu <code>k &lt;= s</code>: đoạn đã biết ngắn hơn hoặc bằng giới hạn
+tự lặp, ta nhảy qua <code>k</code> vị trí (biết chắc chúng khớp) rồi,
+nếu <code>k = s</code>, vẫn cần so sánh tiếp tại vị trí mới để xác nhận
+(vì thông tin ghi nhớ chỉ đảm bảo khớp đến đó, chưa chắc xa hơn); nếu
+<code>k &lt; s</code>, có thể dừng luôn vì <code>k</code> đã đủ để xác
+định điểm lệch.</li>
+</ul></li>
+</ul>
+<p>Sau khi kết thúc một lần thử tại vị trí lệch <code>i</code> (hoặc
+khớp toàn bộ), bước dịch được tính đúng như Boyer-Moore:
+<code>shift = max(bmGs[i], bmBc[y[i+j]] - m + 1 + i)</code> (khi khớp
+toàn bộ dùng <code>bmGs[0]</code>). Bảng <code>skip</code> sau đó được
+<strong>dịch chuyển</strong> đi <code>shift</code> vị trí (những gì biết
+ở cửa sổ cũ vẫn còn giá trị ở cửa sổ mới, chỉ lệch chỉ số) và đặt
+<code>skip[m-1]</code> bằng độ dài hậu tố vừa khớp được ở lần thử này
+(<code>m - 1 - i</code>, hoặc <code>m</code> nếu khớp toàn bộ) — chính
+là thông tin mới sẽ được các lần thử sau khai thác.</p>
+<h2 id="cài-đặt-bằng-c">Cài đặt bằng C</h2>
+<pre class="c"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 256
+#define XSIZE 256
+#define MAX(a, b) ((a) &gt; (b) ? (a) : (b))
+
+void preBmBc(char *x, int m, int bmBc[]) {
+    int i;
+    for (i = 0; i &lt; ASIZE; ++i)
+        bmBc[i] = m;
+    for (i = 0; i &lt; m - 1; ++i)
+        bmBc[(unsigned char) x[i]] = m - 1 - i;
+}
+
+void suffixes(char *x, int m, int *suff) {
+    int f, g, i;
+    f = 0;
+    suff[m - 1] = m;
+    g = m - 1;
+    for (i = m - 2; i &gt;= 0; --i) {
+        if (i &gt; g &amp;&amp; suff[i + m - 1 - f] &lt; i - g)
+            suff[i] = suff[i + m - 1 - f];
+        else {
+            if (i &lt; g)
+                g = i;
+            f = i;
+            while (g &gt;= 0 &amp;&amp; x[g] == x[g + m - 1 - f])
+                --g;
+            suff[i] = f - g;
+        }
+    }
+}
+
+void preBmGs(char *x, int m, int bmGs[]) {
+    int i, j, suff[XSIZE];
+    suffixes(x, m, suff);
+
+    for (i = 0; i &lt; m; ++i)
+        bmGs[i] = m;
+    j = 0;
+    for (i = m - 1; i &gt;= 0; --i)
+        if (suff[i] == i + 1)
+            for (; j &lt; m - 1 - i; ++j)
+                if (bmGs[j] == m)
+                    bmGs[j] = m - 1 - i;
+    for (i = 0; i &lt;= m - 2; ++i)
+        bmGs[m - 1 - suff[i]] = m - 1 - i;
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, k, s, shift;
+    int bmGs[XSIZE], bmBc[ASIZE], suff[XSIZE], skip[XSIZE];
+
+    preBmGs(x, m, bmGs);
+    preBmBc(x, m, bmBc);
+    suffixes(x, m, suff);
+    memset(skip, 0, m * sizeof(int));
+
+    j = 0;
+    while (j &lt;= n - m) {
+        i = m - 1;
+        while (i &gt;= 0) {
+            k = skip[i];
+            s = suff[i];
+            if (k &gt; 0) {
+                if (k &gt; s) {
+                    /* Thong tin nho da du de ket luan diem dung, khong doc them van ban */
+                    i = (i + 1 == s) ? -1 : i - s;
+                    break;
+                } else {
+                    i -= k;         /* nhay qua doan da biet chac khop */
+                    if (k &lt; s)
+                        break;      /* du de xac dinh diem lech, khong can so them */
+                    /* k == s: van chua chac, tiep tuc so sanh thuc su tai vi tri moi */
+                }
+            } else {
+                if (x[i] == y[i + j])
+                    --i;
+                else
+                    break;
+            }
+        }
+
+        if (i &lt; 0) {
+            printf(&quot;Tim thay tai vi tri %d\n&quot;, j);
+            skip[m - 1] = m;
+            shift = bmGs[0];
+        } else {
+            skip[m - 1] = m - 1 - i;
+            shift = MAX(bmGs[i], bmBc[(unsigned char) y[i + j]] - m + 1 + i);
+        }
+
+        j += shift;
+        /* Dich bang skip theo buoc shift vua dung */
+        memmove(skip, skip + shift, (m - shift) * sizeof(int));
+        memset(skip + m - shift, 0, shift * sizeof(int));
+    }
+}</code></pre>
+<h2 id="ví-dụ-minh-họa">Ví dụ minh họa</h2>
+<p>Xét lại <code>x = "GCAGAGAG"</code> (m = 8) trên
+<code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<ul>
+<li><strong>j = 0</strong>: <code>skip</code> toàn 0 (chưa có thông
+tin). So <code>x[7]='G'</code> lệch với <code>y[7]='A'</code> ngay tại
+<code>i = 7</code>. Ghi <code>skip[7] = m - 1 - 7 = 0</code>. Dịch
+<code>shift = 1</code> (như Boyer-Moore).</li>
+<li><strong>j = 1</strong>: mảng <code>skip</code> được dịch 1 vị trí
+(vẫn toàn 0 vì lần trước chưa khớp gì). Lệch tại <code>i = 5</code>. Ghi
+<code>skip[5] = 2</code>. Dịch <code>shift = 4</code>.</li>
+<li><strong>j = 5</strong>: sau khi dịch mảng <code>skip</code> đi 4, vị
+trí <code>i = 3</code> của cửa sổ mới thừa hưởng giá trị
+<code>skip[3] = 2</code> (từ <code>skip[5]</code> cũ dịch sang). Vì
+<code>suff[3] = 2 = skip[3]</code>, thuật toán nhảy qua 2 vị trí
+(<code>i: 3 → 1</code>) mà không cần đọc lại <code>y[8], y[9]</code> —
+chúng đã được xác nhận khớp gián tiếp qua thông tin ghi nhớ. So tiếp các
+vị trí còn lại, toàn bộ khớp → <strong>tìm thấy tại vị trí 5</strong>.
+Ghi <code>skip[7] = 8</code>, dịch
+<code>shift = bmGs[0] = 7</code>.</li>
+<li><strong>j = 12</strong>: mảng <code>skip</code> dịch 7, vị trí 0
+mang giá trị <code>skip[0] = 8</code> (thừa hưởng từ
+<code>skip[7]</code> cũ). Lệch xảy ra ở <code>i = 5</code> (so trực tiếp
+vì <code>skip[5] = 0</code>). Dịch <code>shift = 4</code>.</li>
+<li><strong>j = 16</strong>: lệch tại <code>i = 6</code>. Dịch
+<code>shift = 7</code>, vượt quá văn bản, dừng.</li>
+</ul>
+<p>Điểm đáng chú ý nhất trong ví dụ là ở cửa sổ <code>j = 5</code>: nhờ
+bảng <code>skip</code> mang theo thông tin từ lần thử trước
+(<code>j = 1</code>, nơi 2 ký tự cuối <code>"AG"</code> của cửa sổ đã
+khớp trước khi lệch), Apostolico-Giancarlo tránh so sánh lại 2 ký tự văn
+bản khi thử lại ở cửa sổ mới — đây chính là cơ chế giúp cận
+<code>3n/2</code> được đảm bảo trong mọi trường hợp.</p>
+<h2 id="tài-liệu-tham-khảo">Tài liệu tham khảo</h2>
+<ul>
+<li>A. Apostolico, R. Giancarlo, "The Boyer-Moore-Galil string searching
+strategies revisited", <em>SIAM Journal on Computing</em>, 1986.</li>
+<li>M. Crochemore, W. Rytter, <em>Text Algorithms</em>, Oxford
+University Press, 1994.</li>
+</ul>
+</body>
+</html>

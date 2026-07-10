@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Knuth-Morris-Pratt — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Knuth-Morris-Pratt</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Cải tiến trực tiếp của thuật toán Morris-Pratt bằng cách dùng <strong>bảng biên "mạnh"</strong> (strict border / hàm dịch chuyển tối ưu).</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> thời gian và bộ nhớ phụ (bảng <code>kmpNext</code> có <code>m + 1</code> phần tử).</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>O(n + m)</strong>, không phụ thuộc kích thước bảng chữ cái.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>2n − 1</strong>.</li>
+<li>So sánh ký tự theo hướng <strong>từ trái sang phải</strong>.</li>
+<li>Độ trễ (delay) — số lần bảng dịch chuyển được tra cứu trước khi con trỏ văn bản tiến một bước — bị chặn bởi <strong>O(log m)</strong> (chính xác hơn: theo dãy Fibonacci, nên tỉ lệ với logarit cơ số vàng của m).</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Cũng như Morris-Pratt, KMP quét văn bản một lượt bằng cửa sổ trượt, so sánh mẫu với văn bản từ trái sang phải, và mỗi khi gặp một điểm lệch (hoặc khớp trọn mẫu) thì trượt cửa sổ đi một đoạn <em>đã tính sẵn</em> sao cho không bao giờ phải quay lui con trỏ trên văn bản.</p>
+<p>Điểm khác biệt then chốt nằm ở chỗ: khi xảy ra lệch tại vị trí <code>i</code> của mẫu (tức <code>x[0..i-1]</code> đã khớp nhưng <code>x[i]</code> khác ký tự văn bản), Morris-Pratt chỉ trượt tới biên dài nhất của <code>x[0..i-1]</code>. Nhưng nếu ký tự đầu tiên của phần biên đó lại <strong>trùng</strong> với <code>x[i]</code>, ta biết chắc lần so sánh kế tiếp cũng sẽ lệch với đúng ký tự văn bản vừa gây lệch. KMP loại bỏ trước những lần so sánh vô ích này bằng cách yêu cầu biên phải là biên "mạnh": ký tự đi ngay sau biên phải <strong>khác</strong> <code>x[i]</code>.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Gọi <code>border[i]</code> là độ dài biên dài nhất của <code>x[0..i-1]</code> (biên là chuỗi vừa là tiền tố thực sự vừa là hậu tố thực sự). Bảng của Morris-Pratt lưu chính <code>border[i]</code>.</p>
+<p>KMP thay bằng bảng <code>kmpNext</code> định nghĩa như sau. Với <code>0 &lt; i &lt; m</code>:</p>
+<ul>
+<li><code>kmpNext[i]</code> = độ dài biên dài nhất <code>b</code> của <code>x[0..i-1]</code> sao cho <code>x[b] != x[i]</code> (biên "mạnh"); nếu không có biên nào thoả điều kiện thì <code>kmpNext[i] = -1</code>.</li>
+<li>Quy ước <code>kmpNext[0] = -1</code>.</li>
+<li><code>kmpNext[m]</code> được đặt bằng độ dài biên dài nhất của toàn mẫu (dùng khi mẫu khớp trọn để tiếp tục tìm các lần xuất hiện chồng lấn), không áp thêm điều kiện "mạnh".</li>
+</ul>
+<p>Bảng <code>kmpNext</code> được tính đệ quy: ta duy trì hai con trỏ <code>i</code> (chạy trên mẫu) và <code>j</code> (độ dài biên hiện tại). Khi <code>x[i] == x[j]</code> ta biết <code>x[0..i]</code> có biên độ dài <code>j+1</code>; lúc đó kiểm tra điều kiện mạnh <code>x[i+1]</code> so với <code>x[j+1]</code> để quyết định sao chép giá trị hay ghi giá trị mới.</p>
+<p>Trong pha tìm kiếm, con trỏ <code>i</code> trên mẫu và <code>j</code> trên văn bản cùng tiến. Khi lệch, ta gán <code>i = kmpNext[i]</code> (có thể lặp lại), điều này tương ứng với việc trượt cửa sổ đi <code>i - kmpNext[i]</code> vị trí mà không lùi <code>j</code>.</p>
+<p>Giá trị <code>-1</code> xuất hiện trong bảng cho phép, khi <code>i</code> tụt về <code>-1</code>, cả <code>i</code> và <code>j</code> cùng tăng một bước — tức là bỏ qua ký tự văn bản hiện tại và bắt đầu lại mẫu từ đầu.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void preKmp(char *x, int m, int kmpNext[]) {
+    int i = 0, j = -1;
+    kmpNext[0] = -1;
+    while (i &lt; m) {
+        while (j &gt; -1 &amp;&amp; x[i] != x[j])
+            j = kmpNext[j];
+        i++;
+        j++;
+        if (i &lt; m &amp;&amp; x[i] == x[j])
+            kmpNext[i] = kmpNext[j];   /* biên "mạnh": sao chép */
+        else
+            kmpNext[i] = j;
+    }
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, j;
+    int *kmpNext = (int *) malloc((m + 1) * sizeof(int));
+
+    /* Tiền xử lý */
+    preKmp(x, m, kmpNext);
+
+    /* Tìm kiếm */
+    i = j = 0;
+    while (j &lt; n) {
+        while (i &gt; -1 &amp;&amp; x[i] != y[j])
+            i = kmpNext[i];
+        i++;
+        j++;
+        if (i &gt;= m) {
+            printf("Tim thay tai vi tri %d\n", j - i);
+            i = kmpNext[i];
+        }
+    }
+    free(kmpNext);
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24).</p>
+<p>Bảng biên mạnh:</p>
+<table>
+<tr><th>i</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+<tr><th>x[i]</th><td>G</td><td>C</td><td>A</td><td>G</td><td>A</td><td>G</td><td>A</td><td>G</td><td>—</td></tr>
+<tr><th>kmpNext[i]</th><td>−1</td><td>0</td><td>0</td><td>−1</td><td>1</td><td>−1</td><td>1</td><td>−1</td><td>1</td></tr>
+</table>
+<p>Vài bước đầu của pha tìm kiếm:</p>
+<ul>
+<li><code>y[0..2] = "GCA"</code> khớp <code>x[0..2]</code>, nhưng <code>x[3]=G</code> lệch với <code>y[3]=T</code>. Vì <code>kmpNext[3] = -1</code>, con trỏ mẫu tụt về −1, cả hai con trỏ cùng tiến: cửa sổ nhảy tới vị trí 4.</li>
+<li>Tại <code>y[4]=C</code>, so với <code>x[0]=G</code> lệch; <code>kmpNext[0] = -1</code> nên nhảy sang <code>y[5]</code>.</li>
+<li>Từ <code>y[5]=G</code> trở đi, mẫu khớp liên tiếp <code>x[0..7]</code> với <code>y[5..12]</code>, báo <strong>tìm thấy tại vị trí 5</strong>. Sau đó <code>i = kmpNext[8] = 1</code>, cửa sổ trượt để tận dụng phần đã khớp.</li>
+</ul>
+<p>Điểm đáng chú ý: nhờ giá trị <code>kmpNext[3] = -1</code> (biên mạnh), khi lệch tại <code>x[3]=G</code> thuật toán không phí công so lại ký tự <code>G</code> như Morris-Pratt sẽ làm.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>D. E. Knuth, J. H. Morris, V. R. Pratt, "Fast pattern matching in strings", <em>SIAM Journal on Computing</em>, 1977.</li>
+<li>A. V. Aho, "Algorithms for finding patterns in strings", trong <em>Handbook of Theoretical Computer Science</em>, 1990.</li>
+<li>M. Crochemore, W. Rytter, <em>Text Algorithms</em>, 1994.</li>
+</ul>
+</body>
+</html>

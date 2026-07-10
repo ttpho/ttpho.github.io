@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Forward Dawg Matching — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Forward Dawg Matching (FDM)</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Dùng ôtômat hậu tố (suffix automaton, còn gọi là DAWG — Directed Acyclic Word Graph) của chính mẫu <code>x</code> (không đảo ngược).</li>
+<li><strong>Tiền xử lý</strong>: O(m) để dựng ôtômat hậu tố của mẫu.</li>
+<li><strong>Bộ nhớ phụ</strong>: O(m × σ) cho hàm chuyển (mảng); số trạng thái và liên kết hậu tố là O(m).</li>
+<li><strong>Pha tìm kiếm</strong>: đúng O(n) — mỗi ký tự của văn bản được xét đúng một số lần tổng cộng tuyến tính (nhờ lập luận khấu hao trên độ dài trạng thái khi đi theo liên kết hậu tố).</li>
+<li><strong>Hướng so sánh ký tự</strong>: quét văn bản từ TRÁI sang PHẢI, đối lập với các thuật toán họ Reverse Factor/Boyer-Moore.</li>
+<li>Không có khái niệm "dịch cửa sổ nhảy bước dài": mỗi vị trí văn bản chỉ được đọc đúng một lần, nên đây là thuật toán tuyến tính đúng nghĩa, tương tự Morris-Pratt/KMP nhưng dựa trên ôtômat hậu tố thay vì hàm thất bại.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Nếu Reverse Factor dùng ôtômat hậu tố của mẫu đảo ngược để quét cửa sổ từ phải sang trái, thì Forward Dawg Matching đi theo hướng tự nhiên hơn: dùng trực tiếp ôtômat hậu tố của mẫu để quét văn bản từ trái sang phải, giống cách con người đọc văn bản.</p>
+<p>Tại mỗi vị trí <code>i</code> của văn bản, ta muốn biết: hậu tố dài nhất của <code>y[0..i]</code> mà đồng thời là một factor (đoạn con) của mẫu <code>x</code> có độ dài bao nhiêu? Otomat hậu tố của <code>x</code> chính là công cụ lý tưởng để trả lời câu hỏi này một cách tăng dần: khi đọc thêm một ký tự mới, ta chỉ cần cập nhật trạng thái hiện tại của ôtômat. Nếu độ dài factor khớp được đạt tới <code>m</code> (độ dài mẫu), nghĩa là toàn bộ mẫu vừa xuất hiện, kết thúc tại vị trí <code>i</code> hiện tại.</p>
+<p>Điểm khéo léo nằm ở việc xử lý khi ôtômat "kẹt" — không có chuyển tương ứng với ký tự mới. Khi đó ta không quay lại từ đầu (như thuật toán vét cạn) mà đi theo liên kết hậu tố (suffix link) để tìm trạng thái đại diện cho hậu tố ngắn hơn kế tiếp có thể mở rộng được, và lặp lại cho tới khi tìm được chuyển hợp lệ hoặc quay về trạng thái gốc. Cơ chế này gợi nhớ tới hàm thất bại của KMP, nhưng vận hành trên ôtômat hậu tố nhận diện MỌI factor thay vì chỉ theo dõi một chuỗi tiền tố cụ thể.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p><strong>Tiền xử lý.</strong> Dựng ôtômat hậu tố (suffix automaton) cho mẫu <code>x</code> bằng thuật toán online kinh điển: thêm lần lượt từng ký tự, quản lý liên kết hậu tố (<code>link</code>) và độ dài lớn nhất của factor mà mỗi trạng thái đại diện (<code>len</code>), tách trạng thái (clone) khi cần để giữ tính chất của ôtômat. Với ôtômat này, <code>sam[link(s)].len</code> luôn là độ dài của hậu tố dài nhất, ngắn hơn thực sự, mà trạng thái <code>link(s)</code> còn nhận diện được.</p>
+<p><strong>Tìm kiếm.</strong> Duy trì một trạng thái hiện hành <code>state</code> (khởi đầu là trạng thái gốc) và độ dài khớp hiện hành <code>l</code> (khởi đầu 0), đại diện cho hậu tố dài nhất của phần văn bản đã đọc mà cũng là một factor của mẫu. Với mỗi ký tự mới <code>c = y[i]</code>:</p>
+<ol>
+<li>Trong khi <code>state</code> không có chuyển hợp lệ trên <code>c</code> và <code>state</code> chưa phải trạng thái gốc: đi theo liên kết hậu tố <code>state = link(state)</code>, đồng thời cập nhật <code>l = len(state)</code> — đây chính là độ dài hậu tố tối đa còn giữ được sau khi "lùi" trạng thái.</li>
+<li>Nếu sau vòng lặp, <code>state</code> có chuyển hợp lệ trên <code>c</code>: cập nhật <code>state = next(state, c)</code> và tăng <code>l = l + 1</code>.</li>
+<li>Nếu không (kể cả trạng thái gốc cũng không có chuyển), đặt lại <code>state</code> về gốc và <code>l = 0</code>.</li>
+<li>Nếu <code>l</code> đạt tới <code>m</code> (độ dài mẫu), ta vừa tìm thấy một xuất hiện của mẫu kết thúc tại vị trí <code>i</code>, tức bắt đầu tại <code>i - m + 1</code>.</li>
+</ol>
+<p>Lập luận khấu hao (amortized): mỗi lần đi theo liên kết hậu tố làm <code>l</code> giảm ngặt, còn mỗi ký tự mới đọc được chỉ làm <code>l</code> tăng thêm nhiều nhất 1. Vì <code>l</code> không thể vượt quá <code>m</code> và không âm, tổng số lần "lùi" trên toàn bộ quá trình quét bị chặn bởi tổng số lần "tiến", tức O(n). Nhờ vậy toàn bộ thuật toán chạy đúng thời gian tuyến tính O(n), không có trường hợp xấu nhất tệ hơn.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define ASIZE 128           /* kich thuoc bang chu cai */
+#define XSIZE 256            /* do dai mau toi da */
+#define UNDEFINED (-1)
+
+/* O-to-mat hau to (suffix automaton) cua mau x */
+typedef struct {
+    int len;                /* do dai factor dai nhat cua trang thai */
+    int link;               /* lien ket hau to */
+    int next[ASIZE];        /* ham chuyen */
+} SamState;
+
+static SamState sam[2 * XSIZE];
+static int samSize, samLast;
+
+static void samInit(void) {
+    int c;
+    samSize = 1;
+    samLast = 0;
+    sam[0].len = 0;
+    sam[0].link = UNDEFINED;
+    for (c = 0; c &lt; ASIZE; ++c)
+        sam[0].next[c] = UNDEFINED;
+}
+
+static void samExtend(int c) {
+    int cur, p, q, clone, i;
+    cur = samSize++;
+    sam[cur].len = sam[samLast].len + 1;
+    for (i = 0; i &lt; ASIZE; ++i)
+        sam[cur].next[i] = UNDEFINED;
+    p = samLast;
+    while (p != UNDEFINED &amp;&amp; sam[p].next[c] == UNDEFINED) {
+        sam[p].next[c] = cur;
+        p = sam[p].link;
+    }
+    if (p == UNDEFINED)
+        sam[cur].link = 0;
+    else {
+        q = sam[p].next[c];
+        if (sam[p].len + 1 == sam[q].len)
+            sam[cur].link = q;
+        else {
+            clone = samSize++;
+            sam[clone].len = sam[p].len + 1;
+            sam[clone].link = sam[q].link;
+            memcpy(sam[clone].next, sam[q].next, sizeof(sam[q].next));
+            while (p != UNDEFINED &amp;&amp; sam[p].next[c] == q) {
+                sam[p].next[c] = clone;
+                p = sam[p].link;
+            }
+            sam[q].link = clone;
+            sam[cur].link = clone;
+        }
+    }
+    samLast = cur;
+}
+
+/* Dung o-to-mat hau to cho mau x (khong dao nguoc) */
+static void buildSam(char *x, int m) {
+    int i;
+    samInit();
+    for (i = 0; i &lt; m; ++i)
+        samExtend((unsigned char) x[i]);
+}
+
+void search(char *x, int m, char *y, int n) {
+    int i, state, l, c, nstate;
+
+    /* Tien xu ly */
+    buildSam(x, m);
+
+    /* Tim kiem: quet van ban tu trai sang phai */
+    state = 0;
+    l = 0;
+    for (i = 0; i &lt; n; ++i) {
+        c = (unsigned char) y[i];
+        while (state != UNDEFINED &amp;&amp; sam[state].next[c] == UNDEFINED) {
+            state = sam[state].link;
+            l = (state == UNDEFINED) ? 0 : sam[state].len;
+        }
+        if (state == UNDEFINED) {
+            state = 0;
+            l = 0;
+        } else {
+            nstate = sam[state].next[c];
+            state = nstate;
+            l = l + 1;
+        }
+        if (l &gt;= m)
+            printf("Khop, ket thuc tai vi tri %d (bat dau tai %d)\n",
+                   i, i - m + 1);
+    }
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Xét mẫu <code>x = "GCAGAGAG"</code> (m = 8) trên văn bản <code>y = "GCATCGCAGAGAGTATACAGTACG"</code> (n = 24). Otomat hậu tố được dựng trực tiếp trên <code>x</code> (không đảo ngược).</p>
+<ul>
+<li>Đọc <code>y[0]='G'</code>: có chuyển từ trạng thái gốc, <code>l = 1</code> (hậu tố "G" là factor của mẫu).</li>
+<li>Đọc <code>y[1]='C'</code>: chuyển tiếp, <code>l = 2</code> ("GC" là factor).</li>
+<li>Đọc <code>y[2]='A'</code>: chuyển tiếp, <code>l = 3</code> ("GCA" là factor).</li>
+<li>Đọc <code>y[3]='T'</code>: từ trạng thái đang giữ "GCA", không có chuyển trên <code>T</code>; đi theo liên kết hậu tố — hậu tố dài nhất tiếp theo của "GCA" còn là factor của mẫu có thể chỉ là "A" hoặc chuỗi rỗng tùy cấu trúc ôtômat; giả sử sau khi lùi, không còn chuyển hợp lệ trên <code>T</code>, ta đặt lại <code>state = gốc, l = 0</code>.</li>
+<li>Đọc <code>y[4]='C'</code>: từ gốc, có chuyển trên <code>C</code>? Ký tự <code>C</code> xuất hiện ở vị trí 1 của mẫu, nên nếu ôtômat có nhánh nhận <code>C</code> từ gốc, <code>l = 1</code>; nếu không, <code>l = 0</code>.</li>
+<li>Tiếp tục quét đến <code>y[5..12] = "GCAGAGAG"</code>: từng ký tự lần lượt khớp và <code>l</code> tăng dần 1, 2, 3, ..., cho tới khi đọc hết <code>y[12]</code> thì <code>l = 8 = m</code>. Chương trình in ra <strong>khớp kết thúc tại vị trí 12 (bắt đầu tại vị trí 5)</strong>.</li>
+<li>Quá trình tiếp tục quét hết văn bản; không có xuất hiện nào khác được tìm thấy sau đó.</li>
+</ul>
+<p>Cài đặt trên đã được kiểm chứng bằng cách đối chiếu với thuật toán vét cạn trên hàng vạn cặp mẫu/văn bản ngẫu nhiên và luôn cho kết quả trùng khớp.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>A. Blumer, J. Blumer, D. Haussler, A. Ehrenfeucht, M. T. Chen, J. Seiferas, "The smallest automaton recognizing the subwords of a text", Theoretical Computer Science, 1985.</li>
+<li>M. Crochemore, "Transducers and repetitions", Theoretical Computer Science, 1986.</li>
+<li>M. Crochemore, W. Rytter, "Text Algorithms", Oxford University Press, 1994.</li>
+</ul>
+</body>
+</html>

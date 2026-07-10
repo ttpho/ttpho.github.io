@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thuật toán Galil-Giancarlo — Thuật toán so khớp chuỗi</title>
+<style>
+body{font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#222;background:#fdfdfd}
+h1{border-bottom:2px solid #345;padding-bottom:.3rem;color:#345}
+h2{color:#456;margin-top:2rem}
+pre{background:#f4f4f4;border:1px solid #ddd;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.9rem}
+code{font-family:Menlo,Consolas,monospace}
+table{border-collapse:collapse;margin:1rem 0}
+td,th{border:1px solid #ccc;padding:.4rem .8rem}
+nav{margin-bottom:1.5rem}
+a{color:#246}
+</style>
+</head>
+<body>
+<nav><a href="index.html">← Mục lục</a></nav>
+<h1>Thuật toán Galil-Giancarlo</h1>
+
+<h2>Đặc điểm chính</h2>
+<ul>
+<li>Là bản tinh chỉnh của thuật toán Colussi, đẩy cận số phép so sánh xuống thấp hơn nữa.</li>
+<li>Ý tưởng cốt lõi: khi mẫu <strong>không có dạng lũy thừa</strong> (không viết được thành <code>w^k</code> với k ≥ 2 và một tiền tố nào đó là lũy thừa của ký tự đầu), thuật toán tận dụng thông tin về loạt ký tự đầu đã khớp ở lần thử trước để không so lại.</li>
+<li>Độ phức tạp pha tiền xử lý: <strong>O(m)</strong> thời gian và bộ nhớ phụ.</li>
+<li>Độ phức tạp pha tìm kiếm: <strong>O(n)</strong>.</li>
+<li>Số phép so sánh ký tự trong pha tìm kiếm tối đa <strong>4n/3</strong> — cải thiện so với cận 3n/2 của Colussi.</li>
+<li>So sánh ký tự theo cùng thứ tự nohole/hole như Colussi.</li>
+</ul>
+
+<h2>Ý tưởng</h2>
+<p>Colussi đã giảm số phép so sánh bằng cách khéo léo chọn thứ tự so các vị trí, nhưng vẫn "quên" một dạng thông tin: khi mẫu bắt đầu bằng một loạt ký tự giống nhau (ví dụ mẫu <code>aac…</code> bắt đầu bằng hai chữ <code>a</code>), sau một lần thử thành công một phần, ta thường đã biết chắc một đoạn văn bản gồm toàn ký tự <code>x[0]</code>. Trong lần thử kế tiếp, thay vì so lại từng ký tự của đoạn đó, ta có thể "quét nhanh" để kéo dài loạt ký tự và bỏ qua các so sánh thừa.</p>
+<p>Đặt <code>ℓ</code> là chỉ số sao cho <code>x[0] = x[1] = … = x[ℓ]</code> nhưng <code>x[ℓ+1] ≠ x[0]</code> — nghĩa là mẫu mở đầu bằng loạt <code>(ℓ+1)</code> ký tự <code>x[0]</code>. Galil-Giancarlo phân biệt hai chế độ:</p>
+<ul>
+<li>Chế độ "nhẹ" (light): thử cửa sổ như Colussi.</li>
+<li>Chế độ "nặng" (heavy): kích hoạt sau một lần thử mà thuật toán đã xác nhận một đoạn văn bản <code>y[j..last]</code> gồm toàn ký tự <code>x[0]</code>. Khi đó ta kéo dài loạt ký tự đó về phía phải mà không so lại phần đã biết, rồi căn chỉnh cửa sổ dựa trên độ dài loạt và ký tự đầu tiên khác <code>x[0]</code>.</li>
+</ul>
+<p>Với mẫu là lũy thừa của một ký tự (<code>x = a^m</code>), bài toán suy biến thành đếm loạt ký tự và được xử lý riêng bằng một vòng lặp đơn giản.</p>
+
+<h2>Mô tả chi tiết</h2>
+<p>Tiền xử lý dùng lại toàn bộ bảng của Colussi (<code>h</code>, <code>shift</code>, <code>nxt</code>, và <code>nd</code>), cộng thêm việc tính <code>ℓ</code>.</p>
+<p>Trong pha tìm kiếm ta duy trì thêm cờ <code>heavy</code> và biến <code>last</code>:</p>
+<ul>
+<li><code>last</code> = chỉ số văn bản lớn nhất đã khớp chắc chắn (như Colussi).</li>
+<li><code>heavy</code> = đúng khi lần thử trước kết thúc ở "pha hai" và cửa sổ mới vẫn nằm trong vùng <code>[j, last]</code> đã khớp, tức ta đang có sẵn một loạt ký tự <code>x[0]</code>.</li>
+</ul>
+<p>Khi <code>heavy</code> bật và ta đang ở đầu mẫu (<code>i = 0</code>):</p>
+<ol>
+<li>Biết <code>y[j..last]</code> toàn là <code>x[0]</code>, ta đặt độ dài loạt <code>k = last − j + 1</code> rồi tiếp tục quét <code>y[j+k]</code>, <code>y[j+k+1]</code>, … chừng nào còn bằng <code>x[0]</code>.</li>
+<li>Nếu loạt quá ngắn (<code>k ≤ ℓ</code>) hoặc ký tự dừng <code>y[j+k]</code> khác <code>x[ℓ+1]</code>: không thể khớp bắt đầu trong loạt này, ta nhảy cửa sổ tới <code>j + k + 1</code>.</li>
+<li>Nếu ngược lại: căn chỉnh cửa sổ để phần đầu mẫu (<code>ℓ+1</code> ký tự <code>x[0]</code> rồi <code>x[ℓ+1]</code>) khớp với cuối loạt, đặt <code>i = 1</code> và tiếp tục ở chế độ nhẹ.</li>
+</ol>
+<p>Khi <code>heavy</code> tắt, mỗi lần thử diễn ra hệt như Colussi; sau đó ta tính lại <code>heavy</code> dựa trên việc lần thử vừa rồi có bước sang pha hai và cửa sổ mới có còn nằm trong vùng đã khớp không.</p>
+
+<h2>Cài đặt bằng C</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+/* dùng lại preColussi ở bài Colussi */
+int preColussi(char *x, int m, int h[], int nxt[], int shift[]);
+
+void search(char *x, int m, char *y, int n) {
+    int i, j, k, ell, last, nd, heavy, phase2;
+    int *h, *nxt, *shift;
+
+    /* độ dài loạt ký tự đầu */
+    for (ell = 0; ell + 1 &lt; m &amp;&amp; x[ell + 1] == x[0]; ++ell);
+
+    if (ell == m - 1) {                 /* x = a^m : đếm loạt trực tiếp */
+        k = 0;
+        for (j = 0; j &lt; n; ++j) {
+            if (y[j] == x[0]) {
+                ++k;
+                if (k &gt;= m) printf("Tim thay tai vi tri %d\n", j - m + 1);
+            } else k = 0;
+        }
+        return;
+    }
+
+    h     = (int *) malloc((m + 1) * sizeof(int));
+    nxt   = (int *) malloc((m + 1) * sizeof(int));
+    shift = (int *) malloc((m + 1) * sizeof(int));
+    nd = preColussi(x, m, h, nxt, shift);
+
+    i = j = heavy = 0;
+    last = -1;
+    while (j + m &lt;= n) {
+        if (heavy &amp;&amp; i == 0) {
+            /* biết y[j..last] = x[0] lặp lại; kéo dài loạt */
+            k = last - j + 1;
+            while (j + k &lt; n &amp;&amp; y[j + k] == x[0]) ++k;
+            if (j + k &gt;= n) break;
+            if (k &lt;= ell || y[j + k] != x[ell + 1]) {
+                j += k + 1;
+                last = j - 1;
+                i = 0;
+            } else {
+                j = j + k - ell - 1;
+                last = j + ell + 1;
+                i = 1;
+            }
+            heavy = 0;
+        } else {
+            while (i &lt; m &amp;&amp; last &lt; j + h[i] &amp;&amp; x[h[i]] == y[j + h[i]])
+                ++i;
+            if (i &gt;= m || last &gt;= j + h[i]) {
+                printf("Tim thay tai vi tri %d\n", j);
+                i = m;
+            }
+            phase2 = (i &gt; nd);
+            if (phase2) last = j + m - 1;
+            j += shift[i];
+            i = nxt[i];
+            heavy = (phase2 &amp;&amp; j &lt;= last);
+        }
+    }
+    free(h); free(nxt); free(shift);
+}</code></pre>
+
+<h2>Ví dụ minh họa</h2>
+<p>Với mẫu <code>x = "GCAGAGAG"</code>, do <code>x[0]=G</code> khác ngay <code>x[1]=C</code> nên <code>ℓ = 0</code>: mẫu không mở đầu bằng loạt ký tự lặp, cờ <code>heavy</code> không mang lại lợi ích và thuật toán chạy y hệt Colussi.</p>
+<p>Để thấy rõ chế độ "nặng", ta lấy mẫu <code>x = "aacaa"</code> (m = 5, <code>ℓ = 1</code>, tức mở đầu bằng hai chữ <code>a</code> rồi <code>x[2]=c</code>) trên văn bản <code>y = "aaaaacaacaaa"</code> (n = 12).</p>
+<ul>
+<li>Các cửa sổ <code>j = 0, 1, 2</code>: so <code>x[2]=c</code> với <code>y[2], y[3], y[4]</code> đều là <code>a</code> → lệch, trượt 1.</li>
+<li>Cửa sổ <code>j = 3</code>: mọi vị trí khớp → <strong>tìm thấy tại vị trí 3</strong>; lần thử này sang pha hai nên đặt <code>last = 7</code>, trượt tới <code>j = 6</code>, bật <code>heavy</code>.</li>
+<li>Cửa sổ <code>j = 6</code> (chế độ nặng): đã biết <code>y[6..7] = "aa"</code>, kéo dài loạt tới <code>y[8]=c</code>. Vì <code>k = 2 &gt; ℓ</code> và <code>y[8] = c = x[ℓ+1]</code>, ta căn chỉnh và đặt <code>i = 1</code>.</li>
+<li>Tiếp tục ở chế độ nhẹ, các vị trí còn lại khớp → <strong>tìm thấy tại vị trí 6</strong>.</li>
+</ul>
+<p>Nhờ khai thác loạt <code>a</code> đã biết, thuật toán tránh so lại những ký tự đã xác nhận, giữ tổng số so sánh không vượt 4n/3.</p>
+
+<h2>Tài liệu tham khảo</h2>
+<ul>
+<li>Z. Galil, R. Giancarlo, "On the exact complexity of string matching: upper bounds", <em>SIAM Journal on Computing</em>, 1992.</li>
+<li>L. Colussi, "Correctness and efficiency of pattern matching algorithms", <em>Information and Computation</em>, 1991.</li>
+<li>M. Crochemore, W. Rytter, <em>Text Algorithms</em>, 1994.</li>
+</ul>
+</body>
+</html>
