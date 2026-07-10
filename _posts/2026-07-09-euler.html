@@ -1,0 +1,619 @@
+---
+layout: post
+title: "Minh hoạ Trực quan các Định lý Hình học"
+subtitle: "Sử dụng HTML5 Canvas để mô phỏng tương tác các định lý nổi tiếng về tam giác: Đường thẳng & Đường tròn Euler, Định lý Feuerbach, Thebault và Lamuna. Kéo thả các đỉnh A, B, C để xem các định lý luôn đúng."
+tags: [math, canvas]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minh hoạ các Định lý Hình học: Euler, Feuerbach, Thebault, Lamuna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        canvas {
+            border: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.5rem;
+            /* Thêm touch-action để tránh cuộn trang khi kéo thả trên điện thoại */
+            touch-action: none;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-16">
+
+        <section class="text-center max-w-3xl mx-auto">
+            <h2 class="text-4xl font-extrabold text-slate-900 mb-4">Hình học Tam giác qua HTML5 Canvas</h2>
+            <p class="text-lg text-slate-600">
+                Mỗi định lý dưới đây được mô phỏng bằng một canvas tương tác. Hãy dùng chuột (hoặc chạm) để
+                <span class="font-semibold text-blue-700">kéo thả các đỉnh A, B, C</span> và quan sát các tâm, đường
+                thẳng, đường tròn tự động cập nhật — minh chứng rằng các định lý luôn đúng với mọi tam giác.
+            </p>
+        </section>
+
+        <!-- 1. Đường thẳng Euler -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-slate-900">1. Đường thẳng Euler</h3>
+                <p class="text-slate-600 mt-2">
+                    <strong>Đường thẳng Euler (Đỏ):</strong> Là đường thẳng đi qua 4 điểm gồm trực tâm (H), trọng tâm (G),
+                    tâm đường tròn ngoại tiếp (O) và tâm đường tròn Euler (N).
+                </p>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasEulerLine" width="800" height="600"></canvas>
+            </div>
+        </section>
+
+        <!-- 2. Đường tròn 9 điểm Euler -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-slate-900">2. Đường tròn Euler (Đường tròn 9 điểm)</h3>
+                <p class="text-slate-600 mt-2">
+                    <strong>Đường tròn Euler (Xanh dương):</strong> Là đường tròn đi qua 9 điểm gồm 3 chân của 3 đường cao,
+                    3 trung điểm các cạnh và 3 trung điểm của 3 đoạn nối 3 đỉnh tam giác với trực tâm tam giác.
+                </p>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasEulerCircle" width="800" height="600"></canvas>
+            </div>
+        </section>
+
+        <!-- 3. Feuerbach Theorem -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-slate-900">3. Định lý Feuerbach (1822)</h3>
+                <p class="text-slate-600 mt-2">
+                    Đường tròn Euler (Xanh dương đậm) tiếp xúc với Đường tròn nội tiếp (Đỏ) và 3 Đường tròn bàng tiếp
+                    (Xanh lá).
+                </p>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasFeuerbach" width="800" height="600"></canvas>
+            </div>
+        </section>
+
+        <!-- 4. Thebault's Theorem 4 -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-slate-900">4. Định lý Thebault 4 (1949)</h3>
+                <p class="text-slate-600 mt-2">
+                    Cho tam giác ABC với các chân đường cao A', B', C'. Các đường thẳng Euler của các tam giác con AB'C'
+                    (Cam), A'BC' (Tím), A'B'C (Nâu) đồng quy tại một điểm P trên đường tròn Euler của tam giác ABC.
+                </p>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasThebault" width="800" height="600"></canvas>
+            </div>
+        </section>
+
+        <!-- 5. Lamuna Theorem -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-slate-900">5. Định lý Lamuna (2000)</h3>
+                <p class="text-slate-600 mt-2">
+                    3 đường trung tuyến chia tam giác ABC thành 6 tam giác nhỏ. Tâm đường tròn ngoại tiếp của 6 tam giác
+                    nhỏ này (các chấm đỏ) cùng nằm trên một đường tròn (Đường tròn Lamuna - Tím).
+                </p>
+            </div>
+            <div class="canvas-container">
+                <canvas id="canvasLamuna" width="800" height="600"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ==========================================
+        // THƯ VIỆN HÌNH HỌC CƠ BẢN (GEOMETRY HELPER ENGINE)
+        // ==========================================
+
+        const Geo = {
+            // Tạo điểm
+            point: (x, y) => ({ x, y }),
+
+            // Khoảng cách giữa 2 điểm
+            dist: (p1, p2) => Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2),
+
+            // Trung điểm
+            midpoint: (p1, p2) => ({ x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 }),
+
+            // Giao điểm của 2 đường thẳng (dạng tổng quát ax+by=c)
+            intersect: (L1, L2) => {
+                const det = L1.a * L2.b - L2.a * L1.b;
+                if (Math.abs(det) < 1e-9) return null; // Song song
+                const x = (L2.b * L1.c - L1.b * L2.c) / det;
+                const y = (L1.a * L2.c - L2.a * L1.c) / det;
+                return { x, y };
+            },
+
+            // Đường thẳng đi qua 2 điểm (dạng ax+by=c)
+            lineFromPoints: (p1, p2) => {
+                const a = p2.y - p1.y;
+                const b = p1.x - p2.x;
+                const c = a * p1.x + b * p1.y;
+                return { a, b, c };
+            },
+
+            // Đường thẳng vuông góc với L đi qua P
+            perpendicularLine: (L, p) => {
+                const a = -L.b;
+                const b = L.a;
+                const c = a * p.x + b * p.y;
+                return { a, b, c };
+            },
+
+            // Tìm chân đường cao từ P xuống đường thẳng BC
+            altitudeFoot: (P, B, C) => {
+                const lineBC = Geo.lineFromPoints(B, C);
+                const perpLine = Geo.perpendicularLine(lineBC, P);
+                return Geo.intersect(lineBC, perpLine);
+            },
+
+            // --- CÁC TÂM TAM GIÁC ---
+
+            // Trọng tâm (Centroid)
+            centroid: (A, B, C) => ({
+                x: (A.x + B.x + C.x) / 3,
+                y: (A.y + B.y + C.y) / 3
+            }),
+
+            // Tâm đường tròn ngoại tiếp (Circumcenter)
+            circumcenter: (A, B, C) => {
+                const d = 2 * (A.x * (B.y - C.y) + B.x * (C.y - A.y) + C.x * (A.y - B.y));
+                if (Math.abs(d) < 1e-9) return null;
+                const Ux = ((A.x ** 2 + A.y ** 2) * (B.y - C.y) + (B.x ** 2 + B.y ** 2) * (C.y - A.y) + (C.x ** 2 + C.y ** 2) * (A.y - B.y)) / d;
+                const Uy = ((A.x ** 2 + A.y ** 2) * (C.x - B.x) + (B.x ** 2 + B.y ** 2) * (A.x - C.x) + (C.x ** 2 + C.y ** 2) * (B.x - A.x)) / d;
+                const U = { x: Ux, y: Uy };
+                return { center: U, radius: Geo.dist(A, U) };
+            },
+
+            // Trực tâm (Orthocenter)
+            orthocenter: (A, B, C) => {
+                const altA = Geo.perpendicularLine(Geo.lineFromPoints(B, C), A);
+                const altB = Geo.perpendicularLine(Geo.lineFromPoints(A, C), B);
+                return Geo.intersect(altA, altB);
+            },
+
+            // Tâm nội tiếp (Incenter)
+            incenter: (A, B, C) => {
+                const a = Geo.dist(B, C);
+                const b = Geo.dist(A, C);
+                const c = Geo.dist(A, B);
+                const p = a + b + c;
+                const Ix = (a * A.x + b * B.x + c * C.x) / p;
+                const Iy = (a * A.y + b * B.y + c * C.y) / p;
+                const s = p / 2;
+                const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+                return { center: { x: Ix, y: Iy }, radius: area / s };
+            },
+
+            // Tâm bàng tiếp (Excenters) - Trả về mảng 3 tâm đối diện A, B, C
+            excenters: (A, B, C) => {
+                const a = Geo.dist(B, C);
+                const b = Geo.dist(A, C);
+                const c = Geo.dist(A, B);
+                const s = (a + b + c) / 2;
+                const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+
+                const exA = {
+                    center: { x: (-a * A.x + b * B.x + c * C.x) / (-a + b + c), y: (-a * A.y + b * B.y + c * C.y) / (-a + b + c) },
+                    radius: area / (s - a)
+                };
+                const exB = {
+                    center: { x: (a * A.x - b * B.x + c * C.x) / (a - b + c), y: (a * A.y - b * B.y + c * C.y) / (a - b + c) },
+                    radius: area / (s - b)
+                };
+                const exC = {
+                    center: { x: (a * A.x + b * B.x - c * C.x) / (a + b - c), y: (a * A.y + b * B.y - c * C.y) / (a + b - c) },
+                    radius: area / (s - c)
+                };
+                return [exA, exB, exC];
+            }
+        };
+
+        // ==========================================
+        // HÀM VẼ HỖ TRỢ (DRAWING HELPERS)
+        // ==========================================
+
+        function drawPoint(ctx, p, color = 'black', size = 4, label = '') {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, size, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+            if (label) {
+                ctx.font = "14px Arial";
+                ctx.fillStyle = "#333";
+                ctx.fillText(label, p.x + 8, p.y - 8);
+            }
+        }
+
+        function drawLine(ctx, p1, p2, color = 'black', width = 1, dash = []) {
+            ctx.beginPath();
+            ctx.setLineDash(dash);
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function drawCircle(ctx, center, radius, color = 'black', width = 1) {
+            ctx.beginPath();
+            ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.stroke();
+        }
+
+        function drawTriangle(ctx, A, B, C, color = '#334155', width = 2, fill = null) {
+            ctx.beginPath();
+            ctx.moveTo(A.x, A.y);
+            ctx.lineTo(B.x, B.y);
+            ctx.lineTo(C.x, C.y);
+            ctx.closePath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.stroke();
+            if (fill) {
+                ctx.fillStyle = fill;
+                ctx.fill();
+            }
+        }
+
+        // ==========================================
+        // TRIỂN KHAI VẼ TỪNG ĐỊNH LÝ
+        // ==========================================
+
+        // --- 1. EULER LINE ---
+        function renderEulerLine(ctx, A, B, C) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            // 1. Tính toán các điểm chính
+            const G = Geo.centroid(A, B, C); // Trọng tâm
+            const O_data = Geo.circumcenter(A, B, C); // Tâm ngoại tiếp
+            const H = Geo.orthocenter(A, B, C); // Trực tâm
+
+            if (!O_data || !H) return; // Tránh lỗi khi 3 điểm thẳng hàng
+            const O = O_data.center;
+            const N = Geo.midpoint(O, H); // Tâm Euler
+
+            // 2. Vẽ tam giác gốc
+            drawTriangle(ctx, A, B, C);
+
+            // 3. Đường thẳng Euler
+            // Vẽ đường thẳng đi qua O và H (kéo dài ra một chút)
+            const dirV = { x: H.x - O.x, y: H.y - O.y };
+            const eulerStart = { x: O.x - dirV.x * 2, y: O.y - dirV.y * 2 };
+            const eulerEnd = { x: H.x + dirV.x * 2, y: H.y + dirV.y * 2 };
+            drawLine(ctx, eulerStart, eulerEnd, 'red', 3);
+
+            // Vẽ 4 điểm trên đường Euler
+            drawPoint(ctx, O, 'blue', 6, 'O (Ngoại tiếp)');
+            drawPoint(ctx, G, 'green', 6, 'G (Trọng tâm)');
+            drawPoint(ctx, H, 'purple', 6, 'H (Trực tâm)');
+            drawPoint(ctx, N, 'orange', 6, 'N (Tâm Euler)');
+
+            // Label đỉnh (làm to hơn để gợi ý có thể kéo)
+            drawPoint(ctx, A, '#475569', 8, 'A');
+            drawPoint(ctx, B, '#475569', 8, 'B');
+            drawPoint(ctx, C, '#475569', 8, 'C');
+        }
+
+        // --- 2. EULER CIRCLE ---
+        function renderEulerCircle(ctx, A, B, C) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            // 1. Tính toán
+            const O_data = Geo.circumcenter(A, B, C);
+            const H = Geo.orthocenter(A, B, C);
+
+            if (!O_data || !H) return;
+            const O = O_data.center;
+            const N = Geo.midpoint(O, H); // Tâm Euler
+            const R_euler = O_data.radius / 2; // Bán kính Euler
+
+            // 2. Vẽ tam giác gốc và đường cao
+            drawTriangle(ctx, A, B, C);
+
+            const Ha = Geo.altitudeFoot(A, B, C);
+            const Hb = Geo.altitudeFoot(B, A, C);
+            const Hc = Geo.altitudeFoot(C, A, B);
+
+            if (Ha && Hb && Hc) {
+                drawLine(ctx, A, Ha, '#cbd5e1', 1, [5, 5]);
+                drawLine(ctx, B, Hb, '#cbd5e1', 1, [5, 5]);
+                drawLine(ctx, C, Hc, '#cbd5e1', 1, [5, 5]);
+            }
+
+            // 3. Đường tròn Euler (9 điểm)
+            drawPoint(ctx, N, 'orange', 6, 'N (Tâm Euler)');
+            drawCircle(ctx, N, R_euler, '#2563eb', 2); // Vẽ vòng tròn xanh dương
+
+            // 4. Vẽ 9 điểm đặc biệt
+            if (Ha && Hb && Hc) {
+                drawPoint(ctx, Ha, '#ef4444', 4, 'Ha');
+                drawPoint(ctx, Hb, '#ef4444', 4, 'Hb');
+                drawPoint(ctx, Hc, '#ef4444', 4, 'Hc');
+            }
+
+            // - 3 Trung điểm cạnh
+            const Ma = Geo.midpoint(B, C);
+            const Mb = Geo.midpoint(A, C);
+            const Mc = Geo.midpoint(A, B);
+            drawPoint(ctx, Ma, '#10b981', 4, 'Ma');
+            drawPoint(ctx, Mb, '#10b981', 4, 'Mb');
+            drawPoint(ctx, Mc, '#10b981', 4, 'Mc');
+
+            // - 3 Trung điểm nối đỉnh với trực tâm
+            const Ea = Geo.midpoint(A, H);
+            const Eb = Geo.midpoint(B, H);
+            const Ec = Geo.midpoint(C, H);
+            drawPoint(ctx, Ea, '#8b5cf6', 4, 'Ea');
+            drawPoint(ctx, Eb, '#8b5cf6', 4, 'Eb');
+            drawPoint(ctx, Ec, '#8b5cf6', 4, 'Ec');
+
+            // Label đỉnh
+            drawPoint(ctx, A, '#475569', 8, 'A');
+            drawPoint(ctx, B, '#475569', 8, 'B');
+            drawPoint(ctx, C, '#475569', 8, 'C');
+        }
+
+        // --- 3. FEUERBACH THEOREM ---
+        function renderFeuerbach(ctx, A, B, C) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            // 1. Dữ liệu cơ bản
+            drawTriangle(ctx, A, B, C, '#94a3b8');
+            const O_data = Geo.circumcenter(A, B, C);
+            const H = Geo.orthocenter(A, B, C);
+
+            if (!O_data || !H) return;
+
+            // 2. Đường tròn Euler
+            const N = Geo.midpoint(O_data.center, H);
+            const R_euler = O_data.radius / 2;
+            drawCircle(ctx, N, R_euler, '#1e40af', 3); // Đường tròn Euler đậm
+
+            // 3. Đường tròn Nội tiếp
+            const inCircle = Geo.incenter(A, B, C);
+            drawCircle(ctx, inCircle.center, inCircle.radius, '#dc2626', 2); // Đỏ
+
+            // 4. Các đường tròn Bàng tiếp
+            const exCircles = Geo.excenters(A, B, C);
+            exCircles.forEach(ex => {
+                drawCircle(ctx, ex.center, ex.radius, '#16a34a', 2); // Xanh lá
+            });
+
+            // Đỉnh
+            drawPoint(ctx, A, '#475569', 8, 'A');
+            drawPoint(ctx, B, '#475569', 8, 'B');
+            drawPoint(ctx, C, '#475569', 8, 'C');
+        }
+
+        // --- 4. THEBAULT'S THEOREM 4 ---
+        function renderThebault(ctx, A, B, C) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            // 1. Tam giác gốc và đường tròn Euler của nó
+            drawTriangle(ctx, A, B, C);
+            const O_main = Geo.circumcenter(A, B, C);
+            const H_main = Geo.orthocenter(A, B, C);
+            if (!O_main || !H_main) return;
+
+            const N_main = Geo.midpoint(O_main.center, H_main);
+            const R_euler_main = O_main.radius / 2;
+            drawCircle(ctx, N_main, R_euler_main, '#94a3b8', 1); // Đường tròn Euler gốc (mờ)
+
+            // 2. Chân các đường cao A', B', C'
+            const Ap = Geo.altitudeFoot(A, B, C);
+            const Bp = Geo.altitudeFoot(B, A, C);
+            const Cp = Geo.altitudeFoot(C, A, B);
+
+            if (!Ap || !Bp || !Cp) return;
+
+            // Vẽ đường cao để dễ nhìn
+            drawLine(ctx, A, Ap, '#e2e8f0');
+            drawLine(ctx, B, Bp, '#e2e8f0');
+            drawLine(ctx, C, Cp, '#e2e8f0');
+
+            // 3. Hàm vẽ đường Euler cho một tam giác bất kỳ
+            function drawEulerLineForTriangle(tA, tB, tC, color) {
+                const O_sub_data = Geo.circumcenter(tA, tB, tC);
+                const H_sub = Geo.orthocenter(tA, tB, tC);
+                if (!O_sub_data || !H_sub) return;
+                const O_sub = O_sub_data.center;
+
+                // Vẽ đoạn thẳng dài qua O và H
+                const dir = { x: H_sub.x - O_sub.x, y: H_sub.y - O_sub.y };
+                // Kéo dài đường thẳng để thấy giao điểm
+                const pStart = { x: O_sub.x - dir.x * 3, y: O_sub.y - dir.y * 3 };
+                const pEnd = { x: H_sub.x + dir.x * 5, y: H_sub.y + dir.y * 5 };
+                drawLine(ctx, pStart, pEnd, color, 2);
+            }
+
+            // 4. Vẽ 3 đường Euler của 3 tam giác con
+            // Tam giác AB'C' (Cam)
+            drawEulerLineForTriangle(A, Bp, Cp, '#f97316');
+            drawTriangle(ctx, A, Bp, Cp, '#f97316', 1, 'rgba(249, 115, 22, 0.1)');
+
+            // Tam giác A'BC' (Tím)
+            drawEulerLineForTriangle(Ap, B, Cp, '#a855f7');
+            drawTriangle(ctx, Ap, B, Cp, '#a855f7', 1, 'rgba(168, 85, 247, 0.1)');
+
+            // Tam giác A'B'C (Nâu)
+            drawEulerLineForTriangle(Ap, Bp, C, '#854d0e');
+            drawTriangle(ctx, Ap, Bp, C, '#854d0e', 1, 'rgba(133, 77, 14, 0.1)');
+
+            // Đỉnh
+            drawPoint(ctx, A, '#475569', 8, 'A');
+            drawPoint(ctx, B, '#475569', 8, 'B');
+            drawPoint(ctx, C, '#475569', 8, 'C');
+        }
+
+        // --- 5. LAMUNA THEOREM ---
+        function renderLamuna(ctx, A, B, C) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            drawTriangle(ctx, A, B, C);
+            const G = Geo.centroid(A, B, C); // Trọng tâm
+
+            // 1. Chân các đường trung tuyến
+            const Ma = Geo.midpoint(B, C);
+            const Mb = Geo.midpoint(A, C);
+            const Mc = Geo.midpoint(A, B);
+
+            // 2. Vẽ các đường trung tuyến
+            drawLine(ctx, A, Ma, '#cbd5e1');
+            drawLine(ctx, B, Mb, '#cbd5e1');
+            drawLine(ctx, C, Mc, '#cbd5e1');
+            drawPoint(ctx, G, 'black', 4, 'G');
+
+            // 3. Xác định 6 tam giác nhỏ và tính tâm ngoại tiếp của chúng
+            const subTriangles = [
+                [A, G, Mc], [B, G, Mc],
+                [B, G, Ma], [C, G, Ma],
+                [C, G, Mb], [A, G, Mb]
+            ];
+
+            const circumcenters = [];
+            subTriangles.forEach(tri => {
+                const cData = Geo.circumcenter(tri[0], tri[1], tri[2]);
+                if (cData) {
+                    circumcenters.push(cData.center);
+                    drawPoint(ctx, cData.center, '#dc2626', 4); // Chấm đỏ cho các tâm
+                }
+            });
+
+            // 4. Vẽ đường tròn Lamuna đi qua 6 điểm này
+            if (circumcenters.length >= 3) {
+                const lamunaCircleData = Geo.circumcenter(circumcenters[0], circumcenters[2], circumcenters[4]);
+                if (lamunaCircleData) {
+                    drawCircle(ctx, lamunaCircleData.center, lamunaCircleData.radius, '#9333ea', 3); // Đường tròn Tím
+                }
+            }
+
+            // Đỉnh
+            drawPoint(ctx, A, '#475569', 8, 'A');
+            drawPoint(ctx, B, '#475569', 8, 'B');
+            drawPoint(ctx, C, '#475569', 8, 'C');
+        }
+
+
+        // ==========================================
+        // HỆ THỐNG KÉO THẢ TƯƠNG TÁC
+        // ==========================================
+        function setupInteractiveCanvas(canvasId, renderFunc) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            // Trạng thái tam giác độc lập cho từng canvas
+            const points = {
+                A: Geo.point(250, 100),
+                B: Geo.point(150, 500),
+                C: Geo.point(650, 450)
+            };
+
+            let draggingPoint = null;
+            const hitRadius = 20; // Bán kính nhận diện nhấp chuột
+
+            function getMousePos(evt) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+
+                let clientX = evt.clientX;
+                let clientY = evt.clientY;
+
+                if (evt.touches && evt.touches.length > 0) {
+                    clientX = evt.touches[0].clientX;
+                    clientY = evt.touches[0].clientY;
+                }
+
+                return {
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
+                };
+            }
+
+            function checkHit(pos) {
+                if (Geo.dist(pos, points.A) < hitRadius) return 'A';
+                if (Geo.dist(pos, points.B) < hitRadius) return 'B';
+                if (Geo.dist(pos, points.C) < hitRadius) return 'C';
+                return null;
+            }
+
+            const onPointerDown = (e) => {
+                e.preventDefault();
+                const pos = getMousePos(e);
+                draggingPoint = checkHit(pos);
+            };
+
+            const onPointerMove = (e) => {
+                e.preventDefault();
+                const pos = getMousePos(e);
+
+                // Đổi con trỏ chuột khi lướt qua các đỉnh
+                if (!draggingPoint) {
+                    canvas.style.cursor = checkHit(pos) ? 'pointer' : 'crosshair';
+                    return;
+                }
+
+                // Cập nhật tọa độ khi đang kéo thả
+                points[draggingPoint].x = pos.x;
+                points[draggingPoint].y = pos.y;
+                renderFunc(ctx, points.A, points.B, points.C);
+            };
+
+            const onPointerUp = () => {
+                draggingPoint = null;
+            };
+
+            // Chuột
+            canvas.addEventListener('mousedown', onPointerDown);
+            canvas.addEventListener('mousemove', onPointerMove);
+            canvas.addEventListener('mouseup', onPointerUp);
+            canvas.addEventListener('mouseleave', onPointerUp);
+
+            // Cảm ứng (Touch)
+            canvas.addEventListener('touchstart', onPointerDown, { passive: false });
+            canvas.addEventListener('touchmove', onPointerMove, { passive: false });
+            canvas.addEventListener('touchend', onPointerUp);
+            canvas.addEventListener('touchcancel', onPointerUp);
+
+            // Vẽ lần đầu tiên
+            renderFunc(ctx, points.A, points.B, points.C);
+        }
+
+        // ==========================================
+        // KHỞI CHẠY KHI TRANG TẢI XONG
+        // ==========================================
+        window.onload = function () {
+            setupInteractiveCanvas('canvasEulerLine', renderEulerLine);
+            setupInteractiveCanvas('canvasEulerCircle', renderEulerCircle);
+            setupInteractiveCanvas('canvasFeuerbach', renderFeuerbach);
+            setupInteractiveCanvas('canvasThebault', renderThebault);
+            setupInteractiveCanvas('canvasLamuna', renderLamuna);
+        };
+
+    </script>
+</body>
+
+</html>
