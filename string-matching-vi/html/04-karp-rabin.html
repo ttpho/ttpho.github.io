@@ -83,6 +83,10 @@ void search(char *x, int m, char *y, int n) {
 
 <h2>Ví dụ minh họa</h2>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> ($m = 8$) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>. Giả sử mã ASCII: $G=71, C=67, A=65, T=84$.</p>
+<figure style="text-align:center;margin:1.5rem 0;">
+<img src="../images/04-karp-rabin.png" alt="Minh họa thuật toán Karp-Rabin trên mẫu GCAGAGAG và văn bản GCATCGCAGAGAGTATACAGTACG" style="max-width:100%;height:auto;">
+<figcaption>Hình minh họa quá trình băm cuộn (rolling hash) của thuật toán Karp-Rabin.</figcaption>
+</figure>
 <p>Tính <code>hx</code> = giá trị băm của <code>"GCAGAGAG"</code> và <code>hy</code> = giá trị băm của cửa sổ đầu tiên <code>"GCATCGCA"</code>. Hai giá trị này khác nhau (vì hai chuỗi khác nhau), nên tại $j = 0$ ta bỏ qua mà không so sánh ký tự.</p>
 <p>Trượt cửa sổ: gỡ $y[0]='G'$, thêm $y[8]='A'$, cập nhật <code>hy</code> cho cửa sổ <code>"CATCGCAG"</code> chỉ bằng công thức REHASH — một phép trừ, một phép dịch, một phép cộng. So <code>hx</code> với <code>hy</code> mới; vẫn khác nhau, bỏ qua.</p>
 <p>Cứ thế trượt tiếp. Khi cửa sổ đến vị trí $j = 5$, ứng với đoạn <code>y[5..12] = "GCAGAGAG"</code>, giá trị <code>hy</code> sẽ <strong>bằng</strong> <code>hx</code>. Lúc này thuật toán kiểm tra lại 8 ký tự bằng <code>memcmp</code>, thấy khớp hoàn toàn, và báo <strong>xuất hiện tại vị trí 5</strong>.</p>
