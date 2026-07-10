@@ -1,0 +1,396 @@
+---
+layout: post
+title: "Bài Toán Collatz 3n + 1"
+subtitle: "Nhập một số nguyên dương và xem trực quan chuỗi biến đổi Collatz về 1 qua biểu đồ HTML5 Canvas: số bước nhảy,
+số lần chia đôi, số lần 3n+1 và đỉnh cao nhất của quỹ đạo."
+tags: [math, canvas]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mô Phỏng Bài Toán Collatz (3n + 1)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <style>
+        /* Đảm bảo canvas hiển thị nét trên màn hình độ phân giải cao */
+        canvas {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800 p-4 md:p-8 font-sans">
+    <div class="max-w-5xl mx-auto space-y-6">
+
+        <!-- Header & Controls -->
+        <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-4 justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-indigo-600">Bài Toán 3n + 1 (Collatz)</h1>
+                <p class="text-sm text-slate-500 mt-1">Nhập một số nguyên dương để xem chuỗi biến đổi về 1</p>
+            </div>
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <input type="number" id="input-number" value="27" min="1"
+                    class="w-full md:w-32 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                    placeholder="Nhập n...">
+                <button id="btn-simulate"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition whitespace-nowrap shadow-sm">
+                    Mô phỏng
+                </button>
+            </div>
+        </div>
+
+        <!-- Thông tin lý thuyết -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">Về bài toán Collatz</h2>
+            <p class="text-slate-600 leading-relaxed mb-2">
+                Bài toán Collatz, hay còn gọi là phỏng đoán <strong>$3n + 1$</strong>, là một trong những bài toán chưa
+                có lời giải nổi tiếng nhất trong toán học. Quy luật của nó rất đơn giản. Bắt đầu với một số nguyên dương
+                $n$ bất kỳ, ta áp dụng hàm:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$f(n) = \begin{cases} n/2 & \text{nếu } n \equiv 0 \pmod 2 \\ 3n + 1 & \text{nếu } n \equiv 1 \pmod 2
+                \end{cases}$$
+            </div>
+            <ul class="list-disc list-outside text-slate-600 ml-6 mb-3 space-y-1 marker:text-indigo-400">
+                <li>Nếu $n$ là số chẵn, chia nó cho 2: &nbsp; $n \rightarrow n/2$</li>
+                <li>Nếu $n$ là số lẻ, nhân nó với 3 và cộng thêm 1: &nbsp; $n \rightarrow 3n + 1$</li>
+            </ul>
+            <p class="text-slate-600 leading-relaxed">
+                Phỏng đoán cho rằng, dù bạn bắt đầu với bất kỳ số nguyên dương nào, quá trình này cuối cùng cũng sẽ luôn
+                đạt tới chu trình lặp $4 \rightarrow 2 \rightarrow 1$ và quay về số $1$.
+            </p>
+        </div>
+
+        <!-- Thống kê -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-slate-500">Tổng số bước nhảy</span>
+                <span id="stat-total" class="text-2xl font-bold text-slate-800">0</span>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-xl shadow-sm border border-emerald-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-emerald-700">Số lần (n / 2)</span>
+                <span id="stat-even" class="text-2xl font-bold text-emerald-800">0</span>
+            </div>
+            <div class="bg-rose-50 p-4 rounded-xl shadow-sm border border-rose-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-rose-700">Số lần (3n + 1)</span>
+                <span id="stat-odd" class="text-2xl font-bold text-rose-800">0</span>
+            </div>
+            <div class="bg-indigo-50 p-4 rounded-xl shadow-sm border border-indigo-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-indigo-700">Tỉ lệ (Lẻ / Chẵn)</span>
+                <span id="stat-ratio" class="text-2xl font-bold text-indigo-800">0%</span>
+            </div>
+        </div>
+
+        <!-- Canvas Chart Area -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
+            <h2 class="text-lg font-semibold mb-4 text-slate-700">Biểu đồ đường đi của n</h2>
+            <div class="w-full relative" id="canvas-container">
+                <canvas id="collatz-canvas"></canvas>
+            </div>
+            <div class="absolute top-6 right-6 text-right">
+                <div class="text-xs text-slate-400 font-medium tracking-wide uppercase mb-1">Đỉnh cao nhất</div>
+                <div id="stat-max" class="text-lg font-bold text-indigo-600">0</div>
+            </div>
+        </div>
+
+        <!-- Thông tin khoa học -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-8">
+            <h2 class="text-lg font-semibold text-slate-800">Thông tin khoa học</h2>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Lịch sử &amp; tên gọi</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Bài toán do nhà toán học <strong>Lothar Collatz</strong> nêu ra năm <strong>1937</strong>. Do được
+                    nhiều người phát hiện lại độc lập, nó mang rất nhiều tên: <em>bài toán $3n+1$</em>, <em>phỏng đoán
+                    Ulam</em>, <em>bài toán Kakutani</em>, <em>phỏng đoán Thwaites</em>, <em>thuật toán Hasse</em>, hay
+                    <em>bài toán Syracuse</em>.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-3">Thời gian dừng (stopping time)</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Với quỹ đạo $\;n,\, f(n),\, f^2(n),\, \dots$, người ta định nghĩa hai đại lượng: <strong>thời gian
+                    dừng</strong> là chỉ số nhỏ nhất mà dãy tụt xuống dưới giá trị ban đầu; <strong>thời gian dừng toàn
+                    phần</strong> là chỉ số nhỏ nhất mà dãy đạt tới $1$.
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$\sigma(n) = \min\{\, k \ge 1 : f^k(n) < n \,\}$$
+                    $$\sigma_\infty(n) = \min\{\, k \ge 0 : f^k(n) = 1 \,\}$$
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Ví dụ kinh điển: $n = 27$</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Tuy nhỏ, số $27$ lại có quỹ đạo rất dài: dãy leo lên tới đỉnh <strong>$9\,232$</strong> trước khi tụt
+                    về $1$, tổng cộng <strong>$111$ bước</strong> (trong đó có $41$ bước qua số lẻ). Đây là lý do $27$
+                    được chọn làm giá trị mặc định của mô phỏng phía trên.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Kiểm chứng bằng máy tính</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Phỏng đoán đã được kiểm chứng đúng cho mọi số nguyên dương tới khoảng $2^{71} \approx 2{,}36 \times
+                    10^{21}$ — tất cả đều hội tụ về $1$. Tuy vậy, việc kiểm chứng bằng máy <strong>không</strong> thay
+                    thế được một chứng minh tổng quát.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Tiến triển toán học</h3>
+                <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                    <li><strong>Riho Terras (1976):</strong> chứng minh <em>hầu hết</em> số nguyên dương có thời gian
+                        dừng hữu hạn.</li>
+                    <li><strong>John Conway (1972):</strong> chứng minh các dạng tổng quát tự nhiên của bài toán là
+                        <em>không quyết định được</em> (thuật toán), liên hệ với hệ FRACTRAN.</li>
+                    <li><strong>Terence Tao (2019):</strong> chứng minh "hầu hết quỹ đạo Collatz đạt tới giá trị gần như
+                        bị chặn" — một trong những kết quả quan trọng nhất về bài toán trong nhiều thập kỷ.</li>
+                </ul>
+            </div>
+
+            <div class="p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm">
+                <span class="font-bold">Độ khó: </span> Paul Erdős từng nhận xét <em>"Toán học có lẽ chưa sẵn sàng cho
+                những bài toán như thế này"</em> và treo giải thưởng $\$500$. Năm 2010, Jeffrey Lagarias gọi đây là
+                "một bài toán cực kỳ khó, hoàn toàn nằm ngoài tầm với của toán học hiện nay".
+            </div>
+
+            <p class="text-xs text-slate-400">
+                Nguồn: <a href="https://en.wikipedia.org/wiki/Collatz_conjecture"
+                    class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — Collatz
+                    conjecture</a>.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('collatz-canvas');
+        const ctx = canvas.getContext('2d');
+        const inputNumber = document.getElementById('input-number');
+        const btnSimulate = document.getElementById('btn-simulate');
+        const container = document.getElementById('canvas-container');
+
+        // Logic tính toán chuỗi Collatz
+        function calculateCollatz(n) {
+            let sequence = [n];
+            let evenCount = 0; // n / 2
+            let oddCount = 0;  // 3n + 1
+
+            while (n > 1) {
+                if (n % 2 === 0) {
+                    n = n / 2;
+                    evenCount++;
+                } else {
+                    n = 3 * n + 1;
+                    oddCount++;
+                }
+                sequence.push(n);
+            }
+
+            return {
+                sequence,
+                evenCount,
+                oddCount,
+                totalSteps: sequence.length - 1,
+                maxVal: Math.max(...sequence)
+            };
+        }
+
+        // Cập nhật DOM
+        function updateStatsUI(data) {
+            document.getElementById('stat-total').innerText = data.totalSteps;
+            document.getElementById('stat-even').innerText = data.evenCount;
+            document.getElementById('stat-odd').innerText = data.oddCount;
+            document.getElementById('stat-max').innerText = data.maxVal.toLocaleString('vi-VN');
+
+            // Tính tỉ lệ Số lần (3n+1) / Số lần (n/2)
+            let ratio = 0;
+            if (data.evenCount > 0) {
+                ratio = (data.oddCount / data.evenCount) * 100;
+            }
+            document.getElementById('stat-ratio').innerText = ratio.toFixed(2) + '%';
+        }
+
+        // Hàm thiết lập độ phân giải Canvas (chống mờ trên màn hình Retina)
+        function resizeCanvas() {
+            const rect = container.getBoundingClientRect();
+            // Điều chỉnh dựa trên pixel ratio của thiết bị
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = 400 * dpr;
+
+            // Normalize coordinate system
+            ctx.scale(dpr, dpr);
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `400px`;
+        }
+
+        // Hàm vẽ biểu đồ
+        function drawChart(sequence) {
+            // Resize canvas để match với container hiện tại
+            resizeCanvas();
+
+            const rect = container.getBoundingClientRect();
+            const width = rect.width;
+            const height = 400;
+
+            // Xoá canvas trước khi vẽ mới
+            ctx.clearRect(0, 0, width, height);
+
+            if (sequence.length === 0) return;
+
+            // Thiết lập margins
+            const padding = { top: 40, right: 20, bottom: 40, left: 60 };
+            const drawWidth = width - padding.left - padding.right;
+            const drawHeight = height - padding.top - padding.bottom;
+
+            const maxSteps = sequence.length - 1;
+            const maxVal = Math.max(...sequence);
+
+            // Tính toán hàm scale
+            const scaleX = maxSteps > 0 ? drawWidth / maxSteps : drawWidth;
+            const scaleY = maxVal > 0 ? drawHeight / maxVal : drawHeight;
+
+            // 1. Vẽ lưới (Grid) và trục
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#f1f5f9';
+            ctx.beginPath();
+
+            // Lưới ngang (chia làm 5 phần)
+            const horizontalLines = 5;
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+
+            for (let i = 0; i <= horizontalLines; i++) {
+                const yPos = padding.top + (drawHeight / horizontalLines) * i;
+                const val = maxVal - (maxVal / horizontalLines) * i;
+
+                // Vẽ đường
+                ctx.moveTo(padding.left, yPos);
+                ctx.lineTo(width - padding.right, yPos);
+
+                // Vẽ text trục Y
+                ctx.fillText(Math.round(val), padding.left - 10, yPos);
+            }
+            ctx.stroke();
+
+            // Vẽ text trục X (Bước nhảy)
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.fillText("0", padding.left, height - padding.bottom + 10);
+            if (maxSteps > 0) {
+                ctx.fillText(maxSteps + " bước", width - padding.right, height - padding.bottom + 10);
+            }
+
+            // Trục chính X và Y
+            ctx.beginPath();
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.moveTo(padding.left, padding.top);
+            ctx.lineTo(padding.left, height - padding.bottom); // Trục Y
+            ctx.lineTo(width - padding.right, height - padding.bottom); // Trục X
+            ctx.stroke();
+
+            // 2. Vẽ đường biểu diễn
+            ctx.beginPath();
+            ctx.strokeStyle = '#4f46e5'; // Màu Indigo 600
+            ctx.lineWidth = 2;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+
+            sequence.forEach((val, index) => {
+                const x = padding.left + index * scaleX;
+                const y = height - padding.bottom - val * scaleY;
+
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+
+            // 3. (Tùy chọn) Tô màu Gradient dưới đường biểu diễn
+            if (sequence.length > 1) {
+                const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
+                gradient.addColorStop(0, 'rgba(79, 70, 229, 0.2)'); // Màu indigo với opacity
+                gradient.addColorStop(1, 'rgba(79, 70, 229, 0)');
+
+                ctx.lineTo(width - padding.right, height - padding.bottom);
+                ctx.lineTo(padding.left, height - padding.bottom);
+                ctx.closePath();
+                ctx.fillStyle = gradient;
+                ctx.fill();
+            }
+
+            // 4. Vẽ điểm bắt đầu và điểm kết thúc (số 1)
+            const drawPoint = (x, y, color) => {
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            };
+
+            // Điểm đầu
+            drawPoint(padding.left, height - padding.bottom - sequence[0] * scaleY, '#f43f5e'); // Rose
+            // Điểm cuối (thường là 1)
+            drawPoint(padding.left + maxSteps * scaleX, height - padding.bottom - sequence[maxSteps] * scaleY, '#10b981'); // Emerald
+        }
+
+        // Khởi động quá trình mô phỏng
+        function runSimulation() {
+            let n = parseInt(inputNumber.value);
+            if (isNaN(n) || n < 1) {
+                alert("Vui lòng nhập một số nguyên dương lớn hơn 0");
+                inputNumber.value = 1;
+                n = 1;
+            }
+
+            const data = calculateCollatz(n);
+            updateStatsUI(data);
+            drawChart(data.sequence);
+        }
+
+        // Lắng nghe sự kiện
+        btnSimulate.addEventListener('click', runSimulation);
+        inputNumber.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') runSimulation();
+        });
+
+        // Tự động vẽ lại khi resize cửa sổ để giữ form layout
+        window.addEventListener('resize', () => {
+            const n = parseInt(inputNumber.value) || 1;
+            const data = calculateCollatz(n);
+            drawChart(data.sequence);
+        });
+
+        // Chạy lần đầu tiên khi load trang với số mặc định (27)
+        runSimulation();
+
+    </script>
+</body>
+
+</html>
