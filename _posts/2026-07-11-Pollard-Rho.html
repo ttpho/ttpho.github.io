@@ -1,0 +1,842 @@
+---
+layout: post
+title: "Thuật toán Pollard's Rho"
+subtitle: "Phân tích thừa số nguyên tố bằng thuật toán Pollard's rho: kết hợp nghịch lý ngày sinh nhật và thuật toán
+Rùa - Thỏ của Floyd. Xem trực quan dãy số cuộn thành hình chữ ρ và mã nguồn C minh hoạ."
+tags: [math, canvas, algorithm]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thuật toán Pollard's Rho (Phân tích thừa số nguyên tố)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"
+        onload="hljs.highlightAll();"></script>
+    <style>
+        #sim-canvas {
+            cursor: grab;
+        }
+
+        #sim-canvas:active {
+            cursor: grabbing;
+        }
+
+        pre code.hljs {
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800 p-4 md:p-8 font-sans">
+    <div class="max-w-5xl mx-auto space-y-6">
+
+        <!-- Header -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h1 class="text-2xl font-bold text-indigo-600">Thuật toán Pollard's Rho</h1>
+            <p class="text-sm text-slate-500 mt-1">Phân tích một số nguyên ra thừa số nguyên tố</p>
+        </div>
+
+        <!-- 1. Giới thiệu -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">1. Giới thiệu</h2>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Thuật toán <strong>Pollard's rho</strong> là một thuật toán dùng để phân tích một số nguyên ra thừa số
+                nguyên tố, được phát minh bởi <strong>John Pollard</strong> vào năm <strong>1975</strong>. Nó đặc biệt
+                hiệu quả trong việc tìm các ước số nguyên tố nhỏ của một hợp số lớn.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Thời gian chạy dự kiến của thuật toán tỷ lệ thuận với căn bậc hai của ước nguyên tố nhỏ nhất của số cần
+                phân tích. Mặc dù không phải là thuật toán phân tích nhanh nhất hiện nay (như <em>Quadratic Sieve</em>
+                hay <em>General Number Field Sieve</em>), nhưng Pollard's rho cực kỳ hữu ích trong thực tế vì tính đơn
+                giản và hiệu quả cao hơn nhiều so với phương pháp chia thử (<em>trial division</em>) truyền thống. Khả
+                năng nổi bật nhất của thuật toán này là nó sử dụng rất ít bộ nhớ.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Thuật toán đã chứng minh được sức mạnh của mình khi Pollard và Brent sử dụng nó để phân tích số Fermat
+                thứ tám ($F_8 = 2^{256} + 1$).
+            </p>
+        </div>
+
+        <!-- 2. Ý tưởng chính -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-3">2. Ý tưởng chính</h2>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Thuật toán Pollard's rho là sự kết hợp thông minh giữa hai khái niệm:
+            </p>
+            <ol class="list-decimal list-outside text-slate-600 ml-6 mb-4 space-y-2 marker:text-indigo-400">
+                <li><strong>Nghịch lý ngày sinh nhật (Birthday paradox):</strong> Xác suất để hai số $x$ và $y$ được
+                    chọn ngẫu nhiên đồng dư theo modulo $p$ (nghĩa là $x \equiv y \pmod p$ hay $p$ là ước của $|x - y|$)
+                    cao hơn nhiều so với dự đoán thông thường.</li>
+                <li><strong>Thuật toán phát hiện chu trình của Floyd (Floyd's cycle-finding algorithm):</strong> Còn
+                    được gọi là thuật toán "Rùa và Thỏ", dùng để phát hiện chu trình trong một chuỗi sinh bằng hàm ngẫu
+                    nhiên giả mà không cần lưu trữ toàn bộ chuỗi.</li>
+            </ol>
+
+            <h3 class="font-semibold text-slate-900 mb-2">Cách thức hoạt động</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Giả sử ta cần phân tích số $N$. Chúng ta tìm một ước số $p$ của $N$ ($1 < p < N$). Thay vì tìm trực tiếp
+                nghiệm, thuật toán định nghĩa một hàm đa thức ngẫu nhiên giả, thường là:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$f(x) = (x^2 + c) \pmod N$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                (với $c$ là một hằng số ngẫu nhiên, thường chọn $c = 1$). Bắt đầu với một giá trị $x_0$ ban đầu (ví dụ
+                $x_0 = 2$), ta tạo ra một dãy số:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$x_1 = f(x_0), \quad x_2 = f(x_1), \quad x_3 = f(x_2), \quad \dots$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Vì tập các số theo modulo $N$ là hữu hạn, dãy này chắc chắn sẽ rơi vào một chu trình (lặp lại các giá
+                trị). Khi biểu diễn trên đồ thị có hướng, dãy này có hình dáng giống chữ cái Hy Lạp <strong>$\rho$
+                    (rho)</strong>, gồm một phần đuôi và một vòng lặp, giải thích cho tên gọi của thuật toán.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Để phát hiện chu trình, ta duy trì hai biến (Rùa và Thỏ):
+            </p>
+            <ul class="list-disc list-outside text-slate-600 ml-6 mb-3 space-y-1 marker:text-indigo-400">
+                <li>🐢 Rùa ($x$) di chuyển một bước: &nbsp; $x = f(x)$</li>
+                <li>🐇 Thỏ ($y$) di chuyển hai bước: &nbsp; $y = f(f(y))$</li>
+            </ul>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Ở mỗi bước, ta tính ước chung lớn nhất (GCD):
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$d = \gcd(|x - y|, N)$$
+            </div>
+            <ul class="list-disc list-outside text-slate-600 ml-6 space-y-1 marker:text-indigo-400">
+                <li>Nếu $1 < d < N$: Thuật toán thành công, $d$ chính là một ước không tầm thường của $N$.</li>
+                <li>Nếu $d = 1$: Tiếp tục vòng lặp.</li>
+                <li>Nếu $d = N$: Thuật toán thất bại, hàm $f(x)$ đã sinh ra một chu trình có độ dài là bội của $N$ mà
+                    không tìm được $p$. Ta cần đổi giá trị bắt đầu $x_0$ hoặc hằng số $c$ và thử lại.</li>
+            </ul>
+        </div>
+
+        <!-- Mô phỏng tương tác -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-1">Mô phỏng tương tác</h2>
+            <p class="text-sm text-slate-500 mb-4">Nhấn <strong>Bước</strong> hoặc <strong>Tự động</strong> để chạy
+                thuật toán và xem dãy số cuộn dần thành hình chữ ρ. Khi tìm được ước số, các đỉnh cùng số dư sẽ được gộp
+                lại. Bạn có thể kéo thả các đỉnh.</p>
+
+            <div class="flex flex-col lg:flex-row gap-4">
+                <!-- Bảng điều khiển -->
+                <div class="w-full lg:w-72 shrink-0 space-y-4">
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Số N
+                                (cần phân tích)</label>
+                            <input id="input-N" type="text" value="8051"
+                                class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono">
+                        </div>
+                        <div class="flex space-x-3">
+                            <div class="flex-1">
+                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Start
+                                    (x₀)</label>
+                                <input id="input-x0" type="text" value="2"
+                                    class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono">
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Hệ
+                                    số (c)</label>
+                                <input id="input-c" type="text" value="1"
+                                    class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-3 border-t border-slate-100">
+                        <button onclick="init()"
+                            class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 py-2 rounded-lg font-medium transition border border-slate-200 shadow-sm">Khởi
+                            tạo lại</button>
+                        <div class="flex space-x-3">
+                            <button id="btn-step" onclick="step()"
+                                class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium transition shadow-sm">Bước</button>
+                            <button id="btn-auto" onclick="toggleAutoPlay()"
+                                class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg font-medium transition shadow-sm">Tự
+                                động</button>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <span class="text-xs font-semibold text-slate-500 uppercase">Tốc độ:</span>
+                            <input type="range" id="input-speed" min="1" max="100" value="60"
+                                class="flex-1 accent-indigo-600" onchange="updateSpeed()">
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm space-y-2 font-mono shadow-inner">
+                        <div class="flex justify-between items-center"><span class="text-slate-500">Vòng lặp (k):</span>
+                            <span id="info-k" class="font-bold text-slate-800 text-base">0</span></div>
+                        <div class="flex justify-between items-center text-green-700"><span class="flex items-center gap-1">🐢
+                                Rùa (x):</span> <span id="info-x" class="font-bold">2</span></div>
+                        <div class="flex justify-between items-center text-red-600"><span class="flex items-center gap-1">🐇
+                                Thỏ (y):</span> <span id="info-y" class="font-bold">2</span></div>
+                        <div class="flex justify-between items-center mt-3 pt-3 border-t border-slate-200">
+                            <span class="text-slate-500">|x - y|:</span> <span id="info-diff"
+                                class="font-bold text-slate-700 truncate ml-2">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-500">GCD:</span> <span id="info-gcd"
+                                class="font-bold text-indigo-600 text-base">1</span>
+                        </div>
+                    </div>
+
+                    <div id="alert-box" class="hidden p-3 rounded-lg text-sm font-medium shadow-sm transition-all"></div>
+                </div>
+
+                <!-- Vùng Canvas -->
+                <div id="canvas-container"
+                    class="flex-1 relative bg-slate-50 rounded-xl border border-slate-200 overflow-hidden"
+                    style="height: 520px;">
+                    <canvas id="sim-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+                    <!-- Overlay hiệu ứng gộp đỉnh -->
+                    <div id="overlay-msg"
+                        class="absolute inset-0 flex items-center justify-center pointer-events-none hidden bg-white/70 transition-opacity duration-500 z-10 backdrop-blur-sm">
+                        <div
+                            class="bg-white px-8 py-6 rounded-2xl shadow-2xl text-center border-4 border-indigo-400 animate-bounce mx-4">
+                            <h2 class="text-2xl font-extrabold text-indigo-600 mb-2">Đã tìm thấy ước số!</h2>
+                            <p class="text-slate-700">Đang hợp nhất các đỉnh theo <span
+                                    class="font-mono bg-slate-100 px-2 py-1 rounded">modulo <span id="overlay-d"
+                                        class="font-bold text-red-500"></span></span></p>
+                            <p class="text-sm text-slate-500 mt-2">Dãy số sẽ hiện nguyên hình chữ ρ (Rho)...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Mã nguồn C -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">3. Mã nguồn C minh hoạ</h2>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Dưới đây là một ví dụ mã nguồn C cơ bản triển khai thuật toán Pollard's rho, sử dụng kiểu
+                <code class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 text-sm font-mono">long long</code> cho
+                các số tối đa 64-bit. Để tránh tràn số khi nhân hai số 64-bit, mã nguồn sử dụng hàm
+                <code class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 text-sm font-mono">mul_mod</code>.
+            </p>
+            <div style="overflow-x: auto;">
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+// Hàm tính Ước chung lớn nhất (GCD)
+long long gcd(long long a, long long b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}
+
+// Hàm nhân (a * b) % m tránh tràn số (overflow) cho số nguyên lớn
+long long mul_mod(long long a, long long b, long long m) {
+    long long res = 0;
+    a = a % m;
+    while (b &gt; 0) {
+        if (b % 2 == 1) res = (res + a) % m;
+        a = (a * 2) % m;
+        b /= 2;
+    }
+    return res % m;
+}
+
+// Hàm trị tuyệt đối
+long long absolute(long long x) {
+    return x &lt; 0 ? -x : x;
+}
+
+// Thuật toán Pollard's rho
+long long pollard_rho(long long n) {
+    // Nếu n là số chẵn, 2 là một ước số
+    if (n % 2 == 0) return 2;
+
+    // Khởi tạo các giá trị ngẫu nhiên ban đầu
+    long long x = (rand() % (n - 2)) + 2;
+    long long y = x;
+    long long c = (rand() % (n - 1)) + 1;
+    long long d = 1;
+
+    // Vòng lặp Floyd (Rùa và Thỏ)
+    while (d == 1) {
+        // Rùa đi 1 bước: x = (x^2 + c) % n
+        x = (mul_mod(x, x, n) + c) % n;
+
+        // Thỏ đi 2 bước: y = (y^2 + c) % n
+        y = (mul_mod(y, y, n) + c) % n;
+        y = (mul_mod(y, y, n) + c) % n;
+
+        // Kiểm tra ước chung lớn nhất
+        d = gcd(absolute(x - y), n);
+
+        // Nếu d = n, thất bại, cần thử lại với giá trị c khác
+        if (d == n) return pollard_rho(n);
+    }
+
+    return d;
+}
+
+int main() {
+    srand(time(NULL));
+    long long n;
+
+    printf("Nhap so can phan tich (N): ");
+    if (scanf("%lld", &amp;n) != 1) return 1;
+
+    if (n &lt;= 1) {
+        printf("Vui long nhap so lon hon 1.\n");
+        return 0;
+    }
+
+    // Lưu ý: Pollard's rho không phát hiện được số nguyên tố tự nhiên,
+    // do đó trong môi trường production, thường phải chạy thuật toán kiểm tra tính nguyên tố (như Miller-Rabin) trước.
+
+    long long factor = pollard_rho(n);
+    printf("Mot uoc so khong tam thuong cua %lld la: %lld\n", n, factor);
+
+    return 0;
+}
+</code></pre>
+            </div>
+            <div class="p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm mt-4">
+                <span class="font-bold">Lưu ý: </span> Pollard's rho không phát hiện được số nguyên tố tự nhiên, do đó
+                trong môi trường production, thường phải chạy thuật toán kiểm tra tính nguyên tố (như
+                <strong>Miller-Rabin</strong>) trước.
+            </div>
+        </div>
+
+        <p class="text-xs text-slate-400">
+            Nguồn: <a href="https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm"
+                class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — Pollard's rho
+                algorithm</a>.
+        </p>
+
+    </div>
+
+    <script>
+        // Biến toàn cục
+        let nodes = {};
+        let links = [];
+        let width = 800, height = 520;
+        let canvas, ctx;
+        let tortoiseNodeId = "";
+        let hareNodeId = "";
+        let mode = "normal"; // "normal", "modulo", "merged"
+        let factor = 1n;
+        let mergeTimeout = null;
+
+        // Tham số thuật toán
+        let currentN = 8051n;
+        let currentC = 1n;
+        let x = 2n;
+        let y = 2n;
+        let k = 0;
+        let phase = "init"; // "init", "running", "found", "failed"
+
+        // Cài đặt Canvas & Vật lý
+        const nodeRadius = 25;
+        let draggedNode = null;
+        let autoPlaySpeed = 800;
+        let autoPlayTimer = null;
+
+        function gcd(a, b) {
+            while (b !== 0n) {
+                let temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+
+        function f(val, n, c) {
+            return (val * val + c) % n;
+        }
+
+        // Khởi tạo đồ thị
+        function addNode(val) {
+            let id = val.toString();
+            if (!nodes[id]) {
+                nodes[id] = {
+                    id: id,
+                    value: val,
+                    label: id,
+                    x: width / 2 + (Math.random() - 0.5) * 100,
+                    y: height / 2 + (Math.random() - 0.5) * 100,
+                    vx: 0,
+                    vy: 0,
+                    cluster: null
+                };
+            }
+        }
+
+        function addLink(val1, val2) {
+            let s = val1.toString();
+            let t = val2.toString();
+            if (!links.find(l => l.source === s && l.target === t)) {
+                links.push({ source: s, target: t });
+            }
+        }
+
+        // Logic điều khiển
+        function init() {
+            try {
+                currentN = BigInt(document.getElementById('input-N').value);
+                currentC = BigInt(document.getElementById('input-c').value);
+                let x0 = BigInt(document.getElementById('input-x0').value);
+
+                if (currentN <= 1n) {
+                    alert("N phải lớn hơn 1");
+                    return;
+                }
+
+                x = x0;
+                y = x0;
+                k = 0;
+                phase = "running";
+                nodes = {};
+                links = [];
+                mode = "normal";
+                factor = 1n;
+
+                if (mergeTimeout) clearTimeout(mergeTimeout);
+                stopAuto();
+                clearAlert();
+
+                addNode(x0);
+                tortoiseNodeId = x0.toString();
+                hareNodeId = x0.toString();
+                updateUI(0n, 1n);
+            } catch (e) {
+                alert("Vui lòng nhập số nguyên hợp lệ!");
+            }
+        }
+
+        function step() {
+            if (phase !== "running") return;
+
+            // Rùa đi 1 bước
+            let nextX = f(x, currentN, currentC);
+            addNode(nextX);
+            addLink(x, nextX);
+
+            // Thỏ đi 2 bước
+            let y1 = f(y, currentN, currentC);
+            let nextY = f(y1, currentN, currentC);
+            addNode(y1);
+            addLink(y, y1);
+            addNode(nextY);
+            addLink(y1, nextY);
+
+            x = nextX;
+            y = nextY;
+            k++;
+
+            tortoiseNodeId = x.toString();
+            hareNodeId = y.toString();
+
+            let diff = x > y ? x - y : y - x;
+            let d = gcd(diff, currentN);
+
+            updateUI(diff, d);
+
+            // Kiểm tra kết thúc
+            if (d > 1n && d < currentN) {
+                phase = "found";
+                factor = d;
+                stopAuto();
+                showSuccess(`Thành công! Tìm thấy ước số d = ${d}.`);
+                revealHiddenCycle(d);
+            } else if (d === currentN) {
+                phase = "failed";
+                stopAuto();
+                showError("Thất bại! Tìm thấy chu trình nhưng d = N. Vui lòng thử c hoặc x₀ khác.");
+            } else if (Object.keys(nodes).length > 500) {
+                phase = "failed";
+                stopAuto();
+                showError("Thuật toán cần quá nhiều bước (>500 đỉnh)! Hãy chọn số N nhỏ hơn để vẽ.");
+            }
+        }
+
+        function toggleAutoPlay() {
+            if (autoPlayTimer) {
+                stopAuto();
+            } else {
+                if (phase !== "running") return;
+                updateSpeed();
+                autoPlayTimer = setInterval(step, autoPlaySpeed);
+                document.getElementById('btn-auto').innerText = "Tạm dừng";
+                document.getElementById('btn-auto').classList.replace("bg-emerald-500", "bg-amber-500");
+                document.getElementById('btn-auto').classList.replace("hover:bg-emerald-600", "hover:bg-amber-600");
+            }
+        }
+
+        function stopAuto() {
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = null;
+                document.getElementById('btn-auto').innerText = "Tự động";
+                document.getElementById('btn-auto').classList.replace("bg-amber-500", "bg-emerald-500");
+                document.getElementById('btn-auto').classList.replace("hover:bg-amber-600", "hover:bg-emerald-600");
+            }
+        }
+
+        function updateSpeed() {
+            let val = document.getElementById('input-speed').value;
+            // Map 1-100 to 2000ms - 50ms
+            autoPlaySpeed = 2000 - (val - 1) * (1950 / 99);
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = setInterval(step, autoPlaySpeed);
+            }
+        }
+
+        // Hiệu ứng gom cụm (Visualizing Rho)
+        function revealHiddenCycle(d) {
+            mode = "modulo";
+            factor = d;
+
+            document.getElementById('overlay-d').innerText = d.toString();
+            document.getElementById('overlay-msg').classList.remove('hidden');
+
+            for (let id in nodes) {
+                nodes[id].cluster = nodes[id].value % d;
+                nodes[id].label = nodes[id].value.toString() + " ≡ " + nodes[id].cluster.toString();
+            }
+
+            // Đợi lực hút kéo chúng lại gần nhau, sau đó gộp node
+            mergeTimeout = setTimeout(() => {
+                document.getElementById('overlay-msg').classList.add('hidden');
+                mergeClusters();
+            }, 4000);
+        }
+
+        function mergeClusters() {
+            let newNodes = {};
+            let newLinks = [];
+
+            for (let id in nodes) {
+                let n = nodes[id];
+                let c = n.cluster.toString();
+                if (!newNodes[c]) {
+                    newNodes[c] = {
+                        id: c,
+                        value: n.cluster,
+                        x: n.x, y: n.y, vx: 0, vy: 0,
+                        label: c,
+                        cluster: n.cluster
+                    };
+                } else {
+                    // Lấy trung bình vị trí
+                    newNodes[c].x = (newNodes[c].x + n.x) / 2;
+                    newNodes[c].y = (newNodes[c].y + n.y) / 2;
+                }
+            }
+
+            for (let link of links) {
+                let srcCluster = nodes[link.source].cluster.toString();
+                let tgtCluster = nodes[link.target].cluster.toString();
+                let exists = newLinks.find(l => l.source === srcCluster && l.target === tgtCluster);
+                if (!exists) {
+                    newLinks.push({ source: srcCluster, target: tgtCluster });
+                }
+            }
+
+            nodes = newNodes;
+            links = newLinks;
+            tortoiseNodeId = (x % factor).toString();
+            hareNodeId = (y % factor).toString();
+            mode = "merged";
+        }
+
+        // UI Updates
+        function updateUI(diff, d) {
+            document.getElementById('info-k').innerText = k;
+            document.getElementById('info-x').innerText = x.toString();
+            document.getElementById('info-y').innerText = y.toString();
+            document.getElementById('info-diff').innerText = diff.toString();
+            document.getElementById('info-gcd').innerText = d.toString();
+        }
+
+        function showSuccess(msg) {
+            let box = document.getElementById('alert-box');
+            box.className = "p-3 rounded-lg text-sm font-medium bg-green-100 text-green-800 border border-green-300 shadow-sm block";
+            box.innerText = msg;
+        }
+
+        function showError(msg) {
+            let box = document.getElementById('alert-box');
+            box.className = "p-3 rounded-lg text-sm font-medium bg-red-100 text-red-800 border border-red-300 shadow-sm block";
+            box.innerText = msg;
+        }
+
+        function clearAlert() {
+            document.getElementById('alert-box').className = "hidden";
+            document.getElementById('overlay-msg').classList.add('hidden');
+        }
+
+        // Hệ thống Mô phỏng Vật lý (Force-Directed Graph)
+        function updatePhysics() {
+            const repulsion = mode === "merged" ? 5000 : 3000;
+            const springLen = mode === "merged" ? 120 : 80;
+            const springK = 0.05;
+
+            let nodeList = Object.values(nodes);
+
+            for (let i = 0; i < nodeList.length; i++) {
+                let n1 = nodeList[i];
+                if (n1 === draggedNode) continue;
+
+                n1.fx = 0; n1.fy = 0;
+
+                // 1. Lực đẩy tĩnh điện giữa các node
+                for (let j = 0; j < nodeList.length; j++) {
+                    if (i === j) continue;
+                    let n2 = nodeList[j];
+                    let dx = n1.x - n2.x;
+                    let dy = n1.y - n2.y;
+                    let distSq = dx * dx + dy * dy;
+                    if (distSq === 0) { dx = Math.random() - 0.5; dy = Math.random() - 0.5; distSq = dx * dx + dy * dy; }
+                    if (distSq < 150000) {
+                        let f = repulsion / distSq;
+                        n1.fx += (dx / Math.sqrt(distSq)) * f;
+                        n1.fy += (dy / Math.sqrt(distSq)) * f;
+                    }
+                }
+
+                // 2. Lực hút vào trung tâm canvas
+                n1.fx += (width / 2 - n1.x) * 0.005;
+                n1.fy += (height / 2 - n1.y) * 0.005;
+            }
+
+            // 3. Lực hút đặc biệt: gom cụm các node cùng số dư (modulo)
+            if (mode === "modulo") {
+                for (let i = 0; i < nodeList.length; i++) {
+                    for (let j = i + 1; j < nodeList.length; j++) {
+                        if (nodeList[i].cluster === nodeList[j].cluster) {
+                            let dx = nodeList[j].x - nodeList[i].x;
+                            let dy = nodeList[j].y - nodeList[i].y;
+                            let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                            let f = dist * 0.08; // Lực hút rất mạnh
+
+                            if (nodeList[i] !== draggedNode) { nodeList[i].fx += (dx / dist) * f; nodeList[i].fy += (dy / dist) * f; }
+                            if (nodeList[j] !== draggedNode) { nodeList[j].fx -= (dx / dist) * f; nodeList[j].fy -= (dy / dist) * f; }
+                        }
+                    }
+                }
+            }
+
+            // 4. Lực lò xo giữa các node có liên kết
+            for (let link of links) {
+                let n1 = nodes[link.source];
+                let n2 = nodes[link.target];
+                if (!n1 || !n2) continue;
+                let dx = n2.x - n1.x;
+                let dy = n2.y - n1.y;
+                let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                let f = (dist - springLen) * springK;
+
+                if (n1 !== draggedNode) { n1.fx += (dx / dist) * f; n1.fy += (dy / dist) * f; }
+                if (n2 !== draggedNode) { n2.fx -= (dx / dist) * f; n2.fy -= (dy / dist) * f; }
+            }
+
+            // Cập nhật vị trí (Euler integration)
+            for (let node of nodeList) {
+                if (node === draggedNode) continue;
+                node.vx = (node.vx + node.fx) * 0.7; // Ma sát
+                node.vy = (node.vy + node.fy) * 0.7;
+                node.x += node.vx;
+                node.y += node.vy;
+            }
+        }
+
+        // Vẽ đồ thị lên Canvas
+        function drawArrow(fromx, fromy, tox, toy) {
+            const headlen = 12;
+            const dx = tox - fromx;
+            const dy = toy - fromy;
+            const angle = Math.atan2(dy, dx);
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < nodeRadius * 2) return;
+
+            let endX = tox - nodeRadius * Math.cos(angle);
+            let endY = toy - nodeRadius * Math.sin(angle);
+            let startX = fromx + nodeRadius * Math.cos(angle);
+            let startY = fromy + nodeRadius * Math.sin(angle);
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fillStyle = ctx.strokeStyle;
+            ctx.fill();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Vẽ cạnh liên kết
+            ctx.strokeStyle = "#9ca3af";
+            ctx.lineWidth = 2.5;
+            for (let link of links) {
+                let n1 = nodes[link.source];
+                let n2 = nodes[link.target];
+                if (n1 && n2) {
+                    if (n1 === n2) {
+                        // Tự trỏ vào chính nó (self-loop)
+                        ctx.beginPath();
+                        ctx.arc(n1.x + nodeRadius, n1.y - nodeRadius, 18, 0, 2 * Math.PI);
+                        ctx.stroke();
+                    } else {
+                        drawArrow(n1.x, n1.y, n2.x, n2.y);
+                    }
+                }
+            }
+
+            // Vẽ đỉnh
+            for (let id in nodes) {
+                let n = nodes[id];
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, nodeRadius, 0, 2 * Math.PI);
+
+                let isTortoise = (id === tortoiseNodeId);
+                let isHare = (id === hareNodeId);
+
+                // Mặc định màu
+                ctx.fillStyle = "#ffffff";
+                ctx.strokeStyle = "#cbd5e1";
+
+                if (mode === "modulo") {
+                    ctx.fillStyle = "#e0e7ff";
+                    ctx.strokeStyle = "#6366f1";
+                } else if (mode === "merged") {
+                    ctx.fillStyle = "#f3e8ff";
+                    ctx.strokeStyle = "#a855f7";
+                }
+
+                // Ưu tiên màu của rùa và thỏ
+                if (isTortoise && isHare) {
+                    ctx.fillStyle = "#fef08a"; ctx.strokeStyle = "#eab308";
+                } else if (isTortoise) {
+                    ctx.fillStyle = "#bbf7d0"; ctx.strokeStyle = "#22c55e";
+                } else if (isHare) {
+                    ctx.fillStyle = "#fecaca"; ctx.strokeStyle = "#ef4444";
+                }
+
+                ctx.lineWidth = 3;
+                ctx.fill();
+                ctx.stroke();
+
+                // Nhãn text
+                ctx.fillStyle = "#1e293b";
+                ctx.font = "bold 13px Consolas, monospace";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                let text = n.label;
+                if (text.length > 8 && mode !== "modulo") {
+                    text = text.substring(0, 6) + "..";
+                }
+                ctx.fillText(text, n.x, n.y);
+
+                // Icon
+                ctx.font = "20px Arial";
+                if (isTortoise && isHare) {
+                    ctx.fillText("🐢🐇", n.x, n.y - 35);
+                } else if (isTortoise) {
+                    ctx.fillText("🐢", n.x, n.y - 35);
+                } else if (isHare) {
+                    ctx.fillText("🐇", n.x, n.y - 35);
+                }
+            }
+        }
+
+        // Animation loop
+        let lastTime = 0;
+        function animate(time) {
+            if (time - lastTime > 16) {
+                updatePhysics();
+                draw();
+                lastTime = time;
+            }
+            requestAnimationFrame(animate);
+        }
+
+        // Khởi tạo Canvas & Tương tác chuột
+        function resize() {
+            let container = document.getElementById('canvas-container');
+            width = container.clientWidth;
+            height = container.clientHeight;
+            let dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+        }
+
+        window.addEventListener('load', () => {
+            canvas = document.getElementById('sim-canvas');
+            ctx = canvas.getContext('2d');
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            // Tương tác kéo thả node
+            canvas.addEventListener('mousedown', (e) => {
+                let rect = canvas.getBoundingClientRect();
+                let mx = e.clientX - rect.left;
+                let my = e.clientY - rect.top;
+
+                for (let id in nodes) {
+                    let n = nodes[id];
+                    let dx = mx - n.x;
+                    let dy = my - n.y;
+                    if (dx * dx + dy * dy < nodeRadius * nodeRadius * 1.5) {
+                        draggedNode = n;
+                        break;
+                    }
+                }
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                if (draggedNode) {
+                    let rect = canvas.getBoundingClientRect();
+                    draggedNode.x = e.clientX - rect.left;
+                    draggedNode.y = e.clientY - rect.top;
+                    draggedNode.vx = 0;
+                    draggedNode.vy = 0;
+                }
+            });
+
+            window.addEventListener('mouseup', () => { draggedNode = null; });
+            window.addEventListener('mouseleave', () => { draggedNode = null; });
+
+            init();
+            requestAnimationFrame(animate);
+        });
+    </script>
+</body>
+
+</html>
