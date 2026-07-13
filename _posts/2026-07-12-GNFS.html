@@ -1,0 +1,700 @@
+---
+layout: post
+title: "Thuật toán General Number Field Sieve (GNFS)"
+subtitle: "Sàng Trường Số Tổng Quát - thuật toán phân tích số nguyên cổ điển mạnh nhất, nền tảng của các cuộc tấn công RSA. Phân tích cơ sở lý thuyết, bốn giai đoạn vận hành, mô phỏng trực quan giai đoạn Sàng bằng HTML5 Canvas và mã nguồn C minh hoạ."
+tags: [math, canvas, algorithm, cryptography]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thuật toán General Number Field Sieve (GNFS)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"
+        crossorigin="anonymous"></script>
+    <script>
+        // Render KaTeX sau khi DOM sẵn sàng. Các script KaTeX ở trên dùng `defer`
+        // nên chắc chắn đã thực thi (định nghĩa renderMathInElement) trước sự kiện
+        // DOMContentLoaded, giúp việc render đáng tin cậy trong layout của Jekyll.
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false }
+                ],
+                throwOnError: false,
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            });
+        });
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"
+        onload="hljs.highlightAll();"></script>
+    <style>
+        pre code.hljs {
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        #sieve-log {
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        .katex {
+            font-size: 1.05em;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800 p-4 md:p-8 font-sans">
+    <div class="max-w-5xl mx-auto space-y-6">
+
+        <!-- Header -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h1 class="text-2xl font-bold text-indigo-600">Thuật toán General Number Field Sieve (GNFS)</h1>
+            <p class="text-sm text-slate-500 mt-1">Sàng Trường Số Tổng Quát — cơ sở lý thuyết, phân tích toán học, minh
+                hoạ trực quan và triển khai mã nguồn C</p>
+        </div>
+
+        <!-- Giới thiệu -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Sự phát triển của mật mã học hiện đại, đặc biệt là hệ mật mã khoá công khai như thuật toán
+                <strong>RSA</strong>, phụ thuộc hoàn toàn vào tính khó của <strong>Bài toán Phân tích Số nguyên</strong>
+                (Integer Factorization Problem — IFP). Đối với các hợp số lớn không có dạng đặc biệt và vượt quá ngưỡng
+                100 chữ số thập phân, thuật toán <strong>Sàng Trường Số Tổng Quát</strong> (General Number Field Sieve —
+                GNFS) được chứng minh là phương pháp cổ điển hiệu quả và mạnh mẽ nhất từng được biết đến.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Bài viết này trình bày một phân tích toàn diện về GNFS: từ nền tảng lý thuyết đại số trừu tượng, quá
+                trình kiến tạo đa thức và hình học ma trận, cho đến mô phỏng trực quan bằng HTML5 Canvas, và cuối cùng là
+                phương pháp triển khai kiến trúc phần mềm bằng ngôn ngữ C.
+            </p>
+        </div>
+
+        <!-- 1. Nền tảng lý thuyết -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-3">1. Nền tảng lý thuyết</h2>
+
+            <h3 class="font-semibold text-slate-900 mb-2">1.1. Bối cảnh lịch sử và độ phức tạp</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                GNFS là sự tiến hoá mang tính bước ngoặt từ thuật toán <strong>Sàng Trường Số Đặc Biệt</strong> (Special
+                Number Field Sieve — SNFS), vốn được John Pollard đề xuất năm 1988 nhằm phân tích các số có dạng đại số
+                đặc biệt, điển hình như các số Fermat $c_1 r^t + c_2 s^u$. Trong khi SNFS có giới hạn ứng dụng hẹp, cấu
+                trúc của nó đã tạo tiền đề để các nhà toán học như Arjen K. Lenstra, H. W. Lenstra Jr., Mark Manasse và
+                John Pollard mở rộng thành GNFS, cho phép phân tích bất kỳ số nguyên $n$ nào (ngoại trừ số nguyên tố hoặc
+                luỹ thừa của một số nguyên tố).
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Sức mạnh đột phá của GNFS nằm ở khả năng tìm kiếm các <strong>"số trơn"</strong> (smooth numbers) — những
+                số chỉ chứa các ước nguyên tố nhỏ. Nhờ việc sử dụng các trường số đại số (algebraic number fields) thay
+                vì chỉ làm việc trên vành số nguyên thông thường, GNFS đạt được độ phức tạp thời gian tiệm cận dưới mức
+                hàm mũ (sub-exponential), thường được biểu diễn qua ký hiệu tiệm cận $L$:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$L_n[\alpha, c] = \exp\left((c + o(1)) (\ln n)^\alpha (\ln \ln n)^{1-\alpha}\right)$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Đối với GNFS, độ phức tạp được xác định tại $\alpha = 1/3$, cụ thể là $L_n[1/3, (64/9)^{1/3}]$, tương
+                đương hằng số $c \approx 1.923$. So với Sàng Bậc Hai (Quadratic Sieve) có độ phức tạp $L_n[1/2, 1]$, GNFS
+                ban đầu chạy chậm hơn với số nhỏ, nhưng bắt đầu vượt trội hoàn toàn khi số chữ số của $n$ vượt ngưỡng 110
+                đến 130 chữ số thập phân. Đây là công cụ chính phá vỡ các kỷ lục phân tích RSA, từ RSA-155 (512-bit) năm
+                1999 cho đến RSA-768 và lớn hơn.
+            </p>
+
+            <h3 class="font-semibold text-slate-900 mb-2 mt-5">1.2. Nguyên lý Đồng dư Bình phương</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Mục tiêu cốt lõi của GNFS, tương tự họ thuật toán phân tích cổ điển, là khai thác nguyên lý
+                <strong>đồng dư bình phương</strong>. Thuật toán cố gắng tìm ra hai số nguyên $x$ và $y$ sao cho:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$x^2 \equiv y^2 \pmod n \qquad \text{và} \qquad x \not\equiv \pm y \pmod n$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Khi đó $x^2 - y^2 = (x - y)(x + y)$ chia hết cho $n$, nhưng $n$ không thể chia hết hoàn toàn cho riêng
+                $(x-y)$ hoặc riêng $(x+y)$. Bằng thuật toán Euclid, $\gcd(x - y, n)$ hoặc $\gcd(x + y, n)$ sẽ trả về một
+                thừa số nguyên tố thực sự của $n$.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Điểm khác biệt của GNFS là cách tạo ra $x$ và $y$. Thay vì tìm kiếm trực tiếp số trơn trong vành số
+                nguyên $\mathbb{Z}$, thuật toán xây dựng một vành đại số $\mathbb{Z}[\alpha]$ và ánh xạ giá trị sang
+                trường số nguyên modulo $n$ thông qua một đồng hình vành (ring homomorphism).
+            </p>
+
+            <h3 class="font-semibold text-slate-900 mb-2 mt-5">1.3. Cấu trúc Đại số của Đồng hình Vành</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                GNFS yêu cầu chọn hai đa thức tối giản $f(x)$ và $g(x)$ có hệ số nguyên, chia sẻ chung một nghiệm $m$
+                modulo $n$. Theo quy chuẩn thực hành, $g(x)$ thường là đa thức tuyến tính $g(x) = x - m$, còn $f(x)$ là
+                đa thức bậc $d$ (thường từ 4 đến 6 với các số khổng lồ). Ký hiệu $\alpha$ là một nghiệm phức của $f(x)$
+                (tức $f(\alpha) = 0$), sinh ra trường số đại số $\mathbb{Q}(\alpha)$ với vành con $\mathbb{Z}[\alpha]$.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Vì $m$ và $\alpha$ đều là nghiệm của $f(x)$, tồn tại một đồng hình vành $\phi: \mathbb{Z}[\alpha] \to
+                \mathbb{Z}/n\mathbb{Z}$ xác định bởi $\phi(\alpha) = m \pmod n$. Bản chất của GNFS là tìm tập các cặp số
+                nguyên $(a, b)$ đồng nguyên tố sao cho:
+            </p>
+            <ul class="list-disc list-outside text-slate-600 ml-6 mb-3 space-y-1 marker:text-indigo-400">
+                <li>Tích các số $(a - b\alpha)$ là một bình phương trong $\mathbb{Z}[\alpha]$;</li>
+                <li>Tích các giá trị hữu tỉ $(a - bm)$ là một bình phương trong $\mathbb{Z}$.</li>
+            </ul>
+            <p class="text-slate-600 leading-relaxed">
+                Nhờ tính bảo toàn phép nhân của $\phi$, bình phương trong vành đại số được ánh xạ thành bình phương trong
+                $\mathbb{Z}/n\mathbb{Z}$, thoả mãn điều kiện $x^2 \equiv y^2 \pmod n$.
+            </p>
+        </div>
+
+        <!-- 2. Bốn giai đoạn -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-3">2. Bốn giai đoạn vận hành</h2>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Toàn bộ quy trình được chia thành bốn giai đoạn tách biệt. Sự phân tách này phục vụ cho lập trình hệ
+                thống song song, khi mỗi giai đoạn đòi hỏi một loại tài nguyên phần cứng khác nhau.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-4 mb-5">
+                <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+                    <div class="text-xs font-bold text-indigo-500 uppercase tracking-wider mb-1">Giai đoạn 1</div>
+                    <div class="font-semibold text-slate-800">Lựa chọn Đa thức</div>
+                    <div class="text-sm text-slate-500">Polynomial Selection</div>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+                    <div class="text-xs font-bold text-emerald-500 uppercase tracking-wider mb-1">Giai đoạn 2</div>
+                    <div class="font-semibold text-slate-800">Sàng Trường Số</div>
+                    <div class="text-sm text-slate-500">Sieving</div>
+                </div>
+                <div class="bg-amber-50 border border-amber-100 rounded-xl p-4">
+                    <div class="text-xs font-bold text-amber-500 uppercase tracking-wider mb-1">Giai đoạn 3</div>
+                    <div class="font-semibold text-slate-800">Đại số Tuyến tính</div>
+                    <div class="text-sm text-slate-500">Filtering &amp; Linear Algebra</div>
+                </div>
+                <div class="bg-rose-50 border border-rose-100 rounded-xl p-4">
+                    <div class="text-xs font-bold text-rose-500 uppercase tracking-wider mb-1">Giai đoạn 4</div>
+                    <div class="font-semibold text-slate-800">Rút Căn Bậc Hai</div>
+                    <div class="text-sm text-slate-500">Square Root</div>
+                </div>
+            </div>
+
+            <h3 class="font-semibold text-slate-900 mb-2">2.1. Lựa chọn Đa thức</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Thuật toán cơ sở là khai triển cơ số $m$ (base-$m$ expansion): chọn $m \approx \lfloor n^{1/d} \rfloor$
+                và biểu diễn $n$ theo cơ số $m$:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$n = c_d m^d + c_{d-1} m^{d-1} + \dots + c_1 m + c_0$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Đa thức thu được là $f(x) = \sum_{i=0}^d c_i x^i$, đảm bảo $f(m) = n \equiv 0 \pmod n$. Chất lượng đa
+                thức được tối ưu qua hai tiêu chí: <strong>Thuộc tính kích thước</strong> (giá trị của đa thức thuần nhất
+                $F(a, b) = b^d f(a/b)$ phải nhỏ, được tối ưu qua độ nghiêng skewness $s$ để giảm chuẩn $L_2$), và
+                <strong>Thuộc tính nghiệm</strong> (đa thức có nhiều nghiệm modulo các nguyên tố nhỏ). Các nhà nghiên cứu
+                dùng hàm <strong>Murphy's $E$</strong> qua hàm phân phối Dickman-de Bruijn $\rho(u)$ để chọn bộ đa thức
+                ưu việt nhất; thuật toán Kleinjung (2006) là một cải tiến nổi bật.
+            </p>
+
+            <h3 class="font-semibold text-slate-900 mb-2 mt-5">2.2. Sàng Trường Số (Sieving)</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Mục đích là thu thập hàng triệu cặp $(a, b)$ đồng nguyên tố ($\gcd(a,b)=1$) sao cho cả hai giá trị sau
+                đều trơn so với các ranh giới định trước:
+            </p>
+            <ul class="list-disc list-outside text-slate-600 ml-6 mb-3 space-y-1 marker:text-indigo-400">
+                <li><strong>Phía hữu tỉ:</strong> $|a - bm|$ phân tích hoàn toàn trên Cơ sở nhân tử hữu tỉ
+                    $\mathcal{F}_R$ (các nguyên tố $p < B_1$).</li>
+                <li><strong>Phía đại số:</strong> Chuẩn $|N(a - b\alpha)| = |b^d f(a/b)|$ phân tích hoàn toàn trên Cơ sở
+                    nhân tử đại số $\mathcal{F}_A$ (các cặp $(p, r)$ với $p \le B_2$ và $f(r) \equiv 0 \pmod p$).</li>
+            </ul>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Đây là giai đoạn tiêu tốn tài nguyên nhất. Thay vì chia thử (trial division), GNFS dùng
+                <strong>Sàng Dòng</strong> (Line Sieving — cố định $b$, quét $a$, cộng dồn $\log(p)$) hoặc
+                <strong>Sàng Mạng Lưới</strong> (Lattice Sieving — thuật toán Jens Franke, tối ưu CPU cache). Biến thể
+                <strong>Large Prime Variation</strong> chấp nhận các cặp chứa một, hai, ba số nguyên tố lớn, rồi ghép nối
+                qua thuật toán union-find để tạo thành chu kỳ (cycle) hợp lệ.
+            </p>
+
+            <div style="overflow-x: auto;" class="mb-2">
+                <table class="w-full text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700">
+                            <th class="border border-slate-200 px-3 py-2 text-left font-semibold">Đặc điểm</th>
+                            <th class="border border-slate-200 px-3 py-2 text-left font-semibold">Sàng Hữu Tỉ</th>
+                            <th class="border border-slate-200 px-3 py-2 text-left font-semibold">GNFS</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-600">
+                        <tr>
+                            <td class="border border-slate-200 px-3 py-2 font-medium">Hệ cơ sở nhân tử</td>
+                            <td class="border border-slate-200 px-3 py-2">Một tập $p < B$</td>
+                            <td class="border border-slate-200 px-3 py-2">Hai tập: hữu tỉ &amp; đại số $(p,r)$</td>
+                        </tr>
+                        <tr class="bg-slate-50">
+                            <td class="border border-slate-200 px-3 py-2 font-medium">Đối tượng đánh giá</td>
+                            <td class="border border-slate-200 px-3 py-2">$z$ và $z+n$</td>
+                            <td class="border border-slate-200 px-3 py-2">Cặp $(a,b)$: $a-bm$ và $b^d f(a/b)$</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-slate-200 px-3 py-2 font-medium">Kỹ thuật tối ưu</td>
+                            <td class="border border-slate-200 px-3 py-2">Khó áp dụng nguyên tố lớn</td>
+                            <td class="border border-slate-200 px-3 py-2">Double/Triple Large Prime Variation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="font-semibold text-slate-900 mb-2 mt-5">2.3. Bộ lọc và Đại số Tuyến tính</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Sau khi thu đủ quan hệ, GNFS xây dựng hệ phương trình trên trường hữu hạn $\mathbb{F}_2$. Quá trình
+                <strong>Filtering</strong> loại bỏ các "singleton" (nguyên tố chỉ xuất hiện một lần), giảm kích thước ma
+                trận. Mỗi quan hệ thành một cột trong ma trận thưa; giá trị ô $(i, j)$ là $1$ nếu số mũ của nguyên tố $i$
+                trong quan hệ $j$ là lẻ. Bài toán là tìm không gian null (nullspace) — tổ hợp tuyến tính các cột có tổng
+                modulo 2 bằng $\mathbf{0}$.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                <strong>Ký tự Bậc hai (Quadratic Characters):</strong> ngay cả khi tổ hợp làm mọi lý tưởng nguyên tố có
+                bậc chẵn, điều đó chỉ đảm bảo tích là một lý tưởng bình phương, chưa chắc là bình phương của một phần tử
+                đại số thực sự (do nhóm lớp và các đơn vị). L. Adleman đề xuất bổ sung Ký tự Bậc hai: tính Ký hiệu
+                Legendre của $(a - b\alpha)$ với các lý tưởng ngoài cơ sở nhân tử, thêm vào ma trận $\mathbb{F}_2$ như
+                các hàng bổ sung.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Giải ma trận hàng chục triệu hàng là bất khả thi với Khử Gauss (chi phí $\mathcal{O}(N^3)$). Thay vào đó,
+                thuật toán <strong>Block Lanczos</strong> hoặc <strong>Block Wiedemann</strong> — các phương pháp lặp dựa
+                trên phép nhân ma trận-vectơ — cho phép xử lý ma trận thưa trong thời gian $\mathcal{O}(N^{2+\epsilon})$
+                và bộ nhớ tuyến tính $\mathcal{O}(N)$.
+            </p>
+
+            <h3 class="font-semibold text-slate-900 mb-2 mt-5">2.4. Rút Căn Bậc Hai Đại số</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Nullspace chỉ định tập con $S$ các cặp $(a, b)$ sao cho tích của chúng là bình phương. Ta cần tính:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$X = \sqrt{\prod_{(a,b) \in S} (a - bm)} \pmod n, \qquad Y = \phi\left( \sqrt{\prod_{(a,b) \in S} (a -
+                b\alpha)} \right) \pmod n$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Tính $X$ khá đơn giản vì đã biết phân tích thừa số của $\prod (a-bm)$ — chỉ cần lấy nửa số mũ mỗi thừa số
+                rồi nhân modulo $n$. Nhưng rút căn phía đại số cực kỳ khó: giá trị $T(\alpha)$ có độ dài lên đến hàng
+                triệu bit. Các phương pháp gồm: <strong>nâng p-adic</strong> (bổ đề Hensel), <strong>thuật toán
+                Montgomery</strong> (phổ biến nhất, không cần nguyên tố trơ), và <strong>thuật toán Couveignes</strong>.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Khi đã có $X$ và $Y$, kiểm tra $X \equiv \pm Y \pmod n$. Nếu không, $\gcd(X-Y, n)$ ngay lập tức giải
+                quyết bài toán IFP, phá vỡ khoá RSA.
+            </p>
+        </div>
+
+        <!-- 3. Mô phỏng tương tác -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-1">3. Mô phỏng tương tác: Giai đoạn Sàng</h2>
+            <p class="text-sm text-slate-500 mb-4">
+                Mô hình dưới đây minh hoạ nguyên lý cốt lõi của <strong>Giai đoạn Sàng</strong> trên mặt phẳng $(a, b)$.
+                Trục ngang là giá trị $a$, trục dọc là $b$. Thuật toán quét tuần tự, đánh giá đồng thời phía hữu tỉ
+                $|a - bm|$ và phía đại số $F(a,b)$. Các ô <span class="text-emerald-600 font-semibold">xanh lá</span> là
+                các cặp trơn hợp lệ (relation) — mỗi ô sẽ trở thành một vector nạp vào ma trận $\mathbb{F}_2$.
+            </p>
+
+            <div class="flex flex-col lg:flex-row gap-4">
+                <!-- Bảng điều khiển -->
+                <div class="w-full lg:w-64 shrink-0 space-y-4">
+                    <div class="flex flex-wrap gap-2">
+                        <button id="btnStart" onclick="runSieve()"
+                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded-lg font-medium transition shadow-sm">Bắt
+                            đầu quét</button>
+                        <button id="btnStop" onclick="stopSieve()"
+                            class="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-2 px-3 rounded-lg font-medium transition shadow-sm">Dừng</button>
+                    </div>
+                    <button id="btnReset" onclick="resetSieve()"
+                        class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 py-2 rounded-lg font-medium transition border border-slate-200 shadow-sm">Đặt
+                        lại</button>
+
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm space-y-2 font-mono shadow-inner">
+                        <div class="flex justify-between items-center"><span class="text-slate-500">N (giả lập):</span>
+                            <span class="font-bold text-slate-800">187</span></div>
+                        <div class="flex justify-between items-center"><span class="text-slate-500">m (cơ sở):</span>
+                            <span class="font-bold text-slate-800">13</span></div>
+                        <div class="flex justify-between items-center"><span class="text-slate-500">Cơ sở nhân tử:</span>
+                            <span class="font-bold text-slate-800">{2,3,5,7,11}</span></div>
+                        <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-200 text-emerald-700">
+                            <span>Relation tìm được:</span> <span id="info-relations" class="font-bold text-base">0</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Đa thức đại số minh hoạ bậc $d=2$: $F(a,b) = a^2 + 2ab - 8b^2$. Phía hữu tỉ dùng $m=13$.
+                    </p>
+                </div>
+
+                <!-- Vùng Canvas -->
+                <div class="flex-1 space-y-3">
+                    <div class="bg-slate-900 rounded-xl border border-slate-700 overflow-hidden shadow-inner"
+                        style="overflow-x: auto;">
+                        <canvas id="sieveCanvas" width="800" height="400" class="block max-w-full"></canvas>
+                    </div>
+                    <div id="sieve-log"
+                        class="bg-black text-green-400 text-xs p-3 rounded-lg border border-slate-700 h-40 overflow-y-auto">
+                        Hệ thống sẵn sàng. Nhấn "Bắt đầu quét" để giả lập GNFS Line Sieving...<br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Mã nguồn C -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">4. Mã nguồn C: Rational Sieve</h2>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Các hệ thống GNFS thực thụ (như <code class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 text-sm font-mono">msieve</code>
+                của Jason Papadopoulos hay <code class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 text-sm font-mono">CADO-NFS</code>)
+                là những thư viện khổng lồ kết hợp hàng chục nghìn dòng C, assembly và thư viện đa độ chính xác GMP. Dưới
+                đây là phiên bản rút gọn của <strong>Thuật toán Sàng Hữu Tỉ</strong> — cấu trúc toán học tương đồng với
+                GNFS nhưng giới hạn bậc đa thức $d=1$, đủ để minh hoạ quản lý mảng, tính số trơn và ma trận $\mathbb{F}_2$.
+            </p>
+            <div style="overflow-x: auto;">
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;math.h&gt;
+
+#define MAX_PRIMES 100
+#define SIEVE_BOUND 5000
+
+/*
+ * Cấu trúc đại diện cho một "Mối quan hệ" (Relation).
+ * z là giá trị khởi điểm; exp_z và exp_zn lưu số mũ của
+ * từng nguyên tố trong cơ sở nhân tử.
+ */
+typedef struct {
+    int z;
+    int exp_z[MAX_PRIMES];
+    int exp_zn[MAX_PRIMES];
+} Relation;
+
+/* Thuật toán Euclid tính Ước chung lớn nhất */
+long long gcd(long long a, long long b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}
+
+/*
+ * GIAI ĐOẠN 1: Xây dựng Cơ sở nhân tử bằng Sàng Eratosthenes.
+ * Độ phức tạp O(n log log n).
+ */
+int generate_factor_base(int bound, int primes[]) {
+    bool* is_prime = (bool*)malloc((bound + 1) * sizeof(bool));
+    for (int i = 0; i &lt;= bound; i++) is_prime[i] = true;
+    is_prime[0] = is_prime[1] = false;
+
+    for (int p = 2; p * p &lt;= bound; p++) {
+        if (is_prime[p]) {
+            for (int i = p * p; i &lt;= bound; i += p) is_prime[i] = false;
+        }
+    }
+    int count = 0;
+    for (int i = 2; i &lt;= bound; i++) {
+        if (is_prime[i]) primes[count++] = i;
+    }
+    free(is_prime);
+    return count;
+}
+
+/*
+ * Kiểm tra độ trơn qua chia liên tiếp (Trial Division).
+ * GNFS thực tế dùng Array of Logarithms để tăng tốc.
+ */
+bool factorize_smooth(long long n, int primes[], int num_primes, int exponents[]) {
+    long long temp = n;
+    for (int i = 0; i &lt; num_primes; i++) {
+        exponents[i] = 0;
+        while (temp % primes[i] == 0) {
+            exponents[i]++;
+            temp /= primes[i];
+        }
+    }
+    return temp == 1; // Chỉ thành công khi phân tích xong về 1
+}
+
+/* Hàm chính: Phân tích bằng Rational Sieve */
+void rational_sieve(long long N, int B) {
+    printf("[*] Khoi dong Sang Huu Ti phan tich N=%lld, Gioi han B=%d\n", N, B);
+    int primes[MAX_PRIMES];
+    int k = generate_factor_base(B, primes);
+    printf("[+] Kich thuoc Co so nhan tu: %d nguyen to.\n", k);
+
+    Relation* rel_matrix = (Relation*)malloc(SIEVE_BOUND * sizeof(Relation));
+    int total_relations = 0;
+
+    /* GIAI ĐOẠN 2: SIEVING — quét chuỗi z, đánh giá z và z+N */
+    for (int z = 2; z &lt; SIEVE_BOUND; z++) {
+        int exp_z[MAX_PRIMES] = {0};
+        int exp_zn[MAX_PRIMES] = {0};
+        if (factorize_smooth(z, primes, k, exp_z)) {
+            if (factorize_smooth(z + N, primes, k, exp_zn)) {
+                rel_matrix[total_relations].z = z;
+                for (int i = 0; i &lt; k; i++) {
+                    rel_matrix[total_relations].exp_z[i] = exp_z[i];
+                    rel_matrix[total_relations].exp_zn[i] = exp_zn[i];
+                }
+                total_relations++;
+            }
+        }
+    }
+    printf("[+] Hoan tat sang loc. Phat hien %d relations.\n", total_relations);
+
+    if (total_relations &lt; k + 2) {
+        printf("[-] Loi: Can toi thieu %d relations (K+2) de giai Nullspace.\n", k + 2);
+        free(rel_matrix);
+        return;
+    }
+
+    /* GIAI ĐOẠN 3 &amp; 4: Kết hợp 2 relations sinh bình phương (minh hoạ) */
+    bool success = false;
+    for (int i = 0; i &lt; total_relations - 1 &amp;&amp; !success; i++) {
+        for (int j = i + 1; j &lt; total_relations &amp;&amp; !success; j++) {
+            bool isValidSquare = true;
+            for (int p = 0; p &lt; k; p++) {
+                int sum_z  = rel_matrix[i].exp_z[p]  + rel_matrix[j].exp_z[p];
+                int sum_zn = rel_matrix[i].exp_zn[p] + rel_matrix[j].exp_zn[p];
+                if (sum_z % 2 != 0 || sum_zn % 2 != 0) { isValidSquare = false; break; }
+            }
+            if (isValidSquare) {
+                long long X = 1, Y = 1;
+                for (int p = 0; p &lt; k; p++) {
+                    int eX = (rel_matrix[i].exp_z[p]  + rel_matrix[j].exp_z[p])  / 2;
+                    int eY = (rel_matrix[i].exp_zn[p] + rel_matrix[j].exp_zn[p]) / 2;
+                    X = (X * (long long)pow(primes[p], eX)) % N;
+                    Y = (Y * (long long)pow(primes[p], eY)) % N;
+                }
+                long long f1 = gcd(llabs(X - Y), N);
+                long long f2 = gcd(X + Y, N);
+                if (f1 &gt; 1 &amp;&amp; f1 &lt; N) {
+                    printf("[!] THANH CONG: Nhan tu p=%lld => %lld = %lld * %lld\n", f1, N, f1, N / f1);
+                    success = true;
+                } else if (f2 &gt; 1 &amp;&amp; f2 &lt; N) {
+                    printf("[!] THANH CONG: Nhan tu q=%lld => %lld = %lld * %lld\n", f2, N, f2, N / f2);
+                    success = true;
+                }
+            }
+        }
+    }
+    if (!success) {
+        printf("[-] Chi tim thay to hop tam thuong. Can Gaussian Elimination day du.\n");
+    }
+    free(rel_matrix);
+}
+
+int main() {
+    long long N_target = 187; // Semiprime = 11 * 17
+    int Bound = 15;
+    rational_sieve(N_target, Bound);
+    return 0;
+}
+</code></pre>
+            </div>
+        </div>
+
+        <!-- 5. Nâng cấp lên kiến trúc chuẩn -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">5. Từ minh hoạ đến kiến trúc GNFS chuẩn</h2>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                Mã C trên nắm giữ đặc tính toán học của giai đoạn sàng, nhưng một hệ thống chuẩn xác (msieve, CADO-NFS
+                của Jens Franke và Thorsten Kleinjung) đòi hỏi hàng loạt biến đổi kỹ thuật:
+            </p>
+            <ul class="space-y-3 text-slate-600">
+                <li class="flex gap-3">
+                    <span class="text-indigo-500 font-bold shrink-0">→</span>
+                    <span><strong>Sàng Logarit thay vì chia modulo:</strong> lệnh chia trên CPU rất tốn xung nhịp. Hệ
+                        thống thực dùng một mảng byte (nằm trọn trong L1 Cache), cộng trừ xấp xỉ $\log(p)$ thay vì chia.
+                        Ô nào vượt ngưỡng mới được gọi Trial Division để xác nhận.</span>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-indigo-500 font-bold shrink-0">→</span>
+                    <span><strong>Xử lý đa độ chính xác:</strong> kiểu <code
+                            class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 text-sm font-mono">long long</code>
+                        chỉ đủ 64-bit (&lt;20 chữ số). Với RSA-155 (512-bit) hay RSA-768 (232 chữ số), mọi biến $N, a, b,
+                        c_i$ phải đóng gói vào cấu trúc <code
+                            class="bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600 text-sm font-mono">mpz_t</code> của
+                        thư viện GMP.</span>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-indigo-500 font-bold shrink-0">→</span>
+                    <span><strong>Tổ chức ma trận &amp; Block Lanczos:</strong> ma trận thưa $\mathbb{F}_2$ được nén dạng
+                        Compressed Sparse Row; kỹ thuật bit-packing đóng gói 64–256 phần tử vào một thanh ghi, thực thi
+                        qua cổng logic XOR (^) và AND (&amp;).</span>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-indigo-500 font-bold shrink-0">→</span>
+                    <span><strong>Cơ sở Ký tự Bậc hai $\mathcal{Q}$:</strong> tập các cặp $(p, r)$ với nguyên tố cực lớn,
+                        không tham gia sàng, chỉ tạo các cột ma trận từ Ký hiệu Legendre nhằm đảm bảo tính nguyên vẹn của
+                        căn bậc hai phía đại số.</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 6. Kết luận -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">6. Kết luận</h2>
+            <p class="text-slate-600 leading-relaxed mb-3">
+                General Number Field Sieve không chỉ chứng minh vẻ đẹp trừu tượng của Lý thuyết số (từ đại số giao hoán,
+                phân rã đa thức, đến nhóm lớp và lý tưởng nguyên tố), mà còn phản chiếu đỉnh cao của kỹ thuật phần mềm
+                hiệu suất cao. Hiệu năng của GNFS đến từ cả sự vượt trội tiệm cận lẫn hàng chục nghìn giờ tối ưu hoá vi
+                mô: lợi dụng cache vi xử lý, sàng logarit mạng lưới, và Block Lanczos.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                GNFS đã, đang, và sẽ tiếp tục là <strong>"nhà vô địch cổ điển"</strong> trong sứ mệnh thách thức các hệ
+                mật mã dựa trên phân tích số nguyên — cho tới khi các máy tính lượng tử thực sự trưởng thành.
+            </p>
+        </div>
+
+        <p class="text-xs text-slate-400">
+            Tham khảo: <a href="https://en.wikipedia.org/wiki/General_number_field_sieve"
+                class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — General number field
+                sieve</a>. Xem thêm bài viết về <a href="/2026/07/11/Pollard-Rho.html"
+                class="underline hover:text-slate-600">Thuật toán Pollard's Rho</a>.
+        </p>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('sieveCanvas');
+        const ctx = canvas.getContext('2d');
+        const logPanel = document.getElementById('sieve-log');
+        const btnStart = document.getElementById('btnStart');
+
+        // Cấu hình mặt phẳng Sàng
+        const gridWidth = 800;
+        const gridHeight = 400;
+        const a_range = 80;  // a ∈ [-40, 40)
+        const b_range = 40;  // b ∈ [1, 40]
+        const cellW = gridWidth / a_range;
+        const cellH = gridHeight / b_range;
+
+        let isSieving = false;
+        let relationCount = 0;
+
+        // Cơ sở nhân tử giả định (các nguyên tố nhỏ)
+        const factorBase = [2, 3, 5, 7, 11];
+        const m_val = 13; // N = 187, m ≈ căn cơ sở
+
+        // Kiểm tra độ trơn (Smoothness Test)
+        function isSmooth(num, base) {
+            if (num === 0) return false;
+            let n = Math.abs(num);
+            for (let i = 0; i < base.length; i++) {
+                const p = base[i];
+                while (n % p === 0) n /= p;
+            }
+            return n === 1;
+        }
+
+        function gcd(x, y) {
+            x = Math.abs(x); y = Math.abs(y);
+            while (y) { const t = y; y = x % y; x = t; }
+            return x;
+        }
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, gridWidth, gridHeight);
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, gridWidth, gridHeight);
+
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= a_range; i++) {
+                ctx.beginPath(); ctx.moveTo(i * cellW, 0); ctx.lineTo(i * cellW, gridHeight); ctx.stroke();
+            }
+            for (let j = 0; j <= b_range; j++) {
+                ctx.beginPath(); ctx.moveTo(0, j * cellH); ctx.lineTo(gridWidth, j * cellH); ctx.stroke();
+            }
+            // Trục a = 0
+            ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(gridWidth / 2, 0); ctx.lineTo(gridWidth / 2, gridHeight); ctx.stroke();
+        }
+
+        function logMsg(msg, highlight = false) {
+            const color = highlight ? 'color:#fbbf24;' : '';
+            logPanel.innerHTML += `<span style="${color}">${msg}</span><br>`;
+            logPanel.scrollTop = logPanel.scrollHeight;
+        }
+
+        async function runSieve() {
+            if (isSieving) return;
+            isSieving = true;
+            btnStart.disabled = true;
+            btnStart.classList.add('opacity-50', 'cursor-not-allowed');
+            logMsg('Khởi chạy bộ Sàng (Line Sieving). Đang kiểm tra điều kiện Trơn...', true);
+
+            for (let b = 1; b <= b_range; b++) {
+                if (!isSieving) break;
+                for (let a = -a_range / 2; a < a_range / 2; a++) {
+                    if (!isSieving) break;
+
+                    const rationalNorm = Math.abs(a - b * m_val);
+                    const algebraicNorm = Math.abs((a * a) + (2 * a * b) - (8 * b * b));
+
+                    const cx = (a + a_range / 2) * cellW;
+                    const cy = gridHeight - (b * cellH);
+
+                    // Đánh dấu vùng đang quét (vàng nhạt)
+                    ctx.fillStyle = 'rgba(251, 191, 36, 0.35)';
+                    ctx.fillRect(cx, cy, cellW, cellH);
+
+                    if (gcd(a, b) === 1 && isSmooth(rationalNorm, factorBase) && isSmooth(algebraicNorm, factorBase)) {
+                        ctx.fillStyle = '#22c55e';
+                        ctx.fillRect(cx + 1, cy + 1, cellW - 2, cellH - 2);
+                        relationCount++;
+                        document.getElementById('info-relations').innerText = relationCount;
+                        logMsg(`[PHÁT HIỆN] a=${String(a).padStart(3)}, b=${String(b).padStart(2)} | Rat=${String(rationalNorm).padEnd(4)} Alg=${String(algebraicNorm).padEnd(4)} → Relation hợp lệ!`);
+                        await new Promise(r => setTimeout(r, 25));
+                        continue;
+                    }
+
+                    // Xoá vệt quét sau một nhịp
+                    setTimeout(() => {
+                        ctx.fillStyle = '#0f172a';
+                        ctx.fillRect(cx + 1, cy + 1, cellW - 2, cellH - 2);
+                    }, 12);
+
+                    await new Promise(r => setTimeout(r, 1));
+                }
+            }
+            logMsg('Quá trình Sàng mặt phẳng hoàn tất.', true);
+            isSieving = false;
+            btnStart.disabled = false;
+            btnStart.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        function stopSieve() {
+            if (!isSieving) return;
+            isSieving = false;
+            btnStart.disabled = false;
+            btnStart.classList.remove('opacity-50', 'cursor-not-allowed');
+            logMsg('Đã cưỡng chế dừng bộ Sàng.');
+        }
+
+        function resetSieve() {
+            isSieving = false;
+            relationCount = 0;
+            btnStart.disabled = false;
+            btnStart.classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('info-relations').innerText = '0';
+            drawGrid();
+            logPanel.innerHTML = 'Hệ thống sẵn sàng. Nhấn "Bắt đầu quét" để giả lập GNFS Line Sieving...<br>';
+        }
+
+        drawGrid();
+    </script>
+</body>
+
+</html>
