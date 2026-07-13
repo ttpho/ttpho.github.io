@@ -82,6 +82,10 @@ void search(char *x, int m, char *y, int n) {
 <p>Chú ý: khi khởi tạo, <code>R</code> được đặt toàn bit 1 (chưa có phần khớp nào). Phép <code>R &lt;&lt; 1</code> mỗi bước tự đưa một bit 0 vào vị trí 0, tương đương với việc luôn khởi động một phép thử mới bắt đầu từ ký tự đầu của mẫu.</p>
 
 <h2>Ví dụ minh họa</h2>
+<figure style="text-align:center;margin:1.5rem 0;">
+<img src="../images/05-shift-or.png" alt="Minh họa thuật toán Shift-Or trên mẫu GCAGAGAG và văn bản GCATCGCAGAGAGTATACAGTACG" style="max-width:100%;height:auto;">
+<figcaption>Hình minh họa quá trình tìm kiếm của thuật toán Shift-Or.</figcaption>
+</figure>
 <p>Xét mẫu <code>x = "GCAGAGAG"</code> (<code>m = 8</code>) trên <code>y = "GCATCGCAGAGAGTATACAGTACG"</code>. Ta dùng 8 bit thấp của <code>R</code>, bit 0 là bit thấp nhất.</p>
 <p><strong>Tiền xử lý</strong> — mặt nạ (viết bit 0 ở vị trí ký tự tương ứng, các vị trí mẫu là <code>G C A G A G A G</code> cho index 0..7):</p>
 <ul>
