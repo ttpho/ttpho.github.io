@@ -21,15 +21,3 @@ Bức tranh dầu trên vải được sáng tác vào năm 1954 cho bìa tạp 
 - **Người cha:** Ngược lại, người cha ngồi khom lưng, gương mặt đượm buồn, tay cầm chiếc mũ của cả hai và nhìn về hướng ngược lại. Bên cạnh ông là chiếc đèn bão và lá cờ đỏ để vẫy tàu, cho thấy ông đang ngóng đoàn tàu đến với tâm trạng đầy lưu luyến, lo âu khi phải xa con.
 
 - **Sự gắn kết:** Dù hai cha con nhìn về hai hướng khác nhau, nhưng chân của họ vẫn chạm vào nhau, thể hiện tình cảm gia đình khăng khít và bền chặt không thể chia lìa.
-
-# Bí ẩn và phát hiện chấn động
-
-Bức tranh này còn nổi tiếng với một câu chuyện ly kỳ ngoài đời thực về "tranh giả, tranh thật":
-
-- **Bản sao hoàn hảo:** Năm 1962, họa sĩ truyện tranh Don Trachte (một người bạn của Rockwell) đã mua bức tranh với giá 900 USD. Năm 2003, bức tranh được đem trưng bày tại Bảo tàng Norman Rockwell. Dù một số chuyên gia nhận thấy vài chi tiết khác biệt nhỏ so với ảnh chụp trên bìa tạp chí ngày trước, mọi người vẫn tin đó là bản gốc.
-
-- **Bức tường bí mật:** Sau khi Don Trachte qua đời vào năm 2005, các con trai của ông đã tìm thấy một không gian bí mật đằng sau một bức tường trong nhà vào tháng 3 năm 2006. Tại đây, họ phát hiện ra bức tranh Breaking Home Ties thực sự. Hóa ra, Trachte đã tự tay vẽ các bản sao cực kỳ giống để đem đi triển lãm hoặc trưng bày, còn bản gốc được ông giấu kín nhằm bảo vệ chúng.
-
-# Giá trị kỷ lục
-
-Vào ngày 29 tháng 11 năm 2006, sau khi được tìm thấy, bức tranh gốc đã được đem bán đấu giá tại Sotheby's với mức giá kỷ lục thời bấy giờ cho một tác phẩm của Norman Rockwell: 15,4 triệu USD.
