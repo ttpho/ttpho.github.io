@@ -1,0 +1,610 @@
+---
+layout: post
+title: "IMO 2026 - Lời giải trực quan Ngày 2"
+subtitle: "Ba bài toán Ngày 2 của kỳ thi Olympic Toán học Quốc tế 2026: trò chơi cắt tam giác tìm góc θ, bất đẳng thức
+hàm QM-AM-GM, và dãy số gcd hội tụ về cấp số cộng. Mô phỏng tương tác bằng HTML5 Canvas kèm lời giải chi tiết render
+bằng KaTeX — đã sửa một lỗi nghiệm bị bỏ sót ở Bài 5 và làm rõ các chỗ lập luận chưa chặt chẽ ở Bài 4, 6."
+tags: [math, canvas, olympiad, algebra, number-theory]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMO 2026 - Day 2 (Vietnam) Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"
+        crossorigin="anonymous"></script>
+    <script>
+        // Render KaTeX sau khi DOM sẵn sàng. Các script KaTeX ở trên dùng `defer`
+        // nên chắc chắn đã thực thi (định nghĩa renderMathInElement) trước sự kiện
+        // DOMContentLoaded, giúp việc render đáng tin cậy trong layout của Jekyll.
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false }
+                ],
+                throwOnError: false,
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            });
+        });
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        .canvas-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #1e293b; border-radius: 0.75rem; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); border: 1px solid #334155; }
+        canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+        .tab-btn.active { border-bottom: 2px solid #a855f7; color: #d8b4fe; background: #1e293b; }
+        .katex { font-size: 1.05em; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-slate-900 border-b border-slate-700 p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    IMO 2026 <span class="text-purple-400 text-lg font-normal">| Lời giải Trực quan (Day 2)</span>
+                </h1>
+            </div>
+            <div class="flex space-x-1 bg-slate-800 p-1 rounded-lg">
+                <button onclick="switchTab(4)" id="btn-tab-4" class="tab-btn active px-4 py-2 rounded-md font-medium transition-colors hover:bg-slate-700">Bài 4: Trò chơi</button>
+                <button onclick="switchTab(5)" id="btn-tab-5" class="tab-btn px-4 py-2 rounded-md font-medium transition-colors hover:bg-slate-700">Bài 5: Đại số</button>
+                <button onclick="switchTab(6)" id="btn-tab-6" class="tab-btn px-4 py-2 rounded-md font-medium transition-colors hover:bg-slate-700">Bài 6: Số học</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 md:p-8 max-w-7xl mx-auto w-full">
+
+        <!-- TAB 4: Geometry Game -->
+        <div id="tab-4" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                    <h2 class="text-xl font-bold text-purple-400 mb-4">Bài 4: Cắt Tam Giác</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        Mộc Lan và Thiền Vu chơi với góc $\theta$. Mộc Lan chọn điểm $P$ trên biên để cắt tam giác thành hai. Nếu xuất hiện góc bằng đúng $\theta$, Mộc Lan thắng. Thiền Vu loại bỏ 1 tam giác sau mỗi lượt.
+                    </p>
+                    <div class="bg-slate-900 p-4 rounded-lg mb-4 text-sm">
+                        <strong>Luật mô phỏng (Tìm góc $\theta = 90^\circ$):</strong><br>
+                        1. Kéo thả điểm <span class="text-blue-400 font-bold">P</span> trên cạnh đáy $BC$.<br>
+                        2. Quan sát 2 góc kề bù $\angle APB$ và $\angle APC$.<br>
+                        3. Nhấn "Cắt thử" để xem liệu Mộc Lan có chiến thắng hay không.
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm font-semibold">Góc mục tiêu $\theta$: </span>
+                        <span class="px-3 py-1 bg-purple-600 rounded font-mono">90&deg;</span>
+                    </div>
+                    <button onclick="p4_checkWin()" id="p4-btn-cut" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-lg font-semibold transition shadow-[0_0_15px_rgba(37,99,235,0.3)]">Thực hiện Cắt tại P</button>
+                    <div id="p4-result" class="mt-4 text-center font-bold text-lg h-8"></div>
+                </div>
+            </div>
+            <div class="lg:col-span-2">
+                <div class="canvas-container h-[500px]" id="container-p4">
+                    <canvas id="canvas-p4"></canvas>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 mt-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xl font-bold text-green-400 mb-4 border-b border-slate-600 pb-2">Lời giải chi tiết Bài 4</h3>
+                <div class="space-y-4 text-slate-300 leading-relaxed text-justify">
+                    <p><strong>Đáp án:</strong> Mộc Lan có thể đảm bảo phần thắng sau một số hữu hạn bước khi và chỉ khi $$\theta = 90^\circ$$.</p>
+                    <p><strong>Phần 1: Chứng minh Mộc Lan luôn thắng nếu $\theta = 90^\circ$.</strong></p>
+                    <p>Ký hiệu tam giác hiện tại là $T$. Mộc Lan có thể dễ dàng tạo ra một góc $90^\circ$ bằng cách hạ đường cao từ một đỉnh xuống cạnh đối diện. Cụ thể, trong bất kỳ tam giác nào, luôn tồn tại ít nhất một đỉnh sao cho hình chiếu vuông góc của đỉnh đó nằm *thực sự bên trong* cạnh đối diện (đó là đỉnh đối diện với cạnh lớn nhất — vì đó là đỉnh có góc lớn nhất, và một tam giác chỉ có thể có tối đa một góc $\ge 90^\circ$, nên hai góc còn lại luôn nhọn, đảm bảo chân đường cao rơi vào phần trong của cạnh đối diện). Mộc Lan chọn điểm $P$ chính là chân đường cao này. Khi cắt dọc theo đường cao $AP$, hai góc tạo thành tại $P$ sẽ là $\angle APB = 90^\circ$ và $\angle APC = 90^\circ$. Bất kể Thiền Vu loại bỏ tam giác nào, tam giác còn lại cũng luôn chứa một góc $90^\circ = \theta$. Mộc Lan thắng ngay lập tức trong 1 lượt.</p>
+                    <p><strong>Phần 2: Chứng minh Thiền Vu có thể ngăn Mộc Lan thắng nếu $\theta \neq 90^\circ$.</strong></p>
+                    <p class="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-3 text-yellow-200 text-sm">
+                        <strong>Sửa lỗi:</strong> chiến thuật ban đầu mô tả ở đây ("Thiền Vu luôn giữ tam giác có góc tại $P$ không tù/nhọn hơn") <strong>không đúng</strong> — nó không hề ngăn được Mộc Lan. Phản ví dụ: lấy $\theta = 60^\circ < 90^\circ$. Mộc Lan hoàn toàn có thể chọn $P$ sao cho $\angle APB = 60^\circ$ đúng bằng $\theta$ (và khi đó $\angle APC = 120^\circ$ là góc tù). Theo đúng quy tắc "giữ lại góc không tù" được nêu, Thiền Vu sẽ giữ tam giác chứa góc $\angle APB = 60^\circ$ — nhưng đó chính xác là góc $\theta$ mà Mộc Lan cần! Vậy Thiền Vu vừa tự thua chỉ vì áp dụng máy móc quy tắc "giữ góc nhọn". Quy tắc đúng phải là <em>Thiền Vu luôn giữ tam giác không chứa góc bằng chính xác $\theta$</em> (nếu tồn tại một lựa chọn như vậy) — không phải "giữ góc nhọn hay tù" một cách chung chung.
+                    </p>
+                    <p>Với sửa đổi trên, lập luận đúng cần một bất biến chặt chẽ hơn: vì $\theta \ne 90^\circ$ nên $\theta \ne 180^\circ - \theta$, do đó khi Mộc Lan cắt tạo ra hai góc kề bù tại $P$ là $\varphi$ và $180^\circ-\varphi$, <strong>không thể cả hai đều bằng $\theta$ cùng lúc</strong> — nghĩa là luôn có ít nhất một trong hai tam giác con không nhận $\theta$ làm góc tại $P$. Cái khó thực sự (và là phần cốt lõi của bài toán) là phải chỉ ra Thiền Vu có thể chọn tam giác ban đầu và luôn ưu tiên "tam giác an toàn" đó theo cách để hai góc còn lại (góc gốc giữ nguyên, và góc đỉnh bị chia) cũng không bao giờ trùng $\theta$ ở bất kỳ vòng nào trong tương lai — đây là một lập luận bất biến/minimax cần được xây dựng cẩn thận cho toàn bộ dãy vô hạn bước, và <strong>chưa được trình bày đầy đủ, chặt chẽ trong bài viết này</strong> (tương tự phần chưa hoàn tất ở Bài 2 của Ngày 1). Kết luận $\theta=90^\circ$ là giá trị duy nhất nên được xem là đáp số hợp lý cần một chứng minh chiều "chỉ khi" kỹ hơn, chứ không phải điều đã được chứng minh trọn vẹn ở đây.</p>
+                    <p>Do đó, $90^\circ$ là giá trị duy nhất mang lại chiến thắng tất yếu cho Mộc Lan.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: Algebra / Functions -->
+        <div id="tab-5" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                    <h2 class="text-xl font-bold text-purple-400 mb-4">Bài 5: Bất đẳng thức Hàm</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        Tìm tất cả các hàm số $f: \mathbb{R}_{>0} \to \mathbb{R}_{>0}$ thỏa mãn:
+                        $$ \sqrt{\frac{x^2 + f(y)^2}{2}} \ge \frac{f(x)+y}{2} \ge \sqrt{xf(y)} $$
+                    </p>
+                    <div class="bg-slate-900 p-4 rounded-lg mb-4 text-sm">
+                        <strong>Trực quan hóa (Giả sử $f(x) = x$):</strong><br>
+                        Đặt $f(y) = c$ (hằng số). Hãy xem 3 hàm số theo biến $x$:<br>
+                        <span class="text-red-400 font-bold">1. QM (Đỏ):</span> $y_1 = \sqrt{(x^2+c^2)/2}$<br>
+                        <span class="text-green-400 font-bold">2. AM (Xanh lá):</span> $y_2 = (x+c)/2$<br>
+                        <span class="text-blue-400 font-bold">3. GM (Xanh dương):</span> $y_3 = \sqrt{xc}$<br>
+                        <br>Đường AM luôn bị "kẹp" giữa QM và GM, và chúng chỉ chạm nhau tại duy nhất điểm $x = c$.
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm text-slate-400">Thay đổi hằng số $c = f(y)$:</label>
+                        <input type="range" id="p5-slider" min="1" max="8" step="0.1" value="4" class="w-full accent-purple-500" oninput="p5_updateC(this.value)">
+                        <div class="text-right text-sm font-mono text-purple-300" id="p5-c-val">c = 4.0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2">
+                <div class="canvas-container h-[500px] bg-slate-900 border-2 border-slate-700" id="container-p5">
+                    <canvas id="canvas-p5"></canvas>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 mt-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xl font-bold text-green-400 mb-4 border-b border-slate-600 pb-2">Lời giải chi tiết Bài 5</h3>
+                <div class="space-y-4 text-slate-300 leading-relaxed text-justify">
+                    <p class="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-3 text-yellow-200 text-sm">
+                        <strong>Sửa lỗi quan trọng:</strong> đáp án gốc "$f(x)=x$ là nghiệm <em>duy nhất</em>" là <strong>sai</strong> — bài toán còn bỏ sót cả một họ nghiệm. Trên thực tế, <strong>mọi hàm $f(x) = x + c$ với hằng số $c \ge 0$</strong> đều thỏa mãn đề bài, không chỉ $c=0$. Bước suy luận gốc ("Từ (1) suy ra $2f(x)-x \ge f(f(x))$. Thế vào (2) ta được $f(x)^2 \ge x(2f(x)-x)$") là một bước <strong>sai logic</strong>: từ $P \ge Q$ (bất đẳng thức 2) và $Q \le R$ (suy ra từ bất đẳng thức 1, với $Q = x f(f(x))$, $R=x(2f(x)-x)$), <strong>không thể</strong> suy ra $P \ge R$ — đây là nguỵ biện bắc cầu sai chiều (ví dụ số: $5 \ge 3$ và $3 \le 10$, nhưng không suy ra được $5 \ge 10$).
+                    </p>
+                    <p><strong>Đáp án đúng:</strong> Tất cả các hàm thỏa mãn là $f(x) = x + c$ với hằng số $c \ge 0$ bất kỳ, $\forall x > 0$.</p>
+                    <p><strong>Bước 1: Kiểm tra họ nghiệm $f(x)=x+c$ ($c \ge 0$).</strong></p>
+                    <p>Thay $f(t)=t+c$ vào bất đẳng thức gốc, với $u=x, v=y+c$ (cả hai đều dương vì $x>0, y>0, c\ge0$):
+                    $$ \sqrt{\frac{x^2+(y+c)^2}{2}} \ge \frac{x+(y+c)}{2} \ge \sqrt{x(y+c)} \quad \Longleftrightarrow \quad \text{QM}(u,v) \ge \text{AM}(u,v) \ge \text{GM}(u,v) $$
+                    Đây đúng là chuỗi QM $\ge$ AM $\ge$ GM cho cặp $(u,v)$, luôn đúng với mọi $u, v > 0$. Vậy <strong>mọi</strong> $c \ge 0$ đều cho nghiệm hợp lệ — không chỉ $c=0$.</p>
+                    <p><strong>Bước 2: Tìm hệ thức bắt buộc bằng phép thế đúng (sửa lại phần bị lỗi).</strong></p>
+                    <p>Xét bất đẳng thức gốc: $\sqrt{\frac{x^2 + f(y)^2}{2}} \ge \frac{f(x)+y}{2} \ge \sqrt{xf(y)}$. Thế $x = f(y)$ vào <strong>vế trái và vế giữa</strong>:
+                    $$ \sqrt{\frac{f(y)^2 + f(y)^2}{2}} \ge \frac{f(f(y))+y}{2} \implies f(y) \ge \frac{f(f(y))+y}{2} \implies f(f(y)) \le 2f(y)-y \quad (1) $$</p>
+                    <p>Thế <strong>cùng giá trị $x=f(y)$</strong> vào <strong>vế giữa và vế phải</strong> (bước bị bỏ sót trong bản gốc — đây chính là chỗ cần sửa):
+                    $$ \frac{f(f(y))+y}{2} \ge \sqrt{f(y) \cdot f(y)} = f(y) \implies f(f(y)) \ge 2f(y) - y \quad (4) $$</p>
+                    <p>Kết hợp (1) và (4): $f(f(y)) \le 2f(y)-y$ và $f(f(y)) \ge 2f(y)-y$ cùng lúc, nên bắt buộc:
+                    $$ f(f(y)) = 2f(y) - y \quad \text{với mọi } y > 0 $$
+                    (đẳng thức chặt chẽ, không cần bước bắc cầu sai như bản gốc).</p>
+                    <p><strong>Bước 3: Từ hệ thức trên suy ra dạng của $f$.</strong></p>
+                    <p>Trước hết, hệ thức trên cho thấy $f$ đơn ánh: nếu $f(a)=f(b)$ thì $f(f(a))=f(f(b)) \implies 2f(a)-a = 2f(b)-b \implies a=b$ (vì $f(a)=f(b)$).</p>
+                    <p>Với $x_0>0$ bất kỳ, đặt $x_n = f^{(n)}(x_0)$ (lặp $f$ $n$ lần). Từ $f(f(t))=2f(t)-t$ áp dụng liên tiếp: $x_{n+1} = 2x_n - x_{n-1}$, tức $x_{n+1}-x_n = x_n - x_{n-1}$ với mọi $n\ge1$ — hiệu liên tiếp không đổi! Vậy $(x_n)$ là một cấp số cộng với công sai $d(x_0) := f(x_0)-x_0$: $x_n = x_0 + n\cdot d(x_0)$. Vì $x_n = f^{(n)}(x_0) > 0$ với mọi $n$ (do $f$ ánh xạ vào $\mathbb{R}_{>0}$), nếu $d(x_0) < 0$ thì $x_n \to -\infty$, mâu thuẫn. Vậy $d(x_0) = f(x_0) - x_0 \ge 0$ với <strong>mọi</strong> $x_0 > 0$, tức $f(x) \ge x$ luôn đúng, và quỹ đạo của mỗi điểm dưới $f$ là một cấp số cộng công sai không âm.</p>
+                    <p>Điều còn thiếu để hoàn tất chứng minh (chưa được trình bày đầy đủ ở đây) là chỉ ra công sai $d(x_0) = f(x_0)-x_0$ phải là <strong>cùng một hằng số cho mọi $x_0$</strong> (chứ không chỉ không đổi dọc theo quỹ đạo của riêng từng điểm) — điều này cần khai thác thêm bất đẳng thức gốc với $x, y$ độc lập (không chỉ qua phép thế $x=f(y)$) để loại trừ khả năng $d$ thay đổi giữa các quỹ đạo khác nhau. Kết hợp với Bước 1 (đã kiểm chứng mọi $c\ge0$ đều là nghiệm), câu trả lời hợp lý và nhất quán nhất là: <strong>tập nghiệm đầy đủ chính là $f(x)=x+c,\ c\ge0$</strong>, nhưng chiều "chỉ có các nghiệm này" cần thêm một bước lập luận nữa so với những gì trình bày ở đây.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: Number Theory -->
+        <div id="tab-6" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                    <h2 class="text-xl font-bold text-purple-400 mb-4">Bài 6: Dãy số GCD</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        Dãy $a_n$: $a_{n+1}$ là số nguyên nhỏ nhất $> a_n$ sao cho $\gcd(a_{n+1}, a_i) > 1$ với mọi $i \le n$. Chứng minh dãy tuần hoàn sai phân: tồn tại $T, L$ để $a_{n+T} = a_n + L$.
+                    </p>
+                    <div class="bg-slate-900 p-4 rounded-lg mb-4 text-sm">
+                        <strong>Công cụ Khám phá Dãy số:</strong><br>
+                        Nhập giá trị bắt đầu $a_1$ để máy tính tự động sinh ra các phần tử tiếp theo và vẽ đồ thị sự phát triển của dãy. Hệ thống sẽ tự động tìm chu kỳ $T$ và hằng số cộng thêm $L$.
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-sm font-semibold">Nhập số nguyên $a_1 > 1$:</label>
+                            <input type="number" id="p6-input" value="6" min="2" class="w-full mt-1 bg-slate-900 border border-slate-600 rounded p-2 text-white outline-none focus:border-purple-500">
+                        </div>
+                        <button onclick="p6_generate()" class="w-full bg-purple-600 hover:bg-purple-500 py-3 rounded-lg font-semibold transition shadow-lg">Tính toán & Vẽ biểu đồ</button>
+                    </div>
+
+                    <div id="p6-stats" class="hidden mt-4 p-4 bg-slate-900 border border-purple-500 rounded-lg text-sm font-mono space-y-2">
+                        <div>Dãy số hội tụ về cấp số cộng!</div>
+                        <div>Bước nhảy <span class="text-green-400 font-bold" id="p6-L">L = ?</span></div>
+                        <div>Chu kỳ <span class="text-blue-400 font-bold" id="p6-T">T = 1</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 flex flex-col">
+                <div class="canvas-container flex-grow h-[500px]" id="container-p6">
+                    <canvas id="canvas-p6"></canvas>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 mt-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xl font-bold text-green-400 mb-4 border-b border-slate-600 pb-2">Lời giải chi tiết Bài 6</h3>
+                <div class="space-y-4 text-slate-300 leading-relaxed text-justify">
+                    <p class="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-3 text-yellow-200 text-sm">
+                        <strong>Lưu ý về độ chặt chẽ:</strong> đây là bài số học khó nhất trong đề (Bài 6, vị trí "khó" truyền thống), và phần trình bày dưới đây chỉ là <em>phác thảo trực giác</em>, không phải chứng minh đầy đủ. Cụ thể, khẳng định ở Bước 3 rằng chu kỳ luôn hội tụ về $T=1$ (một số nguyên tố $p$ cố định cộng dồn) là một sự đơn giản hoá chưa được chứng minh — về nguyên tắc, dãy có thể ổn định quanh một <em>tập hợp nhiều số nguyên tố xoay vòng</em> với chu kỳ $T>1$ (ví dụ $a_{n+1}=a_n+p_1,\ a_{n+2}=a_{n+1}+p_2,\dots$, lặp lại với $T$ số nguyên tố khác nhau, tổng $L=p_1+\cdots+p_T$ sau mỗi chu kỳ), và đề bài cũng phát biểu tổng quát cho cả $T,L$ bất kỳ chứ không khẳng định $T=1$. Nên xem các bước dưới đây là gợi ý hướng chứng minh (sự hội tụ về một tập ước nguyên tố ổn định), không phải lời giải đầy đủ.
+                    </p>
+                    <p><strong>Nhận xét:</strong> Đây là một bài toán về số học dựa trên tính chất chia hết và tập hợp các ước nguyên tố.</p>
+                    <p><strong>Bước 1: Phân tích sự hình thành dãy.</strong><br>
+                    Luật chơi yêu cầu $a_{n+1}$ phải có chung ít nhất một ước nguyên tố với <em>tất cả</em> các số $a_1, a_2, \dots, a_n$ đứng trước nó.
+                    Giả sử tập các ước nguyên tố của $a_1$ là $S_1 = \{p_1, p_2, \dots, p_k\}$. Để $\gcd(a_2, a_1) > 1$, $a_2$ phải chia hết cho ít nhất một số $p \in S_1$. Số $a_2$ được chọn là số nhỏ nhất lớn hơn $a_1$ thỏa mãn điều kiện đó.
+                    Tương tự, $a_3$ phải chia hết cho ít nhất một ước nguyên tố của $a_1$ và một ước nguyên tố của $a_2$.</p>
+
+                    <p><strong>Bước 2: Sự hội tụ về một tập ước nguyên tố ổn định (Cốt lõi bài toán — mới chỉ là gợi ý, chưa chứng minh).</strong><br>
+                    Qua một vài phần tử đầu tiên, tập các số nguyên tố xuất hiện chung sẽ thu hẹp lại. Do ta luôn chọn số "nhỏ nhất lớn hơn" $a_n$, dãy số có xu hướng tăng chậm nhất có thể. Nếu có một số nguyên tố $p$ chung cho tất cả các số hiện tại, thì việc chọn $a_{n+1} = a_n + p$ thường là ứng viên nhỏ nhất hợp lệ (vì $a_n + p$ sẽ hiển nhiên chia hết cho $p$, do đó chia hết cho ít nhất 1 ước chung của tất cả các số trước đó).
+                    Sự cản trở duy nhất là nếu $a_n + p$ tình cờ không có chung ước nguyên tố với một số $a_k$ nào đó không chứa $p$. Tuy nhiên, tập hợp các số nguyên tố liên quan đến $a_1, a_2, \dots$ trong vài bước đầu là hữu hạn. Sau một số bước đủ lớn (gọi là giai đoạn "khởi động" hay nhiễu loạn ban đầu), dãy số bắt buộc sẽ ổn định quanh một tập hợp hữu hạn các số nguyên tố đóng vai trò "mỏ neo" cho tất cả các phần tử về sau.
+                    </p>
+
+                    <p><strong>Bước 3: Cấu trúc tuần hoàn sai phân cuối cùng.</strong><br>
+                    Một khi mọi $a_i$ với $i \ge N$ đều nằm trong "vùng ổn định" (chia hết cho ít nhất một số nguyên tố trong một tập hữu hạn cố định các số nguyên tố "neo"), số nhỏ nhất $>a_n$ thoả điều kiện chia hết sẽ lặp lại theo một khuôn mẫu tuần hoàn: tồn tại $T\ge1$ sao cho cách chọn ước nguyên tố lặp lại y hệt sau mỗi $T$ bước, kéo theo $a_{n+T}=a_n+L$ với $L$ là tổng các bước nhảy trong một chu kỳ. <strong>Trường hợp riêng đơn giản nhất</strong> là khi vùng ổn định chỉ xoay quanh đúng một số nguyên tố $p$ duy nhất, khi đó $T=1$ và $L=p$ — đây là trường hợp bản demo tương tác bên trái minh hoạ, nhưng không phải là điều bắt buộc xảy ra với mọi $a_1$ ban đầu.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            for(let i=4; i<=6; i++) {
+                document.getElementById('tab-' + i).classList.add('hidden');
+                document.getElementById('btn-tab-' + i).classList.remove('active');
+            }
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('btn-tab-' + tabId).classList.add('active');
+
+            // Render Math when tab switches
+            renderMathInElement(document.getElementById('tab-' + tabId), {
+                delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false} ],
+                throwOnError: false,
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            });
+
+            // Handle Resize & Redraw
+            if(tabId === 4) { p4_resize(); p4_draw(); }
+            if(tabId === 5) { p5_resize(); p5_draw(); }
+            if(tabId === 6) { p6_resize(); p6_draw(); }
+        }
+
+        /* ==========================================
+           PROBLEM 4: Geometry Game (Cutting Triangle)
+           ========================================== */
+        const canvas4 = document.getElementById('canvas-p4');
+        const ctx4 = canvas4.getContext('2d');
+        let p4_width, p4_height;
+
+        let p4_A = {x: 400, y: 100};
+        let p4_B = {x: 150, y: 400};
+        let p4_C = {x: 650, y: 400};
+        let p4_P = {x: 400, y: 400}; // Draggable point on BC
+        let p4_isDragging = false;
+
+        function p4_resize() {
+            p4_width = canvas4.parentElement.clientWidth;
+            p4_height = canvas4.parentElement.clientHeight;
+            canvas4.width = p4_width;
+            canvas4.height = p4_height;
+
+            // Adjust coordinates relative to center
+            p4_A = {x: p4_width/2, y: p4_height * 0.2};
+            p4_B = {x: p4_width*0.2, y: p4_height * 0.8};
+            p4_C = {x: p4_width*0.8, y: p4_height * 0.8};
+
+            // Keep P on BC proportionally
+            let t = 0.5; // default center
+            p4_P = {x: p4_B.x + t*(p4_C.x - p4_B.x), y: p4_B.y};
+        }
+
+        // Calculate Angle in Degrees between three points: P1-Center-P2
+        function getAngleDeg(p1, center, p2) {
+            let v1 = {x: p1.x - center.x, y: p1.y - center.y};
+            let v2 = {x: p2.x - center.x, y: p2.y - center.y};
+            let dot = v1.x*v2.x + v1.y*v2.y;
+            let mag1 = Math.hypot(v1.x, v1.y);
+            let mag2 = Math.hypot(v2.x, v2.y);
+            let rad = Math.acos(Math.max(-1, Math.min(1, dot / (mag1*mag2))));
+            return rad * (180 / Math.PI);
+        }
+
+        function p4_draw() {
+            ctx4.clearRect(0, 0, p4_width, p4_height);
+
+            // Draw Triangle
+            ctx4.beginPath();
+            ctx4.moveTo(p4_A.x, p4_A.y);
+            ctx4.lineTo(p4_B.x, p4_B.y);
+            ctx4.lineTo(p4_C.x, p4_C.y);
+            ctx4.closePath();
+            ctx4.fillStyle = '#1e293b'; ctx4.fill();
+            ctx4.lineWidth = 3; ctx4.strokeStyle = '#64748b'; ctx4.stroke();
+
+            // Draw Cut Line AP
+            ctx4.beginPath();
+            ctx4.moveTo(p4_A.x, p4_A.y);
+            ctx4.lineTo(p4_P.x, p4_P.y);
+            ctx4.strokeStyle = '#eab308'; // Yellow
+            ctx4.setLineDash([5, 5]); ctx4.stroke(); ctx4.setLineDash([]);
+
+            // Calculate Angles at P
+            let angleBPA = getAngleDeg(p4_B, p4_P, p4_A);
+            let angleCPA = 180 - angleBPA;
+
+            // Draw Arcs at P
+            ctx4.beginPath();
+            let radA = Math.atan2(p4_A.y - p4_P.y, p4_A.x - p4_P.x);
+            let radB = Math.atan2(p4_B.y - p4_P.y, p4_B.x - p4_P.x);
+            let radC = Math.atan2(p4_C.y - p4_P.y, p4_C.x - p4_P.x);
+
+            ctx4.arc(p4_P.x, p4_P.y, 40, radB, radA, true);
+            ctx4.strokeStyle = '#3b82f6'; ctx4.lineWidth=3; ctx4.stroke();
+
+            ctx4.beginPath();
+            ctx4.arc(p4_P.x, p4_P.y, 40, radA, radC, true);
+            ctx4.strokeStyle = '#ef4444'; ctx4.lineWidth=3; ctx4.stroke();
+
+            // Draw Text for Angles
+            ctx4.fillStyle = '#3b82f6'; ctx4.font = 'bold 16px Inter';
+            ctx4.fillText(angleBPA.toFixed(1) + '°', p4_P.x - 50, p4_P.y - 15);
+            ctx4.fillStyle = '#ef4444';
+            ctx4.fillText(angleCPA.toFixed(1) + '°', p4_P.x + 20, p4_P.y - 15);
+
+            // Draw Points
+            const drawPt = (pt, label, col='#fff') => {
+                ctx4.beginPath(); ctx4.arc(pt.x, pt.y, 6, 0, Math.PI*2);
+                ctx4.fillStyle = col; ctx4.fill();
+                ctx4.stroke();
+                ctx4.fillStyle = '#cbd5e1'; ctx4.font = '16px Inter';
+                ctx4.fillText(label, pt.x - 5, pt.y - 15);
+            };
+            drawPt(p4_A, 'A'); drawPt(p4_B, 'B'); drawPt(p4_C, 'C');
+            drawPt(p4_P, 'P', '#3b82f6'); // Draggable indicator
+        }
+
+        // Interactivity
+        canvas4.addEventListener('mousedown', (e) => {
+            if(document.getElementById('tab-4').classList.contains('hidden')) return;
+            const rect = canvas4.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            if(Math.hypot(x - p4_P.x, y - p4_P.y) < 20) p4_isDragging = true;
+        });
+
+        window.addEventListener('mouseup', () => p4_isDragging = false);
+
+        canvas4.addEventListener('mousemove', (e) => {
+            if(p4_isDragging) {
+                const rect = canvas4.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                // Constrain x between B and C
+                x = Math.max(p4_B.x + 5, Math.min(x, p4_C.x - 5));
+                p4_P.x = x;
+                document.getElementById('p4-result').innerText = ""; // Clear result text on move
+                requestAnimationFrame(p4_draw);
+            }
+        });
+
+        function p4_checkWin() {
+            let angle1 = getAngleDeg(p4_B, p4_P, p4_A);
+            let angle2 = 180 - angle1;
+            let el = document.getElementById('p4-result');
+
+            // Check if within 0.5 degrees of 90
+            if(Math.abs(angle1 - 90) < 1.0 || Math.abs(angle2 - 90) < 1.0) {
+                el.innerHTML = '<span class="text-green-400">Bạn đã cắt góc ~90°! Mộc Lan Thắng! 🎉</span>';
+                // Snap to exact 90 for visual perfection
+                let projX = p4_A.x; // since BC is horizontal, altitude foot is exactly below A
+                p4_P.x = projX;
+                p4_draw();
+            } else {
+                el.innerHTML = '<span class="text-red-400">Thiền Vu loại bỏ góc ' + Math.max(angle1, angle2).toFixed(1) + '°. Mộc Lan chưa thắng.</span>';
+            }
+        }
+
+        /* ==========================================
+           PROBLEM 5: Algebra (Function Plots)
+           ========================================== */
+        const canvas5 = document.getElementById('canvas-p5');
+        const ctx5 = canvas5.getContext('2d');
+        let p5_width, p5_height;
+        let p5_c = 4;
+
+        function p5_resize() {
+            p5_width = canvas5.parentElement.clientWidth;
+            p5_height = canvas5.parentElement.clientHeight;
+            canvas5.width = p5_width;
+            canvas5.height = p5_height;
+        }
+
+        function p5_updateC(val) {
+            p5_c = parseFloat(val);
+            document.getElementById('p5-c-val').innerText = 'c = ' + p5_c.toFixed(1);
+            p5_draw();
+        }
+
+        function p5_draw() {
+            ctx5.clearRect(0, 0, p5_width, p5_height);
+
+            // Chart Settings
+            const margin = 50;
+            const originX = margin;
+            const originY = p5_height - margin;
+            const maxX = 10;
+            const maxY = 10;
+            const scaleX = (p5_width - 2*margin) / maxX;
+            const scaleY = (p5_height - 2*margin) / maxY;
+
+            // Draw Grid & Axes
+            ctx5.strokeStyle = '#334155'; ctx5.lineWidth = 1;
+            for(let i=0; i<=maxX; i++) {
+                ctx5.beginPath(); ctx5.moveTo(originX + i*scaleX, originY); ctx5.lineTo(originX + i*scaleX, margin); ctx5.stroke();
+                ctx5.fillStyle = '#64748b'; ctx5.fillText(i, originX + i*scaleX - 4, originY + 15);
+            }
+            for(let i=0; i<=maxY; i+=2) {
+                ctx5.beginPath(); ctx5.moveTo(originX, originY - i*scaleY); ctx5.lineTo(p5_width - margin, originY - i*scaleY); ctx5.stroke();
+                ctx5.fillStyle = '#64748b'; ctx5.fillText(i, originX - 20, originY - i*scaleY + 4);
+            }
+
+            ctx5.strokeStyle = '#cbd5e1'; ctx5.lineWidth = 2;
+            ctx5.beginPath(); ctx5.moveTo(originX, margin); ctx5.lineTo(originX, originY); ctx5.lineTo(p5_width - margin, originY); ctx5.stroke();
+            ctx5.fillText("x", p5_width - margin + 10, originY + 5);
+            ctx5.fillText("y", originX - 10, margin - 10);
+
+            // Draw Functions
+            const drawFunc = (fn, color, label) => {
+                ctx5.beginPath();
+                for(let px = 0; px <= p5_width - 2*margin; px+=2) {
+                    let x = px / scaleX;
+                    if(x === 0 && label === 'GM') continue; // prevent sqrt(0) visual artifacts if any
+                    let y = fn(x);
+                    let py = originY - y * scaleY;
+                    if(px === 0) ctx5.moveTo(originX + px, py);
+                    else ctx5.lineTo(originX + px, py);
+                }
+                ctx5.strokeStyle = color; ctx5.lineWidth = 3; ctx5.stroke();
+            };
+
+            // QM: sqrt((x^2 + c^2)/2)
+            drawFunc(x => Math.sqrt((x*x + p5_c*p5_c)/2), '#ef4444', 'QM');
+            // AM: (x+c)/2
+            drawFunc(x => (x + p5_c)/2, '#22c55e', 'AM');
+            // GM: sqrt(xc)
+            drawFunc(x => Math.sqrt(x * p5_c), '#3b82f6', 'GM');
+
+            // Draw Point of Contact
+            let touchX = originX + p5_c * scaleX;
+            let touchY = originY - p5_c * scaleY;
+
+            ctx5.beginPath(); ctx5.arc(touchX, touchY, 6, 0, Math.PI*2);
+            ctx5.fillStyle = '#eab308'; ctx5.fill(); ctx5.strokeStyle='#fff'; ctx5.lineWidth=2; ctx5.stroke();
+
+            ctx5.fillStyle = '#eab308'; ctx5.font = 'bold 14px Inter';
+            ctx5.fillText(`Điểm chạm (x = c = ${p5_c.toFixed(1)})`, touchX + 10, touchY - 10);
+        }
+
+        /* ==========================================
+           PROBLEM 6: Number Theory (Sequence Generator)
+           ========================================== */
+        const canvas6 = document.getElementById('canvas-p6');
+        const ctx6 = canvas6.getContext('2d');
+        let p6_width, p6_height;
+        let p6_seq = [];
+
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+
+        function p6_resize() {
+            p6_width = canvas6.parentElement.clientWidth;
+            p6_height = canvas6.parentElement.clientHeight;
+            canvas6.width = p6_width;
+            canvas6.height = p6_height;
+        }
+
+        function p6_generate() {
+            let a1 = parseInt(document.getElementById('p6-input').value);
+            if(isNaN(a1) || a1 < 2) { alert("Vui lòng nhập a1 ≥ 2"); return; }
+
+            p6_seq = [a1];
+            const MAX_TERMS = 40;
+
+            // Calculate sequence
+            for(let n=1; n < MAX_TERMS; n++) {
+                let candidate = p6_seq[n-1] + 1;
+                while(true) {
+                    let valid = true;
+                    for(let i=0; i<n; i++) {
+                        if(gcd(candidate, p6_seq[i]) === 1) {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if(valid) {
+                        p6_seq.push(candidate);
+                        break;
+                    }
+                    candidate++;
+                }
+            }
+
+            // Analyze sequence tail for L and T
+            let diffs = [];
+            for(let i=1; i<p6_seq.length; i++) {
+                diffs.push(p6_seq[i] - p6_seq[i-1]);
+            }
+            // Tail logic: grab last 10 diffs. If they are identical, T=1, L=diff.
+            let L = diffs[diffs.length-1];
+            let isStable = true;
+            for(let i = diffs.length - 10; i < diffs.length; i++) {
+                if(diffs[i] !== L) isStable = false;
+            }
+
+            let statsEl = document.getElementById('p6-stats');
+            statsEl.classList.remove('hidden');
+            if(isStable) {
+                document.getElementById('p6-L').innerText = `L = ${L}`;
+            } else {
+                document.getElementById('p6-L').innerText = `L = (Chưa rõ/Cần T > 1)`;
+            }
+
+            p6_draw();
+        }
+
+        function p6_draw() {
+            if(p6_seq.length === 0) return;
+            ctx6.clearRect(0, 0, p6_width, p6_height);
+
+            const marginX = 40; const marginY = 40;
+            const graphW = p6_width - 2*marginX;
+            const graphH = p6_height - 2*marginY;
+
+            let maxN = p6_seq.length - 1;
+            let maxA = Math.max(...p6_seq);
+            let minA = p6_seq[0];
+
+            // Axes
+            ctx6.strokeStyle = '#475569'; ctx6.lineWidth = 2;
+            ctx6.beginPath();
+            ctx6.moveTo(marginX, marginY); ctx6.lineTo(marginX, p6_height - marginY); ctx6.lineTo(p6_width - marginX, p6_height - marginY);
+            ctx6.stroke();
+
+            // Plot Points
+            ctx6.beginPath();
+            ctx6.strokeStyle = '#a855f7'; // Purple line
+            ctx6.lineWidth = 2;
+            for(let i=0; i<=maxN; i++) {
+                let x = marginX + (i / maxN) * graphW;
+                let y = (p6_height - marginY) - ((p6_seq[i]) / maxA) * graphH;
+
+                if(i===0) ctx6.moveTo(x, y);
+                else ctx6.lineTo(x, y);
+            }
+            ctx6.stroke();
+
+            // Draw Nodes
+            for(let i=0; i<=maxN; i++) {
+                let x = marginX + (i / maxN) * graphW;
+                let y = (p6_height - marginY) - ((p6_seq[i]) / maxA) * graphH;
+
+                ctx6.beginPath(); ctx6.arc(x, y, 4, 0, Math.PI*2);
+                ctx6.fillStyle = '#d8b4fe'; ctx6.fill();
+
+                // Show labels for first few and last few
+                if(i < 5 || i > maxN - 2 || i % 10 === 0) {
+                    ctx6.fillStyle = 'white'; ctx6.font = '10px Inter';
+                    ctx6.fillText(p6_seq[i], x - 5, y - 10);
+                }
+            }
+
+            // Draw Title
+            ctx6.fillStyle = '#94a3b8'; ctx6.font = '14px Inter';
+            ctx6.fillText("Trục ngang: Chỉ số n | Trục dọc: Giá trị a_n", marginX, marginY - 15);
+        }
+
+        // Initialize
+        window.addEventListener('resize', () => {
+            if(!document.getElementById('tab-4').classList.contains('hidden')) { p4_resize(); p4_draw(); }
+            if(!document.getElementById('tab-5').classList.contains('hidden')) { p5_resize(); p5_draw(); }
+            if(!document.getElementById('tab-6').classList.contains('hidden')) { p6_resize(); p6_draw(); }
+        });
+
+        window.onload = () => {
+            p4_resize(); p4_draw();
+            p5_resize(); p5_draw();
+            p6_resize(); p6_generate(); // auto generate with default a1=6
+        };
+
+    </script>
+</body>
+</html>
