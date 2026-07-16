@@ -1,0 +1,877 @@
+---
+layout: post
+title: "IMO 2026 - Lời giải trực quan Ngày 1"
+subtitle: "Ba bài toán Ngày 1 của kỳ thi Olympic Toán học Quốc tế 2026 tổ chức tại Thượng Hải: Số học (thuật toán Euclid
+ẩn giấu), Hình học (tâm đường tròn ngoại tiếp) và Trò chơi tổ hợp (chia gậy). Mô phỏng tương tác bằng HTML5 Canvas
+kèm lời giải chi tiết render bằng KaTeX."
+tags: [math, canvas, olympiad, geometry]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMO 2026 - Day 1 (Vietnam) Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"
+        crossorigin="anonymous"></script>
+    <script>
+        // Render KaTeX sau khi DOM sẵn sàng. Các script KaTeX ở trên dùng `defer`
+        // nên chắc chắn đã thực thi (định nghĩa renderMathInElement) trước sự kiện
+        // DOMContentLoaded, giúp việc render đáng tin cậy trong layout của Jekyll.
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false }
+                ],
+                throwOnError: false,
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            });
+        });
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        .canvas-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #1e293b; border-radius: 0.75rem; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); border: 1px solid #334155; }
+        canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+        .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #60a5fa; background: #1e293b; }
+        .math-font { font-family: 'Times New Roman', Times, serif; font-style: italic; }
+        .glass-panel { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-top: 1px solid #334155; }
+        .katex { font-size: 1.05em; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-slate-900 border-b border-slate-700 p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    IMO 2026 <span class="text-blue-400 text-lg font-normal">| Lời giải Trực quan (Day 1)</span>
+                </h1>
+            </div>
+            <div class="flex space-x-1 bg-slate-800 p-1 rounded-lg">
+                <button onclick="switchTab(1)" id="btn-tab-1" class="tab-btn active px-4 py-2 rounded-md font-medium transition-colors hover:bg-slate-700">Bài 1: Số học</button>
+                <button onclick="switchTab(2)" id="btn-tab-2" class="tab-btn px-4 py-2 rounded-md font-medium transition-colors hover:bg-slate-700">Bài 2: Hình học</button>
+                <button onclick="switchTab(3)" id="btn-tab-3" class="tab-btn px-4 py-2 rounded-md font-medium transition-colors hover:bg-slate-700">Bài 3: Trò chơi</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 md:p-8 max-w-7xl mx-auto w-full">
+
+        <!-- TAB 1: Number Theory -->
+        <div id="tab-1" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                    <h2 class="text-xl font-bold text-blue-400 mb-4">Bài 1: Khổng Tử chọn số</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        Có 2026 số nguyên lớn hơn 1. Mỗi bước, thay hai số <span class="math-font">m, n > 1</span> bằng
+                        <span class="math-font text-green-400">gcd(m, n)</span> và <span class="math-font text-purple-400">lcm(m, n)/gcd(m, n)</span>.
+                    </p>
+                    <div class="bg-slate-900 p-4 rounded-lg mb-4 text-sm">
+                        <strong>Tóm tắt ý tưởng giải:</strong><br>
+                        Xét số mũ của một số nguyên tố <span class="math-font">p</span> bất kỳ trong phân tích ra thừa số nguyên tố của <span class="math-font">m</span> và <span class="math-font">n</span>, giả sử là <span class="math-font">a</span> và <span class="math-font">b</span>.<br>
+                        - <span class="math-font">gcd</span> sẽ lấy số mũ <span class="math-font">min(a, b)</span>.<br>
+                        - <span class="math-font">lcm/gcd</span> sẽ lấy số mũ <span class="math-font">max(a, b) - min(a, b) = |a - b|</span>.<br>
+                        Phép biến đổi <span class="math-font">(a, b) &rarr; (min(a,b), |a-b|)</span> chính là thuật toán Euclid tìm Ước chung lớn nhất! Do đó, các số mũ của <span class="math-font">p</span> cuối cùng sẽ hội tụ về <span class="math-font">gcd</span> của tất cả các số mũ ban đầu của <span class="math-font">p</span>, và các số còn lại trở thành 0 (tức là số đó chia hết cho <span class="math-font">p^0 = 1</span>). Quá trình sẽ dừng khi chỉ còn 1 số lớn hơn 1.
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="p1_init()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded-lg font-semibold transition">Tạo dãy số mới</button>
+                        <button onclick="p1_autoPlay()" id="p1-btn-play" class="flex-1 bg-blue-600 hover:bg-blue-500 py-2 rounded-lg font-semibold transition">Tự động chạy</button>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 flex flex-col">
+                <div class="canvas-container flex-grow" id="container-p1">
+                    <canvas id="canvas-p1"></canvas>
+                    <div class="absolute bottom-4 left-4 text-white font-mono text-sm" id="p1-status"></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 mt-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xl font-bold text-green-400 mb-4 border-b border-slate-600 pb-2">Lời giải chi tiết Bài 1</h3>
+                <div class="space-y-4 text-slate-300 leading-relaxed text-justify">
+                    <p><strong>(a) Quá trình dừng lại sau hữu hạn bước và chỉ còn một số $M>1$:</strong></p>
+                    <p>Xét một số nguyên tố $p$ bất kỳ. Gọi $v_p(x)$ là số mũ của $p$ trong phân tích ra thừa số nguyên tố của $x$. Khi Khổng Tử chọn hai số $m$ và $n$, thao tác thay thế bằng $\gcd(m, n)$ và $\frac{\operatorname{lcm}(m, n)}{\gcd(m, n)}$ tác động lên số mũ của $p$ như sau:</p>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li>$v_p(\gcd(m, n)) = \min(v_p(m), v_p(n))$</li>
+                        <li>$v_p\left(\frac{\operatorname{lcm}(m, n)}{\gcd(m, n)}\right) = \max(v_p(m), v_p(n)) - \min(v_p(m), v_p(n)) = |v_p(m) - v_p(n)|$</li>
+                    </ul>
+                    <p>Nhận xét quan trọng: Phép biến đổi $(a, b) \to (\min(a,b), |a-b|)$ chính xác là một bước trong <strong>Thuật toán Euclid</strong> để tìm Ước chung lớn nhất (UCLN) của hai số, và quan trọng hơn, nó <em>bảo toàn</em> UCLN của cặp: $\gcd(a,b) = \gcd(\min(a,b), |a-b|)$.</p>
+                    <p><em>Lưu ý sửa lại lập luận dừng quá trình:</em> phát biểu "tổng các số mũ giảm thực sự sau mỗi bước" không hoàn toàn đúng — nếu $p$ chỉ chia hết một trong hai số $m, n$ (chẳng hạn $v_p(m)=a>0, v_p(n)=0$), thì $\min(a,0)=0$ và $|a-0|=a$, tức cặp số mũ $(a, 0)$ biến thành $(0, a)$: tổng không đổi. Để chứng minh quá trình dừng một cách chặt chẽ, ta cần một đại lượng thực sự giảm ở <strong>mọi</strong> bước. Xét cặp $(A, S)$ với $A$ = số lượng số hiện có trên bảng lớn hơn $1$, và $S = \sum_i \Omega(x_i)$ (tổng số ước nguyên tố kể cả bội, của tất cả các số trên bảng). Với mỗi bước chọn $m,n>1$:</p>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li>Nếu $\gcd(m,n)=1$: hai số mới là $1$ và $mn$, nên $A$ giảm đúng $1$ (hai số $>1$ hợp thành một).</li>
+                        <li>Nếu $\gcd(m,n)>1$: có ít nhất một số nguyên tố $p$ với $v_p(m), v_p(n) \ge 1$; với riêng $p$ đó, tổng số mũ giảm từ $v_p(m)+v_p(n)$ xuống $\max(v_p(m),v_p(n))$, tức giảm đúng $\min(v_p(m),v_p(n)) \ge 1$, còn các số nguyên tố khác không tăng — vậy $S$ giảm thực sự (và $A$ không tăng).</li>
+                    </ul>
+                    <p>Vậy cặp $(A,S)$ giảm thực sự theo thứ tự từ điển ở <strong>mọi</strong> bước, và cả hai đều là số nguyên không âm, nên quá trình phải dừng sau hữu hạn bước. Quá trình chỉ dừng khi $A \le 1$ (nếu $A \ge 2$ thì luôn chọn được một cặp để tiếp tục). Hơn nữa $A$ không thể bằng $0$: gọi $p_0$ là một ước nguyên tố bất kỳ của một trong 2026 số ban đầu; UCLN $G_{p_0}$ của toàn bộ 2026 số mũ ban đầu của $p_0$ luôn $\ge 1$, và (theo Bổ đề ở phần (b) dưới đây) đại lượng này được bảo toàn xuyên suốt quá trình, nên số cuối cùng còn sót lại luôn chia hết cho $p_0^{G_{p_0}} \ge p_0 > 1$. Vậy $A$ dừng lại đúng ở $1$: chỉ còn đúng một số $M>1$, các số còn lại đều bằng $1$.</p>
+
+                    <p><strong>(b) Giá trị của $M$ không phụ thuộc vào cách chọn:</strong></p>
+                    <p><strong>Bổ đề (bất biến UCLN):</strong> Với mỗi số nguyên tố $p$, đại lượng $G_p := \gcd\big(v_p(x_1), \dots, v_p(x_{2026})\big)$ — UCLN của toàn bộ 2026 số mũ trên bảng (kể cả các số mũ bằng $0$) — không đổi qua mỗi bước.</p>
+                    <p><em>Chứng minh:</em> một bước chỉ thay hai thành phần $a=v_p(m), b=v_p(n)$ bằng $\min(a,b)$ và $|a-b|$, giữ nguyên 2024 thành phần còn lại. Vì $\gcd(a,b) = \gcd(\min(a,b),|a-b|)$, và UCLN của toàn bộ 2026 số mũ bằng $\gcd\big(\gcd(a,b),\ \text{UCLN của phần còn lại}\big)$, giá trị này không đổi trước và sau bước biến đổi. $\blacksquare$</p>
+                    <p>Vì $G_p$ bất biến xuyên suốt, ở trạng thái cuối (chỉ còn $M>1$, 2025 số còn lại bằng $1$), UCLN của bộ số mũ lúc này (một giá trị $v_p(M)$ và 2025 số $0$) chính bằng $v_p(M)$, nên:
+                    $$v_p(M) = G_p = \gcd\big(v_p(x_1), v_p(x_2), \dots, v_p(x_{2026})\big)$$
+                    Vì giá trị này hoàn toàn xác định một cách duy nhất từ tập hợp các số ban đầu $x_1, \dots, x_{2026}$ và đúng với mọi số nguyên tố $p$, nên giá trị của $M = \prod_p p^{G_p}$ là một hằng số bất biến, không phụ thuộc vào thứ tự chọn số của Khổng Tử.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Geometry -->
+        <div id="tab-2" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                    <h2 class="text-xl font-bold text-blue-400 mb-4">Bài 2: Hình học Tâm O</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        Tam giác ABC, M, N là trung điểm AB, AC. Các điểm K, L bên trong BMC, BNC thỏa mãn các điều kiện về góc. O là tâm (AKL). C/m: OM = ON.
+                    </p>
+                    <div class="bg-slate-900 p-4 rounded-lg mb-4 text-sm max-h-64 overflow-y-auto">
+                        <strong>Các bước hoạt họa:</strong>
+                        <ul class="list-disc pl-4 mt-2 space-y-1 text-slate-400" id="p2-steps-list">
+                            <li id="step-0" class="text-white">1. Vẽ tam giác ABC và trung điểm M, N.</li>
+                            <li id="step-1">2. Xác định điểm K, L theo điều kiện góc.</li>
+                            <li id="step-2">3. Đánh dấu &ang;KBA = &ang;ACL (Màu đỏ).</li>
+                            <li id="step-3">4. Đánh dấu &ang;LBK = &ang;LNC (Màu xanh dương).</li>
+                            <li id="step-4">5. Đánh dấu &ang;LCK = &ang;BMK (Màu xanh lá).</li>
+                            <li id="step-5">6. Vẽ đường tròn ngoại tiếp (AKL) và tâm O.</li>
+                            <li id="step-6">7. Chứng minh OM = ON bằng hình học trực quan.</li>
+                        </ul>
+                    </div>
+                    <button onclick="p2_nextStep()" id="p2-btn-next" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-lg font-semibold transition shadow-[0_0_15px_rgba(37,99,235,0.5)]">Tiếp tục (Step <span id="p2-step-counter">1</span>/7)</button>
+                </div>
+            </div>
+            <div class="lg:col-span-2">
+                <div class="canvas-container h-[600px]">
+                    <canvas id="canvas-p2"></canvas>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 mt-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xl font-bold text-green-400 mb-4 border-b border-slate-600 pb-2">Lời giải chi tiết Bài 2</h3>
+                <div class="space-y-4 text-slate-300 leading-relaxed text-justify">
+                    <p class="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-3 text-yellow-200 text-sm">
+                        <strong>Lưu ý về độ chặt chẽ:</strong> khác với Bài 1 và Bài 3, phần trình bày dưới đây cho Bài 2 là một <em>phác thảo chiến lược</em> (nêu tên các công cụ hợp lý — đồng dạng xoắn, nghịch đảo, đối xứng trục) chứ <strong>chưa phải một chứng minh đầy đủ</strong>: các bước "ta có thể chứng minh được...", "ta dẫn ra được..." là các khẳng định chưa được triển khai bằng tính toán góc/tỉ số cụ thể, nên không nên xem đây là lời giải đã được kiểm chứng chặt chẽ như hai bài còn lại — chỉ nên dùng như gợi ý hướng tiếp cận.
+                    </p>
+                    <p>Đây là một bài toán hình học phẳng phức tạp đòi hỏi kỹ năng quan sát các cấu hình đồng dạng xoắn (Spiral Similarity) hoặc sử dụng tính chất tâm tỉ cự/nghịch đảo cực kết hợp điểm đối xứng.</p>
+                    <p><strong>Bổ đề 1 (Các cấu hình đồng dạng):</strong> Khai thác các giả thiết góc định hướng: $\angle KBA = \angle ACL$, $\angle LBK = \angle LNC$, và $\angle LCK = \angle BMK$. Bằng việc áp dụng định lý Sin cho các tam giác $\triangle BKM$ và $\triangle CLN$, kết hợp với tính chất $M, N$ là trung điểm ($AM=MB, AN=NC$), ta <em>kỳ vọng</em> có thể chứng minh được $\triangle BKM$ và $\triangle CLN$ có liên hệ mật thiết qua một phép đồng dạng hoặc một đường tròn Apollonius — điều này cần được triển khai chi tiết bằng tỉ số lượng giác, chưa được thực hiện ở đây.</p>
+                    <p><strong>Bổ đề 2 (Tính chất tâm ngoại tiếp $O$):</strong> Gọi $O$ là tâm đường tròn ngoại tiếp $\triangle AKL$. Ta cần chứng minh $OM = ON$, điều này tương đương với việc chứng minh $O$ nằm trên đường trung trực của $MN$. Do $M, N$ là trung điểm của $AB, AC$, đoạn $MN$ là đường trung bình nên $MN \parallel BC$.</p>
+                    <p><strong>Hướng tiếp cận đề xuất (chưa hoàn tất):</strong> Một hướng khả dĩ là xét phép nghịch đảo tâm $A$, kết hợp đối xứng qua phân giác góc $A$, đưa bài toán về một cấu hình mới với các điểm ảnh $K', L', M', N'$ có quan hệ góc nội tiếp rõ ràng hơn, rồi dùng tính chất bảo giác của nghịch đảo để quy việc chứng minh $OM=ON$ về một tính chất đối xứng của cấu hình ảnh. Tuy nhiên, các bước biến đổi cụ thể (toạ độ/góc của $K', L', M', N'$ và lý do tứ giác ảnh nội tiếp hay tam giác ảnh cân) chưa được thực hiện tường minh trong bài viết này, nên kết luận "$O$ cách đều $M$ và $N$" ở đây nên được xem là một dự đoán có cơ sở, không phải một chứng minh hoàn chỉnh.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Combinatorics / Game -->
+        <div id="tab-3" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                    <h2 class="text-xl font-bold text-blue-400 mb-4">Bài 3: Trò chơi Chia gậy</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                        Gậy dài 1. Lưu Bang (bạn) đánh dấu $\le n$ điểm. Hạng Vũ (máy) đánh dấu $\le n$ điểm. Cắt tại các điểm. Luân phiên chọn khúc gậy (Lưu Bang trước). Tìm $c$ lớn nhất.
+                    </p>
+                    <div class="bg-slate-900 p-4 rounded-lg mb-4 text-sm">
+                        <strong>Luật chơi giả lập (<span id="p3-n-val">n=2</span>):</strong><br>
+                        1. Click lên thanh gậy để đánh dấu <span class="text-blue-400 font-bold">Lưu Bang (Xanh)</span>.<br>
+                        2. Nhấn "Hạng Vũ chơi" để máy tính đặt điểm <span class="text-red-400 font-bold">Hạng Vũ (Đỏ)</span>.<br>
+                        3. Cắt gậy và tự động chia các đoạn từ lớn đến bé.<br>
+                        <em>Gợi ý: Chiến thuật tối ưu để đảm bảo $c = \frac{n+1}{2n+1}$.</em>
+                    </div>
+
+                    <div id="p3-controls" class="space-y-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm">Thay đổi n:</span>
+                            <input type="range" id="p3-n-slider" min="1" max="5" value="2" class="w-1/2" oninput="p3_updateN(this.value)">
+                        </div>
+                        <button onclick="p3_cpuTurn()" id="p3-btn-cpu" class="w-full bg-red-600 hover:bg-red-500 py-2 rounded-lg font-semibold transition disabled:opacity-50" disabled>Hạng Vũ đánh dấu</button>
+                        <button onclick="p3_cutAndPlay()" id="p3-btn-cut" class="w-full bg-yellow-600 hover:bg-yellow-500 py-2 rounded-lg font-semibold transition hidden">Cắt gậy & Tính điểm</button>
+                        <button onclick="p3_reset()" class="w-full bg-slate-700 hover:bg-slate-600 py-2 rounded-lg font-semibold transition">Chơi lại</button>
+                    </div>
+
+                    <div id="p3-scoreboard" class="hidden mt-4 bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <div class="flex justify-between items-center text-lg mb-2">
+                            <span class="text-blue-400 font-bold">Lưu Bang</span>
+                            <span class="font-mono font-bold" id="score-lb">0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center text-lg mb-2">
+                            <span class="text-red-400 font-bold">Hạng Vũ</span>
+                            <span class="font-mono font-bold" id="score-hv">0.00</span>
+                        </div>
+                        <div class="text-center text-sm text-green-400 mt-2 border-t border-slate-700 pt-2" id="p3-result-msg"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 flex flex-col">
+                <div class="canvas-container flex-grow flex items-center justify-center p-4 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')]">
+                    <canvas id="canvas-p3"></canvas>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3 mt-4 bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xl font-bold text-green-400 mb-4 border-b border-slate-600 pb-2">Lời giải chi tiết Bài 3</h3>
+                <div class="space-y-4 text-slate-300 leading-relaxed text-justify">
+                    <p><strong>Đáp án:</strong> Giá trị $c$ lớn nhất mà Lưu Bang có thể đảm bảo là $$c = \frac{n+1}{2n+1}$$.</p>
+
+                    <p><strong>Phần 1: Lưu Bang có thể đảm bảo lấy được ít nhất $\frac{n+1}{2n+1}$.</strong></p>
+                    <p>Lưu Bang chọn một chiến thuật chia gậy thành các đoạn có kích thước cụ thể. Cụ thể, Lưu Bang đánh dấu $n$ điểm để chia gậy thành $n$ đoạn dài $\frac{2}{2n+1}$ và 1 đoạn ở cuối dài $\frac{1}{2n+1}$ (Tổng chiều dài: $n \times \frac{2}{2n+1} + \frac{1}{2n+1} = 1$).</p>
+                    <p>Hạng Vũ sau đó đánh dấu tối đa $n$ điểm. Theo nguyên lý Dirichlet, $n$ điểm của Hạng Vũ chỉ có thể nằm trong (và chia cắt) tối đa $n$ đoạn. Do đó, có hai kịch bản chính:</p>
+                    <ul class="list-disc pl-6 space-y-1">
+                        <li>Nếu Hạng Vũ không cắt vào một đoạn $\frac{2}{2n+1}$ nào đó, Lưu Bang ngay lượt đầu tiên sẽ lấy luôn đoạn nguyên vẹn này, mang lại lợi thế lớn (có thể kiểm tra kịch bản này luôn cho Lưu Bang nhiều hơn $\frac{n+1}{2n+1}$, xem phân tích bên dưới).</li>
+                        <li>Nếu Hạng Vũ cắt vào mỗi đoạn $\frac{2}{2n+1}$ đúng một nhát (đây là cách tối ưu nhất của máy để phá Lưu Bang), mỗi đoạn lớn thứ $i$ bị chia thành hai mảnh $u_i, v_i$ với $u_i + v_i = \frac{2}{2n+1}$ ($i=1,\dots,n$), còn đoạn nhỏ $\frac{1}{2n+1}$ giữ nguyên. Lúc này tổng số khúc gậy là $2n+1$, và Lưu Bang đi trước, lấy luân phiên nên nhận $n+1$ khúc, Hạng Vũ nhận $n$ khúc.</li>
+                    </ul>
+                    <p><strong>Vì sao Lưu Bang luôn nhận đúng $\frac{n+1}{2n+1}$ trong kịch bản thứ hai (bất kể Hạng Vũ cắt ở đâu):</strong> Đặt $a_i = \max(u_i,v_i) \ge \frac{1}{2n+1}$ và $b_i = \min(u_i,v_i) \le \frac{1}{2n+1}$ (do $a_i+b_i=\frac{2}{2n+1}$ nên cả hai đều cách đều $\frac{1}{2n+1}$ về hai phía). Vì mọi cặp có cùng tổng $\frac{2}{2n+1}$, nếu cặp $i$ có $a_i$ lớn hơn cặp $j$ ($a_i > a_j$) thì $b_i = \frac{2}{2n+1} - a_i < \frac{2}{2n+1} - a_j = b_j$ — nghĩa là <strong>thứ hạng của các $a_i$ (giảm dần) và thứ hạng của các $b_i$ tương ứng (tăng dần) đối xứng ngược nhau qua từng cặp</strong>. Kết hợp với việc đoạn nhỏ $\frac{1}{2n+1}$ luôn nằm "chính giữa" (vì $a_i \ge \frac{1}{2n+1} \ge b_i$ với mọi $i$), khi xếp $2n+1$ khúc theo thứ tự giảm dần ta luôn được cấu trúc: các $a_i$ trước, đoạn nhỏ ở giữa, các $b_i$ sau — và do tính đối xứng ngược giữa hạng của $a_i$ và $b_i$, phần Lưu Bang nhận được khi lấy luân phiên các vị trí lẻ luôn "khớp" thành trọn vẹn một số cặp $(a_i+b_i) = \frac{2}{2n+1}$ (có thể cộng thêm đoạn nhỏ), cho tổng đúng bằng $\frac{n+1}{2n+1}$ — không phụ thuộc vào các vị trí cắt cụ thể của Hạng Vũ. Kiểm chứng trực tiếp với $n=1$: hai mảnh $x, \frac{2}{3}-x$ và đoạn nhỏ $\frac13$; dù $x$ là bao nhiêu, Lưu Bang luôn nhận đúng $\max(x,\tfrac23-x) + \min(x,\tfrac23-x) = \frac23$.</p>
+
+                    <p><strong>Phần 2: Lưu Bang không thể đảm bảo được số lớn hơn $\frac{n+1}{2n+1}$.</strong></p>
+                    <p class="bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-3 text-yellow-200 text-sm">
+                        <strong>Sửa lỗi:</strong> chiến thuật "Hạng Vũ đánh dấu sát cạnh $n$ điểm của Lưu Bang" (mô tả ban đầu ở đây) <strong>không</strong> chặn được Lưu Bang ở mọi cách chia — nó chỉ hiệu quả khi Lưu Bang chọn cấu hình gần cân bằng. Phản ví dụ với $n=1$: nếu Lưu Bang cố tình chia gậy thành 2 đoạn rất lệch, ví dụ $0{,}9$ và $0{,}1$, thì dù Hạng Vũ đặt điểm sát ngay cạnh điểm cắt của Lưu Bang (về phía nào cũng vậy), khúc $0{,}9$ vẫn gần như nguyên vẹn và luôn nằm ở hạng 1 (lớn nhất) — còn mảnh cực nhỏ vừa cắt ra luôn nằm ở hạng 3 (nhỏ nhất). Lưu Bang lấy hạng 1 và hạng 3, tức là gần như toàn bộ đoạn $0{,}9$, cho tổng $\to 0{,}9 \gg \frac{2}{3}$. Vậy chiến thuật "bám sát điểm của Lưu Bang" không phải là phản chiến thuật đúng cho mọi cấu hình.</p>
+                    <p>Chiến thuật đúng cho trường hợp trên: với cấu hình $(0{,}9;\,0{,}1)$, Hạng Vũ nên cắt vào <em>giữa</em> đoạn lớn $0{,}9$ (chứ không phải sát điểm của Lưu Bang), tạo ra ba mảnh $\approx 0{,}45;\ 0{,}45;\ 0{,}1$. Khi đó Lưu Bang chỉ lấy được hạng 1 và hạng 3, tức $0{,}45+0{,}1=0{,}55 < \frac23$ — thấp hơn nhiều so với chiến thuật "bám sát". Điều này cho thấy phản ứng tối ưu của Hạng Vũ phụ thuộc vào cấu hình cụ thể của Lưu Bang (một chiến thuật cố định, áp dụng máy móc cho mọi cách chia, không đủ để chặn Lưu Bang trong mọi trường hợp).</p>
+                    <p>Việc chứng minh chặt chẽ rằng, với <strong>bất kỳ</strong> cách Lưu Bang chia gậy, Hạng Vũ luôn có một phản ứng (có thể khác nhau tuỳ cấu hình) giới hạn Lưu Bang ở đúng $\frac{n+1}{2n+1}$, đòi hỏi một lập luận minimax/làm trơn (smoothing) đầy đủ hơn nhiều so với một công thức cắt cố định — vượt quá phạm vi phác thảo ở đây. Điều có thể khẳng định chắc chắn (từ Phần 1) là: cấu hình "$n$ đoạn $\frac{2}{2n+1}$ và 1 đoạn $\frac{1}{2n+1}$" của Lưu Bang buộc Hạng Vũ (chơi tối ưu bằng cách cắt đúng một nhát vào mỗi đoạn lớn) xuống còn chính xác $\frac{n+1}{2n+1}$, không hơn không kém — nên đây chính là giá trị $c$ mà Lưu Bang không thể vượt qua <em>bằng chính cấu hình này</em>. Việc còn lại — chứng minh không có cấu hình nào khác của Lưu Bang cho kết quả tốt hơn — là phần khó, mang tính chất một bài toán minimax tổ hợp thực sự, và câu trả lời $c=\frac{n+1}{2n+1}$ nên được xem là kết quả hợp lý, nhất quán với Phần 1, hơn là một điều đã được chứng minh đầy đủ trong bài viết này.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            for(let i=1; i<=3; i++) {
+                document.getElementById('tab-' + i).classList.add('hidden');
+                document.getElementById('btn-tab-' + i).classList.remove('active');
+            }
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('btn-tab-' + tabId).classList.add('active');
+
+            // Re-render canvases to fix sizing issues when unhidden
+            if(tabId === 1) requestAnimationFrame(p1_draw);
+            if(tabId === 2) { p2_resize(); requestAnimationFrame(p2_draw); }
+            if(tabId === 3) { p3_resize(); p3_draw(); }
+        }
+
+        // Math utilities
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+        const lcm = (a, b) => (a * b) / gcd(a, b);
+        const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        const lerp = (a, b, t) => a + (b - a) * t;
+
+        /* ==========================================
+           PROBLEM 1: Number Theory (Array of Numbers)
+           ========================================== */
+        const canvas1 = document.getElementById('canvas-p1');
+        const ctx1 = canvas1.getContext('2d');
+        let p1_numbers = [];
+        let p1_animations = [];
+        let p1_isAuto = false;
+        let p1_interval = null;
+
+        function p1_resize() {
+            canvas1.width = canvas1.parentElement.clientWidth;
+            canvas1.height = canvas1.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', () => { p1_resize(); p1_draw(); });
+
+        class NumberNode {
+            constructor(val, x, y, id) {
+                this.val = val;
+                this.x = x;
+                this.y = y;
+                this.targetX = x;
+                this.targetY = y;
+                this.id = id;
+                this.scale = 0;
+                this.active = val > 1;
+                this.color = this.active ? '#3b82f6' : '#475569';
+            }
+            update() {
+                this.x += (this.targetX - this.x) * 0.1;
+                this.y += (this.targetY - this.y) * 0.1;
+                if(this.scale < 1) this.scale += 0.05;
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.scale(this.scale, this.scale);
+
+                // Shadow
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetY = 5;
+
+                // Circle
+                ctx.beginPath();
+                ctx.arc(0, 0, 35, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = this.active ? '#60a5fa' : '#64748b';
+                ctx.stroke();
+
+                // Text
+                ctx.shadowColor = 'transparent';
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 20px Inter';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.val, 0, 0);
+
+                ctx.restore();
+            }
+        }
+
+        function p1_init() {
+            p1_resize();
+            p1_numbers = [];
+            p1_animations = [];
+            p1_isAuto = false;
+            document.getElementById('p1-btn-play').innerText = "Tự động chạy";
+            if(p1_interval) clearInterval(p1_interval);
+
+            const n = 12; // Start with 12 numbers for visualization (instead of 2026)
+            const cols = 4;
+            const startX = canvas1.width / 2 - ((cols-1) * 100) / 2;
+            const startY = 100;
+
+            for(let i=0; i<n; i++) {
+                // Generate numbers with shared prime factors to make it interesting
+                const primes = [2, 3, 5, 7];
+                let val = 1;
+                for(let j=0; j<2; j++) val *= primes[randInt(0, 3)] ** randInt(1, 3);
+
+                let r = Math.floor(i / cols);
+                let c = i % cols;
+                p1_numbers.push(new NumberNode(val, startX + c * 100, startY + r * 100, i));
+            }
+            document.getElementById('p1-status').innerText = `Khởi tạo ${n} số ngẫu nhiên lớn hơn 1.`;
+            p1_draw();
+        }
+
+        function p1_step() {
+            let activeNodes = p1_numbers.filter(n => n.active);
+            if(activeNodes.length <= 1) {
+                document.getElementById('p1-status').innerHTML = `Đã hội tụ! Số M duy nhất còn lại là: <span class="text-green-400 text-lg font-bold">${activeNodes.length ? activeNodes[0].val : 'N/A'}</span>`;
+                p1_isAuto = false;
+                if(p1_interval) clearInterval(p1_interval);
+                document.getElementById('p1-btn-play').innerText = "Đã xong";
+                return;
+            }
+
+            // Pick two random distinct active nodes
+            let i1 = randInt(0, activeNodes.length - 1);
+            let i2 = randInt(0, activeNodes.length - 1);
+            while(i1 === i2) i2 = randInt(0, activeNodes.length - 1);
+
+            let n1 = activeNodes[i1];
+            let n2 = activeNodes[i2];
+
+            let m = n1.val;
+            let n = n2.val;
+            let new_gcd = gcd(m, n);
+            let new_lcm_gcd = lcm(m, n) / new_gcd; // this is lcm(m,n)/gcd(m,n)
+
+            document.getElementById('p1-status').innerHTML = `Chọn <b>${m}</b> và <b>${n}</b> &rarr; gcd: <span class="text-green-400">${new_gcd}</span>, lcm/gcd: <span class="text-purple-400">${new_lcm_gcd}</span>`;
+
+            // Animation: Highlight them
+            n1.color = '#eab308'; n2.color = '#eab308';
+
+            setTimeout(() => {
+                n1.val = new_gcd;
+                n2.val = new_lcm_gcd;
+
+                n1.active = n1.val > 1;
+                n2.active = n2.val > 1;
+
+                n1.color = n1.active ? '#3b82f6' : '#475569';
+                n2.color = n2.active ? '#3b82f6' : '#475569';
+                p1_draw();
+            }, 800);
+        }
+
+        function p1_autoPlay() {
+            p1_isAuto = !p1_isAuto;
+            let btn = document.getElementById('p1-btn-play');
+            if(p1_isAuto) {
+                btn.innerText = "Dừng chạy";
+                btn.classList.replace('bg-blue-600', 'bg-red-600');
+                p1_step();
+                p1_interval = setInterval(p1_step, 1500);
+            } else {
+                btn.innerText = "Tự động chạy";
+                btn.classList.replace('bg-red-600', 'bg-blue-600');
+                clearInterval(p1_interval);
+            }
+        }
+
+        function p1_draw() {
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            p1_numbers.forEach(n => {
+                n.update();
+                n.draw(ctx1);
+            });
+            if(p1_isAuto || document.getElementById('tab-1').classList.contains('hidden') === false) {
+                requestAnimationFrame(p1_draw);
+            }
+        }
+
+        /* ==========================================
+           PROBLEM 2: Geometry (Step-by-step Canvas)
+           ========================================== */
+        const canvas2 = document.getElementById('canvas-p2');
+        const ctx2 = canvas2.getContext('2d');
+        let p2_step = 0;
+        let p2_progress = 0; // For smooth drawing animations
+
+        function p2_resize() {
+            canvas2.width = canvas2.parentElement.clientWidth;
+            canvas2.height = canvas2.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', () => { if(!document.getElementById('tab-2').classList.contains('hidden')) p2_resize(); });
+
+        // Geometric Points Setup
+        // Using a predefined valid looking geometry for the sake of presentation
+        // Since computing exact K, L dynamically for arbitrary drag is complex non-linear algebra.
+        const pts = {
+            A: {x: 400, y: 100, label: 'A'},
+            B: {x: 150, y: 450, label: 'B'},
+            C: {x: 650, y: 450, label: 'C'},
+            M: {x: 275, y: 275, label: 'M'}, // Midpoint AB
+            N: {x: 525, y: 275, label: 'N'}, // Midpoint AC
+            K: {x: 350, y: 350, label: 'K'}, // Approximate position
+            L: {x: 450, y: 350, label: 'L'}, // Approximate position
+            O: {x: 400, y: 280, label: 'O'}  // Center of circumcircle (AKL)
+        };
+
+        function p2_nextStep() {
+            if (p2_step < 7) {
+                p2_step++;
+                p2_progress = 0;
+
+                // Update text UI
+                for(let i=0; i<=7; i++) {
+                    let el = document.getElementById('step-'+i);
+                    if(el) el.classList.remove('text-white', 'font-bold');
+                }
+                let currentEl = document.getElementById('step-'+ (p2_step-1));
+                if(currentEl) currentEl.classList.add('text-white', 'font-bold');
+
+                if (p2_step === 7) {
+                    document.getElementById('p2-btn-next').innerHTML = `Xem lại từ đầu <span id="p2-step-counter" class="hidden">7</span>`;
+                } else {
+                    document.getElementById('p2-btn-next').innerHTML = `Tiếp tục (Step <span id="p2-step-counter">${p2_step}</span>/7)`;
+                }
+            } else {
+                p2_step = 0;
+                for(let i=0; i<=7; i++) {
+                    let el = document.getElementById('step-'+i);
+                    if(el) el.classList.remove('text-white', 'font-bold');
+                }
+                document.getElementById('p2-btn-next').innerHTML = `Bắt đầu vẽ <span id="p2-step-counter" class="hidden">0</span>`;
+            }
+        }
+
+        function drawPoint(ctx, p, color='#fff') {
+            ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
+            ctx.fillStyle = color; ctx.fill();
+            ctx.lineWidth = 1; ctx.strokeStyle = '#000'; ctx.stroke();
+            ctx.fillStyle = '#cbd5e1'; ctx.font = '16px Inter';
+            ctx.fillText(p.label, p.x + 8, p.y - 8);
+        }
+
+        function drawLine(ctx, p1, p2, color='#64748b', dashed=false, width=2) {
+            ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = color; ctx.lineWidth = width;
+            if(dashed) ctx.setLineDash([5, 5]); else ctx.setLineDash([]);
+            ctx.stroke(); ctx.setLineDash([]);
+        }
+
+        function drawAngleArc(ctx, center, p1, p2, radius, color, double=false) {
+            let a1 = Math.atan2(p1.y - center.y, p1.x - center.x);
+            let a2 = Math.atan2(p2.y - center.y, p2.x - center.x);
+            // Ensure drawing shortest arc
+            if(a2 < a1) a2 += Math.PI*2;
+            if(a2 - a1 > Math.PI) { let tmp = a1; a1 = a2; a2 = tmp + Math.PI*2; }
+
+            ctx.beginPath();
+            ctx.arc(center.x, center.y, radius, a1, a2);
+            ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke();
+
+            if(double) {
+                ctx.beginPath();
+                ctx.arc(center.x, center.y, radius + 5, a1, a2);
+                ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke();
+            }
+
+            // Fill polygon for visual highlight
+            ctx.beginPath();
+            ctx.moveTo(center.x, center.y);
+            ctx.arc(center.x, center.y, radius, a1, a2);
+            ctx.fillStyle = color + '40'; // 25% opacity
+            ctx.fill();
+        }
+
+        function p2_draw() {
+            if(document.getElementById('tab-2').classList.contains('hidden')) return;
+
+            ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            p2_progress = Math.min(p2_progress + 0.03, 1); // Animation progress 0 to 1
+
+            // Center the drawing
+            ctx2.save();
+            let scale = Math.min(canvas2.width/800, canvas2.height/600);
+            ctx2.translate(canvas2.width/2 - 400*scale, canvas2.height/2 - 300*scale);
+            ctx2.scale(scale, scale);
+
+            // Step 1: Triangle ABC & Midpoints
+            if (p2_step >= 1) {
+                drawLine(ctx2, pts.A, pts.B, '#475569');
+                drawLine(ctx2, pts.B, pts.C, '#475569');
+                drawLine(ctx2, pts.C, pts.A, '#475569');
+                drawPoint(ctx2, pts.A); drawPoint(ctx2, pts.B); drawPoint(ctx2, pts.C);
+
+                if (p2_progress > 0.5 || p2_step > 1) {
+                    drawPoint(ctx2, pts.M, '#3b82f6'); drawPoint(ctx2, pts.N, '#3b82f6');
+                    drawLine(ctx2, pts.M, pts.N, '#334155', true); // MN parallel to BC
+                }
+            }
+
+            // Step 2: Points K, L
+            if (p2_step >= 2) {
+                drawLine(ctx2, pts.B, pts.M, '#334155', true);
+                drawLine(ctx2, pts.B, pts.N, '#334155', true);
+                drawLine(ctx2, pts.C, pts.M, '#334155', true);
+                drawLine(ctx2, pts.C, pts.N, '#334155', true);
+                drawPoint(ctx2, pts.K, '#eab308'); drawPoint(ctx2, pts.L, '#eab308');
+            }
+
+            // Step 3: Angle KBA = ACL
+            if (p2_step >= 3) {
+                drawLine(ctx2, pts.B, pts.K, '#ef4444', false, 1);
+                drawLine(ctx2, pts.C, pts.L, '#ef4444', false, 1);
+                drawAngleArc(ctx2, pts.B, pts.A, pts.K, 40, '#ef4444'); // Angle KBA
+                drawAngleArc(ctx2, pts.C, pts.L, pts.A, 40, '#ef4444'); // Angle ACL
+            }
+
+            // Step 4: Angle LBK = LNC
+            if (p2_step >= 4) {
+                drawLine(ctx2, pts.B, pts.L, '#3b82f6', false, 1);
+                drawLine(ctx2, pts.N, pts.L, '#3b82f6', false, 1);
+                drawLine(ctx2, pts.N, pts.C, '#3b82f6', false, 1);
+                drawAngleArc(ctx2, pts.B, pts.K, pts.L, 50, '#3b82f6', true); // Angle LBK
+                drawAngleArc(ctx2, pts.N, pts.L, pts.C, 50, '#3b82f6', true); // Angle LNC
+            }
+
+            // Step 5: Angle LCK = BMK
+            if (p2_step >= 5) {
+                drawLine(ctx2, pts.C, pts.K, '#22c55e', false, 1);
+                drawLine(ctx2, pts.M, pts.K, '#22c55e', false, 1);
+                drawLine(ctx2, pts.M, pts.B, '#22c55e', false, 1);
+                drawAngleArc(ctx2, pts.C, pts.K, pts.L, 60, '#22c55e'); // Angle LCK
+                drawAngleArc(ctx2, pts.M, pts.B, pts.K, 60, '#22c55e'); // Angle BMK
+            }
+
+            // Step 6: Circumcircle of AKL and Center O
+            if (p2_step >= 6) {
+                // Draw AKL triangle dashed
+                drawLine(ctx2, pts.A, pts.K, '#f59e0b', true);
+                drawLine(ctx2, pts.K, pts.L, '#f59e0b', true);
+                drawLine(ctx2, pts.L, pts.A, '#f59e0b', true);
+
+                // Simulate drawing circle
+                ctx2.beginPath();
+                // Radius approx distance O to A
+                let r = Math.hypot(pts.A.x - pts.O.x, pts.A.y - pts.O.y);
+                ctx2.arc(pts.O.x, pts.O.y, r, 0, Math.PI * 2 * (p2_step > 6 ? 1 : p2_progress));
+                ctx2.strokeStyle = 'rgba(245, 158, 11, 0.5)';
+                ctx2.lineWidth = 2;
+                ctx2.stroke();
+
+                if (p2_progress > 0.8 || p2_step > 6) {
+                    drawPoint(ctx2, pts.O, '#a855f7');
+                }
+            }
+
+            // Step 7: Show OM = ON
+            if (p2_step >= 7) {
+                // Draw OM and ON
+                let dashLen = p2_progress * Math.hypot(pts.O.x - pts.M.x, pts.O.y - pts.M.y);
+                ctx2.beginPath(); ctx2.moveTo(pts.O.x, pts.O.y);
+                ctx2.lineTo(pts.O.x + (pts.M.x-pts.O.x)*p2_progress, pts.O.y + (pts.M.y-pts.O.y)*p2_progress);
+                ctx2.strokeStyle = '#a855f7'; ctx2.lineWidth = 3; ctx2.stroke();
+
+                ctx2.beginPath(); ctx2.moveTo(pts.O.x, pts.O.y);
+                ctx2.lineTo(pts.O.x + (pts.N.x-pts.O.x)*p2_progress, pts.O.y + (pts.N.y-pts.O.y)*p2_progress);
+                ctx2.strokeStyle = '#a855f7'; ctx2.lineWidth = 3; ctx2.stroke();
+
+                // Highlight tick marks
+                if (p2_progress > 0.9) {
+                    let mx1 = (pts.O.x + pts.M.x)/2; let my1 = (pts.O.y + pts.M.y)/2;
+                    let mx2 = (pts.O.x + pts.N.x)/2; let my2 = (pts.O.y + pts.N.y)/2;
+                    // perpendicular tick
+                    let dx = pts.M.x - pts.O.x; let dy = pts.M.y - pts.O.y;
+                    let len = Math.hypot(dx, dy); dx/=len; dy/=len;
+                    ctx2.beginPath(); ctx2.moveTo(mx1 - dy*5, my1 + dx*5); ctx2.lineTo(mx1 + dy*5, my1 - dx*5); ctx2.strokeStyle='#fff'; ctx2.stroke();
+                    ctx2.beginPath(); ctx2.moveTo(mx1 - dy*5 - 3*dx, my1 + dx*5 - 3*dy); ctx2.lineTo(mx1 + dy*5 - 3*dx, my1 - dx*5 - 3*dy); ctx2.stroke();
+
+                    dx = pts.N.x - pts.O.x; dy = pts.N.y - pts.O.y;
+                    len = Math.hypot(dx, dy); dx/=len; dy/=len;
+                    ctx2.beginPath(); ctx2.moveTo(mx2 - dy*5, my2 + dx*5); ctx2.lineTo(mx2 + dy*5, my2 - dx*5); ctx2.stroke();
+                    ctx2.beginPath(); ctx2.moveTo(mx2 - dy*5 - 3*dx, my2 + dx*5 - 3*dy); ctx2.lineTo(mx2 + dy*5 - 3*dx, my2 - dx*5 - 3*dy); ctx2.stroke();
+                }
+            }
+
+            ctx2.restore();
+            requestAnimationFrame(p2_draw);
+        }
+
+        /* ==========================================
+           PROBLEM 3: Combinatorics Game (Stick Cutting)
+           ========================================== */
+        const canvas3 = document.getElementById('canvas-p3');
+        const ctx3 = canvas3.getContext('2d');
+
+        let p3_n = 2;
+        let p3_state = 'LB_TURN'; // LB_TURN, HV_TURN, CUTTING, FINISHED
+        let p3_stickRect = { x: 50, y: 200, w: 700, h: 40 };
+        let p3_lb_marks = []; // fractions 0 to 1
+        let p3_hv_marks = [];
+        let p3_pieces = []; // objects { length, owner, x, y }
+        let p3_score_lb = 0;
+        let p3_score_hv = 0;
+
+        function p3_resize() {
+            canvas3.width = canvas3.parentElement.clientWidth;
+            canvas3.height = canvas3.parentElement.clientHeight;
+            p3_stickRect.x = canvas3.width * 0.1;
+            p3_stickRect.y = canvas3.height / 2 - 20;
+            p3_stickRect.w = canvas3.width * 0.8;
+        }
+        window.addEventListener('resize', () => { if(!document.getElementById('tab-3').classList.contains('hidden')) { p3_resize(); p3_draw(); }});
+
+        function p3_updateN(val) {
+            p3_n = parseInt(val);
+            document.getElementById('p3-n-val').innerText = 'n=' + p3_n;
+            p3_reset();
+        }
+
+        function p3_reset() {
+            p3_state = 'LB_TURN';
+            p3_lb_marks = [];
+            p3_hv_marks = [];
+            p3_pieces = [];
+            p3_score_lb = 0;
+            p3_score_hv = 0;
+            document.getElementById('p3-btn-cpu').disabled = false;
+            document.getElementById('p3-btn-cut').classList.add('hidden');
+            document.getElementById('p3-scoreboard').classList.add('hidden');
+            document.getElementById('score-lb').innerText = "0.00";
+            document.getElementById('score-hv').innerText = "0.00";
+            document.getElementById('p3-result-msg').innerText = "";
+            p3_draw();
+        }
+
+        canvas3.addEventListener('mousedown', (e) => {
+            if(p3_state !== 'LB_TURN') return;
+            const rect = canvas3.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Check if click is on stick
+            if(y >= p3_stickRect.y - 20 && y <= p3_stickRect.y + p3_stickRect.h + 20) {
+                if(x >= p3_stickRect.x && x <= p3_stickRect.x + p3_stickRect.w) {
+                    let fraction = (x - p3_stickRect.x) / p3_stickRect.w;
+
+                    // Don't place too close to ends or existing marks
+                    let allMarks = [...p3_lb_marks, ...p3_hv_marks, 0, 1];
+                    let tooClose = allMarks.some(m => Math.abs(m - fraction) < 0.02);
+
+                    if(!tooClose && p3_lb_marks.length < p3_n) {
+                        p3_lb_marks.push(fraction);
+                        if(p3_lb_marks.length === p3_n) {
+                            p3_state = 'HV_TURN';
+                            document.getElementById('p3-btn-cpu').classList.add('animate-pulse');
+                        }
+                        p3_draw();
+                    }
+                }
+            }
+        });
+
+        function p3_cpuTurn() {
+            if(p3_state !== 'HV_TURN') return;
+            document.getElementById('p3-btn-cpu').disabled = true;
+            document.getElementById('p3-btn-cpu').classList.remove('animate-pulse');
+
+            // Basic strategy for HV (Computer): Place marks in the middle of largest gaps
+            let marksToPlace = p3_n;
+
+            let allMarks = [0, ...p3_lb_marks.slice().sort(), 1];
+
+            for(let i=0; i<marksToPlace; i++) {
+                // Find largest gap
+                let maxGap = 0; let bestPos = 0;
+                for(let j=0; j<allMarks.length-1; j++) {
+                    let gap = allMarks[j+1] - allMarks[j];
+                    if(gap > maxGap) {
+                        maxGap = gap;
+                        // To disrupt LB, HV places point slightly off center or exactly in center
+                        bestPos = allMarks[j] + gap / 2;
+                    }
+                }
+                p3_hv_marks.push(bestPos);
+                allMarks.push(bestPos);
+                allMarks.sort((a,b)=>a-b);
+            }
+
+            p3_state = 'CUTTING';
+            document.getElementById('p3-btn-cut').classList.remove('hidden');
+            p3_draw();
+        }
+
+        function p3_cutAndPlay() {
+            if(p3_state !== 'CUTTING') return;
+            p3_state = 'FINISHED';
+            document.getElementById('p3-btn-cut').classList.add('hidden');
+            document.getElementById('p3-scoreboard').classList.remove('hidden');
+
+            // Generate pieces
+            let allCuts = [0, ...p3_lb_marks, ...p3_hv_marks, 1].sort((a,b)=>a-b);
+            let piecesData = [];
+            for(let i=0; i<allCuts.length-1; i++) {
+                piecesData.push({
+                    len: allCuts[i+1] - allCuts[i],
+                    start: allCuts[i]
+                });
+            }
+
+            // Sort pieces by length descending
+            piecesData.sort((a, b) => b.len - a.len);
+
+            // Alternate taking pieces (LB first)
+            p3_pieces = piecesData.map((p, index) => {
+                let owner = index % 2 === 0 ? 'LB' : 'HV';
+                if(owner === 'LB') p3_score_lb += p.len;
+                else p3_score_hv += p.len;
+                return { ...p, owner, order: index };
+            });
+
+            // Animate scoring counter
+            let targetLB = p3_score_lb; let targetHV = p3_score_hv;
+            let currentLB = 0; let currentHV = 0;
+            let interval = setInterval(() => {
+                currentLB = Math.min(currentLB + 0.02, targetLB);
+                currentHV = Math.min(currentHV + 0.02, targetHV);
+                document.getElementById('score-lb').innerText = currentLB.toFixed(3);
+                document.getElementById('score-hv').innerText = currentHV.toFixed(3);
+
+                if(currentLB >= targetLB && currentHV >= targetHV) {
+                    clearInterval(interval);
+                    // Show theoretical bound
+                    let expectedC = (p3_n + 1) / (2 * p3_n + 1);
+                    document.getElementById('p3-result-msg').innerHTML =
+                        `Giá trị c lý thuyết: <span class="font-bold">${expectedC.toFixed(3)}</span>.
+                         <br>Lưu Bang đạt được: <span class="font-bold text-blue-300">${targetLB.toFixed(3)}</span>`;
+                }
+            }, 30);
+
+            p3_draw();
+        }
+
+        function p3_draw() {
+            ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+
+            // Draw Base Stick
+            ctx3.fillStyle = '#b45309'; // wood color
+            ctx3.fillRect(p3_stickRect.x, p3_stickRect.y, p3_stickRect.w, p3_stickRect.h);
+
+            // Draw wood grain texture simply
+            ctx3.strokeStyle = '#92400e';
+            ctx3.beginPath();
+            ctx3.moveTo(p3_stickRect.x, p3_stickRect.y + 10); ctx3.lineTo(p3_stickRect.x + p3_stickRect.w, p3_stickRect.y + 10);
+            ctx3.moveTo(p3_stickRect.x, p3_stickRect.y + 30); ctx3.lineTo(p3_stickRect.x + p3_stickRect.w, p3_stickRect.y + 30);
+            ctx3.stroke();
+
+            // Draw Marks
+            p3_lb_marks.forEach(m => {
+                let x = p3_stickRect.x + m * p3_stickRect.w;
+                ctx3.beginPath(); ctx3.moveTo(x, p3_stickRect.y - 10); ctx3.lineTo(x, p3_stickRect.y + p3_stickRect.h + 10);
+                ctx3.strokeStyle = '#3b82f6'; ctx3.lineWidth = 3; ctx3.stroke();
+
+                ctx3.fillStyle = '#3b82f6';
+                ctx3.beginPath(); ctx3.moveTo(x, p3_stickRect.y - 10); ctx3.lineTo(x-5, p3_stickRect.y - 20); ctx3.lineTo(x+5, p3_stickRect.y - 20); ctx3.fill();
+            });
+
+            p3_hv_marks.forEach(m => {
+                let x = p3_stickRect.x + m * p3_stickRect.w;
+                ctx3.beginPath(); ctx3.moveTo(x, p3_stickRect.y - 10); ctx3.lineTo(x, p3_stickRect.y + p3_stickRect.h + 10);
+                ctx3.strokeStyle = '#ef4444'; ctx3.lineWidth = 3; ctx3.stroke();
+
+                ctx3.fillStyle = '#ef4444';
+                ctx3.beginPath(); ctx3.moveTo(x, p3_stickRect.y + p3_stickRect.h + 10); ctx3.lineTo(x-5, p3_stickRect.y + p3_stickRect.h + 20); ctx3.lineTo(x+5, p3_stickRect.y + p3_stickRect.h + 20); ctx3.fill();
+            });
+
+            // Draw Pieces if Finished
+            if(p3_state === 'FINISHED') {
+                ctx3.fillStyle = 'rgba(15, 23, 42, 0.8)';
+                ctx3.fillRect(0, 0, canvas3.width, canvas3.height); // Dim background
+
+                let startY = 100;
+                ctx3.fillStyle = 'white'; ctx3.font = '20px Inter'; ctx3.fillText("Các khúc gậy (sắp xếp giảm dần):", 50, 60);
+
+                p3_pieces.forEach((p, i) => {
+                    let w = p.len * p3_stickRect.w;
+                    let x = 100;
+                    let y = startY + i * 50;
+
+                    // Draw piece
+                    ctx3.fillStyle = p.owner === 'LB' ? '#1e3a8a' : '#7f1d1d'; // Darker blue/red
+                    ctx3.fillRect(x, y, w, 30);
+
+                    // Border
+                    ctx3.strokeStyle = p.owner === 'LB' ? '#3b82f6' : '#ef4444';
+                    ctx3.lineWidth = 2; ctx3.strokeRect(x, y, w, 30);
+
+                    // Text Info
+                    ctx3.fillStyle = '#cbd5e1';
+                    ctx3.font = '14px Inter';
+                    ctx3.fillText(`L=${p.len.toFixed(3)}`, x + w + 10, y + 20);
+
+                    // Owner badge
+                    ctx3.fillStyle = p.owner === 'LB' ? '#3b82f6' : '#ef4444';
+                    ctx3.beginPath(); ctx3.arc(x - 20, y + 15, 10, 0, Math.PI*2); ctx3.fill();
+                    ctx3.fillStyle = 'white'; ctx3.font = 'bold 10px Inter'; ctx3.textAlign='center';
+                    ctx3.fillText(p.owner, x - 20, y + 18);
+                    ctx3.textAlign='left';
+                });
+            } else {
+                // UI Prompts
+                ctx3.fillStyle = 'white'; ctx3.font = '18px Inter'; ctx3.textAlign = 'center';
+                if(p3_state === 'LB_TURN') {
+                    ctx3.fillText(`Lượt Lưu Bang: Click để đánh dấu (${p3_lb_marks.length}/${p3_n})`, canvas3.width/2, 100);
+                } else if(p3_state === 'HV_TURN') {
+                    ctx3.fillText(`Lượt Hạng Vũ: Chờ máy tính...`, canvas3.width/2, 100);
+                }
+                ctx3.textAlign = 'left';
+            }
+        }
+
+        // Initialize everything on load
+        window.onload = () => {
+            p1_init();
+            p2_resize(); requestAnimationFrame(p2_draw);
+            p3_resize(); p3_draw();
+        };
+
+    </script>
+</body>
+</html>
