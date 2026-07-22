@@ -1,0 +1,537 @@
+---
+layout: post
+title: "Cây Collatz Đảo (Reverse Collatz Tree)"
+subtitle: "Sinh cây Collatz ngược từ số 1 đi lên bằng thuật toán BFS: mỗi đỉnh $n$ sinh nhánh $2n$ và (có điều kiện) $(n-1)/3$, dừng khi lặp lại, chạm 1 hoặc tìm thấy số mục tiêu $m$. Trực quan hóa bằng HTML5 Canvas với pan &amp; zoom."
+tags: [math, canvas]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mô Phỏng Sinh Cây Collatz Đảo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <style>
+        #tree-canvas {
+            display: block;
+            width: 100%;
+            height: 500px;
+            cursor: grab;
+            border-radius: 0.75rem;
+        }
+
+        #tree-canvas:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800 p-4 md:p-8 font-sans">
+    <div class="max-w-5xl mx-auto space-y-6">
+
+        <!-- Header & Controls -->
+        <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-4 justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-indigo-600">Cây Collatz Đảo</h1>
+                <p class="text-sm text-slate-500 mt-1">Sinh cây ngược từ $1$ đi lên cho tới khi chạm số mục tiêu $m$</p>
+            </div>
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <input type="number" id="target-m" value="5" min="2"
+                    class="w-full md:w-32 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                    placeholder="Nhập m...">
+                <button id="btn-start"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition whitespace-nowrap shadow-sm">
+                    Bắt đầu
+                </button>
+            </div>
+        </div>
+
+        <!-- Thông tin lý thuyết -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">Về cây Collatz đảo</h2>
+            <p class="text-slate-600 leading-relaxed mb-2">
+                Thay vì đi <em>xuôi</em> từ một số $n$ về $1$ theo hàm $3n+1$, ta đi <strong>ngược</strong>: bắt đầu từ
+                gốc là số $1$ rồi sinh dần lên trên. Gọi $S_k$ là tập các số (các đỉnh) sinh ra tại bước thứ $k$, khởi
+                tạo với gốc:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$S_1 = \{1\}, \qquad V_k = \bigcup_{i=1}^{k} S_i$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-2">
+                Ở đây $V_k$ là tập tất cả các số đã từng sinh ra tính đến bước $k$ (dùng để phát hiện lặp lại). Tại bước
+                $k+1$, mỗi số $n \in S_k$ sinh ra tối đa hai con — phép nghịch đảo của hàm Collatz:
+            </p>
+            <ul class="list-disc list-outside text-slate-600 ml-6 mb-3 space-y-1 marker:text-indigo-400">
+                <li>Nhánh thứ nhất (luôn có): &nbsp; $c_1 = 2n$</li>
+                <li>Nhánh thứ hai (có điều kiện $n - 1 \equiv 0 \pmod 3$): &nbsp; $c_2 = \dfrac{n - 1}{3}$</li>
+            </ul>
+            <p class="text-slate-600 leading-relaxed">
+                Mỗi con $c$ vừa sinh sẽ <strong>dừng nhánh</strong> (không sinh tiếp) nếu $c = 1$, nếu $c \in V_k$ (đã
+                từng xuất hiện), hoặc nếu $c = m$ (đã tìm thấy số mục tiêu). Cây này bao trùm tất cả số nguyên dương —
+                đúng khi và chỉ khi phỏng đoán Collatz đúng.
+            </p>
+        </div>
+
+        <!-- Thống kê -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-slate-500">Bước hiện tại (k)</span>
+                <span id="stat-k" class="text-2xl font-bold text-slate-800">1</span>
+            </div>
+            <div class="bg-indigo-50 p-4 rounded-xl shadow-sm border border-indigo-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-indigo-700">Tổng số đỉnh</span>
+                <span id="stat-nodes" class="text-2xl font-bold text-indigo-800">0</span>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-xl shadow-sm border border-emerald-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-emerald-700">Số mục tiêu (m)</span>
+                <span id="stat-m" class="text-2xl font-bold text-emerald-800">5</span>
+            </div>
+            <div class="bg-rose-50 p-4 rounded-xl shadow-sm border border-rose-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-rose-700">Trạng thái</span>
+                <span id="stat-status" class="text-base font-bold text-rose-800">Sẵn sàng</span>
+            </div>
+        </div>
+
+        <!-- Canvas Tree Area -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-slate-700">Cây sinh từng bước (BFS)</h2>
+                <div class="text-xs text-slate-400 hidden md:flex gap-4">
+                    <span>💡 Kéo chuột để di chuyển</span>
+                    <span>💡 Cuộn để phóng to / thu nhỏ</span>
+                </div>
+            </div>
+            <div class="w-full relative rounded-xl overflow-hidden" id="canvas-container" style="background:#0f172a;">
+                <canvas id="tree-canvas"></canvas>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-4 text-xs text-slate-500">
+                <span class="flex items-center gap-1.5"><span
+                        class="inline-block w-3 h-3 rounded-full bg-indigo-500"></span>Đang hoạt động</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="inline-block w-3 h-3 rounded-full bg-slate-600"></span>Đã dừng (lặp / n=1)</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="inline-block w-3 h-3 rounded-full bg-emerald-500"></span>Đường tới mục tiêu</span>
+            </div>
+        </div>
+
+        <!-- Thông tin khoa học -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-8">
+            <h2 class="text-lg font-semibold text-slate-800">Thông tin khoa học</h2>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Vì sao lại đi ngược?</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Hàm Collatz xuôi $f(n)$ là hàm <em>nhiều-một</em>: nhiều số có thể cùng ánh xạ về một số. Đảo ngược
+                    nó biến bài toán thành một <strong>cây</strong> gốc tại $1$: mỗi số $n$ có thể đến từ $2n$ (luôn
+                    đúng, vì $2n$ chẵn nên $f(2n) = n$) và đôi khi từ $\frac{n-1}{3}$ (khi số đó là số lẻ hợp lệ). Phỏng
+                    đoán Collatz tương đương với khẳng định: cây ngược này chạm tới <em>mọi</em> số nguyên dương.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Ví dụ kinh điển: $m = 27$</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Tuy nhỏ, số $27$ nằm rất sâu trong cây: phải mất tới <strong>$111$ bước</strong> (chiều cao
+                    $k = 112$) để đi từ $1$ tới $27$, và đường đi leo lên tới đỉnh <strong>$9\,232$</strong>. Đường dẫn
+                    duy nhất tới nó bắt đầu như sau:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-700 text-sm"
+                    style="overflow-x: auto;">
+                    $$1 \to 2 \to 4 \to 8 \to 16 \to 5 \to 10 \to 20 \to 40 \to 80 \to 160 \to 53 \to \dots \to 9232 \to \dots \to 27$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mt-3">
+                    Trong cây ngược, số $27$ là con của $54$ (qua nhánh $c_1 = 2n$, vì $54 = 2 \cdot 27$). Vì số node
+                    tăng theo cấp số nhân, mô phỏng ở trên chỉ nên chạy với $m$ nhỏ để tránh treo trình duyệt.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Điều kiện dừng nhánh</h3>
+                <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                    <li><strong>$c = 1$:</strong> chạm lại gốc, khép chu trình $4 \to 2 \to 1$.</li>
+                    <li><strong>$c \in V_k$:</strong> số đã từng sinh ra — cắt tỉa để cây vẫn là cây (không có cạnh
+                        trùng).</li>
+                    <li><strong>$c = m$:</strong> đã tìm thấy mục tiêu, truy vết ngược lên gốc để bôi sáng đường đi.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Bùng nổ tổ hợp</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Vì mỗi đỉnh sinh trung bình nhiều hơn một con, số node ở tầng $k$ tăng gần như theo cấp số nhân. Với
+                    $m = 27$ số node trước khi chạm mục tiêu lên tới hàng triệu — bất khả thi với BFS thuần trong trình
+                    duyệt. Đây là lý do các nghiên cứu thực nghiệm về Collatz thường giới hạn độ sâu hoặc dùng cấu trúc
+                    dữ liệu nén thay vì duyệt toàn cây.
+                </p>
+            </div>
+
+            <div class="p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm">
+                <span class="font-bold">Mẹo dùng: </span> Hãy thử các giá trị $m$ nhỏ (ví dụ $5$, $6$, $7$, $10$) để thấy
+                cây sinh mượt mà. Với $m$ lớn, cây phình rất nhanh và mô phỏng có thể chậm hoặc không hội tụ trong giới
+                hạn hiển thị.
+            </div>
+
+            <p class="text-xs text-slate-400">
+                Nguồn: <a href="https://en.wikipedia.org/wiki/Collatz_conjecture"
+                    class="underline hover:text-slate-600" target="_blank" rel="noopener">Wikipedia — Collatz
+                    conjecture</a>.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('tree-canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('canvas-container');
+
+        // UI Elements
+        const statK = document.getElementById('stat-k');
+        const statNodes = document.getElementById('stat-nodes');
+        const statM = document.getElementById('stat-m');
+        const statStatus = document.getElementById('stat-status');
+        const targetInput = document.getElementById('target-m');
+        const btnStart = document.getElementById('btn-start');
+
+        // Logic & Data
+        let m = 5;
+        let k = 1;
+        let treeNodes = [];
+        let currentLevel = [];
+        let visited = new Set();
+        let isSimulating = false;
+        let simulationTimer = null;
+
+        // Camera (Pan & Zoom)
+        let camera = { x: 0, y: 50, zoom: 1 };
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+
+        function resize() {
+            const rect = container.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 500;
+            if (!isSimulating && treeNodes.length === 0) {
+                camera.x = canvas.width / 2;
+                camera.y = 80;
+            }
+            draw();
+        }
+        window.addEventListener('resize', resize);
+
+        // Chuyển toạ độ chuột từ trang sang toạ độ cục bộ của canvas
+        function localPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            const p = localPos(e);
+            isDragging = true;
+            dragStart = { x: p.x - camera.x, y: p.y - camera.y };
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const p = localPos(e);
+                camera.x = p.x - dragStart.x;
+                camera.y = p.y - dragStart.y;
+                draw();
+            }
+        });
+
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const zoomAmount = 0.1;
+            const p = localPos(e);
+
+            const canvasX = (p.x - camera.x) / camera.zoom;
+            const canvasY = (p.y - camera.y) / camera.zoom;
+
+            if (e.deltaY < 0) {
+                camera.zoom *= (1 + zoomAmount);
+            } else {
+                camera.zoom *= (1 - zoomAmount);
+            }
+            camera.zoom = Math.max(0.1, Math.min(camera.zoom, 5));
+
+            camera.x = p.x - canvasX * camera.zoom;
+            camera.y = p.y - canvasY * camera.zoom;
+            draw();
+        }, { passive: false });
+
+        function startSimulation() {
+            if (simulationTimer) clearTimeout(simulationTimer);
+
+            m = parseInt(targetInput.value) || 5;
+            if (m <= 1) {
+                updateStatus("Lỗi: m > 1", "text-rose-800");
+                return;
+            }
+            statM.innerText = m;
+
+            // Reset Data
+            k = 1;
+            treeNodes = [];
+            visited = new Set([1]);
+            isSimulating = true;
+
+            const root = {
+                id: 1, val: 1, k: 1, x: 0, y: 0,
+                parent: null, status: 'active', reason: '', label: ''
+            };
+            treeNodes.push(root);
+            currentLevel = [root];
+
+            camera.x = canvas.width / 2;
+            camera.y = 60;
+            camera.zoom = 1;
+
+            updateStats();
+            updateStatus("Đang mô phỏng...", "text-indigo-700");
+            draw();
+
+            simulationTimer = setTimeout(nextStep, 1000);
+        }
+
+        function nextStep() {
+            if (!isSimulating || currentLevel.length === 0) return;
+
+            k++;
+            let nextLevel = [];
+            let foundTarget = null;
+            const ySpacing = 120;
+
+            for (let parent of currentLevel) {
+                if (parent.status !== 'active') continue;
+
+                let n = parent.val;
+                let childrenVals = [];
+
+                // Nhánh 1: 2n
+                childrenVals.push({ val: 2 * n, type: '2n' });
+
+                // Nhánh 2: (n-1)/3
+                if ((n - 1) % 3 === 0) {
+                    let branch2 = (n - 1) / 3;
+                    if (branch2 > 0) {
+                        childrenVals.push({ val: branch2, type: '(n-1)/3' });
+                    }
+                }
+
+                let childSpacingX = 100 * Math.max(1, (10 - k) * 0.5);
+
+                childrenVals.forEach((childData, idx) => {
+                    let childVal = childData.val;
+                    let isStop = false;
+                    let reason = "";
+                    let cStatus = 'active';
+
+                    if (childVal === m) {
+                        cStatus = 'found'; reason = "MỤC TIÊU"; isStop = true; foundTarget = childVal;
+                    } else if (childVal === 1) {
+                        cStatus = 'stopped'; reason = "Lặp (n=1)"; isStop = true;
+                    } else if (visited.has(childVal)) {
+                        cStatus = 'stopped'; reason = "Đã sinh"; isStop = true;
+                    }
+
+                    let dir = (childrenVals.length === 1) ? 0 : (idx === 0 ? -1 : 1);
+
+                    let childNode = {
+                        id: treeNodes.length + 1,
+                        val: childVal, k: k,
+                        x: parent.x + (dir * childSpacingX),
+                        y: parent.y + ySpacing,
+                        parent: parent, status: cStatus,
+                        reason: reason, label: childData.type
+                    };
+
+                    treeNodes.push(childNode);
+                    if (!isStop) {
+                        visited.add(childVal);
+                        nextLevel.push(childNode);
+                    }
+
+                    if (cStatus === 'found') {
+                        let curr = childNode;
+                        while (curr) { curr.status = 'path'; curr = curr.parent; }
+                        childNode.status = 'found';
+                    }
+                });
+
+                if (foundTarget) break;
+            }
+
+            // Chống đè node cùng tầng
+            for (let i = 0; i < nextLevel.length - 1; i++) {
+                for (let j = i + 1; j < nextLevel.length; j++) {
+                    let n1 = nextLevel[i], n2 = nextLevel[j];
+                    let diff = Math.abs(n1.x - n2.x);
+                    const MIN_DIST = 80;
+                    if (diff < MIN_DIST) {
+                        let push = (MIN_DIST - diff) / 2;
+                        if (n1.x < n2.x) { n1.x -= push; n2.x += push; }
+                        else { n1.x += push; n2.x -= push; }
+                    }
+                }
+            }
+
+            currentLevel = nextLevel;
+            updateStats();
+
+            if (currentLevel.length > 0 && !foundTarget) {
+                let targetCamY = 60 - (k * ySpacing) * camera.zoom + (canvas.height / 2);
+                camera.y = targetCamY;
+            }
+
+            draw();
+
+            if (foundTarget) {
+                isSimulating = false;
+                updateStatus(`Đã tìm thấy ${m}!`, "text-emerald-800");
+                centerCameraOnFoundNode();
+            } else if (currentLevel.length === 0) {
+                isSimulating = false;
+                updateStatus("Kết thúc: hết nhánh.", "text-slate-500");
+            } else {
+                let delay = Math.max(200, 1500 - (k * 150));
+                simulationTimer = setTimeout(nextStep, delay);
+            }
+        }
+
+        function centerCameraOnFoundNode() {
+            let foundNode = treeNodes.find(n => n.status === 'found');
+            if (!foundNode) return;
+            let targetX = canvas.width / 2 - (foundNode.x * camera.zoom);
+            let targetY = canvas.height / 2 - (foundNode.y * camera.zoom);
+
+            let step = 0, maxSteps = 30;
+            let startX = camera.x, startY = camera.y;
+
+            function animCam() {
+                step++;
+                let t = step / maxSteps;
+                let ease = 1 - Math.pow(1 - t, 3);
+                camera.x = startX + (targetX - startX) * ease;
+                camera.y = startY + (targetY - startY) * ease;
+                draw();
+                if (step < maxSteps) requestAnimationFrame(animCam);
+            }
+            animCam();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(camera.x, camera.y);
+            ctx.scale(camera.zoom, camera.zoom);
+
+            // 1. Edges
+            treeNodes.forEach(node => {
+                if (!node.parent) return;
+                ctx.beginPath();
+                ctx.moveTo(node.parent.x, node.parent.y);
+                ctx.bezierCurveTo(
+                    node.parent.x, node.parent.y + 60,
+                    node.x, node.y - 60,
+                    node.x, node.y
+                );
+
+                if (node.status === 'path' || node.status === 'found') {
+                    ctx.strokeStyle = '#34d399'; ctx.lineWidth = 4;
+                    ctx.shadowBlur = 10; ctx.shadowColor = '#34d399';
+                } else if (node.status === 'stopped') {
+                    ctx.strokeStyle = '#334155'; ctx.lineWidth = 2; ctx.shadowBlur = 0;
+                } else {
+                    ctx.strokeStyle = '#475569'; ctx.lineWidth = 2; ctx.shadowBlur = 0;
+                }
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                let mx = (node.parent.x + node.x) / 2;
+                let my = (node.parent.y + node.y) / 2;
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+                let metrics = ctx.measureText(node.label);
+                ctx.fillRect(mx - metrics.width / 2 - 4, my - 8, metrics.width + 8, 16);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText(node.label, mx, my);
+            });
+
+            // 2. Nodes
+            treeNodes.forEach(node => {
+                let radius = 22;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+
+                if (node.status === 'found') {
+                    ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#059669';
+                    ctx.shadowBlur = 20; ctx.shadowColor = '#10b981';
+                } else if (node.status === 'path') {
+                    ctx.fillStyle = '#6366f1'; ctx.strokeStyle = '#4f46e5';
+                    ctx.shadowBlur = 15; ctx.shadowColor = '#6366f1';
+                } else if (node.status === 'stopped') {
+                    ctx.fillStyle = '#334155'; ctx.strokeStyle = '#1e293b'; ctx.shadowBlur = 0;
+                } else {
+                    ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#6366f1'; ctx.shadowBlur = 0;
+                }
+                ctx.lineWidth = 3;
+                ctx.fill();
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                ctx.fillStyle = (node.status === 'stopped') ? '#94a3b8' : '#ffffff';
+                ctx.font = 'bold 13px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(node.val, node.x, node.y);
+
+                if (node.reason) {
+                    ctx.fillStyle = (node.status === 'found') ? '#34d399' : '#ef4444';
+                    ctx.font = '11px sans-serif';
+                    ctx.fillText(node.reason, node.x, node.y + radius + 15);
+                }
+            });
+
+            ctx.restore();
+        }
+
+        function updateStats() {
+            statK.innerText = k;
+            statNodes.innerText = treeNodes.length;
+        }
+
+        function updateStatus(text, colorClass) {
+            statStatus.innerText = text;
+            statStatus.className = `text-base font-bold ${colorClass}`;
+        }
+
+        btnStart.addEventListener('click', startSimulation);
+        targetInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') startSimulation();
+        });
+
+        // Khởi tạo
+        resize();
+        updateStatus("Sẵn sàng", "text-rose-800");
+    </script>
+</body>
+
+</html>
