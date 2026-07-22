@@ -145,15 +145,25 @@ full-width: true
                     $\cos\!\frac{X-Y}{2} = \frac{x+y}{2c}$. Hãy ghép chúng lại.
                 </p>
                 <p class="text-slate-600 text-sm leading-relaxed mb-3">
-                    <strong>Ý 1 — Vì sao $x+y$ và $c$ phải là lập phương đúng?</strong> Giả sử $x+y$ và $c$ không có ước
-                    chung (trường hợp "tối giản"). Tích của chúng bằng $z^3$ — một số lập phương. Nhớ lại: nếu hai số
-                    không có ước chung mà tích lại là lập phương, thì <em>từng số</em> cũng phải là lập phương (giống như
-                    khi phân tích ra thừa số nguyên tố, mỗi số mũ đều phải chia hết cho $3$). Vậy tồn tại số nguyên
-                    dương $u, v$ sao cho:
+                    <strong>Ý 1 — Hai thừa số là $x+y$ và $c^2$.</strong> Chú ý phương trình là $z^3 = (x+y)\cdot c^2$,
+                    nên tích gồm hai thừa số $(x+y)$ và $\mathbf{c^2}$ (không phải $c$). Giả sử chúng không có ước chung
+                    (trường hợp "tối giản"). Nhớ lại: nếu hai số không có ước chung mà tích là lập phương, thì <em>từng
+                    số</em> cũng phải là lập phương (phân tích ra thừa số nguyên tố, mỗi số mũ đều chia hết cho $3$). Vậy
+                    tồn tại các số nguyên dương $u, w$ với:
                 </p>
                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
                     style="overflow-x: auto;">
-                    $$x + y = u^3, \qquad c = v^3$$
+                    $$x + y = u^3, \qquad c^2 = w^3$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    <strong>Từ $c^2 = w^3$ suy ra $c$ cũng là lập phương.</strong> Số $c^2$ vừa là số chính phương, vừa
+                    là lập phương. Xét thừa số nguyên tố $c = \prod p_i^{a_i}$ thì $c^2 = \prod p_i^{2a_i}$; để đây là
+                    lập phương cần $3 \mid 2a_i$, mà $\gcd(2,3)=1$ nên $3 \mid a_i$. Vậy $c$ là lập phương đúng: tồn tại
+                    số nguyên dương $v$ với
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$c = v^3 \quad(\text{khi đó } c^2 = v^6 = (v^2)^3 = w^3)$$
                 </div>
                 <p class="text-slate-600 text-sm leading-relaxed mb-3">
                     <strong>Ý 2 — Thay vào đẳng thức lượng giác.</strong> Thế $x+y = u^3$ và $c = v^3$ vào công thức
@@ -187,6 +197,30 @@ full-width: true
                     <li>Tam giác nhỏ hơn này lại là một bộ nghiệm nguyên dương mới, nhỏ hơn bộ ban đầu. Lặp lại bước trên
                         cho nó, ta lại được một tam giác nhỏ hơn nữa... và cứ thế mãi.</li>
                 </ul>
+
+                <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4 mb-3">
+                    <p class="text-slate-700 text-sm leading-relaxed mb-2">
+                        <strong class="text-indigo-700">Công thức $\cos 2\alpha = 2\cos^2\alpha - 1$ làm gì ở đây?</strong>
+                        Đây chính là "cỗ máy" biến một nghiệm thành nghiệm nhỏ hơn. Đặt $\alpha = \frac{X-Y}{2}$, ta đang
+                        biết giá trị $\cos\alpha = \frac{1}{2}\left(\frac{u}{v}\right)^3$ — một phân số đẹp. Công thức cho:
+                    </p>
+                    <div class="bg-white border border-slate-200 rounded-lg p-4 mb-2 text-slate-800 text-center"
+                        style="overflow-x: auto;">
+                        $$\cos 2\alpha = 2\cos^2\alpha - 1 = 2\left[\frac{1}{2}\Big(\frac{u}{v}\Big)^3\right]^2 - 1 = \frac{u^6}{2v^6} - 1 = \frac{u^6 - 2v^6}{2v^6}$$
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-2">
+                        Nhìn kết quả: xuất phát từ một góc có $\cos$ dạng "phân số của các lũy thừa", sau khi áp dụng công
+                        thức ta lại được một góc mới cũng có $\cos$ <em>đúng dạng phân số của các lũy thừa</em> — nhưng với
+                        các số $u, v$ mới. Nói cách khác, công thức <strong>giữ nguyên "hình dạng số học"</strong> của bài
+                        toán, chỉ đổi các con số.
+                    </p>
+                    <p class="text-slate-700 text-sm leading-relaxed">
+                        Vì $\cos 2\alpha = 2\cos^2\alpha - 1$ là phương trình <strong>bậc hai</strong> theo $\cos\alpha$,
+                        đi theo chiều ngược lại (từ $2\alpha$ về $\alpha$) chính là <em>giải phương trình bậc hai để chia
+                        đôi góc</em>. Mỗi lần chia đôi góc, tam giác $60^\circ$ tương ứng co lại — cho ra một bộ nghiệm
+                        nguyên dương <strong>nhỏ hơn</strong>. Đây đúng là bước "lùi" một nấc trong lùi vô hạn.
+                    </p>
+                </div>
                 <p class="text-slate-600 text-sm leading-relaxed mb-3">
                     <strong>Vấn đề nằm ở đây:</strong> ta tạo ra được một dãy <em>vô hạn</em> các số nguyên dương ngày
                     càng nhỏ:
