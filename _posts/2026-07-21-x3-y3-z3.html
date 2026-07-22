@@ -141,24 +141,66 @@ full-width: true
             <div>
                 <h3 class="font-semibold text-slate-900 mb-2">Bước 3 — Cú va chạm với số học</h3>
                 <p class="text-slate-600 text-sm leading-relaxed mb-3">
-                    Đối chiếu với $z^3 = (x+y)\,c^2$. Trong trường hợp tối giản ($x+y$ và $c$ nguyên tố cùng nhau), vì
-                    tích của chúng là một lập phương nên bản thân mỗi thừa số phải là lập phương đúng: $x + y = u^3$,
-                    $c = v^3$. Thay vào đẳng thức lượng giác:
+                    Ta có hai thông tin về cùng một tam giác. Từ số học: $z^3 = (x+y)\,c^2$. Từ lượng giác:
+                    $\cos\!\frac{X-Y}{2} = \frac{x+y}{2c}$. Hãy ghép chúng lại.
                 </p>
-                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    <strong>Ý 1 — Vì sao $x+y$ và $c$ phải là lập phương đúng?</strong> Giả sử $x+y$ và $c$ không có ước
+                    chung (trường hợp "tối giản"). Tích của chúng bằng $z^3$ — một số lập phương. Nhớ lại: nếu hai số
+                    không có ước chung mà tích lại là lập phương, thì <em>từng số</em> cũng phải là lập phương (giống như
+                    khi phân tích ra thừa số nguyên tố, mỗi số mũ đều phải chia hết cho $3$). Vậy tồn tại số nguyên
+                    dương $u, v$ sao cho:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$x + y = u^3, \qquad c = v^3$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    <strong>Ý 2 — Thay vào đẳng thức lượng giác.</strong> Thế $x+y = u^3$ và $c = v^3$ vào công thức
+                    $\cos\!\frac{X-Y}{2} = \frac{x+y}{2c}$, vế phải trở thành $\frac{u^3}{2v^3} = \frac{1}{2}\left(\frac{u}{v}\right)^3$
+                    — đúng một nửa của một phân số lũy thừa $3$:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
                     style="overflow-x: auto;">
                     $$\cos\!\left(\frac{X - Y}{2}\right) = \frac{1}{2}\left(\frac{u}{v}\right)^3$$
                 </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    <strong>Chỗ "va chạm":</strong> vế trái là $\cos$ của một góc trong tam giác — một đại lượng
+                    <em>hình học</em> "tự do", có thể là số vô tỉ tùy tam giác. Vế phải lại bị số học ép thành đúng
+                    <em>một nửa của một phân số lập phương</em>. Hai yêu cầu này rất khó cùng đúng, và chính sự "chật
+                    chội" đó sẽ dẫn tới mâu thuẫn ở Bước 4.
+                </p>
             </div>
 
             <div>
-                <h3 class="font-semibold text-slate-900 mb-2">Bước 4 — Vòng lặp lùi vô hạn</h3>
+                <h3 class="font-semibold text-slate-900 mb-2">Bước 4 — Vòng lặp lùi vô hạn (vì sao vô nghiệm)</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Đây là ý tưởng <strong>"lùi vô hạn"</strong> (infinite descent) mà Fermat rất thích. Cách suy luận
+                    như một trò chơi:
+                </p>
+                <ul class="text-slate-600 text-sm leading-relaxed list-disc list-outside ml-6 space-y-2 mb-3 marker:text-indigo-400">
+                    <li>Giả sử có một bộ nghiệm nguyên dương $(x, y, z)$. Nó cho ta một tam giác $60^\circ$ với cạnh
+                        nguyên dương.</li>
+                    <li>Từ đẳng thức $\cos\!\frac{X-Y}{2} = \frac{1}{2}\left(\frac{u}{v}\right)^3$, dùng công thức chia
+                        đôi góc quen thuộc $\cos 2\alpha = 2\cos^2\alpha - 1$, ta "gấp đôi/chia đôi" góc để dựng được
+                        <em>một tam giác $60^\circ$ mới nhỏ hơn</em> mà cạnh vẫn là số nguyên dương.</li>
+                    <li>Tam giác nhỏ hơn này lại là một bộ nghiệm nguyên dương mới, nhỏ hơn bộ ban đầu. Lặp lại bước trên
+                        cho nó, ta lại được một tam giác nhỏ hơn nữa... và cứ thế mãi.</li>
+                </ul>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    <strong>Vấn đề nằm ở đây:</strong> ta tạo ra được một dãy <em>vô hạn</em> các số nguyên dương ngày
+                    càng nhỏ:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$z_1 > z_2 > z_3 > \dots > 0 \quad(\text{tất cả đều nguyên dương})$$
+                </div>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    Ép một góc vừa thỏa cấu trúc hình học của tam giác $60^\circ$, vừa thỏa cấu trúc "lập phương đúng"
-                    của số học sẽ kích hoạt một vòng lặp lùi vô hạn: qua công thức chia đôi góc
-                    $(\cos 2\alpha = 2\cos^2\alpha - 1)$, mỗi lời giải nguyên dương lại sinh ra một tam giác $60^\circ$
-                    nhỏ hơn với cạnh nguyên dương. Quá trình này không thể dừng — các cạnh cứ nhỏ dần mãi mà vẫn phải là
-                    số nguyên dương, điều bất khả thi.
+                    Nhưng điều này <strong>không thể xảy ra</strong>! Trong tập số nguyên dương, không có dãy giảm mãi
+                    mãi mà vẫn dương — cứ giảm thì sớm muộn cũng chạm đáy. (Hình động ở trên minh họa đúng điều này: chuỗi
+                    tam giác cứ nhỏ dần về $0$.) Mâu thuẫn xuất hiện, nghĩa là <strong>giả sử ban đầu sai</strong>: không
+                    hề tồn tại bộ nghiệm nguyên dương nào. Tam giác buộc phải "sụp đổ" thành đường thẳng, tức $x = 0$
+                    hoặc $y = 0$.
                 </p>
             </div>
 
