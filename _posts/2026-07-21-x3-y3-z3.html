@@ -1,0 +1,385 @@
+---
+layout: post
+title: "Chứng minh $x^3 + y^3 = z^3$ vô nghiệm bằng Lượng giác"
+subtitle: "Dịch phương trình số học thành một tam giác có góc $60^\\circ$: dùng Định lý Cosin, Định lý Sin và công thức biến tổng thành tích để dẫn tới một vòng lặp lùi vô hạn — minh họa trực quan bằng HTML5 Canvas với animation."
+tags: [math, canvas]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tam giác 60° và chứng minh x³ + y³ = z³ vô nghiệm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <style>
+        canvas {
+            width: 100%;
+            height: 420px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800 p-4 md:p-8 font-sans">
+    <div class="max-w-5xl mx-auto space-y-6">
+
+        <!-- Header & Controls -->
+        <div
+            class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-4 justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-indigo-600">Tam giác $60^\circ$ &amp; phương trình $x^3 + y^3 = z^3$</h1>
+                <p class="text-sm text-slate-500 mt-1">Dựng tam giác với hai cạnh $x, y$ và góc xen giữa $60^\circ$</p>
+            </div>
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <input type="number" id="input-x" value="5" min="1" step="0.1"
+                    class="w-full md:w-24 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                    placeholder="x">
+                <input type="number" id="input-y" value="8" min="1" step="0.1"
+                    class="w-full md:w-24 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                    placeholder="y">
+                <button id="btn-descent"
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition whitespace-nowrap shadow-sm">
+                    Lùi vô hạn
+                </button>
+            </div>
+        </div>
+
+        <!-- Thông tin lý thuyết -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-lg font-semibold text-slate-800 mb-2">Ý tưởng: dịch số học sang hình học</h2>
+            <p class="text-slate-600 leading-relaxed mb-2">
+                Dùng lượng giác để giải một bài toán số học là một trong những nét đẹp lãng mạn nhất của toán học. Ta
+                "dịch" phương trình các con số thành bài toán về <strong>tam giác</strong> và các <strong>góc</strong>.
+                Bắt đầu từ hằng đẳng thức tổng hai lập phương:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$z^3 = x^3 + y^3 = (x + y)(x^2 - xy + y^2)$$
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-2">
+                Cụm $x^2 - xy + y^2$ gợi ngay tới <strong>Định lý Cosin</strong>. Nếu dựng một tam giác có hai cạnh $x$
+                và $y$ với góc xen giữa đúng bằng $60^\circ$, thì cạnh thứ ba $c$ (đối diện góc $60^\circ$) thỏa mãn:
+            </p>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$c^2 = x^2 + y^2 - 2xy \cos 60^\circ = x^2 - xy + y^2$$
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+                Vì $\cos 60^\circ = \tfrac{1}{2}$, phương trình đại số ban đầu trở thành một liên hệ giữa các cạnh của
+                tam giác $60^\circ$: &nbsp; $z^3 = (x + y)\,c^2$.
+            </p>
+        </div>
+
+        <!-- Thống kê -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-slate-500">Cạnh $c$ (đối $60^\circ$)</span>
+                <span id="stat-c" class="text-2xl font-bold text-slate-800">0</span>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-xl shadow-sm border border-emerald-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-emerald-700">Góc X (đối $x$)</span>
+                <span id="stat-angle-x" class="text-2xl font-bold text-emerald-800">0°</span>
+            </div>
+            <div class="bg-rose-50 p-4 rounded-xl shadow-sm border border-rose-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-rose-700">Góc Y (đối $y$)</span>
+                <span id="stat-angle-y" class="text-2xl font-bold text-rose-800">0°</span>
+            </div>
+            <div class="bg-indigo-50 p-4 rounded-xl shadow-sm border border-indigo-100 flex flex-col justify-center">
+                <span class="text-sm font-medium text-indigo-700">Góc xen giữa</span>
+                <span id="stat-angle-c" class="text-2xl font-bold text-indigo-800">60°</span>
+            </div>
+        </div>
+
+        <!-- Canvas Area -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
+            <h2 class="text-lg font-semibold mb-4 text-slate-700">Tam giác $60^\circ$ &amp; phép lùi vô hạn</h2>
+            <div class="w-full relative" id="canvas-container">
+                <canvas id="tri-canvas"></canvas>
+            </div>
+            <p class="text-xs text-slate-400 mt-3">Nhấn <span class="font-semibold text-indigo-500">Lùi vô hạn</span> để
+                xem chuỗi tam giác $60^\circ$ đồng dạng thu nhỏ mãi về một điểm — hình ảnh của mâu thuẫn.</p>
+        </div>
+
+        <!-- Thông tin khoa học -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-8">
+            <h2 class="text-lg font-semibold text-slate-800">Các bước chứng minh</h2>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Bước 1 — Định lý Sin tìm ranh giới góc</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Tam giác có ba cạnh $x, y, c$ và ba góc đối diện $X, Y, 60^\circ$. Theo Định lý Sin:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$\frac{x}{\sin X} = \frac{y}{\sin Y} = \frac{c}{\sin 60^\circ}$$
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Bước 2 — Biến tổng thành tích</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Cộng $x$ và $y$ rồi dùng công thức $\sin X + \sin Y = 2\sin\!\frac{X+Y}{2}\cos\!\frac{X-Y}{2}$. Vì
+                    $X + Y = 120^\circ$ nên $\frac{X+Y}{2} = 60^\circ$, $\sin 60^\circ$ triệt tiêu và ta thu được:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$x + y = 2c\,\cos\!\left(\frac{X - Y}{2}\right) \;\Longrightarrow\; \cos\!\left(\frac{X - Y}{2}\right) = \frac{x + y}{2c}$$
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Bước 3 — Cú va chạm với số học</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Đối chiếu với $z^3 = (x+y)\,c^2$. Trong trường hợp tối giản ($x+y$ và $c$ nguyên tố cùng nhau), vì
+                    tích của chúng là một lập phương nên bản thân mỗi thừa số phải là lập phương đúng: $x + y = u^3$,
+                    $c = v^3$. Thay vào đẳng thức lượng giác:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$\cos\!\left(\frac{X - Y}{2}\right) = \frac{1}{2}\left(\frac{u}{v}\right)^3$$
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Bước 4 — Vòng lặp lùi vô hạn</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Ép một góc vừa thỏa cấu trúc hình học của tam giác $60^\circ$, vừa thỏa cấu trúc "lập phương đúng"
+                    của số học sẽ kích hoạt một vòng lặp lùi vô hạn: qua công thức chia đôi góc
+                    $(\cos 2\alpha = 2\cos^2\alpha - 1)$, mỗi lời giải nguyên dương lại sinh ra một tam giác $60^\circ$
+                    nhỏ hơn với cạnh nguyên dương. Quá trình này không thể dừng — các cạnh cứ nhỏ dần mãi mà vẫn phải là
+                    số nguyên dương, điều bất khả thi.
+                </p>
+            </div>
+
+            <div class="p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm">
+                <span class="font-bold">Kết luận: </span> Ràng buộc lượng giác khắt khe này không cho phép tồn tại bất kỳ
+                tam giác nào có cạnh nguyên dương $x, y$. Tam giác buộc phải "sụp đổ" thành đường thẳng ($x = 0$ hoặc
+                $y = 0$). Do đó phương trình $x^3 + y^3 = z^3$ <strong>vô nghiệm</strong> với các số nguyên dương —
+                trường hợp $n = 3$ của Định lý Lớn Fermat.
+            </div>
+
+            <p class="text-xs text-slate-400">
+                Ghi chú: đây là một cách kể trực quan bằng lượng giác cho ý tưởng lùi vô hạn; chứng minh chặt chẽ đầu
+                tiên cho $n = 3$ thuộc về <a href="https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem"
+                    class="underline hover:text-slate-600" target="_blank" rel="noopener">Euler (1770)</a>.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('tri-canvas');
+        const ctx = canvas.getContext('2d');
+        const inputX = document.getElementById('input-x');
+        const inputY = document.getElementById('input-y');
+        const btnDescent = document.getElementById('btn-descent');
+        const container = document.getElementById('canvas-container');
+
+        const DEG = Math.PI / 180;
+        let animId = null;
+
+        // Tính các đại lượng của tam giác 60° từ hai cạnh x, y
+        function solveTriangle(x, y) {
+            const c = Math.sqrt(x * x + y * y - x * y);           // Định lý Cosin, cos60 = 1/2
+            // Định lý Sin: sin(góc) = cạnh_đối * sin60 / c
+            const s60 = Math.sin(60 * DEG);
+            const angX = Math.asin(Math.min(1, x * s60 / c)) / DEG; // góc đối cạnh x
+            const angY = Math.asin(Math.min(1, y * s60 / c)) / DEG; // góc đối cạnh y
+            return { c, angX, angY };
+        }
+
+        function updateStats(x, y) {
+            const { c, angX, angY } = solveTriangle(x, y);
+            document.getElementById('stat-c').innerText = c.toFixed(3);
+            document.getElementById('stat-angle-x').innerText = angX.toFixed(1) + '°';
+            document.getElementById('stat-angle-y').innerText = angY.toFixed(1) + '°';
+        }
+
+        function resizeCanvas() {
+            const rect = container.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = 420 * dpr;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `420px`;
+        }
+
+        // Vẽ một tam giác 60° với apex tại (ax, ay), hai cạnh x, y theo tỉ lệ scale, xoay baseAngle
+        function drawTriangle(ax, ay, x, y, scale, baseAngle, opts = {}) {
+            const alpha = opts.alpha ?? 1;
+            const showLabels = opts.labels ?? false;
+
+            // Apex có góc 60°: cạnh y đi theo baseAngle, cạnh x đi theo baseAngle - 60°
+            const B = { x: ax + Math.cos(baseAngle) * y * scale, y: ay + Math.sin(baseAngle) * y * scale };
+            const C = { x: ax + Math.cos(baseAngle - 60 * DEG) * x * scale, y: ay + Math.sin(baseAngle - 60 * DEG) * x * scale };
+
+            // Mặt tam giác
+            ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(B.x, B.y);
+            ctx.lineTo(C.x, C.y);
+            ctx.closePath();
+            ctx.fillStyle = `rgba(79, 70, 229, ${0.10 * alpha})`;
+            ctx.fill();
+            ctx.strokeStyle = `rgba(79, 70, 229, ${alpha})`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Cung góc 60° tại apex
+            ctx.beginPath();
+            ctx.arc(ax, ay, 22 * Math.min(1, scale), baseAngle - 60 * DEG, baseAngle);
+            ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            if (showLabels) {
+                ctx.font = '13px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                // Nhãn cạnh y (apex→B)
+                ctx.fillStyle = '#f43f5e';
+                ctx.fillText('y', (ax + B.x) / 2 + 8, (ay + B.y) / 2 - 8);
+                // Nhãn cạnh x (apex→C)
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('x', (ax + C.x) / 2 - 8, (ay + C.y) / 2 - 8);
+                // Nhãn cạnh c (B→C)
+                ctx.fillStyle = '#4f46e5';
+                ctx.fillText('c', (B.x + C.x) / 2 + 6, (B.y + C.y) / 2 + 6);
+                // Nhãn góc 60°
+                ctx.fillStyle = '#6366f1';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.fillText('60°', ax + Math.cos(baseAngle - 30 * DEG) * 38, ay + Math.sin(baseAngle - 30 * DEG) * 38);
+
+                // Điểm đỉnh
+                [[ax, ay, '#6366f1'], [B.x, B.y, '#f43f5e'], [C.x, C.y, '#10b981']].forEach(([px, py, col]) => {
+                    ctx.beginPath();
+                    ctx.arc(px, py, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = col;
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                });
+            }
+            return { B, C };
+        }
+
+        // Vẽ tĩnh: một tam giác 60° căn giữa canvas
+        function drawStatic(x, y) {
+            resizeCanvas();
+            const rect = container.getBoundingClientRect();
+            const W = rect.width, H = 420;
+            ctx.clearRect(0, 0, W, H);
+
+            // Chọn scale để tam giác vừa khung
+            const c = Math.sqrt(x * x + y * y - x * y);
+            const maxSide = Math.max(x, y, c);
+            const scale = (Math.min(W, H) * 0.42) / maxSide;
+
+            // Đặt apex sao cho tam giác nằm giữa: đặt apex lệch trái-trên
+            const apexX = W * 0.30;
+            const apexY = H * 0.68;
+            drawTriangle(apexX, apexY, x, y, scale, -20 * DEG, { labels: true, alpha: 1 });
+        }
+
+        // Animation lùi vô hạn: chuỗi tam giác đồng dạng thu nhỏ dần
+        function runDescent() {
+            if (animId) cancelAnimationFrame(animId);
+            const x = clampInput(inputX), y = clampInput(inputY);
+            updateStats(x, y);
+            resizeCanvas();
+            const rect = container.getBoundingClientRect();
+            const W = rect.width, H = 420;
+
+            const c = Math.sqrt(x * x + y * y - x * y);
+            const maxSide = Math.max(x, y, c);
+            const baseScale = (Math.min(W, H) * 0.42) / maxSide;
+
+            const apexX = W * 0.30;
+            const apexY = H * 0.68;
+            const shrink = 0.62;   // tỉ lệ thu nhỏ mỗi tầng
+            const rotStep = 18 * DEG;
+            const totalLevels = 9;
+
+            let t = 0;
+            const duration = 2600; // ms tổng
+            let startTs = null;
+
+            function frame(ts) {
+                if (startTs === null) startTs = ts;
+                const elapsed = ts - startTs;
+                const progress = Math.min(1, elapsed / duration);
+
+                ctx.clearRect(0, 0, W, H);
+                // số tầng hiện lên theo tiến trình
+                const shown = progress * totalLevels;
+
+                for (let i = 0; i < totalLevels; i++) {
+                    const appear = shown - i;
+                    if (appear <= 0) break;
+                    const a = Math.min(1, appear);
+                    const sc = baseScale * Math.pow(shrink, i);
+                    const ang = -20 * DEG + rotStep * i;
+                    drawTriangle(apexX, apexY, x, y, sc, ang, {
+                        labels: i === 0,
+                        alpha: a * (0.35 + 0.65 * Math.pow(shrink, i * 0.4))
+                    });
+                }
+
+                // Nhãn "→ 0" ở apex khi gần xong
+                if (progress > 0.6) {
+                    ctx.globalAlpha = Math.min(1, (progress - 0.6) / 0.4);
+                    ctx.fillStyle = '#ef4444';
+                    ctx.font = 'bold 14px sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('các cạnh → 0  (mâu thuẫn!)', apexX + 14, apexY - 6);
+                    ctx.globalAlpha = 1;
+                }
+
+                if (progress < 1) {
+                    animId = requestAnimationFrame(frame);
+                } else {
+                    animId = null;
+                }
+            }
+            animId = requestAnimationFrame(frame);
+        }
+
+        function clampInput(el) {
+            let v = parseFloat(el.value);
+            if (isNaN(v) || v <= 0) { v = 1; el.value = 1; }
+            return v;
+        }
+
+        function render() {
+            if (animId) { cancelAnimationFrame(animId); animId = null; }
+            const x = clampInput(inputX), y = clampInput(inputY);
+            updateStats(x, y);
+            drawStatic(x, y);
+        }
+
+        btnDescent.addEventListener('click', runDescent);
+        inputX.addEventListener('input', render);
+        inputY.addEventListener('input', render);
+        [inputX, inputY].forEach(el => el.addEventListener('keypress', e => { if (e.key === 'Enter') render(); }));
+        window.addEventListener('resize', render);
+
+        // Chạy lần đầu
+        render();
+    </script>
+</body>
+
+</html>
