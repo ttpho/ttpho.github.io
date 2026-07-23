@@ -131,6 +131,101 @@ full-width: true
             </div>
         </div>
 
+        <!-- Có công thức tổng quát không? -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-800">Có công thức tổng quát theo $n$ không?</h2>
+                <p class="text-sm text-slate-500 mt-1">
+                    Câu trả lời ngắn gọn: <strong>không</strong> — không tồn tại công thức đóng
+                    (closed-form) tổng quát theo $n$ cho bất kỳ tổng nào ở trên. Lý do nằm ở chính bản chất
+                    chưa giải được của bài toán Collatz.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Vì sao không có công thức đóng</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Cả bốn tổng đều cộng trên các số hạng $a_0, a_1, \dots, a_k$. Muốn có công thức theo $n$ thì
+                    trước hết phải biết <strong>số bước</strong> $k(n)$ (thời gian dừng toàn phần) và
+                    <strong>từng giá trị</strong> $a_i$. Nhưng hiện <em>không</em> ai biết công thức đóng cho $k(n)$,
+                    cũng không có biểu thức dự đoán được dãy $a_i$. Đây đúng là trái tim của phỏng đoán Collatz:
+                    nếu tồn tại công thức như vậy, bài toán đã được giải. Vì thế mọi tổng cộng dồn trên quỹ đạo
+                    đều "thừa hưởng" sự bất khả tri này.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Công thức "có điều kiện" theo dãy chẵn/lẻ</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Nếu ta <strong>cho trước</strong> dãy chẵn/lẻ $\epsilon_i \in \{0,1\}$ (parity vector) thì mỗi bước
+                    của bản đồ rút gọn $T(n) = n/2$ (chẵn) hoặc $(3n+1)/2$ (lẻ) là một phép biến đổi affine:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
+                    style="overflow-x: auto;">
+                    $$a_{i+1} = \frac{3^{\epsilon_i}\, a_i + \epsilon_i}{2}$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Ghép các phép affine lại, mỗi số hạng có công thức chính xác (với
+                    $S_k = \epsilon_0 + \epsilon_1 + \dots + \epsilon_{k-1}$ là số bước lẻ):
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
+                    style="overflow-x: auto;">
+                    $$a_k = \frac{3^{S_k}}{2^{k}}\, n \;+\; \sum_{j=0}^{k-1} \epsilon_j\, 3^{\,S_k - S_{j+1}}\, 2^{\,j-k}$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    <strong>Nhưng</strong> công thức này chỉ đúng khi đã biết vector $(\epsilon_i)$ — mà vector đó
+                    lại phụ thuộc $n$ theo cách không nắm bắt được. Nên đây không phải công thức đóng theo $n$,
+                    chỉ là công thức theo <em>cấu trúc quỹ đạo</em>.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Hệ thức truy hồi (đúng cho cả 4 tổng)</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Cách hữu ích hơn là hệ thức truy hồi (functional equation): với $g(n) = n,\ \tfrac1n,\ \pm n,\ \pm\tfrac1n$
+                    tương ứng cho từng tổng,
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                    style="overflow-x: auto;">
+                    $$F(n) = g(n) + F\big(T(n)\big), \qquad F(1) = g(1)$$
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Liên hệ với chuỗi Taylor / $\ln 2$?</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Điểm dễ nhầm: <strong>chuỗi điều hòa đan dấu cổ điển</strong> hội tụ về $\ln 2$, và đó là giá trị
+                    tại $x = 1$ của khai triển Taylor của $\ln(1+x)$:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
+                    style="overflow-x: auto;">
+                    $$\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n} = \ln 2, \qquad \ln(1+x) = \sum_{n\ge 1}\frac{(-1)^{n+1}}{n}\,x^n$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Nhưng chuỗi đó lấy trên $1, 2, 3, 4, \dots$ theo đúng thứ tự tự nhiên. Còn tổng đan dấu / điều hòa
+                    đan dấu ở trên lấy trên <strong>quỹ đạo Collatz</strong> — một tập con hữu hạn, theo thứ tự riêng,
+                    có lặp lại. Vì vậy <strong>không</strong> có liên hệ tới $\ln 2$ hay một khai triển Taylor nào;
+                    chúng chỉ là các tổng hữu hạn, không hội tụ về hằng số quen thuộc nào.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Điều nói được chắc chắn: các chặn</h3>
+                <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                    <li><strong>Tổng nghịch đảo $H(n)$:</strong> bị chặn, vì đuôi quỹ đạo luôn là $\dots, 4, 2, 1$
+                        đóng góp $\tfrac14 + \tfrac12 + 1$, phần còn lại nhỏ dần — nên $H(n)$ thường quanh
+                        $\approx 1.9$–$2.5$ với hầu hết $n$.</li>
+                    <li><strong>Tổng $S(n)$:</strong> cùng cỡ với "diện tích dưới quỹ đạo", bị chi phối bởi đỉnh cao nhất.</li>
+                    <li><strong>Tổng đan dấu $A(n)$:</strong> dao động, dấu phụ thuộc tính chẵn/lẻ của số bước $k$.</li>
+                </ul>
+            </div>
+
+            <div class="p-4 bg-indigo-50 border border-indigo-200 text-indigo-800 rounded-lg text-sm">
+                <span class="font-bold">Tóm lại:</span> không có công thức tổng quát theo $n$ (nếu có thì phỏng đoán
+                Collatz đã được giải); chỉ có công thức <em>có điều kiện</em> theo vector chẵn/lẻ và <em>hệ thức truy hồi</em>.
+            </div>
+        </div>
+
         <!-- Canvas Chart Area -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
             <h2 class="text-lg font-semibold mb-4 text-slate-700">Biểu đồ đường đi của n</h2>
