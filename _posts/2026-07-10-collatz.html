@@ -97,6 +97,40 @@ full-width: true
             </div>
         </div>
 
+        <!-- Các tổng trên quỹ đạo -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-800">Các tổng trên quỹ đạo</h2>
+                <p class="text-sm text-slate-500 mt-1">
+                    Gọi quỹ đạo Collatz là $a_0, a_1, \dots, a_k$ với $a_0 = n$ và $a_k = 1$ (sau $k$ bước nhảy).
+                    Bốn ô dưới đây minh hoạ các tổng cộng dồn trên $k + 1$ số hạng đó.
+                </p>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
+                style="overflow-x: auto;">
+                $$\text{Tổng: } S = \sum_{i=0}^{k} a_i \qquad\qquad \text{Tổng nghịch đảo: } H = \sum_{i=0}^{k} \frac{1}{a_i}$$
+                $$\text{Tổng đan dấu: } A = \sum_{i=0}^{k} (-1)^i\, a_i \qquad\qquad \text{Chuỗi điều hòa đan dấu: } A_H = \sum_{i=0}^{k} \frac{(-1)^i}{a_i}$$
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-sky-50 p-4 rounded-xl border border-sky-100 flex flex-col justify-center">
+                    <span class="text-sm font-medium text-sky-700">Tổng tất cả các số &nbsp; $\displaystyle\sum_{i=0}^{k} a_i$</span>
+                    <span id="stat-sum" class="text-2xl font-bold text-sky-800">0</span>
+                </div>
+                <div class="bg-teal-50 p-4 rounded-xl border border-teal-100 flex flex-col justify-center">
+                    <span class="text-sm font-medium text-teal-700">Tổng nghịch đảo &nbsp; $\displaystyle\sum_{i=0}^{k} \frac{1}{a_i}$</span>
+                    <span id="stat-recip" class="text-2xl font-bold text-teal-800">0</span>
+                </div>
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 flex flex-col justify-center">
+                    <span class="text-sm font-medium text-amber-700">Tổng đan dấu &nbsp; $\displaystyle\sum_{i=0}^{k} (-1)^i a_i$</span>
+                    <span id="stat-alt" class="text-2xl font-bold text-amber-800">0</span>
+                </div>
+                <div class="bg-fuchsia-50 p-4 rounded-xl border border-fuchsia-100 flex flex-col justify-center">
+                    <span class="text-sm font-medium text-fuchsia-700">Chuỗi điều hòa đan dấu &nbsp; $\displaystyle\sum_{i=0}^{k} \frac{(-1)^i}{a_i}$</span>
+                    <span id="stat-altrecip" class="text-2xl font-bold text-fuchsia-800">0</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Canvas Chart Area -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
             <h2 class="text-lg font-semibold mb-4 text-slate-700">Biểu đồ đường đi của n</h2>
@@ -206,12 +240,29 @@ full-width: true
                 sequence.push(n);
             }
 
+            // Các đại lượng cộng dồn trên các số hạng của quỹ đạo a_0, a_1, ..., a_k
+            let totalSum = 0;            // Σ a_i
+            let reciprocalSum = 0;       // Σ 1 / a_i
+            let alternatingSum = 0;      // Σ (-1)^i a_i
+            let alternatingHarmonic = 0; // Σ (-1)^i / a_i
+            sequence.forEach((val, i) => {
+                const sign = (i % 2 === 0) ? 1 : -1;
+                totalSum += val;
+                reciprocalSum += 1 / val;
+                alternatingSum += sign * val;
+                alternatingHarmonic += sign / val;
+            });
+
             return {
                 sequence,
                 evenCount,
                 oddCount,
                 totalSteps: sequence.length - 1,
-                maxVal: Math.max(...sequence)
+                maxVal: Math.max(...sequence),
+                totalSum,
+                reciprocalSum,
+                alternatingSum,
+                alternatingHarmonic
             };
         }
 
@@ -228,6 +279,12 @@ full-width: true
                 ratio = (data.oddCount / data.evenCount) * 100;
             }
             document.getElementById('stat-ratio').innerText = ratio.toFixed(2) + '%';
+
+            // Các tổng trên quỹ đạo
+            document.getElementById('stat-sum').innerText = data.totalSum.toLocaleString('vi-VN');
+            document.getElementById('stat-recip').innerText = data.reciprocalSum.toFixed(6);
+            document.getElementById('stat-alt').innerText = data.alternatingSum.toLocaleString('vi-VN');
+            document.getElementById('stat-altrecip').innerText = data.alternatingHarmonic.toFixed(6);
         }
 
         // Hàm thiết lập độ phân giải Canvas (chống mờ trên màn hình Retina)
