@@ -157,25 +157,79 @@ full-width: true
             <div>
                 <h3 class="font-semibold text-slate-900 mb-2">Công thức "có điều kiện" theo dãy chẵn/lẻ</h3>
                 <p class="text-slate-600 text-sm leading-relaxed mb-3">
-                    Nếu ta <strong>cho trước</strong> dãy chẵn/lẻ $\epsilon_i \in \{0,1\}$ (parity vector) thì mỗi bước
-                    của bản đồ rút gọn $T(n) = n/2$ (chẵn) hoặc $(3n+1)/2$ (lẻ) là một phép biến đổi affine:
+                    Nếu ta <strong>cho trước</strong> dãy chẵn/lẻ $\epsilon_i \in \{0,1\}$ (parity vector, với
+                    $\epsilon_i = 1$ nếu $a_i$ lẻ, $\epsilon_i = 0$ nếu $a_i$ chẵn) thì mỗi bước của bản đồ rút gọn
+                    $T(n) = n/2$ (chẵn) hoặc $(3n+1)/2$ (lẻ) đều viết được chung dưới dạng một phép biến đổi affine:
                 </p>
                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
                     style="overflow-x: auto;">
                     $$a_{i+1} = \frac{3^{\epsilon_i}\, a_i + \epsilon_i}{2}$$
                 </div>
                 <p class="text-slate-600 text-sm leading-relaxed mb-3">
-                    Ghép các phép affine lại, mỗi số hạng có công thức chính xác (với
-                    $S_k = \epsilon_0 + \epsilon_1 + \dots + \epsilon_{k-1}$ là số bước lẻ):
+                    <strong>Diễn giải từng bước.</strong> Lồng liên tiếp công thức trên vào chính nó, ta thấy hệ số
+                    của $n$ và của từng $\epsilon_j$ hiện ra theo một quy luật rõ ràng:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-sm mb-3"
+                    style="overflow-x: auto;">
+                    $$a_1 = \frac{3^{\epsilon_0}}{2}\,n + \frac{\epsilon_0}{2}$$
+                    $$a_2 = \frac{3^{\epsilon_0+\epsilon_1}}{4}\,n + \frac{3^{\epsilon_1}\epsilon_0}{4} + \frac{\epsilon_1}{2}$$
+                    $$a_3 = \frac{3^{\epsilon_0+\epsilon_1+\epsilon_2}}{8}\,n + \frac{3^{\epsilon_1+\epsilon_2}\epsilon_0}{8} + \frac{3^{\epsilon_2}\epsilon_1}{4} + \frac{\epsilon_2}{2}$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Mỗi lần thế thêm một bước, số mũ của $3$ ở hệ số $n$ tăng theo tổng $\epsilon$ tính đến lúc đó,
+                    còn mẫu số lũy thừa $2$ tăng theo số bước đã đi qua — đúng là "tổng quát hóa" của quy luật này
+                    mà công thức đóng bên dưới nắm bắt lại, với $S_k = \epsilon_0 + \epsilon_1 + \dots + \epsilon_{k-1}$
+                    là số bước lẻ tính từ $a_0$ đến $a_{k-1}$:
                 </p>
                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
                     style="overflow-x: auto;">
                     $$a_k = \frac{3^{S_k}}{2^{k}}\, n \;+\; \sum_{j=0}^{k-1} \epsilon_j\, 3^{\,S_k - S_{j+1}}\, 2^{\,j-k}$$
                 </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    <strong>Ví dụ minh họa: $n = 7$.</strong> Quỹ đạo rút gọn (dùng $T$) của $7$ và vector chẵn/lẻ
+                    tương ứng là:
+                </p>
+                <div class="overflow-x-auto mb-3">
+                    <table class="w-full text-sm text-center border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700">
+                                <th class="border border-slate-200 px-3 py-1.5">$i$</th>
+                                <th class="border border-slate-200 px-3 py-1.5">$a_i$</th>
+                                <th class="border border-slate-200 px-3 py-1.5">Chẵn/lẻ</th>
+                                <th class="border border-slate-200 px-3 py-1.5">$\epsilon_i$</th>
+                                <th class="border border-slate-200 px-3 py-1.5">$S_{i+1}$</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-600">
+                            <tr><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">7</td><td class="border border-slate-200 px-3 py-1.5">lẻ</td><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">1</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">11</td><td class="border border-slate-200 px-3 py-1.5">lẻ</td><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">2</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">2</td><td class="border border-slate-200 px-3 py-1.5">17</td><td class="border border-slate-200 px-3 py-1.5">lẻ</td><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">3</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">3</td><td class="border border-slate-200 px-3 py-1.5">26</td><td class="border border-slate-200 px-3 py-1.5">chẵn</td><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">3</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">4</td><td class="border border-slate-200 px-3 py-1.5">13</td><td class="border border-slate-200 px-3 py-1.5">lẻ</td><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">4</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">5</td><td class="border border-slate-200 px-3 py-1.5">20</td><td class="border border-slate-200 px-3 py-1.5">chẵn</td><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">4</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">6</td><td class="border border-slate-200 px-3 py-1.5">10</td><td class="border border-slate-200 px-3 py-1.5">chẵn</td><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">4</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">7</td><td class="border border-slate-200 px-3 py-1.5">5</td><td class="border border-slate-200 px-3 py-1.5">lẻ</td><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">5</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">8</td><td class="border border-slate-200 px-3 py-1.5">8</td><td class="border border-slate-200 px-3 py-1.5">chẵn</td><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">5</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">9</td><td class="border border-slate-200 px-3 py-1.5">4</td><td class="border border-slate-200 px-3 py-1.5">chẵn</td><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">5</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">10</td><td class="border border-slate-200 px-3 py-1.5">2</td><td class="border border-slate-200 px-3 py-1.5">chẵn</td><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">5</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">11</td><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">—</td><td class="border border-slate-200 px-3 py-1.5">—</td><td class="border border-slate-200 px-3 py-1.5">—</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Thử kiểm chứng công thức đóng tại $k = 3$: từ bảng, $\epsilon_0=\epsilon_1=\epsilon_2=1$ nên
+                    $S_1=1,\ S_2=2,\ S_3=3$. Thay vào:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
+                    style="overflow-x: auto;">
+                    $$a_3 = \frac{3^{3}}{2^{3}}\cdot 7 \;+\; \Big(1\cdot 3^{3-1}2^{-3} + 1\cdot 3^{3-2}2^{-2} + 1\cdot 3^{3-3}2^{-1}\Big) = \frac{189}{8} + \frac{9}{8} + \frac{6}{8} + \frac{4}{8} = \frac{208}{8} = 26$$
+                </div>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    <strong>Nhưng</strong> công thức này chỉ đúng khi đã biết vector $(\epsilon_i)$ — mà vector đó
-                    lại phụ thuộc $n$ theo cách không nắm bắt được. Nên đây không phải công thức đóng theo $n$,
-                    chỉ là công thức theo <em>cấu trúc quỹ đạo</em>.
+                    Khớp đúng với giá trị $a_3 = 26$ trong bảng — công thức đóng chỉ là cách "gói gọn" phép lồng
+                    affine ở trên, không có gì huyền bí hơn. <strong>Nhưng</strong> nó chỉ tính được khi đã biết
+                    trước vector $(\epsilon_i)$ — mà vector đó lại phụ thuộc $n$ theo cách không nắm bắt được (muốn
+                    biết $\epsilon_3$ ta phải biết $a_3$ chẵn hay lẻ, tức là phải chạy quỹ đạo thật sự). Nên đây
+                    không phải công thức đóng theo $n$, chỉ là công thức theo <em>cấu trúc quỹ đạo đã biết</em>.
                 </p>
             </div>
 
