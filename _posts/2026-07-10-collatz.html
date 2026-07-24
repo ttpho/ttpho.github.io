@@ -299,7 +299,17 @@ full-width: true
 
         <!-- Canvas Chart Area -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
-            <h2 class="text-lg font-semibold mb-4 text-slate-700">Biểu đồ đường đi của n</h2>
+            <h2 class="text-lg font-semibold text-slate-700">Biểu đồ đường đi của mọi số từ 1 đến n</h2>
+            <p class="text-xs text-slate-400 mt-1 mb-3">
+                Mỗi đường là quỹ đạo Collatz của một số bắt đầu; màu nhạt ứng với số nhỏ, màu đậm ứng với số lớn
+                (đường của chính $n$ được vẽ đậm nhất, nét dày hơn để dễ nhận ra).
+            </p>
+            <div class="flex items-center gap-2 mb-4 text-xs text-slate-500">
+                <span>1</span>
+                <div id="legend-gradient" class="h-2 flex-1 rounded-full"></div>
+                <span id="legend-max-label">n</span>
+            </div>
+            <div id="cap-note" class="hidden mb-3 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5"></div>
             <div class="w-full relative" id="canvas-container">
                 <canvas id="collatz-canvas"></canvas>
             </div>
@@ -389,21 +399,35 @@ full-width: true
         const btnSimulate = document.getElementById('btn-simulate');
         const container = document.getElementById('canvas-container');
 
-        // Logic tính toán chuỗi Collatz
+        // Số đường tối đa vẽ cùng lúc, để tránh treo trình duyệt khi n quá lớn
+        const MAX_LINES = 1500;
+
+        // Chuỗi Collatz thuần (không đếm thống kê) — dùng để dựng nhiều đường cùng lúc
+        function collatzSequence(n) {
+            let sequence = [n];
+            while (n > 1) {
+                n = (n % 2 === 0) ? n / 2 : 3 * n + 1;
+                sequence.push(n);
+            }
+            return sequence;
+        }
+
+        // Logic tính toán chuỗi Collatz (kèm thống kê) cho riêng số n người dùng nhập
         function calculateCollatz(n) {
             let sequence = [n];
             let evenCount = 0; // n / 2
             let oddCount = 0;  // 3n + 1
+            let cur = n;
 
-            while (n > 1) {
-                if (n % 2 === 0) {
-                    n = n / 2;
+            while (cur > 1) {
+                if (cur % 2 === 0) {
+                    cur = cur / 2;
                     evenCount++;
                 } else {
-                    n = 3 * n + 1;
+                    cur = 3 * cur + 1;
                     oddCount++;
                 }
-                sequence.push(n);
+                sequence.push(cur);
             }
 
             return {
@@ -415,12 +439,47 @@ full-width: true
             };
         }
 
+        // Dựng quỹ đạo cho mọi số bắt đầu từ 1 đến n (giới hạn ở MAX_LINES đường, nhưng luôn kèm chính n)
+        function buildAllSequences(n) {
+            const cappedN = Math.min(n, MAX_LINES);
+            const sequences = [];
+            for (let start = 1; start <= cappedN; start++) {
+                sequences.push({ start, seq: collatzSequence(start) });
+            }
+            if (n > cappedN) {
+                sequences.push({ start: n, seq: collatzSequence(n) });
+            }
+            return { sequences, cappedN };
+        }
+
+        // Màu theo giá trị bắt đầu so với n: một tông indigo, nhạt (số nhỏ) -> đậm (số lớn)
+        function colorForStart(start, n) {
+            const lightness = n > 1 ? 68 - ((start - 1) / (n - 1)) * 42 : 45;
+            return `hsl(243, 72%, ${lightness}%)`;
+        }
+
+        // Cập nhật dải màu chú giải phía trên biểu đồ
+        function updateColorLegend(cappedN, n) {
+            const from = colorForStart(1, n);
+            const to = colorForStart(n, n);
+            document.getElementById('legend-gradient').style.background = `linear-gradient(to right, ${from}, ${to})`;
+            document.getElementById('legend-max-label').innerText = n.toLocaleString('vi-VN');
+
+            const capNote = document.getElementById('cap-note');
+            if (n > MAX_LINES) {
+                capNote.textContent = `Chỉ vẽ ${MAX_LINES.toLocaleString('vi-VN')} đường đầu tiên (1 đến ${MAX_LINES.toLocaleString('vi-VN')}), cộng thêm riêng đường của ${n.toLocaleString('vi-VN')}, để tránh quá tải trình duyệt.`;
+                capNote.classList.remove('hidden');
+            } else {
+                capNote.classList.add('hidden');
+            }
+        }
+
         // Cập nhật DOM
-        function updateStatsUI(data) {
+        function updateStatsUI(data, globalMaxVal) {
             document.getElementById('stat-total').innerText = data.totalSteps;
             document.getElementById('stat-even').innerText = data.evenCount;
             document.getElementById('stat-odd').innerText = data.oddCount;
-            document.getElementById('stat-max').innerText = data.maxVal.toLocaleString('vi-VN');
+            document.getElementById('stat-max').innerText = (globalMaxVal ?? data.maxVal).toLocaleString('vi-VN');
 
             // Tính tỉ lệ Số lần (3n+1) / Số lần (n/2)
             let ratio = 0;
@@ -444,8 +503,8 @@ full-width: true
             canvas.style.height = `400px`;
         }
 
-        // Hàm vẽ biểu đồ
-        function drawChart(sequence) {
+        // Hàm vẽ biểu đồ: mỗi phần tử sequences là { start, seq }, mainStart là số n người dùng nhập
+        function drawMultiChart(sequences, mainStart) {
             // Resize canvas để match với container hiện tại
             resizeCanvas();
 
@@ -456,15 +515,16 @@ full-width: true
             // Xoá canvas trước khi vẽ mới
             ctx.clearRect(0, 0, width, height);
 
-            if (sequence.length === 0) return;
+            if (sequences.length === 0) return;
 
             // Thiết lập margins
             const padding = { top: 40, right: 20, bottom: 40, left: 60 };
             const drawWidth = width - padding.left - padding.right;
             const drawHeight = height - padding.top - padding.bottom;
 
-            const maxSteps = sequence.length - 1;
-            const maxVal = Math.max(...sequence);
+            // Các đại lượng lớn nhất trên TẤT CẢ các đường, dùng chung một hệ trục
+            const maxSteps = Math.max(...sequences.map(s => s.seq.length - 1));
+            const maxVal = Math.max(...sequences.map(s => Math.max(...s.seq)));
 
             // Tính toán hàm scale
             const scaleX = maxSteps > 0 ? drawWidth / maxSteps : drawWidth;
@@ -511,53 +571,56 @@ full-width: true
             ctx.lineTo(width - padding.right, height - padding.bottom); // Trục X
             ctx.stroke();
 
-            // 2. Vẽ đường biểu diễn
-            ctx.beginPath();
-            ctx.strokeStyle = '#4f46e5'; // Màu Indigo 600
-            ctx.lineWidth = 2;
+            // 2. Vẽ từng đường quỹ đạo, màu nhạt -> đậm theo số bắt đầu; đường của n vẽ sau cùng, đậm nhất
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
 
-            sequence.forEach((val, index) => {
-                const x = padding.left + index * scaleX;
-                const y = height - padding.bottom - val * scaleY;
-
-                if (index === 0) {
-                    ctx.moveTo(x, y);
-                } else {
-                    ctx.lineTo(x, y);
-                }
-            });
-            ctx.stroke();
-
-            // 3. (Tùy chọn) Tô màu Gradient dưới đường biểu diễn
-            if (sequence.length > 1) {
-                const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
-                gradient.addColorStop(0, 'rgba(79, 70, 229, 0.2)'); // Màu indigo với opacity
-                gradient.addColorStop(1, 'rgba(79, 70, 229, 0)');
-
-                ctx.lineTo(width - padding.right, height - padding.bottom);
-                ctx.lineTo(padding.left, height - padding.bottom);
-                ctx.closePath();
-                ctx.fillStyle = gradient;
-                ctx.fill();
-            }
-
-            // 4. Vẽ điểm bắt đầu và điểm kết thúc (số 1)
-            const drawPoint = (x, y, color) => {
+            const drawOne = ({ start, seq }, isMain) => {
                 ctx.beginPath();
-                ctx.arc(x, y, 4, 0, Math.PI * 2);
-                ctx.fillStyle = color;
-                ctx.fill();
-                ctx.strokeStyle = '#ffffff';
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = colorForStart(start, mainStart);
+                ctx.globalAlpha = isMain ? 1 : 0.45;
+                ctx.lineWidth = isMain ? 3 : 1;
+
+                seq.forEach((val, i) => {
+                    const x = padding.left + i * scaleX;
+                    const y = height - padding.bottom - val * scaleY;
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
                 ctx.stroke();
             };
 
-            // Điểm đầu
-            drawPoint(padding.left, height - padding.bottom - sequence[0] * scaleY, '#f43f5e'); // Rose
-            // Điểm cuối (thường là 1)
-            drawPoint(padding.left + maxSteps * scaleX, height - padding.bottom - sequence[maxSteps] * scaleY, '#10b981'); // Emerald
+            let mainEntry = null;
+            sequences.forEach((entry) => {
+                if (entry.start === mainStart) {
+                    mainEntry = entry;
+                    return; // vẽ sau cùng để nổi lên trên
+                }
+                drawOne(entry, false);
+            });
+            ctx.globalAlpha = 1;
+
+            if (mainEntry) {
+                drawOne(mainEntry, true);
+
+                // Đánh dấu điểm đầu và điểm cuối của riêng đường n
+                const { seq } = mainEntry;
+                const mainMaxSteps = seq.length - 1;
+                const drawPoint = (x, y, color) => {
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                };
+                drawPoint(padding.left, height - padding.bottom - seq[0] * scaleY, '#f43f5e'); // Rose: điểm đầu
+                drawPoint(padding.left + mainMaxSteps * scaleX, height - padding.bottom - seq[mainMaxSteps] * scaleY, '#10b981'); // Emerald: điểm cuối
+            }
         }
 
         // Khởi động quá trình mô phỏng
@@ -570,8 +633,12 @@ full-width: true
             }
 
             const data = calculateCollatz(n);
-            updateStatsUI(data);
-            drawChart(data.sequence);
+            const { sequences, cappedN } = buildAllSequences(n);
+            const globalMaxVal = Math.max(...sequences.map(s => Math.max(...s.seq)));
+
+            updateStatsUI(data, globalMaxVal);
+            updateColorLegend(cappedN, n);
+            drawMultiChart(sequences, n);
         }
 
         // Lắng nghe sự kiện
@@ -583,8 +650,8 @@ full-width: true
         // Tự động vẽ lại khi resize cửa sổ để giữ form layout
         window.addEventListener('resize', () => {
             const n = parseInt(inputNumber.value) || 1;
-            const data = calculateCollatz(n);
-            drawChart(data.sequence);
+            const { sequences } = buildAllSequences(n);
+            drawMultiChart(sequences, n);
         });
 
         // Chạy lần đầu tiên khi load trang với số mặc định (27)
