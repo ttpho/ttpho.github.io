@@ -205,6 +205,98 @@ full-width: true
             </div>
         </div>
 
+        <!-- Bài toán ngược -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-800">Bài toán ngược: xuất phát từ $a_0 = 1$</h2>
+                <p class="text-sm text-slate-500 mt-1">
+                    Thay vì hỏi "$n$ bất kỳ có về $1$ không?", ta hỏi ngược lại: xuất phát từ $1$, những số nào
+                    <strong>đi tới</strong> $1$ được — tức tìm mọi <strong>tiền ảnh</strong> (predecessor) của $1$
+                    qua hàm $f$, rồi tiền ảnh của tiền ảnh, cứ thế lùi mãi. Đây là cách "dựng cây Collatz" từ gốc.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Suy ra quy tắc nghịch đảo của $f$</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Với $f(n) = n/2$ (n chẵn) hoặc $3n+1$ (n lẻ), muốn tìm mọi $n$ sao cho $f(n) = m$ ta xét hai
+                    trường hợp ngược lại:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
+                    style="overflow-x: auto;">
+                    $$n = 2m \quad \text{(luôn hợp lệ)} \qquad\qquad n = \frac{m-1}{3} \quad \text{(hợp lệ } \iff m \equiv 1 \!\!\pmod 3 \text{ và } n \text{ nguyên, lẻ)}$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Nhánh $n = 2m$ luôn cho ra một số nguyên dương hợp lệ (vì nếu $n=2m$ thì $n$ chẵn và
+                    $f(n) = n/2 = m$ đúng) — nên <strong>mỗi số $m$ luôn có ít nhất một tiền ảnh</strong>. Nhánh còn
+                    lại chỉ xuất hiện khi $(m-1)/3$ vừa là số nguyên vừa là số lẻ (để khớp với giả thiết $n$ lẻ
+                    dùng công thức $3n+1$).
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Khi nào có <em>hai</em> tiền ảnh?</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Đặt $m = 3t + 1$ (điều kiện $m \equiv 1 \pmod 3$), khi đó tiền ảnh thứ hai chính là $n = t$.
+                    Ta cần $t$ lẻ. Xét $t$ theo modulo $2$:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
+                    style="overflow-x: auto;">
+                    $$t = 2s \Rightarrow m = 6s + 1 \ \ (t \text{ chẵn — không hợp lệ}) \qquad\qquad t = 2s+1 \Rightarrow m = 6s + 4 \ \ (t \text{ lẻ — hợp lệ})$$
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Vậy kết quả rất gọn: <strong>$m$ có đúng hai tiền ảnh $\{2m,\ (m-1)/3\}$ khi và chỉ khi
+                    $m \equiv 4 \pmod 6$</strong>; mọi $m$ còn lại chỉ có <em>một</em> tiền ảnh duy nhất là $2m$.
+                    Vì nhánh nhân đôi luôn tồn tại, cây ngược không bao giờ "chết" — nó lùi vô hạn, chỉ thỉnh
+                    thoảng rẽ nhánh.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="font-semibold text-slate-900 mb-2">Dựng cây ngược từ $1$</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                    Lùi trực tiếp từ $1$: tiền ảnh của $1$ chỉ có $2$ (vì $(1-1)/3 = 0$ không phải số dương); tiền
+                    ảnh của $2$ chỉ có $4$. Tới đây gặp lại chu trình $1 \to 4 \to 2 \to 1$ của bản đồ $f$, nên ta
+                    "cắt" chu trình và coi $4$ là gốc để cây rẽ nhánh tiếp ra phần còn lại của $\mathbb{Z}^+$:
+                </p>
+                <div class="overflow-x-auto mb-3">
+                    <table class="w-full text-sm text-center border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700">
+                                <th class="border border-slate-200 px-3 py-1.5">Mức</th>
+                                <th class="border border-slate-200 px-3 py-1.5">Các số ở mức này</th>
+                                <th class="border border-slate-200 px-3 py-1.5">Rẽ nhánh mới?</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-600">
+                            <tr><td class="border border-slate-200 px-3 py-1.5">0</td><td class="border border-slate-200 px-3 py-1.5">4</td><td class="border border-slate-200 px-3 py-1.5">— (gốc, sau khi cắt chu trình)</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">1</td><td class="border border-slate-200 px-3 py-1.5">8</td><td class="border border-slate-200 px-3 py-1.5">nhánh kia của $4$ là $1$ — đã bị cắt vì thuộc chu trình</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">2</td><td class="border border-slate-200 px-3 py-1.5">16</td><td class="border border-slate-200 px-3 py-1.5">không ($8 \equiv 2 \pmod 6$)</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">3</td><td class="border border-slate-200 px-3 py-1.5">32, 5</td><td class="border border-slate-200 px-3 py-1.5">có ($16 \equiv 4 \pmod 6$)</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">4</td><td class="border border-slate-200 px-3 py-1.5">64, 10</td><td class="border border-slate-200 px-3 py-1.5">không ($32, 5 \not\equiv 4 \pmod 6$)</td></tr>
+                            <tr><td class="border border-slate-200 px-3 py-1.5">5</td><td class="border border-slate-200 px-3 py-1.5">128, 21, 20, 3</td><td class="border border-slate-200 px-3 py-1.5">có ($64 \equiv 4$, $10 \equiv 4 \pmod 6$)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Mỗi ô ở mức $5$ đều tự kiểm chứng được bằng mô phỏng phía trên: thử nhập $3, 20, 21, 128$ sẽ
+                    thấy quỹ đạo xuôi của từng số đều đi qua đúng nút cha của nó ở mức trước (ví dụ quỹ đạo của
+                    $3$ là $3 \to 10 \to 5 \to 16 \to 8 \to 4 \to 2 \to 1$).
+                </p>
+            </div>
+
+            <div class="p-4 bg-indigo-50 border border-indigo-200 text-indigo-800 rounded-lg text-sm">
+                <span class="font-bold">Vậy chuyện gì xảy ra?</span> Đi ngược từ $1$ không cho một dãy số như đi
+                xuôi, mà cho một <strong>cây</strong> vô hạn, phân nhánh mỗi khi gặp số $\equiv 4 \pmod 6$. Nếu
+                chứng minh được cây này (mở rộng đến vô cùng) chứa <em>đúng một lần</em> mọi số nguyên dương, điều
+                đó tương đương với phỏng đoán Collatz đúng — vì khi đó mọi $n$ đều có đường xuôi về $1$. Nhưng
+                chiều ngược lại không giúp giải bài toán: không ai chứng minh được cây phủ kín $\mathbb{Z}^+$; về
+                lý thuyết vẫn có thể tồn tại số không bao giờ xuất hiện trong cây (nếu quỹ đạo xuôi của nó phân kỳ
+                ra vô cực, hoặc rơi vào một chu trình khác ngoài $1 \to 4 \to 2$) — đó chính là hai khả năng còn
+                bỏ ngỏ của phỏng đoán.
+            </div>
+        </div>
+
         <!-- Canvas Chart Area -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
             <h2 class="text-lg font-semibold mb-4 text-slate-700">Biểu đồ đường đi của n</h2>
