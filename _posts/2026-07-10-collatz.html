@@ -97,60 +97,25 @@ full-width: true
             </div>
         </div>
 
-        <!-- Các tổng trên quỹ đạo -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
-            <div>
-                <h2 class="text-lg font-semibold text-slate-800">Các tổng trên quỹ đạo</h2>
-                <p class="text-sm text-slate-500 mt-1">
-                    Gọi quỹ đạo Collatz là $a_0, a_1, \dots, a_k$ với $a_0 = n$ và $a_k = 1$ (sau $k$ bước nhảy).
-                    Bốn ô dưới đây minh hoạ các tổng cộng dồn trên $k + 1$ số hạng đó.
-                </p>
-            </div>
-            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
-                style="overflow-x: auto;">
-                $$\text{Tổng: } S = \sum_{i=0}^{k} a_i \qquad\qquad \text{Tổng nghịch đảo: } H = \sum_{i=0}^{k} \frac{1}{a_i}$$
-                $$\text{Tổng đan dấu: } A = \sum_{i=0}^{k} (-1)^i\, a_i \qquad\qquad \text{Chuỗi điều hòa đan dấu: } A_H = \sum_{i=0}^{k} \frac{(-1)^i}{a_i}$$
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-sky-50 p-4 rounded-xl border border-sky-100 flex flex-col justify-center">
-                    <span class="text-sm font-medium text-sky-700">Tổng tất cả các số &nbsp; $\displaystyle\sum_{i=0}^{k} a_i$</span>
-                    <span id="stat-sum" class="text-2xl font-bold text-sky-800">0</span>
-                </div>
-                <div class="bg-teal-50 p-4 rounded-xl border border-teal-100 flex flex-col justify-center">
-                    <span class="text-sm font-medium text-teal-700">Tổng nghịch đảo &nbsp; $\displaystyle\sum_{i=0}^{k} \frac{1}{a_i}$</span>
-                    <span id="stat-recip" class="text-2xl font-bold text-teal-800">0</span>
-                </div>
-                <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 flex flex-col justify-center">
-                    <span class="text-sm font-medium text-amber-700">Tổng đan dấu &nbsp; $\displaystyle\sum_{i=0}^{k} (-1)^i a_i$</span>
-                    <span id="stat-alt" class="text-2xl font-bold text-amber-800">0</span>
-                </div>
-                <div class="bg-fuchsia-50 p-4 rounded-xl border border-fuchsia-100 flex flex-col justify-center">
-                    <span class="text-sm font-medium text-fuchsia-700">Chuỗi điều hòa đan dấu &nbsp; $\displaystyle\sum_{i=0}^{k} \frac{(-1)^i}{a_i}$</span>
-                    <span id="stat-altrecip" class="text-2xl font-bold text-fuchsia-800">0</span>
-                </div>
-            </div>
-        </div>
-
         <!-- Có công thức tổng quát không? -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
             <div>
                 <h2 class="text-lg font-semibold text-slate-800">Có công thức tổng quát theo $n$ không?</h2>
                 <p class="text-sm text-slate-500 mt-1">
-                    Câu trả lời ngắn gọn: <strong>không</strong> — không tồn tại công thức đóng
-                    (closed-form) tổng quát theo $n$ cho bất kỳ tổng nào ở trên. Lý do nằm ở chính bản chất
-                    chưa giải được của bài toán Collatz.
+                    Gọi quỹ đạo Collatz là $a_0, a_1, \dots, a_k$ với $a_0 = n$ và $a_k = 1$ (sau $k$ bước nhảy).
+                    Câu trả lời ngắn gọn: <strong>không</strong> — không tồn tại công thức đóng (closed-form)
+                    tổng quát theo $n$ cho giá trị $a_k$ hay số bước $k$. Lý do nằm ở chính bản chất chưa giải
+                    được của bài toán Collatz.
                 </p>
             </div>
 
             <div>
                 <h3 class="font-semibold text-slate-900 mb-2">Vì sao không có công thức đóng</h3>
                 <p class="text-slate-600 text-sm leading-relaxed">
-                    Cả bốn tổng đều cộng trên các số hạng $a_0, a_1, \dots, a_k$. Muốn có công thức theo $n$ thì
-                    trước hết phải biết <strong>số bước</strong> $k(n)$ (thời gian dừng toàn phần) và
-                    <strong>từng giá trị</strong> $a_i$. Nhưng hiện <em>không</em> ai biết công thức đóng cho $k(n)$,
-                    cũng không có biểu thức dự đoán được dãy $a_i$. Đây đúng là trái tim của phỏng đoán Collatz:
-                    nếu tồn tại công thức như vậy, bài toán đã được giải. Vì thế mọi tổng cộng dồn trên quỹ đạo
-                    đều "thừa hưởng" sự bất khả tri này.
+                    Muốn có công thức theo $n$ thì trước hết phải biết <strong>số bước</strong> $k(n)$ (thời gian
+                    dừng toàn phần) và <strong>từng giá trị</strong> $a_i$ trên quỹ đạo. Nhưng hiện <em>không</em>
+                    ai biết công thức đóng cho $k(n)$, cũng không có biểu thức dự đoán được dãy $a_i$. Đây đúng là
+                    trái tim của phỏng đoán Collatz: nếu tồn tại công thức như vậy, bài toán đã được giải.
                 </p>
             </div>
 
@@ -233,50 +198,10 @@ full-width: true
                 </p>
             </div>
 
-            <div>
-                <h3 class="font-semibold text-slate-900 mb-2">Hệ thức truy hồi (đúng cho cả 4 tổng)</h3>
-                <p class="text-slate-600 text-sm leading-relaxed mb-3">
-                    Cách hữu ích hơn là hệ thức truy hồi (functional equation): với $g(n) = n,\ \tfrac1n,\ \pm n,\ \pm\tfrac1n$
-                    tương ứng cho từng tổng,
-                </p>
-                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center"
-                    style="overflow-x: auto;">
-                    $$F(n) = g(n) + F\big(T(n)\big), \qquad F(1) = g(1)$$
-                </div>
-            </div>
-
-            <div>
-                <h3 class="font-semibold text-slate-900 mb-2">Liên hệ với chuỗi Taylor / $\ln 2$?</h3>
-                <p class="text-slate-600 text-sm leading-relaxed mb-3">
-                    Điểm dễ nhầm: <strong>chuỗi điều hòa đan dấu cổ điển</strong> hội tụ về $\ln 2$, và đó là giá trị
-                    tại $x = 1$ của khai triển Taylor của $\ln(1+x)$:
-                </p>
-                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center mb-3"
-                    style="overflow-x: auto;">
-                    $$\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n} = \ln 2, \qquad \ln(1+x) = \sum_{n\ge 1}\frac{(-1)^{n+1}}{n}\,x^n$$
-                </div>
-                <p class="text-slate-600 text-sm leading-relaxed">
-                    Nhưng chuỗi đó lấy trên $1, 2, 3, 4, \dots$ theo đúng thứ tự tự nhiên. Còn tổng đan dấu / điều hòa
-                    đan dấu ở trên lấy trên <strong>quỹ đạo Collatz</strong> — một tập con hữu hạn, theo thứ tự riêng,
-                    có lặp lại. Vì vậy <strong>không</strong> có liên hệ tới $\ln 2$ hay một khai triển Taylor nào;
-                    chúng chỉ là các tổng hữu hạn, không hội tụ về hằng số quen thuộc nào.
-                </p>
-            </div>
-
-            <div>
-                <h3 class="font-semibold text-slate-900 mb-2">Điều nói được chắc chắn: các chặn</h3>
-                <ul class="text-slate-600 text-sm leading-relaxed list-disc list-inside space-y-1">
-                    <li><strong>Tổng nghịch đảo $H(n)$:</strong> bị chặn, vì đuôi quỹ đạo luôn là $\dots, 4, 2, 1$
-                        đóng góp $\tfrac14 + \tfrac12 + 1$, phần còn lại nhỏ dần — nên $H(n)$ thường quanh
-                        $\approx 1.9$–$2.5$ với hầu hết $n$.</li>
-                    <li><strong>Tổng $S(n)$:</strong> cùng cỡ với "diện tích dưới quỹ đạo", bị chi phối bởi đỉnh cao nhất.</li>
-                    <li><strong>Tổng đan dấu $A(n)$:</strong> dao động, dấu phụ thuộc tính chẵn/lẻ của số bước $k$.</li>
-                </ul>
-            </div>
-
             <div class="p-4 bg-indigo-50 border border-indigo-200 text-indigo-800 rounded-lg text-sm">
                 <span class="font-bold">Tóm lại:</span> không có công thức tổng quát theo $n$ (nếu có thì phỏng đoán
-                Collatz đã được giải); chỉ có công thức <em>có điều kiện</em> theo vector chẵn/lẻ và <em>hệ thức truy hồi</em>.
+                Collatz đã được giải); chỉ có công thức <em>có điều kiện</em> theo vector chẵn/lẻ, và nó đòi hỏi
+                phải biết trước quỹ đạo thật sự của $n$.
             </div>
         </div>
 
@@ -389,29 +314,12 @@ full-width: true
                 sequence.push(n);
             }
 
-            // Các đại lượng cộng dồn trên các số hạng của quỹ đạo a_0, a_1, ..., a_k
-            let totalSum = 0;            // Σ a_i
-            let reciprocalSum = 0;       // Σ 1 / a_i
-            let alternatingSum = 0;      // Σ (-1)^i a_i
-            let alternatingHarmonic = 0; // Σ (-1)^i / a_i
-            sequence.forEach((val, i) => {
-                const sign = (i % 2 === 0) ? 1 : -1;
-                totalSum += val;
-                reciprocalSum += 1 / val;
-                alternatingSum += sign * val;
-                alternatingHarmonic += sign / val;
-            });
-
             return {
                 sequence,
                 evenCount,
                 oddCount,
                 totalSteps: sequence.length - 1,
-                maxVal: Math.max(...sequence),
-                totalSum,
-                reciprocalSum,
-                alternatingSum,
-                alternatingHarmonic
+                maxVal: Math.max(...sequence)
             };
         }
 
@@ -428,12 +336,6 @@ full-width: true
                 ratio = (data.oddCount / data.evenCount) * 100;
             }
             document.getElementById('stat-ratio').innerText = ratio.toFixed(2) + '%';
-
-            // Các tổng trên quỹ đạo
-            document.getElementById('stat-sum').innerText = data.totalSum.toLocaleString('vi-VN');
-            document.getElementById('stat-recip').innerText = data.reciprocalSum.toFixed(6);
-            document.getElementById('stat-alt').innerText = data.alternatingSum.toLocaleString('vi-VN');
-            document.getElementById('stat-altrecip').innerText = data.alternatingHarmonic.toFixed(6);
         }
 
         // Hàm thiết lập độ phân giải Canvas (chống mờ trên màn hình Retina)
