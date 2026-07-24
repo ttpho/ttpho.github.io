@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bản đồ khái niệm — The Design of Everyday Things</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="home" href="index.html">DOET · Tóm tắt</a>
+    <nav class="nav">
+      <a href="chapter1.html">1</a>
+      <a href="chapter2.html">2</a>
+      <a href="chapter3.html">3</a>
+      <a href="chapter4.html">4</a>
+      <a href="chapter5.html">5</a>
+      <a href="chapter6.html">6</a>
+      <a href="chapter7.html">7</a>
+      <a href="concept-map.html" class="active">Bản đồ</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Tổng hợp</div>
+    <h1>Bản đồ khái niệm</h1>
+    <p class="sub">Cách 7 chương kết nối với nhau quanh một tư tưởng duy nhất: đặt con người làm trung tâm. Bấm vào từng chương trong sơ đồ để mở nội dung.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+<article>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 800 660" role="img" aria-label="Bản đồ khái niệm liên kết bảy chương">
+      <defs>
+        <marker id="cm" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- spokes hub -> nodes -->
+      <g stroke="var(--border)" stroke-width="1.5">
+        <line x1="400" y1="320" x2="400" y2="105"/>
+        <line x1="400" y1="320" x2="595" y2="180"/>
+        <line x1="400" y1="320" x2="644" y2="376"/>
+        <line x1="400" y1="320" x2="508" y2="530"/>
+        <line x1="400" y1="320" x2="292" y2="530"/>
+        <line x1="400" y1="320" x2="156" y2="376"/>
+        <line x1="400" y1="320" x2="205" y2="180"/>
+      </g>
+
+      <!-- progression ring arcs (1->2->...->7) -->
+      <g class="svg-line" stroke-dasharray="5 5" opacity="0.7">
+        <path d="M470,80 Q560,110 605,150" marker-end="url(#cm)"/>
+        <path d="M660,205 Q690,290 660,350" marker-end="url(#cm)"/>
+        <path d="M640,415 Q590,500 545,525" marker-end="url(#cm)"/>
+        <path d="M430,560 Q400,585 370,560" marker-end="url(#cm)"/>
+        <path d="M255,525 Q210,500 160,415" marker-end="url(#cm)"/>
+        <path d="M140,350 Q110,290 140,205" marker-end="url(#cm)"/>
+        <path d="M195,150 Q240,110 330,80" marker-end="url(#cm)"/>
+      </g>
+
+      <!-- hub -->
+      <rect class="node hub" x="300" y="278" width="200" height="86" rx="16"/>
+      <text class="hub-text" x="400" y="312" text-anchor="middle" font-size="15">Thiết kế lấy</text>
+      <text class="hub-text" x="400" y="332" text-anchor="middle" font-size="15">CON NGƯỜI</text>
+      <text class="hub-text" x="400" y="352" text-anchor="middle" font-size="15">làm trung tâm</text>
+
+      <!-- Node 1 (top) -->
+      <a href="chapter1.html">
+        <rect class="node" x="315" y="35" width="170" height="70" rx="12"/>
+        <text class="svg-label-accent" x="400" y="63" text-anchor="middle" font-size="15">1 · Bệnh lý vật dụng</text>
+        <text class="svg-label-sm" x="400" y="84" text-anchor="middle">Affordance · Signifier</text>
+        <text class="svg-label-sm" x="400" y="99" text-anchor="middle">Mapping · Feedback · Mô hình</text>
+      </a>
+
+      <!-- Node 2 -->
+      <a href="chapter2.html">
+        <rect class="node" x="525" y="145" width="175" height="70" rx="12"/>
+        <text class="svg-label-accent" x="612" y="173" text-anchor="middle" font-size="15">2 · Tâm lý hành động</text>
+        <text class="svg-label-sm" x="612" y="194" text-anchor="middle">7 giai đoạn · 2 vực thẳm</text>
+        <text class="svg-label-sm" x="612" y="209" text-anchor="middle">3 tầng cảm xúc</text>
+      </a>
+
+      <!-- Node 3 -->
+      <a href="chapter3.html">
+        <rect class="node" x="560" y="341" width="180" height="70" rx="12"/>
+        <text class="svg-label-accent" x="650" y="369" text-anchor="middle" font-size="15">3 · Tri thức</text>
+        <text class="svg-label-sm" x="650" y="390" text-anchor="middle">Trong đầu ↔ ngoài thế giới</text>
+        <text class="svg-label-sm" x="650" y="405" text-anchor="middle">Trí nhớ · Ánh xạ tự nhiên</text>
+      </a>
+
+      <!-- Node 4 -->
+      <a href="chapter4.html">
+        <rect class="node" x="423" y="530" width="170" height="70" rx="12"/>
+        <text class="svg-label-accent" x="508" y="558" text-anchor="middle" font-size="15">4 · Ràng buộc</text>
+        <text class="svg-label-sm" x="508" y="579" text-anchor="middle">4 loại ràng buộc</text>
+        <text class="svg-label-sm" x="508" y="594" text-anchor="middle">Forcing functions</text>
+      </a>
+
+      <!-- Node 5 -->
+      <a href="chapter5.html">
+        <rect class="node" x="207" y="530" width="170" height="70" rx="12"/>
+        <text class="svg-label-accent" x="292" y="558" text-anchor="middle" font-size="15">5 · Lỗi &amp; thiết kế</text>
+        <text class="svg-label-sm" x="292" y="579" text-anchor="middle">Slips · Mistakes</text>
+        <text class="svg-label-sm" x="292" y="594" text-anchor="middle">Phô mai Thụy Sĩ</text>
+      </a>
+
+      <!-- Node 6 -->
+      <a href="chapter6.html">
+        <rect class="node" x="60" y="341" width="180" height="70" rx="12"/>
+        <text class="svg-label-accent" x="150" y="369" text-anchor="middle" font-size="15">6 · Tư duy thiết kế</text>
+        <text class="svg-label-sm" x="150" y="390" text-anchor="middle">Kim cương kép</text>
+        <text class="svg-label-sm" x="150" y="405" text-anchor="middle">Quy trình HCD lặp</text>
+      </a>
+
+      <!-- Node 7 -->
+      <a href="chapter7.html">
+        <rect class="node" x="100" y="145" width="175" height="70" rx="12"/>
+        <text class="svg-label-accent" x="187" y="173" text-anchor="middle" font-size="15">7 · Kinh doanh</text>
+        <text class="svg-label-sm" x="187" y="194" text-anchor="middle">Featuritis · Đổi mới</text>
+        <text class="svg-label-sm" x="187" y="209" text-anchor="middle">Đạo đức thiết kế</text>
+      </a>
+    </svg>
+    <figcaption>Sơ đồ nan hoa — bảy chương tỏa ra từ tư tưởng trung tâm; vòng nét đứt thể hiện mạch đọc từ Chương 1 → 7. Bấm vào mỗi chương để mở.</figcaption>
+  </figure>
+
+  <h2>Ba lát cắt của cuốn sách</h2>
+  <p>Bảy chương có thể gom thành ba khối logic, đi từ <em>hiểu</em> đến <em>làm</em> đến <em>ứng dụng thực tế</em>:</p>
+  <div class="concept-grid">
+    <div class="concept">
+      <h4>Hiểu con người (Ch. 1–3)</h4>
+      <p>Nguyên lý tương tác, tâm lý hành động và bản chất của tri thức &amp; trí nhớ — nền tảng lý thuyết.</p>
+    </div>
+    <div class="concept">
+      <h4>Thiết kế cho con người (Ch. 4–5)</h4>
+      <p>Dùng ràng buộc để dẫn dắt hành động đúng, và thiết kế khoan dung với lỗi — công cụ thực hành.</p>
+    </div>
+    <div class="concept">
+      <h4>Đưa vào thế giới thực (Ch. 6–7)</h4>
+      <p>Quy trình thiết kế và những sức ép kinh doanh, đổi mới, đạo đức — bối cảnh triển khai.</p>
+    </div>
+  </div>
+
+  <h2>Những "sợi chỉ" xuyên suốt các chương</h2>
+  <p>Điều làm cuốn sách gắn kết là một số ý tưởng lặp lại, được nhìn từ nhiều góc độ khác nhau qua từng chương:</p>
+
+  <div class="thread">
+    <h4>🧭 Mô hình khái niệm &amp; hình ảnh hệ thống</h4>
+    <p>Ý tưởng "người dùng dựng nên mô hình trong đầu" khởi đầu ở Ch.1, được giải thích bằng tâm lý ở Ch.2, nuôi bằng tri thức ở Ch.3, và là thứ quy trình thiết kế ở Ch.6 phải kiểm chứng.</p>
+    <div class="chips"><a href="chapter1.html">Ch.1</a><a href="chapter2.html">Ch.2</a><a href="chapter3.html">Ch.3</a><a href="chapter6.html">Ch.6</a></div>
+  </div>
+
+  <div class="thread">
+    <h4>↔️ Ánh xạ tự nhiên (Natural mapping)</h4>
+    <p>Xuất hiện như một nguyên lý ở Ch.1, được lý giải qua tri thức &amp; văn hóa ở Ch.3, và trở thành công cụ chống lỗi (công tắc, vòi nước) ở Ch.4.</p>
+    <div class="chips"><a href="chapter1.html">Ch.1</a><a href="chapter3.html">Ch.3</a><a href="chapter4.html">Ch.4</a></div>
+  </div>
+
+  <div class="thread">
+    <h4>⚠️ Vòng lặp hành động &amp; nguồn gốc của lỗi</h4>
+    <p>Bảy giai đoạn hành động (Ch.2) là bản đồ để định vị lỗi: sai sót nằm ở khâu thực thi, nhầm lẫn nằm ở khâu lập kế hoạch/đánh giá (Ch.5). Ràng buộc (Ch.4) chính là cách chặn lỗi ngay trên vòng lặp đó.</p>
+    <div class="chips"><a href="chapter2.html">Ch.2</a><a href="chapter4.html">Ch.4</a><a href="chapter5.html">Ch.5</a></div>
+  </div>
+
+  <div class="thread">
+    <h4>🔁 Phản hồi (Feedback)</h4>
+    <p>Một trong các nguyên lý gốc (Ch.1), là cách bắc cầu qua vực thẳm đánh giá (Ch.2), và là điều kiện để phát hiện &amp; sửa lỗi kịp thời (Ch.5) — kể cả phản hồi bằng âm thanh (Ch.4).</p>
+    <div class="chips"><a href="chapter1.html">Ch.1</a><a href="chapter2.html">Ch.2</a><a href="chapter4.html">Ch.4</a><a href="chapter5.html">Ch.5</a></div>
+  </div>
+
+  <div class="thread">
+    <h4>🤝 "Đừng trách người dùng"</h4>
+    <p>Thông điệp đạo đức xuyên suốt: sự bối rối (Ch.1), việc tự trách bản thân (Ch.2) và tai nạn (Ch.5) đều là lời mời gọi <em>sửa thiết kế</em> — và cuối cùng nâng lên thành trách nhiệm đạo đức của nghề (Ch.7).</p>
+    <div class="chips"><a href="chapter1.html">Ch.1</a><a href="chapter2.html">Ch.2</a><a href="chapter5.html">Ch.5</a><a href="chapter7.html">Ch.7</a></div>
+  </div>
+
+  <div class="thread">
+    <h4>🧩 Sự phức tạp có thể quản trị được</h4>
+    <p>Nghịch lý công nghệ (Ch.1) → chia sẻ gánh nặng với thế giới (Ch.3) → "phức tạp là tốt, rối rắm mới xấu" và tiêu chuẩn hóa (Ch.6) → featuritis do áp lực cạnh tranh (Ch.7).</p>
+    <div class="chips"><a href="chapter1.html">Ch.1</a><a href="chapter3.html">Ch.3</a><a href="chapter6.html">Ch.6</a><a href="chapter7.html">Ch.7</a></div>
+  </div>
+
+  <h2>Chú giải khái niệm theo chương</h2>
+  <div class="glossary">
+    <div class="gloss-group">
+      <h3><a href="chapter1.html">Chương 1 · Bệnh lý học của vật dụng</a></h3>
+      <dl>
+        <dt>Affordance</dt><dd>Khả năng hành động có thật giữa vật và người dùng.</dd>
+        <dt>Signifier (Chỉ dấu)</dt><dd>Tín hiệu nhìn thấy được cho biết làm gì và làm thế nào.</dd>
+        <dt>Mapping (Ánh xạ)</dt><dd>Quan hệ tương ứng giữa nút điều khiển và kết quả.</dd>
+        <dt>Feedback (Phản hồi)</dt><dd>Thông tin tức thời về kết quả của hành động.</dd>
+        <dt>Conceptual model / System image</dt><dd>Mô hình trong đầu người dùng, hình thành qua bản thân sản phẩm.</dd>
+      </dl>
+    </div>
+    <div class="gloss-group">
+      <h3><a href="chapter2.html">Chương 2 · Tâm lý học của hành động</a></h3>
+      <dl>
+        <dt>Gulf of Execution / Evaluation</dt><dd>Hai vực thẳm giữa ý định–hành động và kết quả–cách hiểu.</dd>
+        <dt>Bảy giai đoạn hành động</dt><dd>Mục tiêu → kế hoạch → xác định → thực hiện → cảm nhận → diễn giải → so sánh.</dd>
+        <dt>Ba tầng xử lý</dt><dd>Bản năng (visceral), hành vi (behavioral), phản tư (reflective).</dd>
+      </dl>
+    </div>
+    <div class="gloss-group">
+      <h3><a href="chapter3.html">Chương 3 · Tri thức trong đầu &amp; ngoài thế giới</a></h3>
+      <dl>
+        <dt>Knowledge in the world / head</dt><dd>Tri thức đặt trong môi trường vs. ghi nhớ trong trí óc.</dd>
+        <dt>Trí nhớ ngắn hạn / dài hạn</dt><dd>Giới hạn dung lượng và độ tin cậy của bộ nhớ con người.</dd>
+        <dt>Natural mapping</dt><dd>Bố trí điều khiển tương ứng trực tiếp với đối tượng bị điều khiển.</dd>
+      </dl>
+    </div>
+    <div class="gloss-group">
+      <h3><a href="chapter4.html">Chương 4 · Ràng buộc, khám phá &amp; phản hồi</a></h3>
+      <dl>
+        <dt>Bốn loại ràng buộc</dt><dd>Vật lý, văn hóa, ngữ nghĩa, logic.</dd>
+        <dt>Forcing functions</dt><dd>Ràng buộc mạnh: interlock, lock-in, lockout.</dd>
+        <dt>Conventions / Standards</dt><dd>Quy ước văn hóa và tiêu chuẩn hóa.</dd>
+      </dl>
+    </div>
+    <div class="gloss-group">
+      <h3><a href="chapter5.html">Chương 5 · Lỗi con người? Không, thiết kế tồi</a></h3>
+      <dl>
+        <dt>Slips (Sai sót)</dt><dd>Mục tiêu đúng, hành động sai — ở khâu thực thi.</dd>
+        <dt>Mistakes (Nhầm lẫn)</dt><dd>Mục tiêu/kế hoạch sai — ở khâu đánh giá.</dd>
+        <dt>Swiss Cheese Model</dt><dd>Tai nạn xảy ra khi các "lỗ" phòng vệ thẳng hàng.</dd>
+        <dt>Design for error</dt><dd>Undo, xác nhận, kiểm tra hợp lý, poka-yoke.</dd>
+      </dl>
+    </div>
+    <div class="gloss-group">
+      <h3><a href="chapter6.html">Chương 6 · Tư duy thiết kế</a></h3>
+      <dl>
+        <dt>Solving the correct problem</dt><dd>Tìm đúng vấn đề trước khi tìm giải pháp.</dd>
+        <dt>Double-Diamond</dt><dd>Phân kỳ–hội tụ hai lần: cho vấn đề, rồi cho giải pháp.</dd>
+        <dt>HCD process</dt><dd>Quan sát → phát ý → bản mẫu → kiểm thử, lặp lại.</dd>
+      </dl>
+    </div>
+    <div class="gloss-group">
+      <h3><a href="chapter7.html">Chương 7 · Thiết kế trong thế giới kinh doanh</a></h3>
+      <dl>
+        <dt>Featuritis</dt><dd>Bệnh nghiện tính năng do áp lực cạnh tranh.</dd>
+        <dt>Đổi mới tiệm tiến / đột phá</dt><dd>Cải tiến từng bước vs. thay đổi tận gốc.</dd>
+        <dt>Nghĩa vụ đạo đức</dt><dd>Bền vững, nhân văn, tôn trọng con người.</dd>
+      </dl>
+    </div>
+  </div>
+
+</article>
+
+<nav class="pager">
+  <a href="index.html"><span class="dir">← Về</span><span class="ttl">Trang mục lục</span></a>
+  <a class="next" href="chapter1.html"><span class="dir">Bắt đầu đọc →</span><span class="ttl">Chương 1</span></a>
+</nav>
+</div>
+</main>
+
+<footer><div class="wrap">Tóm tắt tiếng Việt · <em>The Design of Everyday Things</em> (Don Norman, 2013).</div></footer>
+</body>
+</html>

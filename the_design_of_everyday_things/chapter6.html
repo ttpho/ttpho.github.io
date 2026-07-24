@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chương 6 — Tư duy thiết kế</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="home" href="index.html">DOET · Tóm tắt</a>
+    <nav class="nav">
+      <a href="chapter1.html">1</a>
+      <a href="chapter2.html">2</a>
+      <a href="chapter3.html">3</a>
+      <a href="chapter4.html">4</a>
+      <a href="chapter5.html">5</a>
+      <a href="chapter6.html" class="active">6</a>
+      <a href="chapter7.html">7</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Chương 6</div>
+    <h1>Tư duy thiết kế</h1>
+    <p class="sub">Nhà thiết kế giỏi không vội giải bài toán được giao — họ dừng lại để chắc chắn mình đang giải <em>đúng</em> bài toán.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+<article>
+
+  <p class="lead">Đừng tin ngay vào vấn đề được nêu ra. Vấn đề mà khách hàng hay người dùng mô tả thường chỉ là triệu chứng; công việc đầu tiên của nhà thiết kế là tìm ra <strong>vấn đề thật</strong>.</p>
+
+  <h2>Giải đúng bài toán</h2>
+  <p>Norman lấy một quy tắc kinh điển của kỹ thuật: đừng lao vào giải bài toán được đưa ra, vì nó hiếm khi là bài toán cốt lõi. Nhà thiết kế cần lùi lại, đặt câu hỏi, quan sát để hiểu vấn đề nền tảng thực sự. Giải xuất sắc một bài toán sai vẫn là thất bại.</p>
+
+  <h2>Mô hình Kim cương kép (Double-Diamond)</h2>
+  <p>Do Hội đồng Thiết kế Anh (British Design Council) đề xuất, mô hình này mô tả thiết kế qua hai giai đoạn, mỗi giai đoạn có một pha <em>mở rộng</em> (phân kỳ) rồi <em>thu hẹp</em> (hội tụ):</p>
+  <div class="concept-grid">
+    <div class="concept">
+      <h4>Kim cương 1 — Tìm đúng vấn đề</h4>
+      <p><strong>Mở:</strong> khám phá rộng, nghi ngờ đề bài, xem xét nhiều góc nhìn. <strong>Đóng:</strong> hội tụ để định nghĩa chính xác vấn đề cần giải.</p>
+    </div>
+    <div class="concept">
+      <h4>Kim cương 2 — Tìm đúng giải pháp</h4>
+      <p><strong>Mở:</strong> phát sinh thật nhiều ý tưởng, không vội phán xét. <strong>Đóng:</strong> hội tụ, thử nghiệm và chọn ra giải pháp tốt nhất.</p>
+    </div>
+  </div>
+  <figure class="diagram">
+    <svg viewBox="0 0 760 300" role="img" aria-label="Mô hình kim cương kép">
+      <!-- diamonds -->
+      <polygon class="svg-box-accent" points="40,150 210,55 380,150 210,245"/>
+      <polygon class="svg-box-accent" points="380,150 550,55 720,150 550,245"/>
+      <!-- center divider -->
+      <circle cx="380" cy="150" r="7" fill="var(--accent)"/>
+      <!-- top phase labels -->
+      <text class="svg-label-accent" x="210" y="30" text-anchor="middle">TÌM ĐÚNG VẤN ĐỀ</text>
+      <text class="svg-label-accent" x="550" y="30" text-anchor="middle">TÌM ĐÚNG GIẢI PHÁP</text>
+      <!-- inner labels -->
+      <text class="svg-label" x="140" y="155" text-anchor="middle" font-size="13">Khám phá</text>
+      <text class="svg-label-sm" x="140" y="172" text-anchor="middle">(mở rộng)</text>
+      <text class="svg-label" x="290" y="155" text-anchor="middle" font-size="13">Định nghĩa</text>
+      <text class="svg-label-sm" x="290" y="172" text-anchor="middle">(thu hẹp)</text>
+      <text class="svg-label" x="470" y="155" text-anchor="middle" font-size="13">Phát triển</text>
+      <text class="svg-label-sm" x="470" y="172" text-anchor="middle">(mở rộng)</text>
+      <text class="svg-label" x="630" y="155" text-anchor="middle" font-size="13">Bàn giao</text>
+      <text class="svg-label-sm" x="630" y="172" text-anchor="middle">(thu hẹp)</text>
+      <!-- bottom milestones -->
+      <text class="svg-label-sm" x="40" y="275" text-anchor="middle">Đề bài</text>
+      <text class="svg-label-sm" x="380" y="275" text-anchor="middle">Vấn đề đã xác định</text>
+      <text class="svg-label-sm" x="720" y="275" text-anchor="middle">Giải pháp</text>
+    </svg>
+    <figcaption>Hình 1 — Kim cương kép: mỗi viên là một chu kỳ "phân kỳ → hội tụ". Viên trái làm rõ <em>vấn đề</em>, viên phải tạo ra <em>giải pháp</em>.</figcaption>
+  </figure>
+
+  <p>Điểm mấu chốt: sự "phân kỳ rồi hội tụ" lặp lại hai lần — trước hết cho <em>vấn đề</em>, sau đó cho <em>giải pháp</em>.</p>
+
+  <h2>Quy trình thiết kế lấy con người làm trung tâm (HCD)</h2>
+  <p>Bên trong hai viên kim cương là một vòng lặp bốn hoạt động, thực hiện đi thực hiện lại:</p>
+  <ol>
+    <li><strong>Quan sát (Observation):</strong> nghiên cứu người dùng thật trong bối cảnh thật của họ.</li>
+    <li><strong>Phát sinh ý tưởng (Idea generation / Ideation):</strong> tạo ra thật nhiều phương án, tạm gác phê phán.</li>
+    <li><strong>Tạo bản mẫu (Prototyping):</strong> dựng nhanh phiên bản thử để có cái sờ nắm được.</li>
+    <li><strong>Kiểm thử (Testing):</strong> cho người dùng thật trải nghiệm bản mẫu và học từ họ.</li>
+  </ol>
+  <figure class="diagram">
+    <svg viewBox="0 0 760 300" role="img" aria-label="Vòng lặp thiết kế lấy con người làm trung tâm">
+      <defs>
+        <marker id="a6" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <!-- four nodes around a circle -->
+      <circle class="svg-box-accent" cx="380" cy="55" r="46"/>
+      <text class="svg-label-accent" x="380" y="52" text-anchor="middle" font-size="13">Quan sát</text>
+      <text class="svg-label-sm" x="380" y="70" text-anchor="middle">Observe</text>
+
+      <circle class="svg-box-accent" cx="620" cy="150" r="46"/>
+      <text class="svg-label-accent" x="620" y="147" text-anchor="middle" font-size="13">Phát ý</text>
+      <text class="svg-label-sm" x="620" y="165" text-anchor="middle">Ideate</text>
+
+      <circle class="svg-box-accent" cx="380" cy="245" r="46"/>
+      <text class="svg-label-accent" x="380" y="242" text-anchor="middle" font-size="13">Bản mẫu</text>
+      <text class="svg-label-sm" x="380" y="260" text-anchor="middle">Prototype</text>
+
+      <circle class="svg-box-accent" cx="140" cy="150" r="46"/>
+      <text class="svg-label-accent" x="140" y="147" text-anchor="middle" font-size="13">Kiểm thử</text>
+      <text class="svg-label-sm" x="140" y="165" text-anchor="middle">Test</text>
+
+      <!-- arrows clockwise -->
+      <path class="svg-line-accent" d="M424,78 C500,100 540,110 585,128" marker-end="url(#a6)"/>
+      <path class="svg-line-accent" d="M585,172 C540,190 500,200 424,222" marker-end="url(#a6)"/>
+      <path class="svg-line-accent" d="M336,222 C260,200 220,190 175,172" marker-end="url(#a6)"/>
+      <path class="svg-line-accent" d="M175,128 C220,110 260,100 336,78" marker-end="url(#a6)"/>
+      <text class="svg-label-sm" x="380" y="155" text-anchor="middle">lặp đến khi hội tụ</text>
+    </svg>
+    <figcaption>Hình 2 — Vòng lặp HCD chạy đi chạy lại; mỗi vòng làm rõ thêm cả vấn đề lẫn giải pháp.</figcaption>
+  </figure>
+
+  <p class="lead">Sau đó lặp lại (Iteration): mỗi vòng lặp giúp hiểu vấn đề và giải pháp sâu hơn.</p>
+
+  <h3>Nghiên cứu thiết kế ≠ nghiên cứu thị trường</h3>
+  <p>Norman phân biệt rõ: <strong>nghiên cứu thị trường</strong> (khảo sát, dữ liệu bán hàng) cho biết người ta <em>mua</em> gì và <em>nói</em> gì; còn <strong>nghiên cứu thiết kế</strong> (quan sát sâu, dân tộc học ứng dụng) cho biết người ta <em>thật sự cần</em> và <em>thật sự làm</em> gì. Người dùng thường không nói được điều họ cần — phải quan sát mới thấy. Quan sát chỉ cần một số ít người dùng đại diện, không cần mẫu lớn như nghiên cứu thị trường.</p>
+
+  <h2>Thiết kế lấy hoạt động vs. lấy con người làm trung tâm</h2>
+  <p>Norman bổ sung một sắc thái quan trọng: đôi khi nên thiết kế quanh <strong>hoạt động (activity)</strong> thay vì quanh từng cá nhân. Đồng hồ, xe hơi, nhạc cụ đều được thiết kế theo hoạt động chứ không "cá nhân hóa" cho mỗi người — và người dùng sẵn lòng học cách dùng nếu hoạt động được hỗ trợ tốt. Hoạt động có tính phân cấp, và thiết kế theo hoạt động giúp sản phẩm phục vụ được nhiều người trên toàn cầu.</p>
+
+  <h2>Thiết kế lặp vs. các giai đoạn tuyến tính</h2>
+  <p>Trên thực tế, thiết kế không đi thẳng một mạch từ đầu đến cuối. Nó là <strong>vòng lặp</strong>: bản mẫu ban đầu cố tình thô sơ để học nhanh và rẻ, rồi dần hội tụ. Norman cũng thẳng thắn thừa nhận trong mục "Những gì tôi vừa nói? Thực ra nó không diễn ra đúng như vậy đâu" — quy trình lý tưởng trên giấy luôn va vào thực tế lộn xộn của doanh nghiệp.</p>
+
+  <div class="callout">
+    <span class="label">Định luật Norman về phát triển sản phẩm</span>
+    <p><strong>"Ngày mà dự án sản phẩm bắt đầu, nó đã trễ tiến độ và vượt ngân sách."</strong> Áp lực thời gian và chi phí là thực tế không thể tránh; nhà thiết kế phải làm việc bên trong những ràng buộc đó chứ không phải trong một thế giới lý tưởng.</p>
+  </div>
+
+  <h2>Sản phẩm có nhiều yêu cầu xung đột nhau</h2>
+  <p>Một sản phẩm phải làm hài lòng nhiều bên: người dùng cuối, người mua (thường không phải người dùng), bộ phận kỹ thuật, sản xuất, marketing, dịch vụ hậu mãi. Các yêu cầu này thường mâu thuẫn. Ví dụ: thiết bị y tế được mua bởi bộ phận quản lý bệnh viện chứ không phải y tá dùng nó — nên tiêu chí mua có thể lệch khỏi nhu cầu người dùng thật. Thiết kế là nghệ thuật cân bằng và thương lượng giữa các yêu cầu đối chọi.</p>
+
+  <h3>Thiết kế cho những người đặc biệt &amp; vấn đề kỳ thị</h3>
+  <p>Khi thiết kế cho người khuyết tật hay người cao tuổi, cần tránh <strong>"vấn đề kỳ thị" (stigma)</strong>: một sản phẩm trông như "dụng cụ y tế cho người yếu thế" sẽ bị chính người cần nó chối bỏ. Giải pháp là thiết kế phổ quát, đẹp và bình thường hóa, để không ai cảm thấy bị gán nhãn.</p>
+
+  <h2>Tiêu chuẩn hóa và công nghệ</h2>
+  <p>Khi không thể làm cho một thứ tự-giải-thích hoàn hảo, <strong>tiêu chuẩn hóa</strong> là cứu cánh: nếu mọi đồng hồ, mọi vô-lăng, mọi bàn phím hoạt động giống nhau, ta chỉ cần học một lần. Norman minh họa bằng sự khó khăn của việc đọc giờ trên đồng hồ và những nỗ lực (thất bại) chuẩn hóa "giờ số thập phân". Bài học: tiêu chuẩn khó đạt được (đòi hỏi đồng thuận, chính trị, thời gian) và một khi công nghệ đã đi trước thì tiêu chuẩn có thể lỗi thời — nhưng chúng cực kỳ giá trị cho khả năng dùng.</p>
+
+  <h2>Cố tình làm mọi thứ khó</h2>
+  <p>Nghịch lý: đôi khi thiết kế <em>nên</em> gây khó. Với những thao tác nguy hiểm hoặc cần cân nhắc (ổ khóa an ninh, cửa thoát hiểm cần chủ đích, trò chơi, nghi thức), việc thêm ma sát là có chủ ý. "Dễ dùng" không phải lúc nào cũng là mục tiêu tối thượng.</p>
+
+  <div class="callout">
+    <span class="label">Complexity vs. Confusion</span>
+    <p><strong>Sự phức tạp là tốt; chính sự rối rắm mới là xấu.</strong> Thế giới vốn phức tạp, và công cụ phản ánh sự phức tạp đó là điều tự nhiên. Vấn đề không nằm ở số lượng chức năng mà ở chỗ thiết kế có làm cho sự phức tạp trở nên <em>dễ hiểu, có tổ chức</em> hay không.</p>
+  </div>
+
+  <p>Chương khép lại với thông điệp: thiết kế, xét cho cùng, là <strong>phát triển công nghệ cho con người</strong> — đặt nhu cầu và năng lực của con người làm điểm khởi đầu và đích đến.</p>
+
+  <section class="expand">
+    <span class="badge">Mở rộng · Tri thức ngoài sách</span>
+    <h2>Design Thinking hôm nay: từ IDEO đến Lean và Jobs-to-be-Done</h2>
+
+    <h3>Kim cương kép đã được cập nhật (2019)</h3>
+    <p>Mô hình Double Diamond do <strong>UK Design Council</strong> công bố năm 2005. Năm 2019 tổ chức này phát hành bản mở rộng <em>"Framework for Innovation"</em>, bổ sung các nguyên tắc như "lấy con người làm trung tâm", "giao tiếp trực quan", "hợp tác &amp; đồng sáng tạo" và các vòng lặp — thừa nhận rằng thực tế không tuyến tính đúng như Norman đã cảnh báo.</p>
+
+    <h3>Design Thinking kiểu Stanford d.school / IDEO</h3>
+    <p>Song song với Norman, <strong>David Kelley</strong> (IDEO) và <strong>Stanford d.school</strong> phổ biến quy trình 5 bước: <em>Empathize → Define → Ideate → Prototype → Test</em>. Tinh thần cốt lõi trùng khớp với Norman: đồng cảm với người dùng, tạo bản mẫu nhanh và rẻ để "thất bại sớm, thất bại rẻ" (fail fast).</p>
+
+    <h3>Jobs-to-be-Done: một cách "tìm đúng vấn đề" khác</h3>
+    <p>Bổ sung cho ý "giải đúng bài toán", lý thuyết <strong>Jobs-to-be-Done</strong> của <strong>Clayton Christensen</strong> đề nghị hỏi: "Khách hàng đang "thuê" sản phẩm này để hoàn thành <em>công việc</em> gì trong đời họ?". Ẩn dụ nổi tiếng: người ta không mua mũi khoan 6mm, họ mua "một cái lỗ 6mm" — hay sâu hơn nữa, mua kết quả mà cái lỗ mang lại.</p>
+
+    <div class="callout">
+      <span class="label">Lean UX &amp; vòng lặp Build–Measure–Learn</span>
+      <p>"Định luật Norman" (dự án luôn trễ và vượt ngân sách) gặp lời giải trong <strong>Lean Startup</strong> của <strong>Eric Ries</strong> (2011): thay vì hoàn thiện rồi mới ra mắt, hãy tung ra <em>MVP</em> (sản phẩm khả dụng tối thiểu), đo lường, học hỏi rồi lặp lại — chính là "thiết kế lặp" của Norman áp dụng vào khởi nghiệp và phát triển sản phẩm hiện đại.</p>
+    </div>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>Design Council (UK). "The Double Diamond" / "Framework for Innovation". <a href="https://www.designcouncil.org.uk/our-resources/the-double-diamond/">designcouncil.org.uk</a></li>
+      <li>Brown, T. <cite>Change by Design</cite>. Harper Business, 2009 — tư duy thiết kế kiểu IDEO.</li>
+      <li>Christensen, C. M. et al. <cite>Competing Against Luck: The Story of Innovation and Customer Choice</cite>. Harper Business, 2016 — Jobs-to-be-Done.</li>
+      <li>Ries, E. <cite>The Lean Startup</cite>. Crown Business, 2011.</li>
+      <li>Hasso Plattner Institute of Design (d.school), Stanford. <cite>An Introduction to Design Thinking — Process Guide</cite>.</li>
+    </ol>
+  </section>
+
+</article>
+
+<nav class="pager">
+  <a href="chapter5.html"><span class="dir">← Trước</span><span class="ttl">Chương 5 · Lỗi con người? Không, thiết kế tồi</span></a>
+  <a class="next" href="chapter7.html"><span class="dir">Tiếp →</span><span class="ttl">Chương 7 · Thiết kế trong thế giới kinh doanh</span></a>
+</nav>
+</div>
+</main>
+
+<footer><div class="wrap">Tóm tắt tiếng Việt · <em>The Design of Everyday Things</em> (Don Norman, 2013).</div></footer>
+</body>
+</html>

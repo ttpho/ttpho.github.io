@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chương 5 — Lỗi con người? Không, thiết kế tồi</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <a class="home" href="index.html">DOET · Tóm tắt</a>
+    <nav class="nav">
+      <a href="chapter1.html">1</a>
+      <a href="chapter2.html">2</a>
+      <a href="chapter3.html">3</a>
+      <a href="chapter4.html">4</a>
+      <a href="chapter5.html" class="active">5</a>
+      <a href="chapter6.html">6</a>
+      <a href="chapter7.html">7</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Chương 5</div>
+    <h1>Lỗi con người? Không, thiết kế tồi</h1>
+    <p class="sub">Phần lớn "lỗi con người" thực ra là lỗi thiết kế. Thay vì trách người dùng, hãy thiết kế hệ thống lường trước và khoan dung với sai sót.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+<article>
+
+  <p class="lead">Khi tai nạn xảy ra, ta quen đổ cho "lỗi con người" rồi dừng lại. Nhưng con người vốn hay sai — nhiệm vụ của thiết kế là chấp nhận điều đó và dựng nên hệ thống chống chịu được lỗi.</p>
+
+  <h2>Vì sao lại có lỗi</h2>
+  <p>Con người không phải là cỗ máy chính xác. Ta xuất sắc ở tư duy sáng tạo, linh hoạt, ứng biến — nhưng kém ở việc lặp lại chính xác, tập trung không ngơi nghỉ, ghi nhớ chi tiết tùy tiện. Khi thiết kế đòi hỏi con người hành xử như máy móc (tuyệt đối chính xác, không xao lãng), lỗi là điều tất yếu. Nhiều "lỗi" còn do các yếu tố như mệt mỏi, thiếu ngủ, căng thẳng, và <em>áp lực từ xã hội &amp; thể chế</em>.</p>
+
+  <h3>Vi phạm cố ý</h3>
+  <p>Cần phân biệt lỗi với <strong>vi phạm có chủ đích</strong> — khi người ta cố tình bỏ qua quy tắc an toàn (thường vì quy tắc phi thực tế hoặc vì áp lực năng suất). Đây không hẳn là "lỗi" theo nghĩa tâm lý, mà là hệ quả của bối cảnh tổ chức đặt con người vào thế phải chọn giữa an toàn và hoàn thành công việc.</p>
+
+  <h2>Phân tích nguyên nhân gốc &amp; "Năm câu hỏi Tại sao"</h2>
+  <div class="callout">
+    <span class="label">Công cụ tư duy</span>
+    <p><strong>Root Cause Analysis:</strong> đừng dừng ở triệu chứng bề mặt. <strong>Kỹ thuật "Năm lần hỏi Tại sao" (Five Whys)</strong> của Toyota: cứ hỏi "tại sao?" nhiều lần liên tiếp để truy về nguyên nhân sâu xa thật sự. Thường thì nguyên nhân cuối cùng không phải "người vận hành bất cẩn" mà là một khiếm khuyết trong thiết kế hoặc quy trình.</p>
+  </div>
+
+  <h2>Hai loại lỗi: Sai sót (Slips) và Nhầm lẫn (Mistakes)</h2>
+  <p>Đây là phân loại nền tảng của cả chương:</p>
+  <div class="concept-grid">
+    <div class="concept">
+      <h4>Slip — Sai sót</h4>
+      <p>Mục tiêu <em>đúng</em> nhưng hành động thực hiện <em>sai</em>. Bạn biết mình muốn gì nhưng cơ thể/thao tác đi lệch. Thường xảy ra với việc quen thuộc làm trong vô thức.</p>
+    </div>
+    <div class="concept">
+      <h4>Mistake — Nhầm lẫn</h4>
+      <p>Chính <em>mục tiêu hoặc kế hoạch đã sai</em>. Bạn thực hiện đúng ý định, nhưng ý định đó dựa trên hiểu biết sai về tình huống. Nghiêm trọng và khó phát hiện hơn.</p>
+    </div>
+  </div>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 760 380" role="img" aria-label="Phân loại lỗi con người">
+      <defs>
+        <marker id="a5" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+      <rect class="svg-box-accent" x="290" y="15" width="180" height="52" rx="12"/>
+      <text class="svg-label-accent" x="380" y="47" text-anchor="middle" font-size="15">LỖI CON NGƯỜI</text>
+      <!-- branches -->
+      <path class="svg-line" d="M330,67 C260,90 190,90 190,108" marker-end="url(#a5)"/>
+      <path class="svg-line" d="M430,67 C520,90 585,90 585,108" marker-end="url(#a5)"/>
+      <rect class="svg-box" x="70" y="110" width="240" height="60" rx="10"/>
+      <text class="svg-label-accent" x="190" y="136" text-anchor="middle">SAI SÓT (Slips)</text>
+      <text class="svg-label-sm" x="190" y="156" text-anchor="middle">Mục tiêu đúng · hành động sai</text>
+      <rect class="svg-box" x="465" y="110" width="240" height="60" rx="10"/>
+      <text class="svg-label-accent" x="585" y="136" text-anchor="middle">NHẦM LẪN (Mistakes)</text>
+      <text class="svg-label-sm" x="585" y="156" text-anchor="middle">Mục tiêu / kế hoạch sai</text>
+      <!-- slip subtypes -->
+      <text class="svg-label-sm" x="90" y="210">• Bị "bắt cóc" (capture)</text>
+      <text class="svg-label-sm" x="90" y="236">• Tương tự mô tả</text>
+      <text class="svg-label-sm" x="90" y="262">• Quên trong bộ nhớ</text>
+      <text class="svg-label-sm" x="90" y="288">• Nhầm chế độ (mode)</text>
+      <text class="svg-label-sm" x="90" y="330" fill="var(--muted)">Vô thức · thao tác quen thuộc</text>
+      <!-- mistake subtypes -->
+      <text class="svg-label-sm" x="485" y="210">• Theo quy tắc (rule-based)</text>
+      <text class="svg-label-sm" x="485" y="236">• Theo tri thức (knowledge-based)</text>
+      <text class="svg-label-sm" x="485" y="262">• Do quên (memory-lapse)</text>
+      <text class="svg-label-sm" x="485" y="330" fill="var(--muted)">Ý thức · phán đoán sai tình huống</text>
+    </svg>
+    <figcaption>Hình 1 — Cây phân loại lỗi: sai sót nằm ở khâu <em>thực thi</em>, nhầm lẫn nằm ở khâu <em>lập kế hoạch/đánh giá</em>.</figcaption>
+  </figure>
+
+  <h3>Phân loại sai sót (Slips)</h3>
+  <ul>
+    <li><strong>Sai sót do bị "bắt cóc" (capture):</strong> một chuỗi hành động quen thuộc hơn "chiếm quyền" chuỗi bạn định làm.</li>
+    <li><strong>Sai sót do tương tự mô tả (description-similarity):</strong> hành động đúng nhưng lên nhầm đối tượng giống nhau (bỏ đồ vào thùng rác thay vì bồn rửa).</li>
+    <li><strong>Sai sót do quên trong bộ nhớ (memory-lapse):</strong> quên một bước, bỏ dở giữa chừng (để quên bản gốc trong máy photocopy).</li>
+    <li><strong>Sai sót do nhầm chế độ (mode-error):</strong> hành động đúng nhưng thiết bị đang ở chế độ khác với bạn tưởng.</li>
+  </ul>
+
+  <h3>Phân loại nhầm lẫn (Mistakes)</h3>
+  <ul>
+    <li><strong>Nhầm lẫn theo quy tắc (rule-based):</strong> chẩn đoán sai tình huống nên áp dụng nhầm quy tắc.</li>
+    <li><strong>Nhầm lẫn theo tri thức (knowledge-based):</strong> gặp tình huống lạ, không có quy tắc, mô hình khái niệm sai dẫn tới quyết định sai.</li>
+    <li><strong>Nhầm lẫn do quên (memory-lapse):</strong> quên mất mục tiêu hoặc bước trong quá trình đánh giá.</li>
+  </ul>
+
+  <h2>Áp lực xã hội và thể chế</h2>
+  <p>Norman phân tích các thảm họa (hàng không, y tế) để cho thấy lỗi hiếm khi do một cá nhân. Áp lực hoàn thành đúng lịch, thứ bậc quyền lực khiến cấp dưới ngại lên tiếng, văn hóa đổ lỗi khiến người ta giấu sai sót — tất cả cùng góp phần. Ví dụ về ngành hàng không cho thấy cách phân vai và văn hóa buồng lái ảnh hưởng tới an toàn.</p>
+
+  <h2>Báo cáo và phát hiện lỗi</h2>
+  <p>Muốn học từ lỗi, tổ chức phải khiến việc <strong>báo cáo lỗi</strong> trở nên an toàn và được khuyến khích, thay vì trừng phạt. Norman ca ngợi <strong>Hệ thống Báo cáo An toàn Hàng không của NASA (ASRS)</strong>: người báo cáo lỗi của chính mình được miễn trừ hình phạt, nhờ đó dữ liệu sai sót được thu thập để cải tiến hệ thống cho tất cả.</p>
+
+  <div class="callout">
+    <span class="label">Case study: Toyota</span>
+    <p><strong>Jidoka</strong> — bất kỳ công nhân nào phát hiện vấn đề đều có quyền (và trách nhiệm) dừng cả dây chuyền để khắc phục ngay tại chỗ. <strong>Poka-yoke</strong> — "chống nhầm": thêm những ràng buộc vật lý đơn giản khiến thao tác sai trở nên bất khả thi (một chi tiết chỉ lắp được đúng chiều).</p>
+  </div>
+
+  <h2>Vì sao ta "giải thích cho qua" nhầm lẫn</h2>
+  <p>Con người có xu hướng bào chữa cho các dấu hiệu bất thường ("chắc không sao đâu"), nên nhầm lẫn thường không được phát hiện cho đến khi quá muộn. Norman kể ví dụ <strong>rẽ nhầm trên cao tốc</strong> và cách ta liên tục hợp lý hóa thay vì thừa nhận sai. Thêm vào đó, <strong>ảo giác của cái nhìn hồi cố (hindsight)</strong>: sau khi biết kết quả, chuỗi sự kiện tưởng như hiển nhiên và đáng lẽ phải thấy trước — nhưng tại thời điểm xảy ra, nó không hề rõ ràng. Điều này khiến ta đánh giá bất công những người trong cuộc.</p>
+
+  <h2>Bài học thiết kế từ nghiên cứu về lỗi</h2>
+  <ol>
+    <li><strong>Thêm ràng buộc để chặn lỗi:</strong> làm cho hành động sai khó hoặc không thể thực hiện.</li>
+    <li><strong>Cung cấp lệnh Hoàn tác (Undo):</strong> khiến lỗi có thể đảo ngược, giảm hậu quả.</li>
+    <li><strong>Xác nhận &amp; thông báo lỗi:</strong> nhưng phải khéo — hỏi xác nhận quá nhiều khiến người dùng bấm "OK" theo phản xạ.</li>
+    <li><strong>Kiểm tra hợp lý (sensibility checks):</strong> hệ thống cảnh báo khi giá trị nhập vào phi lý (ví dụ liều thuốc gấp 10 lần bình thường).</li>
+    <li><strong>Giảm thiểu sai sót:</strong> thiết kế thao tác khác biệt rõ ràng, tránh các bước giống nhau dễ lẫn.</li>
+  </ol>
+
+  <h2>Mô hình "lát phô mai Thụy Sĩ"</h2>
+  <p>Norman giới thiệu <strong>Swiss Cheese Model</strong> của James Reason: mỗi lớp phòng vệ như một lát phô mai có lỗ; tai nạn chỉ xảy ra khi các lỗ ở nhiều lớp <em>tình cờ thẳng hàng</em>. Hàm ý thiết kế: đừng dựa vào một lớp phòng vệ duy nhất; hãy thêm nhiều lớp và giữ cho các "lỗ" không trùng nhau. Loại bỏ một nguyên nhân đơn lẻ hiếm khi ngăn được tai nạn — cần cách tiếp cận hệ thống.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 760 260" role="img" aria-label="Mô hình lát phô mai Thụy Sĩ">
+      <defs>
+        <marker id="a5b" markerWidth="11" markerHeight="11" refX="9" refY="3.5" orient="auto">
+          <path d="M0,0 L9,3.5 L0,7 Z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+      <text class="svg-label-sm" x="30" y="40">Nguy cơ</text>
+      <!-- four slices -->
+      <g>
+        <rect class="svg-box" x="140" y="40" width="70" height="180" rx="8"/>
+        <circle cx="175" cy="120" r="16" fill="var(--bg)" stroke="var(--border)"/>
+        <circle cx="175" cy="180" r="12" fill="var(--bg)" stroke="var(--border)"/>
+      </g>
+      <g>
+        <rect class="svg-box" x="270" y="40" width="70" height="180" rx="8"/>
+        <circle cx="305" cy="120" r="16" fill="var(--bg)" stroke="var(--border)"/>
+        <circle cx="305" cy="70" r="11" fill="var(--bg)" stroke="var(--border)"/>
+      </g>
+      <g>
+        <rect class="svg-box" x="400" y="40" width="70" height="180" rx="8"/>
+        <circle cx="435" cy="120" r="16" fill="var(--bg)" stroke="var(--border)"/>
+        <circle cx="435" cy="185" r="10" fill="var(--bg)" stroke="var(--border)"/>
+      </g>
+      <g>
+        <rect class="svg-box" x="530" y="40" width="70" height="180" rx="8"/>
+        <circle cx="565" cy="120" r="16" fill="var(--bg)" stroke="var(--border)"/>
+        <circle cx="565" cy="65" r="12" fill="var(--bg)" stroke="var(--border)"/>
+      </g>
+      <!-- trajectory through aligned holes at y=120 -->
+      <line class="svg-line-accent" x1="60" y1="120" x2="640" y2="120" stroke-dasharray="7 5" marker-end="url(#a5b)"/>
+      <text class="svg-label-accent" x="655" y="124">Tai nạn</text>
+      <text class="svg-label-sm" x="175" y="245" text-anchor="middle">Lớp 1</text>
+      <text class="svg-label-sm" x="305" y="245" text-anchor="middle">Lớp 2</text>
+      <text class="svg-label-sm" x="435" y="245" text-anchor="middle">Lớp 3</text>
+      <text class="svg-label-sm" x="565" y="245" text-anchor="middle">Lớp 4</text>
+    </svg>
+    <figcaption>Hình 2 — Nhiều lớp phòng vệ, mỗi lớp đều có "lỗ" (điểm yếu). Tai nạn chỉ xuyên qua khi các lỗ tình cờ thẳng hàng — nên hãy tăng số lớp và lệch vị trí các lỗ.</figcaption>
+  </figure>
+
+  <h2>Khi con người thực sự có lỗi &amp; Kỹ thuật khả năng chống chịu</h2>
+  <p>Norman thừa nhận có những trường hợp con người thực sự đáng trách, nhưng đó là ngoại lệ hiếm. Ông cũng bàn về <strong>resilience engineering</strong> (kỹ thuật giúp hệ thống phục hồi và thích ứng trước sự cố) và <strong>nghịch lý của tự động hóa</strong>: tự động hóa xử lý tốt phần dễ, nhưng khi nó gặp tình huống ngoài khả năng và đột ngột "trả tay lái" cho con người, người vận hành lại không đủ ngữ cảnh để ứng phó kịp.</p>
+
+  <div class="callout">
+    <span class="label">Nguyên tắc thiết kế cho lỗi</span>
+    <p>Hiểu nguyên nhân lỗi và thiết kế để giảm thiểu chúng · Cho phép hoàn tác, hoặc khiến hành động khó-đảo-ngược khó thực hiện · Giúp phát hiện lỗi dễ dàng và sửa chữa đơn giản · Đừng coi hành động sai là lỗi — hãy giúp người dùng hoàn thành đúng mục tiêu. <strong>Hãy đối xử với con người như con người.</strong></p>
+  </div>
+
+  <section class="expand">
+    <span class="badge">Mở rộng · Tri thức ngoài sách</span>
+    <h2>Từ "lỗi con người" đến văn hóa an toàn hệ thống</h2>
+
+    <h3>James Reason và bước ngoặt tư duy về an toàn</h3>
+    <p>Phân loại slip/mistake và mô hình phô mai đều bắt nguồn từ nhà tâm lý học <strong>James Reason</strong> (<cite>Human Error</cite>, 1990). Ông phân biệt <em>active failures</em> (lỗi tức thời của người ở tuyến đầu) với <em>latent conditions</em> (điều kiện tiềm ẩn do quyết định quản lý/thiết kế gieo mầm từ trước). Bước ngoặt: thay vì hỏi "ai sai?", hãy hỏi "hệ thống nào để lỗi này xảy ra?".</p>
+
+    <h3>Just Culture — Sidney Dekker</h3>
+    <p>Norman kêu gọi báo cáo lỗi không bị trừng phạt; tư tưởng này được <strong>Sidney Dekker</strong> phát triển thành khái niệm <em>Just Culture</em> (văn hóa công bằng): phân biệt lỗi trung thực (cần học hỏi) với sự liều lĩnh/cố ý (cần chịu trách nhiệm). Dekker cũng phê phán mạnh khái niệm "human error" như một <em>kết luận</em>, cho rằng nó nên là <em>điểm khởi đầu</em> của điều tra. Hệ thống ASRS của NASA mà Norman ca ngợi là hiện thân sớm của tư tưởng này.</p>
+
+    <h3>Checklist — vũ khí đơn giản chống lỗi trí nhớ</h3>
+    <p>Ý về danh mục kiểm tra (checklist) được bác sĩ phẫu thuật <strong>Atul Gawande</strong> chứng minh sức mạnh trong <cite>The Checklist Manifesto</cite> (2009): một checklist phẫu thuật 19 mục do WHO triển khai đã giảm đáng kể biến chứng và tử vong tại nhiều bệnh viện trên thế giới — bằng chứng thực nghiệm rằng thiết kế quy trình chống được lỗi trí nhớ của cả chuyên gia.</p>
+
+    <div class="callout">
+      <span class="label">Nghịch lý tự động hóa hôm nay</span>
+      <p>"Nghịch lý của tự động hóa" mà Norman nêu càng nóng với xe tự lái và AI: khi hệ thống xử lý 99% tình huống, con người mất tập trung và mất kỹ năng, nên đúng vào 1% khẩn cấp lại phản ứng kém nhất. Các vụ điều tra của NTSB về xe bán tự lái đều xoáy vào vấn đề "automation complacency" (tự mãn với tự động hóa) này.</p>
+    </div>
+
+    <h3>Tài liệu tham khảo</h3>
+    <ol class="refs">
+      <li>Reason, J. <cite>Human Error</cite>. Cambridge University Press, 1990 — nguồn của mô hình phô mai Thụy Sĩ.</li>
+      <li>Dekker, S. <cite>Just Culture: Balancing Safety and Accountability</cite>. Ashgate, 2007.</li>
+      <li>Gawande, A. <cite>The Checklist Manifesto: How to Get Things Right</cite>. Metropolitan Books, 2009.</li>
+      <li>Haynes, A. B. et al. "A Surgical Safety Checklist to Reduce Morbidity and Mortality". <cite>New England Journal of Medicine</cite>, 360, 2009.</li>
+      <li>NASA. <cite>Aviation Safety Reporting System (ASRS)</cite>. <a href="https://asrs.arc.nasa.gov/">asrs.arc.nasa.gov</a></li>
+    </ol>
+  </section>
+
+</article>
+
+<nav class="pager">
+  <a href="chapter4.html"><span class="dir">← Trước</span><span class="ttl">Chương 4 · Ràng buộc, khám phá &amp; phản hồi</span></a>
+  <a class="next" href="chapter6.html"><span class="dir">Tiếp →</span><span class="ttl">Chương 6 · Tư duy thiết kế</span></a>
+</nav>
+</div>
+</main>
+
+<footer><div class="wrap">Tóm tắt tiếng Việt · <em>The Design of Everyday Things</em> (Don Norman, 2013).</div></footer>
+</body>
+</html>
