@@ -203,7 +203,8 @@ Lapras Pokemon Re-ment Circular Diorama Collection Figure From Japan
 
 Pop Melody
 
-<img width="2048" height="2048" alt="image" src="https://github.com/user-attachments/assets/5612bed5-158d-403a-82c6-6dd2231c023d" />
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/4a3761e5-64a8-4305-8cf0-1bb1f29c0cb5" />
+
 
 https://www.re-ment.co.jp/product/r70061
 
