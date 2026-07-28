@@ -201,12 +201,16 @@ Lapras Pokemon Re-ment Circular Diorama Collection Figure From Japan
 
 #### Wishlist
 
+Pop Melody
+
+<img width="2048" height="2048" alt="image" src="https://github.com/user-attachments/assets/5612bed5-158d-403a-82c6-6dd2231c023d" />
+
+https://www.re-ment.co.jp/product/r70061
+
+
 Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/b515ff8d-1336-4858-a531-238b74ed0efb" />
-
-
-
 
 
 Pokemon Starrium RE-MENT Lapras
