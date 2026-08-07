@@ -1,0 +1,984 @@
+---
+layout: post
+title: "Hypebol $y=\\dfrac{ax+b}{x+c}$ đi qua ba đỉnh tam giác $ABC$"
+subtitle: "Từ toạ độ $A, B, C$ dựng công thức tường minh cho bốn hypebol vuông đi qua ba đỉnh và lần lượt qua trọng tâm $G$, trực tâm $H$, tâm ngoại tiếp $O$, tâm nội tiếp $I$ — hoá ra chúng là Kiepert, Jerabek, Feuerbach, và tất cả đều cắt nhau đúng tại bốn điểm $A, B, C, H$. Minh hoạ tương tác bằng HTML5 Canvas."
+tags: [math, canvas]
+full-width: true
+---
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypebol y=(ax+b)/(x+c) trong tam giác ABC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+        integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+        integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false});"></script>
+    <style>
+        #cv {
+            touch-action: none;
+            display: block;
+            width: 100%;
+            border-radius: 0.75rem;
+            background: #ffffff;
+            cursor: grab;
+        }
+
+        #cv.dragging { cursor: grabbing; }
+
+        .swatch {
+            display: inline-block;
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 3px;
+            vertical-align: -1px;
+        }
+
+        .katex { font-size: 1em; }
+
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; }
+
+        table.tbl { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
+        table.tbl th, table.tbl td { padding: 0.35rem 0.5rem; border-bottom: 1px solid #f1f5f9; text-align: left; }
+        table.tbl th { background: #f8fafc; font-weight: 600; color: #475569; }
+        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+<main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- ============ MỞ ĐẦU ============ -->
+    <section class="space-y-4">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Hypebol $y=\dfrac{ax+b}{x+c}$ và tam giác $ABC$</h2>
+        <p class="text-lg text-slate-600">
+            Hàm phân thức bậc nhất trên bậc nhất $y=\dfrac{ax+b}{x+c}$ mà ta gặp từ phổ thông thực ra là một
+            <strong>hypebol vuông</strong> (hypebol đều) rất đặc biệt. Bài viết này đi tìm câu trả lời cho một câu hỏi
+            đơn giản: <em>cho tam giác $ABC$ trong mặt phẳng $Oxy$, hypebol dạng đó đi qua $A$, $B$, $C$ và một tâm
+            của tam giác trông như thế nào?</em>
+        </p>
+        <p class="text-slate-600">
+            Câu trả lời dẫn thẳng tới ba đường cong cổ điển mang tên <strong>Kiepert</strong>, <strong>Jerabek</strong>,
+            <strong>Feuerbach</strong>, và tới một hệ quả gọn gàng đến bất ngờ: <strong>cả bốn hypebol đều đi qua trực tâm
+            $H$</strong>, nên chúng đôi một cắt nhau đúng tại $A, B, C, H$ chứ không ở đâu khác.
+        </p>
+    </section>
+
+    <!-- ============ 1. DẠNG CHUẨN ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">1. $y=\dfrac{ax+b}{x+c}$ là hypebol gì?</h3>
+        <p>Nhân chéo, phương trình tương đương với một conic:</p>
+        <p>$$ y(x+c) = ax+b \iff \boxed{\;xy + c\,y - a\,x - b = 0\;} $$</p>
+        <p>
+            Đặt $k = b - ac$. Khi $k \ne 0$ ta viết lại được thành
+            $$ (x+c)\,(y-a) = k, $$
+            tức là đồ thị $xy=k$ được tịnh tiến sao cho tâm về $(-c,\;a)$. Vậy:
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-slate-700">
+            <li>Hai tiệm cận là $x=-c$ và $y=a$ — <strong>vuông góc với nhau</strong> và song song với hai trục toạ độ.</li>
+            <li>Tâm đối xứng là $\;\Omega=(-c,\;a)$.</li>
+            <li>Nếu $k=0$ thì đường suy biến thành cặp đường thẳng $x=-c$ và $y=a$.</li>
+        </ul>
+        <p class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
+            <strong>Chú ý bậc tự do.</strong> Bộ $(a,b,c)$ chỉ có $3$ tham số, nên nói chung nó chỉ đủ để đi qua
+            <strong>$3$ điểm</strong>. Muốn đi qua $4$ điểm $A,B,C,P$ thì phải nới thêm một bậc tự do: ta
+            <strong>cho phép quay hệ trục</strong> một góc $\theta$. Trong hệ $OXY$ quay đi góc $\theta$, đường cong vẫn
+            có đúng dạng $Y=\dfrac{aX+b}{X+c}$ — chỉ là hai tiệm cận vuông góc của nó nghiêng đi góc $\theta$ so với hai
+            trục ban đầu. Bốn tham số $(a,b,c,\theta)$ khớp đúng với $4$ điểm.
+        </p>
+    </section>
+
+    <!-- ============ 2. CONIC & ĐIỀU KIỆN VUÔNG ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">2. Ngôn ngữ conic: điều kiện "hypebol vuông"</h3>
+        <p>Xét conic tổng quát</p>
+        <p>$$ \mathcal S(x,y)\;=\;\alpha x^{2}+\beta xy+\gamma y^{2}+\delta x+\varepsilon y+\zeta\;=\;0 .$$</p>
+        <p>
+            Phép quay góc $\theta$ (thay $x = X\cos\theta - Y\sin\theta,\; y = X\sin\theta + Y\cos\theta$) biến
+            $(\alpha,\beta,\gamma)$ thành $(\alpha',\beta',\gamma')$ với $\alpha'+\gamma' = \alpha+\gamma$ — tổng này là
+            <strong>bất biến quay</strong>. Mà dạng $xy+cy-ax-b=0$ có $\alpha=\gamma=0$. Do đó:
+        </p>
+        <p class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+            <strong>Mệnh đề.</strong> Conic $\mathcal S$ viết được dưới dạng $Y=\dfrac{aX+b}{X+c}$ trong <em>một</em> hệ trục
+            trực chuẩn quay đi góc $\theta$ nào đó $\iff \alpha+\gamma = 0$, tức $\mathcal S$ là <strong>hypebol vuông</strong>
+            (hai tiệm cận vuông góc). Góc quay lấy từ
+            $$\tan 2\theta = -\frac{2\alpha}{\beta}, \qquad \theta=\tfrac12\operatorname{atan2}(-2\alpha,\;\beta).$$
+        </p>
+        <p>Sau khi quay, chia cho hệ số $\beta'$ ta đọc ra ngay</p>
+        <p>$$ a=-\frac{\delta'}{\beta'},\qquad c=\frac{\varepsilon'}{\beta'},\qquad b=-\frac{\zeta'}{\beta'}, $$</p>
+        <p>trong đó $\delta'=\delta\cos\theta+\varepsilon\sin\theta$, $\varepsilon'=-\delta\sin\theta+\varepsilon\cos\theta$, $\zeta'=\zeta$ và $\beta'=2(\gamma-\alpha)\sin\theta\cos\theta+\beta(\cos^2\theta-\sin^2\theta)$.</p>
+    </section>
+
+    <!-- ============ 3. CÔNG THỨC TỔNG QUÁT ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">3. Công thức hypebol qua $A,B,C$ và một điểm $P$</h3>
+        <p>
+            Ký hiệu $L_{XY}(x,y)=p\,x+q\,y+r$ là phương trình đường thẳng $XY$, với vectơ pháp
+            $\mathbf n_{XY}=(p,q)=\big(y_Y-y_X,\; x_X-x_Y\big)$.
+        </p>
+        <p>
+            Tích $L_{AB}\cdot L_{CP}$ là một conic suy biến (cặp đường thẳng) đi qua cả bốn điểm $A,B,C,P$;
+            $L_{AC}\cdot L_{BP}$ cũng vậy. Mọi conic qua bốn điểm đó nằm trong <strong>chùm</strong>
+        </p>
+        <p>$$ \mathcal S_{\lambda:\mu} \;=\; \lambda\, L_{AB}L_{CP} \;+\; \mu\, L_{AC}L_{BP}. $$</p>
+        <p>
+            Với tích hai đường thẳng, hệ số $x^2$ là $p_1p_2$ và hệ số $y^2$ là $q_1q_2$, nên
+            $\alpha+\gamma=\mathbf n_1\!\cdot\!\mathbf n_2$. Quay cả hai pháp vectơ đi $90^\circ$ không đổi tích vô hướng,
+            vậy $\mathbf n_{AB}\!\cdot\!\mathbf n_{CP} = \overrightarrow{AB}\cdot\overrightarrow{CP}$. Áp điều kiện vuông
+            $\alpha+\gamma=0$:
+        </p>
+        <p>$$ \lambda\,\big(\overrightarrow{AB}\cdot\overrightarrow{CP}\big) + \mu\,\big(\overrightarrow{AC}\cdot\overrightarrow{BP}\big) = 0 .$$</p>
+        <p class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">
+            <strong>Kết quả chính.</strong> Hypebol vuông duy nhất qua $A,B,C,P$ là
+            $$\mathcal H_P:\quad \big(\overrightarrow{AC}\cdot\overrightarrow{BP}\big)\; L_{AB}\,L_{CP}\;-\;\big(\overrightarrow{AB}\cdot\overrightarrow{CP}\big)\; L_{AC}\,L_{BP}\;=\;0 .$$
+            Chỉ cần cộng trừ nhân chia toạ độ $A,B,C,P$ — không cần giải hệ.
+        </p>
+        <p>
+            Khai triển ra $(\alpha,\beta,\gamma,\delta,\varepsilon,\zeta)$ rồi áp mục 2 là được $(a,b,c,\theta)$.
+        </p>
+        <p class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg">
+            <strong>Trường hợp suy biến $P=H$.</strong> Vì $BH\perp AC$ và $CH\perp AB$ nên
+            $\overrightarrow{AC}\cdot\overrightarrow{BH}=0$ và $\overrightarrow{AB}\cdot\overrightarrow{CH}=0$: cả hai hệ số
+            $\lambda,\mu$ triệt tiêu, điều kiện trở nên <em>vô hiệu</em>. Nghĩa là <strong>mọi</strong> conic trong chùm qua
+            $A,B,C,H$ đều đã là hypebol vuông sẵn. Đây chính là định lý Brianchon–Poncelet, và nó rơi ra ngay từ công thức.
+            Ta sẽ chọn một đại diện đặc biệt ở mục 4.
+        </p>
+    </section>
+
+    <!-- ============ 4. HYPEBOL 2 ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">4. Hypebol $\mathcal H_2$: qua $A,B,C,H$ với tiệm cận song song trục</h3>
+        <p>
+            Vì cả chùm qua $A,B,C,H$ đều là hypebol vuông, ta chọn đúng thành viên có $\theta = 0$ — tức
+            <em>viết được ngay trong hệ $Oxy$ ban đầu</em> dưới dạng $y=\dfrac{ax+b}{x+c}$, không cần quay. Thay
+            $A,B,C$ vào $xy+cy-ax-b=0$ được hệ tuyến tính $3\times 3$ theo $(a,c,b)$:
+        </p>
+        <p>$$ \begin{pmatrix} x_A & -y_A & 1\\ x_B & -y_B & 1\\ x_C & -y_C & 1\end{pmatrix}\begin{pmatrix}a\\c\\b\end{pmatrix}=\begin{pmatrix}x_Ay_A\\x_By_B\\x_Cy_C\end{pmatrix}. $$</p>
+        <p>Định thức của ma trận trên bằng $-\Delta$ với $\Delta$ là hai lần diện tích đại số $\ne 0$, nên nghiệm luôn tồn tại và duy nhất. Quy tắc Cramer cho công thức đóng:</p>
+        <p>
+            $$ a=\frac{K_1}{\Delta},\qquad b=\frac{K_3}{\Delta},\qquad c=\frac{K_2}{\Delta}, $$
+            $$ \Delta=\begin{vmatrix}x_A&y_A&1\\x_B&y_B&1\\x_C&y_C&1\end{vmatrix},\quad
+               K_1=\begin{vmatrix}x_Ay_A&y_A&1\\x_By_B&y_B&1\\x_Cy_C&y_C&1\end{vmatrix},\quad
+               K_2=\begin{vmatrix}x_Ay_A&x_A&1\\x_By_B&x_B&1\\x_Cy_C&x_C&1\end{vmatrix},\quad
+               K_3=\begin{vmatrix}x_A&y_A&x_Ay_A\\x_B&y_B&x_By_B\\x_C&y_C&x_Cy_C\end{vmatrix}. $$
+        </p>
+        <p class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+            Đường này tự động đi qua $H$ (vì nó là hypebol vuông ngoại tiếp), có hai tiệm cận $x=-c$, $y=a$ và tâm
+            $\Omega_2=(-c,\;a)$. Nó là đường duy nhất trong cả bài viết được cho bởi $y=\dfrac{ax+b}{x+c}$
+            <em>ngay trong hệ trục gốc</em>.
+        </p>
+    </section>
+
+    <!-- ============ 5. BỐN TÂM ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">5. Toạ độ bốn tâm theo $A,B,C$</h3>
+        <p>Đặt $\ell_a=|BC|,\;\ell_b=|CA|,\;\ell_c=|AB|$ và $\Delta=\begin{vmatrix}x_A&y_A&1\\x_B&y_B&1\\x_C&y_C&1\end{vmatrix}$.</p>
+        <div class="overflow-x-auto">
+        <table class="tbl">
+            <thead><tr><th>Tâm</th><th>Định nghĩa</th><th>Toạ độ</th></tr></thead>
+            <tbody>
+                <tr><td class="font-semibold">$G$</td><td>giao ba trung tuyến</td><td>$G=\dfrac{A+B+C}{3}$</td></tr>
+                <tr><td class="font-semibold">$O$</td><td>giao ba trung trực</td>
+                    <td>$x_O=\dfrac{1}{2\Delta}\begin{vmatrix}|A|^2&y_A&1\\|B|^2&y_B&1\\|C|^2&y_C&1\end{vmatrix},\quad
+                        y_O=\dfrac{1}{2\Delta}\begin{vmatrix}x_A&|A|^2&1\\x_B&|B|^2&1\\x_C&|C|^2&1\end{vmatrix}$</td></tr>
+                <tr><td class="font-semibold">$H$</td><td>giao ba đường cao</td><td>$H=A+B+C-2O$ &nbsp;(hệ thức $\overrightarrow{OH}=\overrightarrow{OA}+\overrightarrow{OB}+\overrightarrow{OC}$)</td></tr>
+                <tr><td class="font-semibold">$I$</td><td>giao ba phân giác trong</td><td>$I=\dfrac{\ell_a A+\ell_b B+\ell_c C}{\ell_a+\ell_b+\ell_c}$</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p class="text-sm text-slate-500">Ở đây $|A|^2=x_A^2+y_A^2$.</p>
+        <p>Thay lần lượt $P=G,\;O,\;I$ vào công thức mục 3 (và dùng mục 4 cho $P=H$) ta được bốn đường cần tìm:</p>
+        <div class="overflow-x-auto">
+        <table class="tbl">
+            <thead><tr><th>#</th><th>Đi qua</th><th>Tên cổ điển</th><th>Tâm của hypebol</th></tr></thead>
+            <tbody>
+                <tr><td><span class="swatch" style="background:#059669"></span> $\mathcal H_1$</td><td>$A,B,C,G$</td><td><strong>Hypebol Kiepert</strong></td><td>$X_{115}$</td></tr>
+                <tr><td><span class="swatch" style="background:#4f46e5"></span> $\mathcal H_2$</td><td>$A,B,C,H$</td><td>thành viên tiệm cận song song trục</td><td>$(-c,\,a)$</td></tr>
+                <tr><td><span class="swatch" style="background:#d97706"></span> $\mathcal H_3$</td><td>$A,B,C,O$</td><td><strong>Hypebol Jerabek</strong></td><td>$X_{125}$</td></tr>
+                <tr><td><span class="swatch" style="background:#e11d48"></span> $\mathcal H_4$</td><td>$A,B,C,I$</td><td><strong>Hypebol Feuerbach</strong></td><td>$X_{11}$ — điểm Feuerbach</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </section>
+
+    <!-- ============ 6. MỐI QUAN HỆ ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">6. Mối quan hệ giữa bốn hypebol</h3>
+
+        <div class="space-y-4">
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <p class="font-semibold text-slate-900">R1. Tất cả đều đi qua trực tâm $H$.</p>
+                <p class="text-slate-700 mt-1">
+                    Định lý Brianchon–Poncelet: <em>một conic ngoại tiếp tam giác $ABC$ là hypebol vuông khi và chỉ khi nó đi qua $H$.</em>
+                    Ta đã dựng $\mathcal H_1,\mathcal H_3,\mathcal H_4$ bằng đúng điều kiện vuông, nên chúng "được tặng thêm"
+                    điểm thứ năm là $H$. Vậy
+                    $$\mathcal H_1 \ni \{A,B,C,G,H\},\quad \mathcal H_3 \ni \{A,B,C,O,H\},\quad \mathcal H_4 \ni \{A,B,C,I,H\}.$$
+                </p>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <p class="font-semibold text-slate-900">R2. Cả bốn nằm trong <em>cùng một chùm conic</em>.</p>
+                <p class="text-slate-700 mt-1">
+                    Bốn điểm cơ sở chung là $A,B,C,H$. Chùm đó viết được bằng đúng hai cặp đường thẳng:
+                    $$\mathcal P_\tau:\; \cos\tau\;\big(L_{AB}L_{CH}\big)\;+\;\sin\tau\;\big(L_{AC}L_{BH}\big)=0,\qquad \tau\in[0,\pi).$$
+                    Mọi thành viên đều là hypebol vuông; $\mathcal H_1,\mathcal H_2,\mathcal H_3,\mathcal H_4$ ứng với bốn giá trị $\tau$ khác nhau.
+                    Ba thành viên suy biến của chùm là ba cặp đường thẳng $(AB,CH)$, $(AC,BH)$, $(BC,AH)$.
+                </p>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <p class="font-semibold text-slate-900">R3. Hai đường bất kỳ trong bốn cắt nhau đúng tại $A,B,C,H$.</p>
+                <p class="text-slate-700 mt-1">
+                    Định lý Bézout: hai conic phân biệt cắt nhau tại đúng $4$ điểm (kể cả bội và phức). Bốn điểm đó đã là
+                    $A,B,C,H$ — nên <strong>không còn giao điểm nào khác</strong>. Kéo thả tam giác bên dưới sẽ thấy bốn đường
+                    luôn "chụm" đúng vào bốn điểm này.
+                </p>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <p class="font-semibold text-slate-900">R4. Bốn tâm của bốn hypebol cùng nằm trên đường tròn Euler.</p>
+                <p class="text-slate-700 mt-1">
+                    Tâm của mọi hypebol vuông ngoại tiếp $ABC$ nằm trên <strong>đường tròn chín điểm</strong> (tâm
+                    $N=\tfrac{O+H}{2}$, bán kính $R/2$). Khi $\tau$ chạy khắp $[0,\pi)$ trong R2, tâm của
+                    $\mathcal P_\tau$ chạy khắp đường tròn này. Riêng $\mathcal H_4$ có tâm là <strong>điểm Feuerbach</strong> —
+                    tiếp điểm của đường tròn nội tiếp và đường tròn chín điểm.
+                </p>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <p class="font-semibold text-slate-900">R5. Góc nhìn liên hợp đẳng giác: ba đường thẳng qua $O$.</p>
+                <p class="text-slate-700 mt-1">
+                    Liên hợp đẳng giác biến một đường thẳng $\ell$ thành một conic ngoại tiếp, và conic đó là hypebol vuông
+                    $\iff \ell$ đi qua $O$. Ba đường thẳng quen thuộc qua $O$ cho đúng ba hypebol của ta:
+                </p>
+                <ul class="list-disc list-inside mt-2 text-slate-700 space-y-1">
+                    <li>trục Brocard $OK\;\longrightarrow\;$ <strong>Kiepert</strong> $\mathcal H_1$;</li>
+                    <li>đường thẳng Euler $OGH\;\longrightarrow\;$ <strong>Jerabek</strong> $\mathcal H_3$;</li>
+                    <li>đường thẳng $OI\;\longrightarrow\;$ <strong>Feuerbach</strong> $\mathcal H_4$.</li>
+                </ul>
+                <p class="text-slate-700 mt-2">
+                    Hệ quả kèm theo, kiểm chứng được trên hình: $\mathcal H_1$ còn đi qua hai điểm Fermat, $\mathcal H_3$ đi qua
+                    điểm Lemoine $K$, $\mathcal H_4$ đi qua điểm Nagel và điểm Gergonne.
+                </p>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <p class="font-semibold text-slate-900">R6. Khi nào suy biến?</p>
+                <p class="text-slate-700 mt-1">
+                    $\mathcal H_P$ suy biến thành cặp đường thẳng khi $P$ nằm trên một cạnh kéo dài, hoặc khi tam giác có
+                    tính đối xứng làm điểm $P$ rơi lên trục đối xứng cùng $H$. Ví dụ tam giác cân tại $A$: $G$, $H$, $O$, $I$
+                    cùng nằm trên trung trực của $BC$, và $\mathcal H_1,\mathcal H_3,\mathcal H_4$ đều suy biến thành cặp
+                    (trục đối xứng, đường thẳng $BC$). Tam giác đều thì $G\equiv H\equiv O\equiv I$ và cả ba mất nghĩa.
+                    Hãy thử nút <em>“Gần cân”</em> bên dưới.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CANVAS ============ -->
+    <section class="space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">7. Minh hoạ tương tác</h3>
+        <p class="text-slate-600">
+            Kéo thả <strong>$A$, $B$, $C$</strong> để đổi tam giác. Kéo nền để di chuyển hệ trục, lăn chuột để phóng to/thu nhỏ.
+        </p>
+
+        <div class="grid lg:grid-cols-3 gap-4">
+            <!-- canvas -->
+            <div class="lg:col-span-2 card p-3">
+                <canvas id="cv"></canvas>
+                <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 mt-3 px-1">
+                    <span><span class="swatch" style="background:#059669"></span> $\mathcal H_1$ Kiepert (qua $G$)</span>
+                    <span><span class="swatch" style="background:#4f46e5"></span> $\mathcal H_2$ tiệm cận ∥ trục (qua $H$)</span>
+                    <span><span class="swatch" style="background:#d97706"></span> $\mathcal H_3$ Jerabek (qua $O$)</span>
+                    <span><span class="swatch" style="background:#e11d48"></span> $\mathcal H_4$ Feuerbach (qua $I$)</span>
+                    <span><span class="swatch" style="background:#7c3aed"></span> đường tròn Euler</span>
+                </div>
+            </div>
+
+            <!-- controls -->
+            <div class="card p-4 space-y-4 text-sm">
+                <div>
+                    <p class="font-semibold text-slate-800 mb-2">Hiện / ẩn</p>
+                    <div class="grid grid-cols-1 gap-1.5" id="toggles"></div>
+                </div>
+
+                <div>
+                    <p class="font-semibold text-slate-800 mb-2">Chùm $\mathcal P_\tau$ (R2)</p>
+                    <label class="flex items-center gap-2 mb-2">
+                        <input type="checkbox" id="chk-pencil" class="w-4 h-4 accent-slate-500">
+                        <span>Hiện một thành viên bất kỳ</span>
+                    </label>
+                    <input type="range" id="tau" min="0" max="1000" value="270" class="w-full accent-slate-500">
+                    <p class="text-xs text-slate-500 mt-1">Tâm của nó luôn chạy trên đường tròn Euler.</p>
+                </div>
+
+                <div>
+                    <p class="font-semibold text-slate-800 mb-2">Tam giác mẫu</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button data-preset="acute"  class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition">Nhọn</button>
+                        <button data-preset="obtuse" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition">Tù</button>
+                        <button data-preset="iso"    class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition">Gần cân</button>
+                        <button data-preset="rand"   class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 transition">Ngẫu nhiên</button>
+                        <button data-preset="reset"  class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition">Đặt lại khung nhìn</button>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="font-semibold text-slate-800 mb-2">Toạ độ</p>
+                    <div id="coords" class="mono text-xs space-y-0.5 text-slate-600"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CÔNG THỨC ĐỘNG ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">8. Bốn công thức $y=\dfrac{ax+b}{x+c}$ của tam giác hiện tại</h3>
+        <p class="text-slate-600 text-sm">
+            Với $\mathcal H_1,\mathcal H_3,\mathcal H_4$, công thức được viết trong hệ trục $OXY$ quay đi góc $\theta$:
+            $X=x\cos\theta+y\sin\theta$, $Y=-x\sin\theta+y\cos\theta$. Với $\mathcal H_2$ thì $\theta=0$ nên đó là hệ $Oxy$ gốc.
+        </p>
+        <div id="formulas" class="grid md:grid-cols-2 gap-4"></div>
+    </section>
+
+    <!-- ============ KIỂM CHỨNG ============ -->
+    <section class="card p-6 space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">9. Bảng kiểm chứng số (cập nhật khi kéo thả)</h3>
+        <p class="text-slate-600 text-sm">
+            Sai số dưới đây là $|\mathcal S(P)|$ đã chuẩn hoá — chúng phải luôn ở mức nhiễu dấu phẩy động ($\sim 10^{-15}$).
+        </p>
+        <div class="overflow-x-auto">
+            <table class="tbl mono" id="check"></table>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="tbl mono" id="check2"></table>
+        </div>
+    </section>
+
+    <!-- ============ KẾT ============ -->
+    <section class="card p-6 space-y-3">
+        <h3 class="text-2xl font-bold text-slate-900">10. Tóm tắt</h3>
+        <ol class="list-decimal list-inside space-y-2 text-slate-700">
+            <li>$y=\dfrac{ax+b}{x+c}$ chính là hypebol vuông có tiệm cận song song hai trục, tâm $(-c,a)$.</li>
+            <li>Cho phép quay hệ trục thêm góc $\theta$ thì họ này trở thành <em>toàn bộ</em> họ hypebol vuông — $4$ tham số, khớp đúng $4$ điểm.</li>
+            <li>Công thức đóng: $\mathcal H_P=\big(\overrightarrow{AC}\cdot\overrightarrow{BP}\big)L_{AB}L_{CP}-\big(\overrightarrow{AB}\cdot\overrightarrow{CP}\big)L_{AC}L_{BP}$.</li>
+            <li>Với $P=H$ công thức tự triệt tiêu — đúng bằng định lý Brianchon–Poncelet; ta thay bằng nghiệm Cramer cho $\theta=0$.</li>
+            <li>Bốn đường thu được là Kiepert, Jerabek, Feuerbach và thành viên "song song trục"; chúng cùng một chùm, cùng đi qua $A,B,C,H$, và bốn tâm cùng nằm trên đường tròn Euler.</li>
+        </ol>
+    </section>
+
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
+
+    /* ---------------- vector & linear algebra ---------------- */
+    const V  = (x, y) => ({ x: x, y: y });
+    const sub = (P, Q) => V(P.x - Q.x, P.y - Q.y);
+    const dot = (u, v) => u.x * v.x + u.y * v.y;
+    const norm = u => Math.hypot(u.x, u.y);
+    const dist = (P, Q) => Math.hypot(P.x - Q.x, P.y - Q.y);
+
+    function det3(m) {
+        return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+             - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+             + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+    }
+
+    /* ---------------- conics ---------------- */
+    // S = al*x^2 + be*x*y + ga*y^2 + de*x + ep*y + ze
+    const lineOf = (X, Y) => {
+        const p = Y.y - X.y, q = X.x - Y.x;
+        return { p: p, q: q, r: -(p * X.x + q * X.y) };
+    };
+    const mulLines = (L1, L2) => ({
+        al: L1.p * L2.p,
+        be: L1.p * L2.q + L1.q * L2.p,
+        ga: L1.q * L2.q,
+        de: L1.p * L2.r + L1.r * L2.p,
+        ep: L1.q * L2.r + L1.r * L2.q,
+        ze: L1.r * L2.r
+    });
+    const combine = (k1, S1, k2, S2) => ({
+        al: k1 * S1.al + k2 * S2.al, be: k1 * S1.be + k2 * S2.be, ga: k1 * S1.ga + k2 * S2.ga,
+        de: k1 * S1.de + k2 * S2.de, ep: k1 * S1.ep + k2 * S2.ep, ze: k1 * S1.ze + k2 * S2.ze
+    });
+    const evalConic = (S, P) =>
+        S.al * P.x * P.x + S.be * P.x * P.y + S.ga * P.y * P.y + S.de * P.x + S.ep * P.y + S.ze;
+    const conicScale = S => Math.max(
+        Math.abs(S.al), Math.abs(S.be), Math.abs(S.ga),
+        Math.abs(S.de), Math.abs(S.ep), Math.abs(S.ze), 1e-300);
+
+    // hypebol vuông qua A,B,C,P  (mục 3)
+    function rectHyperbola(A, B, C, P) {
+        const T1 = dot(sub(B, A), sub(P, C));   // AB . CP
+        const T2 = dot(sub(C, A), sub(P, B));   // AC . BP
+        return combine(T2, mulLines(lineOf(A, B), lineOf(C, P)),
+                      -T1, mulLines(lineOf(A, C), lineOf(B, P)));
+    }
+
+    // thành viên chùm qua A,B,C,H theo tham số tau (mục 6/R2)
+    function pencilMember(A, B, C, H, tau) {
+        return combine(Math.cos(tau), mulLines(lineOf(A, B), lineOf(C, H)),
+                       Math.sin(tau), mulLines(lineOf(A, C), lineOf(B, H)));
+    }
+
+    // hypebol tiệm cận song song trục qua A,B,C  (mục 4, Cramer)
+    function axisParallel(A, B, C) {
+        const D  = det3([[A.x, A.y, 1], [B.x, B.y, 1], [C.x, C.y, 1]]);
+        const K1 = det3([[A.x * A.y, A.y, 1], [B.x * B.y, B.y, 1], [C.x * C.y, C.y, 1]]);
+        const K2 = det3([[A.x * A.y, A.x, 1], [B.x * B.y, B.x, 1], [C.x * C.y, C.x, 1]]);
+        const K3 = det3([[A.x, A.y, A.x * A.y], [B.x, B.y, B.x * B.y], [C.x, C.y, C.x * C.y]]);
+        const a = K1 / D, c = K2 / D, b = K3 / D;
+        return { S: { al: 0, be: 1, ga: 0, de: -a, ep: c, ze: -b }, a: a, b: b, c: c };
+    }
+
+    // đưa conic vuông về dạng chuẩn Y=(aX+b)/(X+c) trong hệ quay góc th
+    function canonical(S) {
+        const th = 0.5 * Math.atan2(-2 * S.al, S.be);
+        const C0 = Math.cos(th), S0 = Math.sin(th);
+        const be2 = 2 * (S.ga - S.al) * S0 * C0 + S.be * (C0 * C0 - S0 * S0);
+        const de2 = S.de * C0 + S.ep * S0;
+        const ep2 = -S.de * S0 + S.ep * C0;
+        if (!isFinite(be2) || Math.abs(be2) < 1e-12 * conicScale(S)) return null;
+        const a = -de2 / be2, c = ep2 / be2, b = -S.ze / be2;
+        const k = b - a * c;
+        return { th: th, cos: C0, sin: S0, a: a, b: b, c: c, k: k };
+    }
+
+    const conicCenter = S => {
+        const d = 4 * S.al * S.ga - S.be * S.be;
+        if (Math.abs(d) < 1e-14) return null;
+        return V((-2 * S.ga * S.de + S.be * S.ep) / d, (S.be * S.de - 2 * S.al * S.ep) / d);
+    };
+
+    /* ---------------- triangle centers ---------------- */
+    function centers(A, B, C) {
+        const G = V((A.x + B.x + C.x) / 3, (A.y + B.y + C.y) / 3);
+        const D = 2 * det3([[A.x, A.y, 1], [B.x, B.y, 1], [C.x, C.y, 1]]);
+        const na = A.x * A.x + A.y * A.y, nb = B.x * B.x + B.y * B.y, nc = C.x * C.x + C.y * C.y;
+        const O = V(det3([[na, A.y, 1], [nb, B.y, 1], [nc, C.y, 1]]) / D,
+                    det3([[A.x, na, 1], [B.x, nb, 1], [C.x, nc, 1]]) / D);
+        const H = V(A.x + B.x + C.x - 2 * O.x, A.y + B.y + C.y - 2 * O.y);
+        const la = dist(B, C), lb = dist(C, A), lc = dist(A, B), s = la + lb + lc;
+        const I = V((la * A.x + lb * B.x + lc * C.x) / s, (la * A.y + lb * B.y + lc * C.y) / s);
+        const N = V((O.x + H.x) / 2, (O.y + H.y) / 2);
+        const R = dist(O, A);
+        const area = Math.abs(det3([[A.x, A.y, 1], [B.x, B.y, 1], [C.x, C.y, 1]])) / 2;
+        return { G: G, O: O, H: H, I: I, N: N, R: R, r: area / (s / 2), la: la, lb: lb, lc: lc, area: area };
+    }
+
+    /* ---------------- state ---------------- */
+    const PRESETS = {
+        acute:  [V(-3.1, -1.7), V(4.3, -2.2), V(0.9, 3.6)],
+        obtuse: [V(-4.5, -2.4), V(4.8, -2.4), V(3.0, 2.2)],
+        iso:    [V(-3.0, -2.0), V(3.0, -2.0), V(0.15, 3.9)]
+    };
+    let A = PRESETS.acute[0], B = PRESETS.acute[1], C = PRESETS.acute[2];
+
+    const view = { cx: 0, cy: 0, scale: 46 };   // px per unit
+    let drag = null, panning = null;
+
+    const show = {
+        h1: true, h2: true, h3: true, h4: true,
+        asym: false, npc: true, circum: false, incircle: false,
+        euler: false, cevians: false, hcenters: true
+    };
+    const TOGGLES = [
+        ['h1', '$\\mathcal H_1$ Kiepert (qua $G$)', '#059669'],
+        ['h2', '$\\mathcal H_2$ tiệm cận ∥ trục (qua $H$)', '#4f46e5'],
+        ['h3', '$\\mathcal H_3$ Jerabek (qua $O$)', '#d97706'],
+        ['h4', '$\\mathcal H_4$ Feuerbach (qua $I$)', '#e11d48'],
+        ['asym', 'Tiệm cận của các hypebol', '#94a3b8'],
+        ['hcenters', 'Tâm của các hypebol', '#7c3aed'],
+        ['npc', 'Đường tròn chín điểm (Euler)', '#7c3aed'],
+        ['euler', 'Đường thẳng Euler $OGH$', '#0891b2'],
+        ['circum', 'Đường tròn ngoại tiếp', '#cbd5e1'],
+        ['incircle', 'Đường tròn nội tiếp', '#cbd5e1'],
+        ['cevians', 'Trung tuyến / đường cao / trung trực / phân giác', '#cbd5e1']
+    ];
+
+    const COL = { h1: '#059669', h2: '#4f46e5', h3: '#d97706', h4: '#e11d48', pencil: '#64748b' };
+
+    /* ---------------- canvas ---------------- */
+    const cv = document.getElementById('cv');
+    const ctx = cv.getContext('2d');
+    let W = 800, Hh = 520;
+
+    function resize() {
+        const dpr = window.devicePixelRatio || 1;
+        W = cv.clientWidth;
+        Hh = Math.max(360, Math.min(620, Math.round(W * 0.66)));
+        cv.style.height = Hh + 'px';
+        cv.width = Math.round(W * dpr);
+        cv.height = Math.round(Hh * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw();
+    }
+
+    const sx = x => W / 2 + (x - view.cx) * view.scale;
+    const sy = y => Hh / 2 - (y - view.cy) * view.scale;
+    const wx = px => (px - W / 2) / view.scale + view.cx;
+    const wy = py => (Hh / 2 - py) / view.scale + view.cy;
+    const viewBox = () => ({
+        x0: wx(0), x1: wx(W), y0: wy(Hh), y1: wy(0)
+    });
+
+    /* ---------------- drawing helpers ---------------- */
+    function drawGrid() {
+        const vb = viewBox();
+        const raw = 80 / view.scale;
+        const pow = Math.pow(10, Math.floor(Math.log10(raw)));
+        const cand = [1, 2, 5, 10].map(m => m * pow);
+        const step = cand.find(s => s >= raw) || pow * 10;
+
+        ctx.lineWidth = 1;
+        ctx.font = '11px ui-monospace, monospace';
+        ctx.fillStyle = '#94a3b8';
+
+        for (let i = Math.ceil(vb.x0 / step); i * step <= vb.x1; i++) {
+            const X = sx(i * step);
+            ctx.strokeStyle = i === 0 ? '#cbd5e1' : '#f1f5f9';
+            ctx.beginPath(); ctx.moveTo(X, 0); ctx.lineTo(X, Hh); ctx.stroke();
+        }
+        for (let j = Math.ceil(vb.y0 / step); j * step <= vb.y1; j++) {
+            const Y = sy(j * step);
+            ctx.strokeStyle = j === 0 ? '#cbd5e1' : '#f1f5f9';
+            ctx.beginPath(); ctx.moveTo(0, Y); ctx.lineTo(W, Y); ctx.stroke();
+        }
+        // axes
+        const ax = Math.max(0, Math.min(Hh, sy(0))), ay = Math.max(0, Math.min(W, sx(0)));
+        ctx.strokeStyle = '#64748b'; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(0, ax); ctx.lineTo(W, ax); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ay, 0); ctx.lineTo(ay, Hh); ctx.stroke();
+        ctx.fillStyle = '#475569';
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.fillText('x', W - 14, ax + 4);
+        ctx.fillText('y', ay + 5, 4);
+        // ticks
+        ctx.fillStyle = '#94a3b8'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        for (let i = Math.ceil(vb.x0 / step); i * step <= vb.x1; i++) {
+            if (i === 0) continue;
+            ctx.fillText(String(+(i * step).toFixed(6)), sx(i * step), ax + 4);
+        }
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        for (let j = Math.ceil(vb.y0 / step); j * step <= vb.y1; j++) {
+            if (j === 0) continue;
+            ctx.fillText(String(+(j * step).toFixed(6)), ay - 5, sy(j * step));
+        }
+    }
+
+    function segment(P, Q, color, width, dash) {
+        ctx.save();
+        ctx.strokeStyle = color; ctx.lineWidth = width || 1.5;
+        ctx.setLineDash(dash || []);
+        ctx.beginPath(); ctx.moveTo(sx(P.x), sy(P.y)); ctx.lineTo(sx(Q.x), sy(Q.y)); ctx.stroke();
+        ctx.restore();
+    }
+
+    // vẽ đường thẳng vô hạn p x + q y + r = 0
+    function fullLine(L, color, width, dash) {
+        const vb = viewBox(), pts = [];
+        const push = (x, y) => {
+            if (x >= vb.x0 - 1e-9 && x <= vb.x1 + 1e-9 && y >= vb.y0 - 1e-9 && y <= vb.y1 + 1e-9) pts.push(V(x, y));
+        };
+        if (Math.abs(L.q) > 1e-12) { push(vb.x0, -(L.p * vb.x0 + L.r) / L.q); push(vb.x1, -(L.p * vb.x1 + L.r) / L.q); }
+        if (Math.abs(L.p) > 1e-12) { push(-(L.q * vb.y0 + L.r) / L.p, vb.y0); push(-(L.q * vb.y1 + L.r) / L.p, vb.y1); }
+        if (pts.length >= 2) segment(pts[0], pts[pts.length - 1], color, width, dash);
+    }
+
+    function circle(Cc, R, color, width, dash) {
+        ctx.save();
+        ctx.strokeStyle = color; ctx.lineWidth = width || 1.5;
+        ctx.setLineDash(dash || []);
+        ctx.beginPath(); ctx.arc(sx(Cc.x), sy(Cc.y), R * view.scale, 0, 2 * Math.PI); ctx.stroke();
+        ctx.restore();
+    }
+
+    function marker(P, color, label, big) {
+        const R = big ? 6 : 4.5;
+        ctx.beginPath(); ctx.arc(sx(P.x), sy(P.y), R, 0, 2 * Math.PI);
+        ctx.fillStyle = color; ctx.fill();
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+        if (label) {
+            ctx.font = 'bold 13px ui-sans-serif, system-ui, sans-serif';
+            ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+            ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+            ctx.strokeText(label, sx(P.x) + 8, sy(P.y) - 6);
+            ctx.fillStyle = color;
+            ctx.fillText(label, sx(P.x) + 8, sy(P.y) - 6);
+        }
+    }
+
+    // Vẽ hypebol vuông từ dạng chuẩn: X=-c+t, Y=a+k/t rồi quay ngược về Oxy
+    function drawHyperbola(cn, color, width) {
+        if (!cn) return;
+        if (!isFinite(cn.k) || Math.abs(cn.k) < 1e-11) {   // suy biến -> 2 tiệm cận
+            drawAsymptotes(cn, color, 1.6, [7, 4]);
+            return;
+        }
+        const vb = viewBox();
+        const co = cn.cos, si = cn.sin;
+        // bbox của khung nhìn trong hệ đã quay
+        let Xmin = Infinity, Xmax = -Infinity, Ymin = Infinity, Ymax = -Infinity;
+        [[vb.x0, vb.y0], [vb.x1, vb.y0], [vb.x0, vb.y1], [vb.x1, vb.y1]].forEach(function (p) {
+            const X = p[0] * co + p[1] * si, Y = -p[0] * si + p[1] * co;
+            Xmin = Math.min(Xmin, X); Xmax = Math.max(Xmax, X);
+            Ymin = Math.min(Ymin, Y); Ymax = Math.max(Ymax, Y);
+        });
+        const tCap = Math.max(Math.abs(Xmin + cn.c), Math.abs(Xmax + cn.c)) * 1.1;
+        const yCap = Math.max(Math.abs(Ymin - cn.a), Math.abs(Ymax - cn.a)) * 1.1;
+        const tFloor = Math.abs(cn.k) / Math.max(yCap, 1e-12);
+        if (tFloor >= tCap) return;
+
+        ctx.save();
+        ctx.strokeStyle = color; ctx.lineWidth = width || 2.2;
+        ctx.lineJoin = 'round'; ctx.setLineDash([]);
+        const N = 900, l0 = Math.log(tFloor + 1e-300), l1 = Math.log(tCap);
+        [1, -1].forEach(function (sg) {
+            ctx.beginPath();
+            let started = false;
+            for (let i = 0; i <= N; i++) {
+                const t = sg * Math.exp(l0 + (l1 - l0) * i / N);
+                const X = -cn.c + t, Y = cn.a + cn.k / t;
+                const x = X * co - Y * si, y = X * si + Y * co;
+                const px = sx(x), py = sy(y);
+                const inside = px > -3000 && px < W + 3000 && py > -3000 && py < Hh + 3000;
+                if (!inside) { started = false; continue; }
+                if (!started) { ctx.moveTo(px, py); started = true; } else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+        });
+        ctx.restore();
+    }
+
+    function drawAsymptotes(cn, color, width, dash) {
+        if (!cn) return;
+        const co = cn.cos, si = cn.sin;
+        // X = -c  ->  x cos + y sin = -c
+        fullLine({ p: co, q: si, r: cn.c }, color, width || 1.1, dash || [5, 5]);
+        // Y = a   -> -x sin + y cos = a
+        fullLine({ p: -si, q: co, r: -cn.a }, color, width || 1.1, dash || [5, 5]);
+    }
+
+    /* ---------------- model per frame ---------------- */
+    function model() {
+        const ct = centers(A, B, C);
+        const ap = axisParallel(A, B, C);
+        const S1 = rectHyperbola(A, B, C, ct.G);
+        const S3 = rectHyperbola(A, B, C, ct.O);
+        const S4 = rectHyperbola(A, B, C, ct.I);
+        const tau = +document.getElementById('tau').value / 1000 * Math.PI;
+        const Sp = pencilMember(A, B, C, ct.H, tau);
+        return {
+            ct: ct,
+            h1: { S: S1, cn: canonical(S1), P: ct.G, name: '\\mathcal H_1', sub: 'Kiepert · qua G', col: COL.h1 },
+            h2: { S: ap.S, cn: { th: 0, cos: 1, sin: 0, a: ap.a, b: ap.b, c: ap.c, k: ap.b - ap.a * ap.c }, P: ct.H, name: '\\mathcal H_2', sub: 'tiệm cận ∥ trục · qua H', col: COL.h2 },
+            h3: { S: S3, cn: canonical(S3), P: ct.O, name: '\\mathcal H_3', sub: 'Jerabek · qua O', col: COL.h3 },
+            h4: { S: S4, cn: canonical(S4), P: ct.I, name: '\\mathcal H_4', sub: 'Feuerbach · qua I', col: COL.h4 },
+            pencil: { S: Sp, cn: canonical(Sp), tau: tau }
+        };
+    }
+
+    /* ---------------- main draw ---------------- */
+    let M = null;
+
+    function draw() {
+        M = model();
+        const ct = M.ct;
+        ctx.clearRect(0, 0, W, Hh);
+        drawGrid();
+
+        if (show.circum)   circle(ct.O, ct.R, '#e2e8f0', 1.4, []);
+        if (show.incircle) circle(ct.I, ct.r, '#e2e8f0', 1.4, []);
+        if (show.npc)      circle(ct.N, ct.R / 2, '#7c3aed', 1.6, [6, 4]);
+
+        if (show.cevians) {
+            const Ma = V((B.x + C.x) / 2, (B.y + C.y) / 2);
+            const Mb = V((C.x + A.x) / 2, (C.y + A.y) / 2);
+            const Mc = V((A.x + B.x) / 2, (A.y + B.y) / 2);
+            [[A, Ma], [B, Mb], [C, Mc]].forEach(s => segment(s[0], s[1], '#a7f3d0', 1.2, []));       // trung tuyến
+            [[A, ct.H], [B, ct.H], [C, ct.H]].forEach(s => segment(s[0], s[1], '#c7d2fe', 1.2, [])); // đường cao
+            [[ct.O, Ma], [ct.O, Mb], [ct.O, Mc]].forEach(s => segment(s[0], s[1], '#fde68a', 1.2, [])); // trung trực
+            [[A, ct.I], [B, ct.I], [C, ct.I]].forEach(s => segment(s[0], s[1], '#fecdd3', 1.2, []));  // phân giác
+        }
+
+        if (show.euler && dist(ct.O, ct.H) > 1e-9) fullLine(lineOf(ct.O, ct.H), '#0891b2', 1.4, [8, 4]);
+
+        if (document.getElementById('chk-pencil').checked) {
+            drawHyperbola(M.pencil.cn, 'rgba(100,116,139,0.55)', 1.6);
+            const c0 = conicCenter(M.pencil.S);
+            if (c0) marker(c0, '#64748b', null, false);
+        }
+
+        ['h1', 'h2', 'h3', 'h4'].forEach(function (k) {
+            if (show[k]) {
+                drawHyperbola(M[k].cn, M[k].col, 2.3);
+                if (show.asym) drawAsymptotes(M[k].cn, M[k].col + '80', 1, [4, 5]);
+            }
+        });
+
+        // tam giác
+        ctx.save();
+        ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 2;
+        ctx.fillStyle = 'rgba(15,23,42,0.045)';
+        ctx.beginPath();
+        ctx.moveTo(sx(A.x), sy(A.y)); ctx.lineTo(sx(B.x), sy(B.y)); ctx.lineTo(sx(C.x), sy(C.y));
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.restore();
+
+        if (show.hcenters) {
+            ['h1', 'h2', 'h3', 'h4'].forEach(function (k) {
+                if (!show[k] || !M[k].cn) return;
+                const cn = M[k].cn;
+                const X = -cn.c, Y = cn.a;
+                marker(V(X * cn.cos - Y * cn.sin, X * cn.sin + Y * cn.cos), M[k].col, null, false);
+            });
+        }
+
+        marker(ct.G, COL.h1, 'G', true);
+        marker(ct.H, COL.h2, 'H', true);
+        marker(ct.O, COL.h3, 'O', true);
+        marker(ct.I, COL.h4, 'I', true);
+        marker(A, '#0f172a', 'A', true);
+        marker(B, '#0f172a', 'B', true);
+        marker(C, '#0f172a', 'C', true);
+
+        scheduleInfo();
+    }
+
+    /* ---------------- KaTeX panels ---------------- */
+    const fmt = (v, d) => {
+        if (!isFinite(v)) return '\\infty';
+        const s = v.toFixed(d === undefined ? 4 : d);
+        return s === '-0.0000' ? '0.0000' : s;
+    };
+    const sci = v => (Math.abs(v) < 1e-300 ? '0' : v.toExponential(1));
+
+    function tex(el, s, display) {
+        if (!window.katex) { el.textContent = s; return; }
+        try { katex.render(s, el, { displayMode: !!display, throwOnError: false }); }
+        catch (e) { el.textContent = s; }
+    }
+
+    function signed(v, d) {
+        const s = fmt(Math.abs(v), d);
+        return (v < 0 ? '-' : '+') + '\\,' + s;
+    }
+
+    const FEL = {};   // k -> phần tử DOM chứa công thức (bền qua mỗi lần draw)
+
+    function buildFormulas() {
+        const box = document.getElementById('formulas');
+        box.innerHTML = '';
+        ['h1', 'h2', 'h3', 'h4'].forEach(function (k) {
+            const d = document.createElement('div');
+            d.className = 'p-4 rounded-xl border';
+            d.style.borderColor = M[k].col + '55';
+            d.style.background = M[k].col + '0d';
+            d.innerHTML = '<p class="text-sm font-semibold mb-2" style="color:' + M[k].col + '"></p>'
+                        + '<div class="ftex text-center overflow-x-auto"></div>'
+                        + '<div class="fth text-xs text-slate-500 mt-2 text-center"></div>';
+            d.querySelector('p').textContent = M[k].sub;
+            box.appendChild(d);
+            FEL[k] = d;
+        });
+    }
+
+    function updateFormulas() {
+        ['h1', 'h2', 'h3', 'h4'].forEach(function (k) {
+            const el = FEL[k]; if (!el) return;
+            const cn = M[k].cn;
+            const t = el.querySelector('.ftex'), th = el.querySelector('.fth');
+            if (!cn || !isFinite(cn.k) || Math.abs(cn.k) < 1e-11) {
+                tex(t, '\\text{suy biến thành cặp đường thẳng}', true);
+                tex(th, 'k=b-ac\\approx 0', false);
+                return;
+            }
+            const rot = (k === 'h2') ? 'x' : 'X';
+            const roty = (k === 'h2') ? 'y' : 'Y';
+            tex(t, roty + '=\\dfrac{' + fmt(cn.a) + rot + signed(cn.b) + '}{' + rot + signed(cn.c) + '}', true);
+            const deg = cn.th * 180 / Math.PI;
+            tex(th, '\\theta=' + fmt(deg, 3) + '^\\circ,\\quad k=b-ac=' + fmt(cn.k) +
+                    ',\\quad \\Omega=(' + fmt(-cn.c, 3) + ',\\;' + fmt(cn.a, 3) + ')', false);
+        });
+    }
+
+    function updateChecks() {
+        const ct = M.ct;
+        const rows = [['h1', 'G'], ['h2', 'H'], ['h3', 'O'], ['h4', 'I']];
+        let html = '<thead><tr><th>Hypebol</th><th>α+γ</th><th>|S(A)|</th><th>|S(B)|</th><th>|S(C)|</th>'
+                 + '<th>|S(P)|</th><th>|S(H)|</th></tr></thead><tbody>';
+        rows.forEach(function (rw) {
+            const o = M[rw[0]], S = o.S, sc = conicScale(S);
+            const nrm = P => Math.abs(evalConic(S, P)) / (sc * (1 + P.x * P.x + P.y * P.y));
+            html += '<tr><td style="color:' + o.col + ';font-weight:600">' + rw[0].toUpperCase()
+                 + ' (qua ' + rw[1] + ')</td>'
+                 + '<td>' + sci((S.al + S.ga) / sc) + '</td>'
+                 + '<td>' + sci(nrm(A)) + '</td><td>' + sci(nrm(B)) + '</td><td>' + sci(nrm(C)) + '</td>'
+                 + '<td>' + sci(nrm(o.P)) + '</td><td>' + sci(nrm(ct.H)) + '</td></tr>';
+        });
+        html += '</tbody>';
+        document.getElementById('check').innerHTML = html;
+
+        let h2 = '<thead><tr><th>Kiểm chứng hình học</th><th>Giá trị</th><th>Kỳ vọng</th><th>Sai lệch</th></tr></thead><tbody>';
+        ['h1', 'h2', 'h3', 'h4'].forEach(function (k) {
+            const cn = M[k].cn;
+            if (!cn) return;
+            const X = -cn.c, Y = cn.a;
+            const om = V(X * cn.cos - Y * cn.sin, X * cn.sin + Y * cn.cos);
+            const d = dist(om, ct.N);
+            h2 += '<tr><td>|Ω(' + k.toUpperCase() + ') − N| (tâm trên đtr. Euler)</td><td>' + fmt(d, 6)
+               + '</td><td>R/2 = ' + fmt(ct.R / 2, 6) + '</td><td>' + sci(Math.abs(d - ct.R / 2)) + '</td></tr>';
+        });
+        const cn4 = M.h4.cn;
+        if (cn4) {
+            const X = -cn4.c, Y = cn4.a;
+            const om = V(X * cn4.cos - Y * cn4.sin, X * cn4.sin + Y * cn4.cos);
+            const d = dist(om, ct.I);
+            h2 += '<tr><td>|Ω(H4) − I| (Ω là điểm Feuerbach)</td><td>' + fmt(d, 6)
+               + '</td><td>r = ' + fmt(ct.r, 6) + '</td><td>' + sci(Math.abs(d - ct.r)) + '</td></tr>';
+        }
+        h2 += '</tbody>';
+        document.getElementById('check2').innerHTML = h2;
+    }
+
+    function updateCoords() {
+        const ct = M.ct;
+        const p = (n, P) => n + ' = (' + fmt(P.x, 3) + ', ' + fmt(P.y, 3) + ')';
+        document.getElementById('coords').innerHTML =
+            [p('A', A), p('B', B), p('C', C), p('G', ct.G), p('H', ct.H), p('O', ct.O), p('I', ct.I)]
+            .map(s => '<div>' + s + '</div>').join('');
+    }
+
+    let infoTimer = null, lastInfo = 0;
+    function scheduleInfo() {
+        const now = performance.now();
+        if (now - lastInfo > 110) { lastInfo = now; runInfo(); return; }
+        clearTimeout(infoTimer);
+        infoTimer = setTimeout(function () { lastInfo = performance.now(); runInfo(); }, 120);
+    }
+    function runInfo() { updateFormulas(); updateChecks(); updateCoords(); }
+
+    /* ---------------- interaction ---------------- */
+    function pos(e) {
+        const r = cv.getBoundingClientRect();
+        const t = e.touches && e.touches[0] ? e.touches[0] : e;
+        return { x: t.clientX - r.left, y: t.clientY - r.top };
+    }
+    function pick(p) {
+        const pts = [['A', A], ['B', B], ['C', C]];
+        for (const q of pts) {
+            if (Math.hypot(sx(q[1].x) - p.x, sy(q[1].y) - p.y) < 15) return q[0];
+        }
+        return null;
+    }
+    function setVertex(name, P) {
+        if (name === 'A') A = P; else if (name === 'B') B = P; else C = P;
+    }
+
+    function down(e) {
+        const p = pos(e);
+        drag = pick(p);
+        if (drag) { cv.classList.add('dragging'); e.preventDefault(); return; }
+        panning = { px: p.x, py: p.y, cx: view.cx, cy: view.cy };
+        cv.classList.add('dragging');
+        e.preventDefault();
+    }
+    function move(e) {
+        const p = pos(e);
+        if (drag) {
+            const prev = (drag === 'A') ? A : (drag === 'B') ? B : C;
+            setVertex(drag, V(wx(p.x), wy(p.y)));
+            // giữ nguyên vị trí cũ nếu ba điểm sắp thẳng hàng (tam giác suy biến)
+            if (Math.abs(det3([[A.x, A.y, 1], [B.x, B.y, 1], [C.x, C.y, 1]])) < 1e-3) setVertex(drag, prev);
+            draw(); e.preventDefault();
+        } else if (panning) {
+            view.cx = panning.cx - (p.x - panning.px) / view.scale;
+            view.cy = panning.cy + (p.y - panning.py) / view.scale;
+            draw(); e.preventDefault();
+        } else {
+            cv.style.cursor = pick(p) ? 'pointer' : 'grab';
+        }
+    }
+    function up() { drag = null; panning = null; cv.classList.remove('dragging'); runInfo(); }
+
+    cv.addEventListener('mousedown', down);
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+    cv.addEventListener('touchstart', down, { passive: false });
+    cv.addEventListener('touchmove', move, { passive: false });
+    window.addEventListener('touchend', up);
+    cv.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        const p = pos(e);
+        const bx = wx(p.x), by = wy(p.y);
+        const f = Math.exp(-e.deltaY * 0.0015);
+        view.scale = Math.max(6, Math.min(400, view.scale * f));
+        view.cx = bx - (p.x - W / 2) / view.scale;
+        view.cy = by + (p.y - Hh / 2) / view.scale;
+        draw();
+    }, { passive: false });
+
+    /* ---------------- UI ---------------- */
+    const tg = document.getElementById('toggles');
+    TOGGLES.forEach(function (t) {
+        const lb = document.createElement('label');
+        lb.className = 'flex items-center gap-2 cursor-pointer';
+        lb.innerHTML = '<input type="checkbox" class="w-4 h-4" style="accent-color:' + t[2] + '"'
+                     + (show[t[0]] ? ' checked' : '') + '>'
+                     + '<span class="text-slate-700"></span>';
+        const span = lb.querySelector('span');
+        t[1].split('$').forEach(function (part, i) {
+            const s = document.createElement('span');
+            if (i % 2 === 1) tex(s, part, false); else s.textContent = part;
+            span.appendChild(s);
+        });
+        lb.querySelector('input').addEventListener('change', function (e) {
+            show[t[0]] = e.target.checked; draw();
+        });
+        tg.appendChild(lb);
+    });
+
+    document.getElementById('tau').addEventListener('input', draw);
+    document.getElementById('chk-pencil').addEventListener('change', draw);
+
+    document.querySelectorAll('[data-preset]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const k = btn.getAttribute('data-preset');
+            if (k === 'reset') { view.cx = 0; view.cy = 0; view.scale = 46; }
+            else if (k === 'rand') {
+                let ok = false, tries = 0;
+                while (!ok && tries++ < 200) {
+                    const rp = () => V((Math.random() - 0.5) * 11, (Math.random() - 0.5) * 8);
+                    const a1 = rp(), b1 = rp(), c1 = rp();
+                    const ar = Math.abs(det3([[a1.x, a1.y, 1], [b1.x, b1.y, 1], [c1.x, c1.y, 1]])) / 2;
+                    if (ar > 4) { A = a1; B = b1; C = c1; ok = true; }
+                }
+            } else { A = PRESETS[k][0]; B = PRESETS[k][1]; C = PRESETS[k][2]; }
+            draw();
+        });
+    });
+
+    window.addEventListener('resize', resize);
+
+    /* ---------------- boot ---------------- */
+    M = model();
+    buildFormulas();
+    resize();
+    runInfo();
+});
+</script>
+
+</body>
+</html>
