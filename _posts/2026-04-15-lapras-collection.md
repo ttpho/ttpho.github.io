@@ -49,7 +49,7 @@ Note:
 | Attacking Lapras﻿ Finger Puppet figure Bandai | <img width="200" alt="image" src="https://github.com/user-attachments/assets/37e9dcb5-5f19-40cd-a790-196731ac7d84" />     | 🌟   | 45    |
 | Lapras Surfing Desk | <img width="200" alt="image" src="https://github.com/user-attachments/assets/74475775-e3df-4500-bca0-945ee21b9224" />     | ⭐   | 120    |
 | Pokemon Re-ment Circular Diorama Collection  | <img width="200" alt="image" src="https://github.com/user-attachments/assets/adcf2e6a-7592-4a33-b6e2-b6a1e6a352e7" />     | 🌟   | 200   |
-
+| Pop Melody                                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4a3761e5-64a8-4305-8cf0-1bb1f29c0cb5" />     | 🌟   | 300   |
 
 
 
@@ -199,14 +199,17 @@ Lapras Pokemon Re-ment Circular Diorama Collection Figure From Japan
 <img width="460" src="https://github.com/user-attachments/assets/adcf2e6a-7592-4a33-b6e2-b6a1e6a352e7" />
 
 
-#### Wishlist
+#### Pop Melody
 
 Pop Melody
+
+https://www.re-ment.co.jp/product/r70061
 
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/4a3761e5-64a8-4305-8cf0-1bb1f29c0cb5" />
 
 
-https://www.re-ment.co.jp/product/r70061
+
+#### Wishlist
 
 
 Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
