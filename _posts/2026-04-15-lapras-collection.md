@@ -50,6 +50,7 @@ Note:
 | Lapras Surfing Desk | <img width="200" alt="image" src="https://github.com/user-attachments/assets/74475775-e3df-4500-bca0-945ee21b9224" />     | ⭐   | 120    |
 | Pokemon Re-ment Circular Diorama Collection  | <img width="200" alt="image" src="https://github.com/user-attachments/assets/adcf2e6a-7592-4a33-b6e2-b6a1e6a352e7" />     | 🌟   | 200   |
 | Pop Melody                                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4a3761e5-64a8-4305-8cf0-1bb1f29c0cb5" />     | 🌟   | 300   |
+| Starrium on a Starry Night                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />     | 🌟   | 200   |
 
 
 
@@ -208,6 +209,13 @@ https://www.re-ment.co.jp/product/r70061
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/4a3761e5-64a8-4305-8cf0-1bb1f29c0cb5" />
 
 
+### Pokémon: Starrium on a Starry Night
+
+
+Pokémon: Starrium on a Starry Night
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />
+
 
 #### Wishlist
 
@@ -222,9 +230,7 @@ Pokemon Starrium RE-MENT Lapras
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />
 
 
-LAPRAS Pokemon Center Re-Ment Petite Fleur "Seasonal Flowers" Series figure
 
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />
 
 
 
