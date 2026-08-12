@@ -225,7 +225,9 @@ Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/b515ff8d-1336-4858-a531-238b74ed0efb" />
 
 
-Pokemon Starrium RE-MENT Lapras
+
+LAPRAS Pokemon Center Re-Ment Petite Fleur "Seasonal Flowers" Series figure
+
 
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />
 
