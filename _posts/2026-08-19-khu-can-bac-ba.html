@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Khử căn bậc ba $\\sqrt[3]{a+b\\sqrt c}=q+p\\sqrt d$"
-subtitle: "Điều kiện cần và đủ để một căn bậc ba lồng nhau tháo được, cho $c$ tùy ý — kể cả khi $c$ có nhân tử chính phương: rút $c=k^2d$ về radicand squarefree, chuẩn $N=a^2-cb^2$ phải là lập phương đúng, rồi $4q^3-3mq=a$ (đúng dạng công thức nhân ba $4\\cos^3\\theta-3\\cos\\theta$) và $p=bk/(4q^2-m)$ tự động nguyên. Kèm máy khử căn tương tác, hai hình HTML5 Canvas và mã nguồn Python."
+subtitle: "Điều kiện cần và đủ để một căn bậc ba lồng nhau tháo được, cho $c$ tùy ý — kể cả khi $c$ có nhân tử chính phương: rút $c=k^2d$ về radicand squarefree, chuẩn $N=a^2-cb^2$ phải là lập phương đúng, rồi $4q^3-3mq=a$ (đúng dạng công thức nhân ba $4\\cos^3\\theta-3\\cos\\theta$) và $p=bk/(4q^2-m)$ tự động nguyên. Rồi ba mức nới lỏng: $q,p$ hữu tỉ — luôn là nửa nguyên và chỉ khi $d\\equiv1\\pmod4$; $a,b,c$ hữu tỉ; và $c&lt;0$, nơi căn bậc ba là số phức, có tới ba đáp số (chỉ khi $d=-3$) và việc khử căn đúng bằng bài toán chia ba góc. Kèm máy khử căn tương tác, hai hình HTML5 Canvas và mã nguồn Python."
 tags: [math, canvas, algorithm]
 full-width: true
 ---
@@ -102,10 +102,19 @@ full-width: true
             $b\sqrt c=(bk)\sqrt d$, nên mọi thứ quy về radicand squarefree — và khi ấy điều kiện thứ ba (tính nguyên của
             $p$) <em>tự động</em> thoả, chỉ còn hai điều kiện phải kiểm. Chi tiết ở mục 4 và 5.
         </p>
+        <p class="text-slate-600 leading-relaxed mt-3">
+            Sau đó, từ mục 12, ta <strong>tháo dần các giả thiết</strong>: cho $q,p$ hữu tỉ (đáp số hoá ra luôn là
+            <em>nửa nguyên</em>, và chỉ nửa nguyên khi $d\equiv1\pmod4$ — ví dụ
+            $\sqrt[3]{2+\sqrt5}=\tfrac{1+\sqrt5}{2}$, tỉ lệ vàng); cho $a,b,c$ hữu tỉ; rồi cho
+            <strong>$c&lt;0$</strong>, khi đó căn bậc ba là số <strong>phức</strong>, có ba giá trị, có thể có tới ba
+            đáp số cùng lúc (chỉ khi $d=-3$), và bài toán khử căn trở thành đúng bài toán <em>chia ba góc</em> —
+            $\sqrt[3]{2+11i}=2+i$ của Bombelli và chuyện không dựng được $\cos20^\circ$ nằm cùng một chỗ.
+        </p>
         <p class="text-sm text-slate-500 mt-3">
-            <strong>Giả thiết xuyên suốt:</strong> $c$ là số nguyên dương <strong>không chính phương</strong> (nên
+            <strong>Giả thiết cho mục 1–11:</strong> $c$ là số nguyên dương <strong>không chính phương</strong> (nên
             $\sqrt c$ vô tỉ; $c$ vẫn được phép <em>chứa</em> nhân tử chính phương), còn $a,b,q,p$ là các số nguyên và
-            $b\neq0$.
+            $b\neq0$. Mục 12–16 nới lần lượt từng giả thiết đó; máy khử căn phía dưới chạy sẵn <strong>bản tổng
+            quát</strong>, nên nhận cả $c$ âm và cả đáp số nửa nguyên.
         </p>
     </div>
 
@@ -113,8 +122,10 @@ full-width: true
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
         <h2 class="text-lg font-semibold text-slate-800 mb-1">Máy khử căn — thử ngay</h2>
         <p class="text-sm text-slate-500 mb-4">
-            Nhập $a,b,c$ rồi bấm <em>Khử căn</em>. Máy chạy đúng thuật toán tổng quát ở mục 5 (toàn bộ tính toán dùng số nguyên
-            lớn <span class="mono">BigInt</span> nên không sai số), và in ra từng bước để bạn đối chiếu.
+            Nhập $a,b,c$ rồi bấm <em>Khử căn</em>. Máy chạy <strong>bản tổng quát</strong> (mục 5 $+$ 12 $+$ 14): ẩn là
+            $u=2q$ nên bắt được cả đáp số <strong>nửa nguyên</strong>, và $c$ được phép <strong>âm</strong> — khi đó
+            đáp số là số phức và có thể có tới ba. Toàn bộ tính toán dùng số nguyên lớn
+            <span class="mono">BigInt</span> nên không sai số; từng bước đều in ra để bạn đối chiếu.
         </p>
 
         <div class="flex flex-col md:flex-row gap-3 md:items-end">
@@ -129,8 +140,8 @@ full-width: true
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition mono">
             </div>
             <div class="flex-1">
-                <label class="block text-xs font-semibold text-slate-500 mb-1" for="in-c">$c$ ($\geq 2$, không chính phương)</label>
-                <input id="in-c" type="number" value="2" min="2"
+                <label class="block text-xs font-semibold text-slate-500 mb-1" for="in-c">$c$ ($\neq0$, không chính phương; cho phép $c&lt;0$)</label>
+                <input id="in-c" type="number" value="2"
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition mono">
             </div>
             <button id="btn-solve"
@@ -150,6 +161,17 @@ full-width: true
             <button class="ex-btn" data-ex="5,2,3">5+2√3</button>
             <button class="ex-btn" data-ex="20,7,8">20+7√8</button>
             <button class="ex-btn" data-ex="10621,4338,6">10621+4338√6</button>
+        </div>
+        <div class="mt-2 flex flex-wrap gap-2 items-center">
+            <span class="text-xs text-slate-400 mr-1">Nửa nguyên &amp; phức:</span>
+            <button class="ex-btn" data-ex="2,1,5">2+√5</button>
+            <button class="ex-btn" data-ex="17,18,5">17+18√5</button>
+            <button class="ex-btn" data-ex="18,5,13">18+5√13</button>
+            <button class="ex-btn" data-ex="2,11,-1">2+11i</button>
+            <button class="ex-btn" data-ex="46,9,-1">46+9i</button>
+            <button class="ex-btn" data-ex="-10,9,-3">−10+9√−3</button>
+            <button class="ex-btn" data-ex="0,24,-3">24√−3</button>
+            <button class="ex-btn" data-ex="4,4,-3">4+4√−3</button>
         </div>
 
         <div id="verdict" class="mt-4"></div>
@@ -255,8 +277,10 @@ full-width: true
         <h3 class="font-semibold text-slate-900 mb-2">Hình 1 — đường bậc ba $y=4q^3-3mq$ và đường ngang $y=a$</h3>
         <p class="text-slate-600 text-sm leading-relaxed mb-3">
             Nghiệm của bài toán là <strong>giao điểm</strong> của đường cong với đường ngang $y=a$, và ta chỉ chấp nhận
-            giao điểm nằm đúng trên một vạch nguyên. Hình dưới đây tự cập nhật theo $a,b,c$ bạn nhập ở máy khử căn phía
-            trên (bấm <em>Khử căn</em> để vẽ lại).
+            giao điểm nằm đúng trên một vạch nguyên — hoặc <em>nửa nguyên</em> khi $d\equiv1\pmod4$ (mục 12), khi đó
+            hình vẽ thêm các vạch xám nhạt. Hình dưới đây tự cập nhật theo $a,b,c$ bạn nhập ở máy khử căn phía
+            trên (bấm <em>Khử căn</em> để vẽ lại); nhập $c&lt;0$ thì sẽ thấy $y=a$ chui vào <em>trong</em> dải vàng và có
+            ba giao điểm (mục 14).
         </p>
         <canvas id="cv-cubic" class="plot"></canvas>
         <div id="cubic-note" class="text-xs text-slate-500 mt-2 leading-relaxed"></div>
@@ -275,7 +299,8 @@ full-width: true
             <p class="text-slate-700 text-sm leading-relaxed">
                 Hệ quả thực dụng: không cần lo "chọn nghiệm nào" — cứ tìm thấy là xong. Và vì nghiệm thực duy nhất đó
                 bằng $\tfrac12\big(\sqrt[3]{a+b\sqrt c}+\sqrt[3]{a-b\sqrt c}\big)$, ta còn có cách tính $q$ tức thời
-                (mục 9).
+                (mục 9). Toàn bộ lập luận này dựa vào $cb^2>0$: với $c&lt;0$ thì dấu đảo, $y=a$ luôn nằm
+                <em>trong</em> dải và bài toán có <strong>ba</strong> nghiệm thực — đó là nội dung mục 14.
             </p>
         </div>
     </div>
@@ -571,10 +596,12 @@ full-width: true
             $p=\dfrac{bk}{4q^2-m}$. Không có trường hợp thứ ba.
         </p>
         <p class="text-xs text-slate-500 mt-3">
-            Ghi chú: nếu cho phép $q,p$ <strong>hữu tỉ</strong> thì phát biểu vẫn đúng với "lập phương của một số hữu
-            tỉ"; ví dụ $\sqrt[3]{20+7\sqrt8}=2+\tfrac12\sqrt8$ — cùng một số, chỉ khác cách viết. Còn nếu đòi khử về
-            dạng có <em>căn khác</em> (chẳng hạn $u+v\sqrt[3]{w}$) thì đó là bài toán denesting tổng quát, khó hơn nhiều
-            và không thuộc phạm vi bài này.
+            Ghi chú: câu "không có trường hợp thứ ba" ở trên là <em>trong khuôn khổ $q,p$ nguyên</em>. Nếu cho phép
+            $q,p$ <strong>hữu tỉ</strong> thì rào cản 2 hẹp lại đáng kể — điều kiện đúng là "$u^3-3mu=2a$ có nghiệm
+            nguyên $u=2q$", và $\sqrt[3]{2+\sqrt5}=\tfrac{1+\sqrt5}{2}$ là ví dụ bị phiên bản nguyên loại oan
+            (mục 12). Hai ví dụ ở rào cản 2 phía trên thì <strong>vẫn</strong> bó tay kể cả với $q,p$ hữu tỉ, vì
+            $d=2\equiv2\pmod4$. Trường hợp $c&lt;0$ (căn bậc ba phức) ở mục 14, còn nếu đòi khử về dạng có <em>căn
+            khác</em> (chẳng hạn $u+v\sqrt[3]{w}$) thì đó là bài toán denesting tổng quát — xem mục 15.
         </p>
     </div>
 
@@ -618,12 +645,15 @@ full-width: true
         <p id="map-info" class="text-xs mono text-slate-500 mt-2 h-8 leading-4"></p>
         <p class="text-xs text-slate-400 leading-relaxed">
             Kéo để di chuyển; phóng to bằng nút $+/-$ hoặc lăn chuột khi giữ Ctrl/⌘. Trỏ vào một điểm để xem $(q,p)$ và chuẩn $m=q^2-dp^2$;
-            <strong>bấm vào điểm</strong> để nạp $(a,B,d)$ vào máy khử căn ở đầu bài. Màu theo dấu của $m$:
+            <strong>bấm vào điểm</strong> để nạp $(a,B,d)$ vào máy khử căn ở đầu bài. <strong>Đĩa tròn</strong> là
+            $(q,p)\in\mathbb Z^2$, <strong>ô vuông</strong> là các điểm <em>nửa nguyên</em> — chỉ xuất hiện khi
+            $d\equiv1\pmod4$ (mục 12), và chỉ vẽ những điểm cho $(a,B)$ nguyên. Màu theo dấu của $m$:
             <span class="text-indigo-600 font-semibold">$m>0$</span>,
             <span class="text-rose-600 font-semibold">$m&lt;0$</span>,
             <span class="text-amber-600 font-semibold">$m=0$</span>. Khi trỏ vào một điểm, hình vẽ thêm
             <strong>hyperbol chuẩn</strong> $a^2-dB^2=m^3$ đi qua nó — mọi điểm khử được với cùng $m$ đều nằm trên đường
-            này.
+            này. Nhập $c&lt;0$ ở máy khử căn thì $d&lt;0$: khi ấy $m>0$ với mọi điểm (nên toàn màu tím) và đường chuẩn
+            trở thành <strong>ellipse</strong> $a^2+|d|B^2=m^3$ — chỉ chứa hữu hạn điểm nguyên (mục 14).
         </p>
         <p class="text-slate-600 text-sm leading-relaxed mt-3">
             Hai điều đáng để ý trên hình. Thứ nhất, tập điểm <strong>cực kỳ thưa</strong> và loãng rất nhanh: $a$ và $B$
@@ -674,9 +704,10 @@ full-width: true
         <p class="text-slate-600 text-sm leading-relaxed mb-3">
             Điểm khác biệt nằm ở dấu của $\Delta$. Ở bài này $\Delta=a^2-m^3=dB^2>0$, nên $t,s$ đều thực và đường bậc ba
             chỉ cắt $y=a$ một lần — trường hợp "dễ", và đó là lý do thuật toán gọn gàng. Nhưng nếu ta làm đúng các phép
-            biến đổi ấy với <strong>$c&lt;0$</strong>, tức khử $\sqrt[3]{a+b\sqrt{-e}}$ với $e>0$, thì
-            $\Delta=a^2+eb^2$ đổi vai, và điều kiện $|a|&lt;m^{3/2}$ trở nên khả thi: phương trình bậc ba có
-            <strong>ba nghiệm thực</strong>.
+            biến đổi ấy với <strong>$c&lt;0$</strong>, tức khử $\sqrt[3]{a+b\sqrt{-e}}$ với $e>0$, thì hai đại lượng
+            đổi vai: chuẩn thành $N=a^2+eb^2>0$ còn $\Delta=a^2-m^3=cb^2=-eb^2&lt;0$. Điều kiện $|a|&lt;m^{3/2}$ khi ấy
+            <strong>luôn</strong> đúng, nên phương trình bậc ba <strong>luôn</strong> có
+            <strong>ba nghiệm thực</strong> — mục 14 khai triển đầy đủ trường hợp này.
         </p>
         <p class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg text-slate-700 text-sm leading-relaxed mb-3">
             Đó chính là <strong>casus irreducibilis</strong>: một phương trình bậc ba với ba nghiệm thực nhưng bất khả
@@ -690,7 +721,8 @@ full-width: true
             Vậy nên có thể nói gọn: <em>khử được căn bậc ba $\Leftrightarrow$ phương trình nhân ba tương ứng có nghiệm
             hữu tỉ</em>. Với $c>0$ ta luôn ở nhánh "hyperbolic" ($\sinh 3u$) — một nghiệm thực, kiểm tra dễ. Với $c&lt;0$
             ta rơi vào nhánh "trigonometric" ($\cos3\theta$) — ba nghiệm thực, và đó là nơi mọi bất khả thi cổ điển trú
-            ngụ.
+            ngụ. Mục 14 cho thấy ba nghiệm thực ấy chính là <em>phần thực của ba căn bậc ba phức</em>, nên câu chuyện
+            khép kín: khử căn bậc ba phức $=$ chia ba góc.
         </p>
     </div>
 
@@ -815,6 +847,480 @@ cbrt(44 + 18·sqrt12)         = không khử được
         </p>
     </div>
 
+    <!-- ===================== 12. Q, P HỮU TỈ ===================== -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-2">12. Nới thứ nhất: $q,p$ <em>hữu tỉ</em> — và vì sao chỉ có thể là "nửa nguyên"</h2>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Định lý mục 5 đòi $q,p\in\mathbb Z$. Đòi hỏi ấy — cũng giống đòi hỏi "viết theo $\sqrt c$" ở mục 4 — vẫn
+            <strong>hẹp hơn bản chất bài toán</strong>. Phản ví dụ nhỏ nhất là tỉ lệ vàng:
+        </p>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center" style="overflow-x: auto;">
+            $$\varphi=\frac{1+\sqrt5}{2},\qquad \varphi^2=\varphi+1\ \Rightarrow\ \varphi^3=2\varphi+1=2+\sqrt5
+            \qquad\Longrightarrow\qquad \sqrt[3]{2+\sqrt5}=\frac{1+\sqrt5}{2}$$
+        </div>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Thử thuật toán mục 5 với $(a,b,c)=(2,1,5)$: $N=4-5=-1=(-1)^3$ nên $m=-1$ — điều kiện 1 <strong>thoả</strong>.
+            Nhưng $4q^3+3q=2$ không có nghiệm nguyên ($q=\pm1,\pm2$ cho $7,-7,38,-38$), nên phiên bản nguyên đành trả
+            lời "không khử được" — trong khi đáp số đang nằm ngay đó, chỉ với $q=p=\tfrac12$. Chỗ hụt không nằm ở số
+            học mà ở <strong>vành ta cho phép</strong>.
+        </p>
+
+        <h3 class="font-semibold text-slate-900 mb-2">Ẩn tự nhiên không phải $q$ mà là $u=t+s$</h3>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Nhớ lại mục 3: $t=\sqrt[3]{a+B\sqrt d}$, $s=\sqrt[3]{a-B\sqrt d}$, $t+s=2q$, $ts=m$. Đặt thẳng
+        </p>
+        <div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg p-4 mb-3 text-slate-800 text-center" style="overflow-x: auto;">
+            $$u:=t+s=2q\qquad\Longrightarrow\qquad \boxed{\,u^3-3mu=2a\,}$$
+        </div>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            (nhân $4q^3-3mq=a$ với $2$ rồi thay $2q=u$). Phương trình này <strong>chính là</strong> bậc ba dạng Cardano
+            $u^3=Pu+Q$ với $P=3m$, $Q=2a$ — tức $u$ đúng là con số mà công thức Cardano trả về:
+            $$u=\sqrt[3]{a+\sqrt{a^2-m^3}}+\sqrt[3]{a-\sqrt{a^2-m^3}} .$$
+            Vậy điều kiện "$q$ nguyên" của mục 5 thật ra là "$u$ nguyên <em>và chẵn</em>". Cái vế "chẵn" mới là phần
+            áp đặt thêm; phần bản chất chỉ là <strong>$u$ nguyên</strong>. Ví dụ tỉ lệ vàng có $u=1$: lẻ, nên bị mục 5
+            loại oan.
+        </p>
+
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-5 mb-4">
+            <p class="font-bold text-indigo-800 mb-2">Định lý (phiên bản hữu tỉ).</p>
+            <p class="text-slate-700 text-sm leading-relaxed mb-2">
+                Cho $a,b\in\mathbb Z$, $b\neq0$, $c$ không chính phương; $c=k^2d$ với $d$ squarefree, $B=bk$. Khi đó
+                $\sqrt[3]{a+b\sqrt c}=q+p\sqrt d$ với $q,p\in\mathbb Q$ <strong>khi và chỉ khi</strong>
+            </p>
+            <ol class="text-slate-700 text-sm leading-relaxed list-decimal list-outside ml-6 space-y-1 marker:text-indigo-500 marker:font-semibold">
+                <li>$N=a^2-cb^2$ là <strong>lập phương đúng</strong> trong $\mathbb Z$, đặt $m=\sqrt[3]N$ (điều kiện 1
+                    <em>không đổi</em>);</li>
+                <li>$u^3-3mu=2a$ có <strong>nghiệm nguyên</strong> $u$ (khi $a\neq0$ thì $u\mid2a$, nên chỉ cần thử các
+                    ước của $2a$; trường hợp $a=0$ xem mục 14).</li>
+            </ol>
+            <div class="bg-white border border-indigo-200 rounded-lg p-4 mt-3 text-slate-800 text-center" style="overflow-x: auto;">
+                $$\boxed{\;w=\frac{2B}{u^2-m},\qquad \sqrt[3]{a+b\sqrt c}=\frac{u+w\sqrt d}{2}\;}$$
+            </div>
+            <p class="text-slate-700 text-sm leading-relaxed mt-3">
+                Hơn nữa $u,w$ luôn <strong>cùng tính chẵn lẻ</strong>: cùng chẵn thì $q=\tfrac u2,\;p=\tfrac w2$ nguyên
+                (đúng mục 5), còn cùng lẻ — tức đáp số thật sự "nửa nguyên" — <strong>chỉ có thể xảy ra khi
+                $d\equiv1\pmod4$</strong>. Mẫu số lớn hơn $2$ thì không bao giờ.
+            </p>
+        </div>
+
+        <h3 class="font-semibold text-slate-900 mb-2">Vì sao mẫu số chỉ có thể là $1$ hoặc $2$</h3>
+        <ol class="text-slate-600 text-sm leading-relaxed list-decimal list-outside ml-6 space-y-2 marker:text-indigo-400 mb-3">
+            <li><strong>$m$ vẫn nguyên.</strong> $m=q^2-dp^2$ là số hữu tỉ, còn $m^3=N\in\mathbb Z$; một số hữu tỉ có
+                lập phương nguyên thì nguyên (định lý nghiệm hữu tỉ áp cho $X^3-N$). Nên điều kiện 1 không hề nới ra.</li>
+            <li><strong>$2q\in\mathbb Z$.</strong> Viết $q=\tfrac{x}{v}$ tối giản. Từ $4q^3-3mq-a=0$, định lý nghiệm hữu
+                tỉ cho $v\mid4$, tức $v\in\{1,2,4\}$. Nếu $v=4$: thay $q=\tfrac x4$ ($x$ lẻ) rồi nhân $16$ được
+                $x^3-12mx=16a$ — vế trái lẻ, vế phải chẵn, vô lý. Vậy $v\le2$ và $u=2q\in\mathbb Z$.</li>
+            <li><strong>$2p\in\mathbb Z$.</strong> Từ $dp^2=q^2-m$ (mục 2) suy ra $d\,(2p)^2=u^2-4m\in\mathbb Z$; $d$
+                squarefree nên <em>bổ đề mục 5</em> cho $w=2p\in\mathbb Z$.</li>
+            <li><strong>Trường hợp lẻ buộc $d\equiv1\pmod4$.</strong> Nếu $u$ lẻ thì $u^2\equiv1\pmod 8$, và
+                $dw^2=u^2-4m$. Nếu $w$ chẵn thì $dw^2\equiv0\pmod4$ trong khi $u^2-4m\equiv1\pmod4$ — vô lý; vậy $w$
+                cũng lẻ, $w^2\equiv1\pmod8$, và rút gọn theo modulo $4$ được $d\equiv1\pmod4$. $\square$</li>
+        </ol>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+            <p class="text-slate-700 text-sm leading-relaxed mb-2">
+                <strong class="text-amber-800">Cách nhìn "một dòng": vành các số nguyên đại số.</strong>
+                $z=q+p\sqrt d$ là nghiệm của $X^3-(a+B\sqrt d)$ — đa thức <em>monic</em> với hệ số là số nguyên đại số —
+                nên $z$ là số nguyên đại số của $K=\mathbb Q(\sqrt d)$. Mà vành số nguyên của $K$ đã được biết từ lâu:
+                $$\mathcal O_K=\begin{cases}\mathbb Z[\sqrt d] & d\equiv2,3\pmod4\\[2pt]
+                \mathbb Z\!\left[\dfrac{1+\sqrt d}{2}\right] & d\equiv1\pmod4\end{cases}$$
+                Bốn bước tính toán ở trên chỉ là chứng minh lại bằng tay đúng sự thật đó. Với $d\equiv1\pmod4$, đáp số
+                viết gọn bằng $\varepsilon=\tfrac{1+\sqrt d}{2}$: chẳng hạn $\sqrt[3]{2+\sqrt5}=\varepsilon$ với
+                $\varepsilon=\varphi$.
+            </p>
+            <p class="text-slate-700 text-sm leading-relaxed">
+                <strong class="text-amber-800">Mẹo "nhân $8$" — dùng lại y nguyên máy nguyên.</strong> Vì
+                $(2z)^3=8z^3$, ta có $q,p\in\tfrac12\mathbb Z$ cho $a+b\sqrt c$ $\Leftrightarrow$ $2q,2p\in\mathbb Z$
+                cho $8a+8b\sqrt c$. Nghĩa là: <strong>chạy thuật toán nguyên với $(8a,8b,c)$ rồi chia đáp số cho
+                $2$</strong> ($N$ nhân $64$, $m$ nhân $4$). Kiểm lại với tỉ lệ vàng: $(16,8,5)$ cho $N=-64$, $m=-4$,
+                $4q^3+12q=16\Rightarrow q=1$, $p=\tfrac{8}{4+4}=1$, tức $\sqrt[3]{16+8\sqrt5}=1+\sqrt5$ — chia $2$ là
+                ra $\varphi$.
+            </p>
+        </div>
+
+        <h3 class="font-semibold text-slate-900 mb-2">Ví dụ nửa nguyên (mọi $d$ đều $\equiv1\pmod4$)</h3>
+        <div style="overflow-x: auto;">
+            <table class="tbl">
+                <thead><tr><th>$\sqrt[3]{a+B\sqrt d}$</th><th>$m$</th><th>$u=2q$</th><th>$w=2p$</th><th>đáp số</th><th></th></tr></thead>
+                <tbody>
+                    <tr><td>$\sqrt[3]{2+\sqrt5}$</td><td class="mono">-1</td><td class="mono">1</td><td class="mono">1</td><td>$\dfrac{1+\sqrt5}{2}=\varphi$</td><td><button class="ex-btn" data-ex="2,1,5">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{9+4\sqrt5}$</td><td class="mono">1</td><td class="mono">3</td><td class="mono">1</td><td>$\dfrac{3+\sqrt5}{2}=\varphi^2$</td><td><button class="ex-btn" data-ex="9,4,5">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{17+18\sqrt5}$</td><td class="mono">-11</td><td class="mono">1</td><td class="mono">3</td><td>$\dfrac{1+3\sqrt5}{2}$</td><td><button class="ex-btn" data-ex="17,18,5">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{18+5\sqrt{13}}$</td><td class="mono">-1</td><td class="mono">3</td><td class="mono">1</td><td>$\dfrac{3+\sqrt{13}}{2}$</td><td><button class="ex-btn" data-ex="18,5,13">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{5+2\sqrt{13}}$</td><td class="mono">-3</td><td class="mono">1</td><td class="mono">1</td><td>$\dfrac{1+\sqrt{13}}{2}$</td><td><button class="ex-btn" data-ex="5,2,13">thử</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mt-3">
+            Ngược lại, với $d\equiv2,3\pmod4$ (như $d=2,3,6,7$) thì $\mathcal O_K=\mathbb Z[\sqrt d]$: nới sang hữu tỉ
+            <strong>không thêm được nghiệm nào</strong>. Mọi ví dụ "bó tay" ở mục 7 vẫn bó tay — $\sqrt[3]{1+\sqrt2}$ có
+            $m=-1$ và $u^3+3u=2$ vô nghiệm nguyên, $\sqrt[3]{3+2\sqrt2}$ có $m=1$ và $u^3-3u=6$ vô nghiệm nguyên. Còn
+            tính duy nhất thì vẫn nguyên vẹn: với $c>0$ phương trình chỉ có một nghiệm thực, nên nhiều nhất
+            <em>một</em> đáp số hữu tỉ.
+        </p>
+        <p class="text-xs text-slate-500 mt-2">
+            Trên Hình 2 (mục 8), các điểm nửa nguyên được vẽ thành <strong>ô vuông</strong> bên cạnh các đĩa tròn của
+            $(q,p)\in\mathbb Z^2$ — chúng chỉ xuất hiện khi $d\equiv1\pmod4$, và chỉ những điểm cho $(a,B)$ nguyên mới
+            được vẽ.
+        </p>
+    </div>
+
+    <!-- ===================== 13. A, B, C HỮU TỈ ===================== -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-2">13. Khi $a,b,c$ cũng chỉ là số hữu tỉ</h2>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Trường hợp này không sinh ra lý thuyết mới, chỉ cần hai phép đổi biến "vô hại" — nhưng nên nói rõ để định lý
+            phát biểu được cho dữ liệu hữu tỉ bất kỳ.
+        </p>
+        <ol class="text-slate-600 text-sm leading-relaxed list-decimal list-outside ml-6 space-y-2 marker:text-indigo-400 mb-3">
+            <li><strong>$c$ hữu tỉ $\to$ $c$ nguyên.</strong> Với $c=\dfrac{c_1}{c_2}$ thì
+                $\sqrt c=\dfrac{\sqrt{c_1c_2}}{c_2}$, nên $b\sqrt c=\dfrac{b}{c_2}\sqrt{c_1c_2}$: radicand thành số
+                nguyên, hệ số thành số hữu tỉ. Ví dụ $\sqrt{\tfrac89}=\tfrac{2\sqrt2}{3}$.</li>
+            <li><strong>$a,b$ hữu tỉ $\to$ nguyên.</strong> Vì $(nz)^3=n^3z^3$, chọn $n$ là bội chung nhỏ nhất của các
+                mẫu số rồi khử $n^3a+n^3b\sqrt c$ (nguyên), sau đó <strong>chia đáp số cho $n$</strong>. Ghép luôn với
+                mẹo nhân $8$ ở mục 12: dùng $n$ chẵn là xử lý được cả nửa nguyên.</li>
+        </ol>
+        <div class="grid md:grid-cols-2 gap-3">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center" style="overflow-x: auto;">
+                $$\sqrt[3]{\frac{7}{8}+\frac58\sqrt2}=\frac{1+\sqrt2}{2}$$
+                <p class="text-xs text-slate-500 mt-2">$n=2$: khử $7+5\sqrt2=(1+\sqrt2)^3$ rồi chia $2$.
+                    <button class="ex-btn" data-ex="7,5,2">thử bản đã nhân $8$</button></p>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-slate-800 text-center" style="overflow-x: auto;">
+                $$\sqrt[3]{\frac{10+6\sqrt3}{27}}=\frac{1+\sqrt3}{3}$$
+                <p class="text-xs text-slate-500 mt-2">$n=3$: khử $10+6\sqrt3=(1+\sqrt3)^3$ rồi chia $3$.
+                    <button class="ex-btn" data-ex="10,6,3">thử bản đã nhân $27$</button></p>
+            </div>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mt-3">
+            Điểm cần nhớ: <strong>mẫu số của đáp số không tuỳ ý</strong>. Sau khi đã đưa $a,b$ về nguyên, mục 12 khẳng
+            định mẫu số chỉ có thể là $1$ hoặc $2$ — mọi mẫu số khác mà bạn thấy đều đến từ bước nhân $n^3$ vào radicand,
+            chứ không phải từ bản chất số học.
+        </p>
+    </div>
+
+    <!-- ===================== 14. C < 0: PHỨC ===================== -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-2">14. Nới thứ hai: $c&lt;0$ — căn bậc ba <em>phức</em></h2>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Bây giờ cho $c&lt;0$. Viết vẫn $c=k^2d$ nhưng để $d$ mang dấu âm và squarefree
+            (ví dụ $-12=2^2\cdot(-3)$, $-9=3^2\cdot(-1)$), cố định nhánh $\sqrt c=i\sqrt{|c|}$ với $i=\sqrt{-1}$. Khi
+            đó $K=\mathbb Q(\sqrt d)$ là một <strong>trường bậc hai ảo</strong>, mọi $q+p\sqrt d$ là số phức, và bài
+            toán trở nên thú vị hơn hẳn vì <em>ba</em> thứ thay đổi cùng lúc.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-3 mb-4">
+            <div class="border border-indigo-200 bg-indigo-50/60 rounded-xl p-4">
+                <p class="font-semibold text-indigo-800 text-sm mb-1">(a) $\sqrt[3]{\ }$ có ba giá trị</p>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Ba căn bậc ba của $\alpha=a+B\sqrt d$ là $z,\ \omega z,\ \omega^2z$ với
+                    $\omega=\tfrac{-1+\sqrt{-3}}{2}$. "Khử được" nghĩa là <strong>một trong ba</strong> nằm trong $K$ —
+                    không còn khái niệm "căn bậc ba thực duy nhất" của mục 3.
+                </p>
+            </div>
+            <div class="border border-indigo-200 bg-indigo-50/60 rounded-xl p-4">
+                <p class="font-semibold text-indigo-800 text-sm mb-1">(b) $m$ là bình phương module</p>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    $N=a^2-cb^2=a^2+|c|b^2&gt;0$ <em>luôn</em> dương, nên $m=\sqrt[3]N&gt;0$ và
+                    $m=q^2-dp^2=q^2+|d|p^2=|z|^2$. Chuẩn đại số ở mục 2 bây giờ đúng là <strong>module bình
+                    phương</strong> của số phức.
+                </p>
+            </div>
+            <div class="border border-rose-200 bg-rose-50/60 rounded-xl p-4">
+                <p class="font-semibold text-rose-800 text-sm mb-1">(c) luôn có ba nghiệm thực</p>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    $a^2-m^3=dB^2=-|d|B^2&lt;0$, tức $|a|&lt;m^{3/2}$ <em>luôn</em> đúng: đường $y=a$ nằm
+                    <strong>trong</strong> dải vàng của Hình 1. Kết luận "một nghiệm thực" ở mục 3 bị đảo ngược hoàn
+                    toàn.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="font-semibold text-slate-900 mb-2">Ba nghiệm thực đó là ba phần thực — và khử căn là chia ba góc</h3>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Với $d&lt;0$, phép liên hợp $\sqrt d\mapsto-\sqrt d$ chính là <strong>liên hợp phức</strong>, nên
+            $q=\tfrac12(z+\bar z)=\operatorname{Re}z$ và $m=z\bar z=|z|^2$. Viết
+            $z_j=\sqrt m\,e^{i(\theta+2\pi j/3)}$, $j=0,1,2$, thì
+        </p>
+        <div class="bg-emerald-50 border-l-4 border-emerald-500 rounded-r-lg p-4 mb-3 text-slate-800 text-center" style="overflow-x: auto;">
+            $$\cos3\theta=\frac{a}{m^{3/2}},\qquad
+            q_j=\sqrt m\,\cos\!\Big(\theta+\frac{2\pi j}{3}\Big),\qquad
+            p_j=\sqrt{\frac{m}{|d|}}\,\sin\!\Big(\theta+\frac{2\pi j}{3}\Big),\qquad q_0+q_1+q_2=0$$
+        </div>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Ba nghiệm thực của $4q^3-3mq=a$ <strong>chính là phần thực của ba căn bậc ba</strong>, và điều kiện
+            $|a|&lt;m^{3/2}$ ở (c) chỉ là câu "$\cos3\theta$ phải nằm trong $[-1,1]$". Ở mục 3, công thức nhân ba xuất
+            hiện như một phép đổi biến gợi ý; ở đây nó <em>là</em> bài toán: khử căn bậc ba phức $=$ chia ba góc
+            $\arg\alpha$ sao cho kết quả rơi vào $K$.
+        </p>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-4">
+            <p class="text-slate-700 text-sm leading-relaxed mb-2">
+                <strong>Có bao nhiêu đáp số? $0$, $1$ hoặc $3$ — và $3$ chỉ khi $d=-3$.</strong>
+                Nếu $z_1,z_2\in K$ là hai căn bậc ba khác nhau thì $\omega=z_1/z_2\in K$, mà
+                $\mathbb Q(\omega)=\mathbb Q(\sqrt{-3})$, nên $d=-3$. Ngược lại khi $d=-3$ thì $\omega\in K$ nên có một
+                đáp số là có cả ba. Cụ thể (số nguyên Eisenstein):
+                $$\sqrt[3]{-10+9\sqrt{-3}}\in\Big\{\,2+\sqrt{-3},\ \ \tfrac{1-3\sqrt{-3}}{2},\ \ \tfrac{-5+\sqrt{-3}}{2}\,\Big\},
+                \qquad m=7,\quad q\in\{2,\tfrac12,-\tfrac52\}$$
+                Ba phần thực cộng lại bằng $0$ ✓, và vì $-3\equiv1\pmod4$ nên hai trong ba đáp số là <em>nửa
+                nguyên</em> — hai nới lỏng của mục 12 và mục 14 gặp nhau ở đúng đây.
+            </p>
+            <p class="text-slate-700 text-sm leading-relaxed">
+                <strong>Cảnh báo: đáp số đẹp không nhất thiết là nhánh chính.</strong> Với $46+9i$ ($m=13$) căn bậc ba
+                Gauss duy nhất là $-2+3i$, còn giá trị chính $\sqrt[3]{46+9i}\approx3.5981+0.2321\,i$ lại
+                <em>không</em> nằm trong $\mathbb Z[i]$. Nói cách khác, với $c&lt;0$ ta chỉ khẳng định được
+                $(q+p\sqrt d)^3=a+b\sqrt c$; muốn nói "$=\sqrt[3]{\,\cdot\,}$" thì phải nêu rõ chọn nhánh nào. Nhánh
+                chính ứng với $\arg\in(-\tfrac\pi3,\tfrac\pi3]$, tức <strong>nghiệm $q$ lớn nhất</strong>.
+            </p>
+        </div>
+
+        <h3 class="font-semibold text-slate-900 mb-2">Thuật toán đổi ba chỗ</h3>
+        <ol class="text-slate-600 text-sm leading-relaxed list-decimal list-outside ml-6 space-y-2 marker:text-indigo-400 mb-4">
+            <li><strong>Hai điều kiện giữ nguyên</strong> (phát biểu như mục 12): $N=a^2-cb^2$ phải là lập phương đúng —
+                lần này $N&gt;0$ nên $m&gt;0$ — và $u^3-3mu=2a$ phải có nghiệm nguyên $u=2q$; rồi
+                $w=\dfrac{2B}{u^2-m}$.</li>
+            <li><strong>Có thêm chặn để quét, khỏi cần phân tích ra ước:</strong> vì $q=\sqrt m\cos(\cdot)$ nên
+                $q^2\le m$, tức $u^2\le4m$ — chỉ có $O(\sqrt m)$ ứng viên. Với $a$ khổng lồ mà $m$ nhỏ thì quét theo
+                chặn này nhanh hơn liệt kê ước của $2a$ rất nhiều. (Chặn này là đặc sản của $d&lt;0$: với $d&gt;0$ thì
+                $q$ có thể lớn tuỳ ý so với $\sqrt m$.)</li>
+            <li><strong>$a=0$ phải xử lý riêng:</strong> mọi $u$ đều "chia hết" $0$, nên thay bằng giải trực tiếp
+                $u(u^2-3m)=0$: $u=0$ hoặc $u^2=3m$. Ví dụ $\sqrt[3]{24\sqrt{-3}}$ có ba đáp số
+                $3+\sqrt{-3}$, $-2\sqrt{-3}$, $-3+\sqrt{-3}$ (ứng với $u=6,\,0,\,-6$; $m=12$).</li>
+        </ol>
+
+        <h3 class="font-semibold text-slate-900 mb-2">Ví dụ</h3>
+        <div style="overflow-x: auto;">
+            <table class="tbl">
+                <thead><tr><th>bài toán</th><th>$N$</th><th>$m$</th><th>kết quả</th><th></th></tr></thead>
+                <tbody>
+                    <tr><td>$\sqrt[3]{2+11i}$</td><td class="mono">125</td><td class="mono">5</td><td>$2+i$ (Bombelli 1572)</td><td><button class="ex-btn" data-ex="2,11,-1">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{-46+9i}$</td><td class="mono">2197</td><td class="mono">13</td><td>$2+3i$</td><td><button class="ex-btn" data-ex="-46,9,-1">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{46+9i}$</td><td class="mono">2197</td><td class="mono">13</td><td>$-2+3i$ (không phải nhánh chính)</td><td><button class="ex-btn" data-ex="46,9,-1">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{-10+9\sqrt{-3}}$</td><td class="mono">343</td><td class="mono">7</td><td>ba đáp số, hai cái nửa nguyên</td><td><button class="ex-btn" data-ex="-10,9,-3">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{24\sqrt{-3}}$</td><td class="mono">1728</td><td class="mono">12</td><td>ba đáp số, $a=0$</td><td><button class="ex-btn" data-ex="0,24,-3">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{1+i}$</td><td class="mono">2</td><td class="mono">—</td><td>không khử được ($N$ không lập phương)</td><td><button class="ex-btn" data-ex="1,1,-1">thử</button></td></tr>
+                    <tr><td>$\sqrt[3]{4+4\sqrt{-3}}$</td><td class="mono">64</td><td class="mono">4</td><td>không khử được (xem dưới)</td><td><button class="ex-btn" data-ex="4,4,-3">thử</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+            <p class="text-slate-700 text-sm leading-relaxed mb-2">
+                <strong class="text-amber-800">Bombelli, 1572 — vì sao số phức được sinh ra.</strong> Giải
+                $x^3=15x+4$ bằng Cardano cho
+                $$x=\sqrt[3]{2+\sqrt{-121}}+\sqrt[3]{2-\sqrt{-121}}=\sqrt[3]{2+11i}+\sqrt[3]{2-11i} .$$
+                Ai cũng thấy $x=4$ là nghiệm, nhưng công thức lại đi qua căn của số âm. Bombelli đoán
+                $\sqrt[3]{2+11i}=2+i$ và cộng liên hợp: $(2+i)+(2-i)=4$. Bằng ngôn ngữ bài này: $a=2$, $B=11$, $d=-1$,
+                $N=4+121=125$ nên $m=5$; phương trình $u^3-3mu=2a$ là $u^3-15u=4$ — <strong>đúng chính phương trình
+                ban đầu</strong>, vì $u=t+s=x$. Vậy "khử được căn bậc ba phức" và "phương trình bậc ba có nghiệm hữu
+                tỉ" không chỉ tương đương: chúng là <em>cùng một phương trình</em>.
+            </p>
+            <p class="text-slate-700 text-sm leading-relaxed">
+                <strong class="text-amber-800">Và vì sao không chia ba được góc $60^\circ$.</strong> Lấy
+                $\alpha=8(\cos60^\circ+i\sin60^\circ)=4+4\sqrt{-3}$. Ở đây $N=16+48=64$, $m=4$, $|\alpha|=8$ nên
+                $|z|=2$ và $\cos3\theta=\tfrac{4}{8}=\tfrac12$: chia ba góc $60^\circ$. Phương trình
+                $u^3-12u=8$ với $u=4\cos20^\circ$ không có nghiệm nguyên nào trong các ước của $8$, nên
+                $\sqrt[3]{4+4\sqrt{-3}}$ <strong>không khử được</strong> — đó chính là phát biểu "$\cos20^\circ$ không
+                dựng được bằng thước và compa" của mục 10, lần này đọc thành một câu về khử căn.
+            </p>
+        </div>
+
+        <p class="text-slate-600 text-sm leading-relaxed mt-4">
+            Một hệ quả hình học đáng nói cho Hình 2: đường chuẩn $a^2-dB^2=m^3$ với $d&lt;0$ là
+            <strong>ellipse</strong> $a^2+|d|B^2=m^3$ chứ không phải hyperbol. Ellipse chỉ chứa hữu hạn điểm nguyên,
+            nên với mỗi $m$ chỉ có <em>hữu hạn</em> radicand khử được; còn với $d&gt;0$ hyperbol chứa vô hạn điểm
+            (nghiệm phương trình Pell), tức vô hạn radicand cùng chuẩn. Hai thế giới rất khác nhau, và máy ở đầu bài vẽ
+            đúng đường tương ứng khi bạn nhập $c&lt;0$.
+        </p>
+    </div>
+
+    <!-- ===================== 15. BỨC TRANH CHUNG ===================== -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-2">15. Bức tranh chung: đổi vành, đổi trường, và giới hạn của phương pháp</h2>
+        <p class="text-slate-600 leading-relaxed mb-3">
+            Ba mục vừa rồi cho thấy cùng một bộ xương chịu được nhiều lớp da khác nhau. Điểm chung: bài toán chỉ cần
+            $\{1,\sqrt d\}$ độc lập tuyến tính trên trường cơ sở, còn lại là chuẩn và công thức nhân ba.
+        </p>
+        <div style="overflow-x: auto;">
+            <table class="tbl">
+                <thead><tr><th>trường hợp</th><th>đáp số nằm trong</th><th>điều kiện 1</th><th>điều kiện 2</th><th>số đáp số</th></tr></thead>
+                <tbody>
+                    <tr><td>$c&gt;0$, $q,p\in\mathbb Z$ (mục 5)</td><td>$\mathbb Z[\sqrt d]$</td><td>$N$ lập phương</td><td>$4q^3-3mq=a$ có nghiệm nguyên</td><td>$\le1$</td></tr>
+                    <tr><td>$c&gt;0$, $q,p\in\mathbb Q$ (mục 12)</td><td>$\mathcal O_K$</td><td>$N$ lập phương</td><td>$u^3-3mu=2a$ có nghiệm nguyên</td><td>$\le1$</td></tr>
+                    <tr><td>$c&lt;0$ (mục 14)</td><td>$\mathcal O_K\subset\mathbb C$</td><td>$N$ lập phương ($N&gt;0$)</td><td>$u^3-3mu=2a$ có nghiệm nguyên</td><td>$0,1$ hoặc $3$ ($3\Leftrightarrow d=-3$)</td></tr>
+                    <tr><td>trường cơ sở $F$ bất kỳ</td><td>$F(\sqrt d)$</td><td>$N$ là lập phương trong $F$</td><td>bậc ba có nghiệm trong $F$</td><td>$\le3$</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mt-3 mb-3">
+            Dòng cuối nói rằng chẳng có gì đặc biệt ở $\mathbb Q$: với $F$ là một trường bất kỳ (đặc số $\neq2,3$) và
+            $\sqrt d\notin F$, mọi lập luận từ mục 1 đến mục 3 chạy y nguyên — chuẩn $N=a^2-dB^2$ phải là lập phương
+            <em>trong $F$</em>, rồi $4q^3-3mq=a$ phải có nghiệm <em>trong $F$</em>. Chỉ phần "tự động nguyên" là đặc thù
+            số học: nó cần khái niệm vành số nguyên $\mathcal O_K$ và tính squarefree.
+        </p>
+
+        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg mb-3">
+            <p class="text-slate-700 text-sm leading-relaxed">
+                <strong>Không khử được thì "xa" đến mức nào?</strong> Với $b\neq0$, bậc của
+                $z=\sqrt[3]{a+b\sqrt c}$ trên $\mathbb Q$ chỉ có <strong>hai khả năng: $2$ hoặc $6$</strong>. Thật vậy,
+                nếu $\alpha=a+b\sqrt c$ không là lập phương trong $K=\mathbb Q(\sqrt c)$ thì $X^3-\alpha$ bất khả quy
+                trên $K$, nên $[K(z):\mathbb Q]=6$; từ $K(z)=K\cdot\mathbb Q(z)$ suy ra $6\le2n$ với
+                $n=[\mathbb Q(z):\mathbb Q]$, mà $n\mid6$, nên $n\in\{3,6\}$. Nếu $n=3$ thì
+                $\mathbb Q(z)\cap K$ có bậc chia cả $3$ và $2$, tức bằng $\mathbb Q$, nên
+                $\alpha=z^3\in\mathbb Q(z)\cap K=\mathbb Q$, buộc $b=0$ — vô lý. Vậy $n=6$. Nói cách khác: một khi hai
+                điều kiện của định lý thất bại, không có "đáp số gần đúng dạng đẹp" nào cả — $z$ nhảy thẳng lên bậc
+                $6$, còn khử được thì bậc rơi xuống $2$.
+            </p>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mb-3">
+            Điều đó vẫn <em>không</em> có nghĩa là biểu thức không viết gọn được bằng căn khác. Bài toán denesting tổng
+            quát cho phép đáp số chứa cả căn bậc ba, và ở đó có những đẳng thức nổi tiếng nằm ngoài khuôn khổ mục 5:
+        </p>
+        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-3 text-slate-800 text-center" style="overflow-x: auto;">
+            $$\sqrt[3]{\sqrt[3]2-1}=\sqrt[3]{\frac19}-\sqrt[3]{\frac29}+\sqrt[3]{\frac49}\qquad\text{(Ramanujan)}$$
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed">
+            Ở đây radicand thậm chí không sống trong một trường bậc hai. Cho lớp bài toán rộng như thế, câu trả lời hoàn
+            chỉnh là các <strong>thuật toán denesting</strong> (Borodin–Fagin–Hopcroft–Tompa, Landau, Blömer) chạy trên
+            lý thuyết Galois và lý thuyết số đại số — cùng bộ khung "chuẩn $+$ nhân ba" ở trên, nhưng dựng trên tháp mở
+            rộng nhiều tầng. Bài này chỉ đi hết một tầng, và đúng tầng đó thì mọi thứ gọn đến mức tính được bằng đầu.
+        </p>
+    </div>
+
+    <!-- ===================== 16. PYTHON TỔNG QUÁT ===================== -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-800 mb-2">16. Mã nguồn Python — bản tổng quát ($q,p$ hữu tỉ, $c$ âm)</h2>
+        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+            Cài đặt các mục 12–14, dùng lại <span class="mono">icbrt</span>, <span class="mono">squarefree_part</span>,
+            <span class="mono">divisors</span> ở mục 11. Điểm khác so với bản nguyên chỉ gồm bốn dòng ý tưởng: nhân
+            radicand với $n^3$ để làm sạch mẫu số, giữ dấu khi rút $c=k^2d$, đổi ẩn sang $u=2q$ với phương trình
+            $u^3-3mu=2a$, và trả về <em>danh sách</em> đáp số (vì với $d=-3$ có thể có ba).
+        </p>
+        <div style="overflow-x: auto;">
+<pre><code class="language-python">from fractions import Fraction
+from math import gcd, isqrt
+# dùng lại icbrt, squarefree_part, divisors ở mục 11
+
+
+def squarefree_part_signed(c: int) -&gt; tuple[int, int]:
+    &quot;&quot;&quot;c = k^2 * d với d squarefree, GIỮ DẤU: d &lt; 0 khi c &lt; 0.&quot;&quot;&quot;
+    s = -1 if c &lt; 0 else 1
+    k, d = squarefree_part(abs(c))
+    return k, s * d
+
+
+def denest_cbrt_all(a, b, c: int) -&gt; list:
+    &quot;&quot;&quot;Mọi z = q + p*sqrt(d) với q, p HỮU TỈ và z^3 = a + b*sqrt(c).
+
+    a, b: int hoặc Fraction (b != 0);  c: int != 0, không chính phương dương.
+    Cho phép c &lt; 0: khi đó sqrt(c) = i*sqrt(|c|), z là số phức và có thể có
+    tới BA đáp số (chỉ xảy ra khi d = -3).
+    Trả về [(q, p, d)] với q, p là Fraction, xếp theo q giảm dần — phần tử
+    đầu ứng với Re lớn nhất, tức nhánh chính của căn bậc ba.
+    &quot;&quot;&quot;
+    a, b = Fraction(a), Fraction(b)
+    if b == 0 or c == 0:
+        raise ValueError(&quot;cần b != 0 và c != 0&quot;)
+    if c &gt; 0 and isqrt(c) ** 2 == c:
+        raise ValueError(&quot;c chính phương: sqrt(c) đã là số nguyên&quot;)
+
+    # bước 0 (mục 13): nhân radicand với n^3 để a, b thành số nguyên  (z -&gt; n*z)
+    n = a.denominator * b.denominator // gcd(a.denominator, b.denominator)
+    A, Bb = int(a * n ** 3), int(b * n ** 3)
+
+    k, d = squarefree_part_signed(c)         # bước 1: chuẩn hoá radicand
+    B = Bb * k
+
+    m, exact = icbrt(A * A - c * Bb * Bb)    # bước 2: N = A^2 - c*Bb^2 = A^2 - d*B^2
+    if not exact:
+        return []
+
+    # bước 3 (mục 12): u = 2q phải NGUYÊN và u^3 - 3mu = 2A
+    if A != 0:
+        cands = divisors(2 * A)
+    elif m &gt; 0 and isqrt(3 * m) ** 2 == 3 * m:   # A = 0: u = 0 hoặc u^2 = 3m
+        cands = [0, isqrt(3 * m), -isqrt(3 * m)]
+    else:
+        cands = [0]
+
+    out = []
+    for u in cands:
+        if u ** 3 - 3 * m * u != 2 * A:
+            continue
+        den = u * u - m                      # = 4q^2 - m
+        if den == 0 or (2 * B) % den != 0:
+            continue
+        w = 2 * B // den                     # w = 2p
+        # kiểm tra lại bằng số nguyên: ((u + w*sqrt d)/2)^3 == A + B*sqrt d
+        if u ** 3 + 3 * d * u * w * w == 8 * A and 3 * u * u * w + d * w ** 3 == 8 * B:
+            out.append((Fraction(u, 2 * n), Fraction(w, 2 * n), d))
+
+    out.sort(key=lambda t: -t[0])
+    return out
+
+
+def show(a, b, c: int) -&gt; None:
+    a, b = Fraction(a), Fraction(b)
+    lhs = f&quot;cbrt({a} {&#x27;-&#x27; if b &lt; 0 else &#x27;+&#x27;} {abs(b)}*sqrt{c})&quot;
+    sols = denest_cbrt_all(a, b, c)
+    if not sols:
+        print(f&quot;{lhs:30} = không khử được (kể cả với q, p hữu tỉ)&quot;)
+        return
+    txt = &quot;  |  &quot;.join(f&quot;{q} {&#x27;-&#x27; if p &lt; 0 else &#x27;+&#x27;} {abs(p)}*sqrt{d}&quot; for q, p, d in sols)
+    print(f&quot;{lhs:30} = {txt}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    show(7, 5, 2)                       # nguyên, như mục 6
+    show(20, 7, 8)                      # c có nhân tử chính phương
+    show(2, 1, 5)                       # nửa nguyên: tỉ lệ vàng
+    show(9, 4, 5)
+    show(17, 18, 5)
+    show(18, 5, 13)
+    show(Fraction(7, 8), Fraction(5, 8), 2)     # a, b hữu tỉ (mục 13)
+    show(Fraction(10, 27), Fraction(6, 27), 3)
+    show(2, 11, -1)                     # Bombelli 1572
+    show(-46, 9, -1)
+    show(46, 9, -1)                     # đáp số KHÔNG phải nhánh chính
+    show(-10, 9, -3)                    # Eisenstein: ba đáp số
+    show(0, 24, -3)                     # a = 0, u = 0 và u^2 = 3m
+    show(0, 3, -3)
+    show(4, 4, -3)                      # chia ba góc 60 độ
+    show(1, 1, -1)
+    show(1, 1, 2)
+    show(3, 2, 2)
+</code></pre>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mt-4">Kết quả chạy:</p>
+        <div style="overflow-x: auto;">
+<pre><code class="language-text">cbrt(7 + 5*sqrt2)              = 1 + 1*sqrt2
+cbrt(20 + 7*sqrt8)             = 2 + 1*sqrt2
+cbrt(2 + 1*sqrt5)              = 1/2 + 1/2*sqrt5
+cbrt(9 + 4*sqrt5)              = 3/2 + 1/2*sqrt5
+cbrt(17 + 18*sqrt5)            = 1/2 + 3/2*sqrt5
+cbrt(18 + 5*sqrt13)            = 3/2 + 1/2*sqrt13
+cbrt(7/8 + 5/8*sqrt2)          = 1/2 + 1/2*sqrt2
+cbrt(10/27 + 2/9*sqrt3)        = 1/3 + 1/3*sqrt3
+cbrt(2 + 11*sqrt-1)            = 2 + 1*sqrt-1
+cbrt(-46 + 9*sqrt-1)           = 2 + 3*sqrt-1
+cbrt(46 + 9*sqrt-1)            = -2 + 3*sqrt-1
+cbrt(-10 + 9*sqrt-3)           = 2 + 1*sqrt-3  |  1/2 - 3/2*sqrt-3  |  -5/2 + 1/2*sqrt-3
+cbrt(0 + 24*sqrt-3)            = 3 + 1*sqrt-3  |  0 - 2*sqrt-3  |  -3 + 1*sqrt-3
+cbrt(0 + 3*sqrt-3)             = 3/2 + 1/2*sqrt-3  |  0 - 1*sqrt-3  |  -3/2 + 1/2*sqrt-3
+cbrt(4 + 4*sqrt-3)             = không khử được (kể cả với q, p hữu tỉ)
+cbrt(1 + 1*sqrt-1)             = không khử được (kể cả với q, p hữu tỉ)
+cbrt(1 + 1*sqrt2)              = không khử được (kể cả với q, p hữu tỉ)
+cbrt(3 + 2*sqrt2)              = không khử được (kể cả với q, p hữu tỉ)
+</code></pre>
+        </div>
+        <p class="text-xs text-slate-500 mt-3">
+            Chú ý dòng <span class="mono">cbrt(46 + 9*sqrt-1) = -2 + 3*sqrt-1</span>: hàm trả về mọi $z$ thoả
+            $z^3=a+b\sqrt c$, và ở đây $z$ <strong>không phải</strong> giá trị chính của căn bậc ba (mục 14). Muốn lọc
+            nhánh chính thì so $z$ với <span class="mono">complex(a, 0) + b*cmath.sqrt(c)</span> nâng lên
+            <span class="mono">1/3</span>.
+        </p>
+    </div>
+
     <!-- ===================== TÓM TẮT ===================== -->
     <div class="bg-slate-800 text-slate-100 p-6 rounded-2xl shadow-sm">
         <h2 class="text-lg font-semibold mb-3">Tóm tắt một khung</h2>
@@ -825,13 +1331,32 @@ cbrt(44 + 18·sqrt12)         = không khử được
                 $q=\operatorname{round}\big(\tfrac12(t+s)\big)$. Nghiệm thực là duy nhất vì $a^2-m^3=dB^2>0$.</li>
             <li>$p=\dfrac{bk}{4q^2-m}$ tự động nguyên, và $\sqrt[3]{a+b\sqrt c}=q+p\sqrt d$.</li>
         </ol>
+        <p class="text-sm font-semibold text-indigo-300 mt-5 mb-2">Ba mức nới lỏng (mục 12–15)</p>
+        <ul class="text-sm leading-relaxed list-disc list-outside ml-5 space-y-2 marker:text-indigo-300">
+            <li><strong>$q,p$ hữu tỉ:</strong> đổi ẩn sang $u=2q$ thì điều kiện đúng là <strong>$u^3-3mu=2a$ có nghiệm
+                nguyên</strong> ($u\mid 2a$), rồi $w=\dfrac{2B}{u^2-m}$ và đáp số là $\dfrac{u+w\sqrt d}{2}$. Mẫu số
+                chỉ có thể là $1$ hoặc $2$; mẫu $2$ chỉ khi $d\equiv1\pmod4$ (vành số nguyên
+                $\mathbb Z\big[\tfrac{1+\sqrt d}{2}\big]$). Ví dụ $\sqrt[3]{2+\sqrt5}=\varphi$.</li>
+            <li><strong>$a,b,c$ hữu tỉ:</strong> $\sqrt{c_1/c_2}=\sqrt{c_1c_2}/c_2$ và nhân radicand với $n^3$ — không
+                có lý thuyết mới, chỉ đổi đơn vị.</li>
+            <li><strong>$c&lt;0$:</strong> $N=a^2+|c|b^2>0$ luôn, $m=|z|^2$, và $a^2-m^3&lt;0$ nên bậc ba
+                <em>luôn</em> có ba nghiệm thực $=$ phần thực của ba căn bậc ba phức. Số đáp số là $0,1$ hoặc $3$; ba
+                đáp số chỉ khi $d=-3$. Khử được $\Leftrightarrow$ chia ba góc $\arg\alpha$ ra được số hữu tỉ:
+                $\sqrt[3]{2+11i}=2+i$ được, $\sqrt[3]{4+4\sqrt{-3}}$ (góc $60^\circ$) thì không.</li>
+        </ul>
         <p class="text-xs text-slate-400 mt-4">
             Đọc thêm: <a href="https://en.wikipedia.org/wiki/Nested_radical" target="_blank" rel="noopener"
                 class="underline hover:text-slate-200">Nested radical (denesting)</a> ·
             <a href="https://en.wikipedia.org/wiki/Casus_irreducibilis" target="_blank" rel="noopener"
                 class="underline hover:text-slate-200">Casus irreducibilis</a> ·
             <a href="https://en.wikipedia.org/wiki/Quadratic_integer" target="_blank" rel="noopener"
-                class="underline hover:text-slate-200">Vành $\mathbb Z[\sqrt d]$ và chuẩn</a>
+                class="underline hover:text-slate-200">Vành $\mathbb Z[\sqrt d]$ và chuẩn</a> ·
+            <a href="https://en.wikipedia.org/wiki/Gaussian_integer" target="_blank" rel="noopener"
+                class="underline hover:text-slate-200">Số nguyên Gauss $\mathbb Z[i]$</a> ·
+            <a href="https://en.wikipedia.org/wiki/Eisenstein_integer" target="_blank" rel="noopener"
+                class="underline hover:text-slate-200">Số nguyên Eisenstein ($d=-3$)</a> ·
+            <a href="https://en.wikipedia.org/wiki/Angle_trisection" target="_blank" rel="noopener"
+                class="underline hover:text-slate-200">Chia ba góc</a>
         </p>
     </div>
 
@@ -859,20 +1384,30 @@ cbrt(44 + 18·sqrt12)         = không khử được
     }
 
     // Rút c = k^2 * d với d squarefree
+    // Rút c = k^2 * d với d squarefree, GIỮ DẤU: d < 0 khi c < 0 (mục 14)
     function squarefreePart(c) {
-        let k = 1, d = Number(c), i = 2;
+        const neg = c < 0n;
+        let k = 1, d = Number(neg ? -c : c), i = 2;
         while (i * i <= d) {
             while (d % (i * i) === 0) { d /= i * i; k *= i; }
             i++;
         }
-        return { k: BigInt(k), d: BigInt(d) };
+        return { k: BigInt(k), d: BigInt(neg ? -d : d) };
+    }
+
+    // Căn bậc hai nguyên (Newton trên số nguyên)
+    function isqrtBig(n) {
+        if (n < 0n) return -1n;
+        if (n < 2n) return n;
+        let x = n, y = (x + 1n) >> 1n;
+        while (y < x) { x = y; y = (x + n / x) >> 1n; }
+        return x;
     }
 
     function isPerfectSquare(n) {
         if (n < 0n) return false;
-        const r = BigInt(Math.round(Math.sqrt(Number(n))));
-        for (let t = r - 2n; t <= r + 2n; t++) if (t >= 0n && t * t === n) return true;
-        return false;
+        const r = isqrtBig(n);
+        return r * r === n;
     }
 
     const babs = x => (x < 0n ? -x : x);
@@ -893,20 +1428,28 @@ cbrt(44 + 18·sqrt12)         = không khử được
         return out;
     }
 
-    // Ứng viên q lấy trực tiếp từ số thực (mục 9)
-    function numericQ(a, B, d) {
-        const A = Number(a), Bn = Number(B), D = Number(d);
-        const rt = Math.sqrt(D);
-        const t = Math.cbrt(A + Bn * rt), s = Math.cbrt(A - Bn * rt);
-        const q = Math.round((t + s) / 2);
-        return Number.isFinite(q) ? BigInt(q) : 0n;
+    // Nghiệm thực của 4x^3 - 3mx = a, xếp giảm dần: MỘT nghiệm khi a^2 > m^3
+    // (trường hợp c > 0, mục 3), BA nghiệm khi a^2 < m^3 (luôn xảy ra khi c < 0, mục 14).
+    function realRootsOf(a, m) {
+        if (m > 0) {
+            const R32 = Math.pow(m, 1.5);
+            if (Math.abs(a) < R32) {
+                const th = Math.acos(Math.max(-1, Math.min(1, a / R32))) / 3;
+                const sm = Math.sqrt(m), T = 2 * Math.PI / 3;
+                return [sm * Math.cos(th), sm * Math.cos(th - T), sm * Math.cos(th + T)];
+            }
+        }
+        const D = Math.sqrt(Math.max(0, a * a - m * m * m));
+        return [(Math.cbrt(a + D) + Math.cbrt(a - D)) / 2];
     }
 
-    // Thuật toán mục 5
+    // Thuật toán tổng quát: mục 5 (nguyên) + mục 12 (nửa nguyên, ẩn u = 2q) + mục 14 (c < 0)
     function denest(a, b, c) {
-        const R = { a: a, b: b, c: c, cand: [], ok: false, stage: '' };
+        const R = { a: a, b: b, c: c, cand: [], sols: [], ok: false, stage: '' };
         const sf = squarefreePart(c);
         R.k = sf.k; R.d = sf.d; R.B = b * sf.k;
+        R.dMod4 = Number(((R.d % 4n) + 4n) % 4n);
+        R.half = R.dMod4 === 1;              // d ≡ 1 (mod 4): O_K chứa số nửa nguyên
 
         R.N = a * a - c * b * b;
         const cb = icbrt(R.N);
@@ -914,35 +1457,55 @@ cbrt(44 + 18·sqrt12)         = không khử được
         if (!cb.exact) { R.stage = 'norm'; return R; }
 
         const m = R.m;
-        let cands = divisorsOf(a);
-        R.listed = cands !== null;
-        if (!R.listed) {
-            const g = numericQ(a, R.B, R.d);
-            cands = [g, g - 1n, g + 1n];
+        R.roots = realRootsOf(Number(a), Number(m));      // 1 hoặc 3 nghiệm thực
+        R.guess = R.roots.map(r => {
+            const g = Math.round(2 * r);
+            return Number.isFinite(g) ? BigInt(g) : 0n;
+        });
+
+        // ứng viên u = 2q
+        let cands;
+        if (a === 0n) {                       // mục 14: mọi u đều "chia hết" 0 → giải trực tiếp
+            cands = [0n];
+            const t = 3n * m;
+            if (t > 0n) {
+                const r = isqrtBig(t);
+                if (r * r === t) { cands.push(r); cands.push(-r); }
+            }
+            R.listed = true;
+            R.zeroCase = true;
+        } else {
+            const ds = divisorsOf(2n * a);    // u | 2a
+            R.listed = ds !== null;
+            if (R.listed) cands = ds;
+            else {
+                cands = [];
+                R.guess.forEach(g => { cands.push(g - 1n, g, g + 1n); });
+            }
         }
-        R.guess = numericQ(a, R.B, R.d);
 
         for (let i = 0; i < cands.length; i++) {
-            const q = cands[i];
-            const val = 4n * q * q * q - 3n * m * q;
-            const row = { q: q, val: val, hit: val === a, den: null, p: null, pInt: false };
+            const u = cands[i];
+            const val = u * u * u - 3n * m * u;            // so với 2a
+            const row = { u: u, val: val, hit: val === 2n * a, den: null, w: null, wInt: false };
             if (row.hit) {
-                const den = 4n * q * q - m;
+                const den = u * u - m;                     // = 4q^2 - m
                 row.den = den;
-                if (den !== 0n && R.B % den === 0n) {
-                    const p = R.B / den;
-                    if (q * q * q + 3n * R.d * p * p * q === a &&
-                        3n * q * q * p + R.d * p * p * p === R.B) {
-                        row.p = p; row.pInt = true;
-                        R.ok = true; R.q = q; R.p = p; R.stage = 'done';
-                        R.cand.push(row);
-                        break;
+                if (den !== 0n && (2n * R.B) % den === 0n) {
+                    const w = (2n * R.B) / den;            // w = 2p
+                    // kiểm tra lại bằng số nguyên: ((u + w√d)/2)^3 = a + B√d
+                    if (u * u * u + 3n * R.d * u * w * w === 8n * a &&
+                        3n * u * u * w + R.d * w * w * w === 8n * R.B) {
+                        row.w = w; row.wInt = true;
+                        R.sols.push({ u: u, w: w, half: ((u % 2n) + 2n) % 2n === 1n });
                     }
                 }
             }
             R.cand.push(row);
         }
-        if (!R.ok) R.stage = 'cubic';
+        R.sols.sort((x, y) => (x.u < y.u ? 1 : (x.u > y.u ? -1 : 0)));   // u giảm dần: phần thực giảm dần
+        R.ok = R.sols.length > 0;
+        R.stage = R.ok ? 'done' : 'cubic';
         return R;
     }
 
@@ -964,6 +1527,11 @@ cbrt(44 + 18·sqrt12)         = không khử được
         }
     }
 
+    // nhãn của căn: √d, hoặc i khi d = -1
+    function radTex(d) { return d === -1n ? 'i' : '\\sqrt{' + d.toString() + '}'; }
+
+    const isEven = x => ((x % 2n) + 2n) % 2n === 0n;
+
     // "q + p√d" dưới dạng KaTeX
     function surd(q, p, d) {
         let out = '';
@@ -972,9 +1540,27 @@ cbrt(44 + 18·sqrt12)         = không khử được
             const ap = babs(p);
             out += (p < 0n ? '-' : (out ? '+' : ''));
             if (ap !== 1n) out += ap.toString();
-            out += '\\sqrt{' + d.toString() + '}';
+            out += radTex(d);
         }
         return out || '0';
+    }
+
+    // "(u + w√d)/2" — tự rút gọn thành q + p√d khi u, w cùng chẵn (mục 12)
+    function surdHalf(u, w, d) {
+        if (isEven(u) && isEven(w)) return surd(u / 2n, w / 2n, d);
+        return '\\dfrac{' + surd(u, w, d) + '}{2}';
+    }
+
+    // u/2 dưới dạng KaTeX (số nguyên hoặc phân số nửa nguyên)
+    function halfTex(x) {
+        return isEven(x) ? (x / 2n).toString() : '\\tfrac{' + x.toString() + '}{2}';
+    }
+
+    // 1.5 -> "3/2", 2 -> "2"
+    function fmtHalfNum(v) {
+        const t = Math.round(2 * v);
+        if (Math.abs(2 * v - t) > 1e-9) return v.toFixed(4);
+        return (t % 2 === 0) ? String(t / 2) : (t + '/2');
     }
 
     function readBig(el) {
@@ -998,40 +1584,68 @@ cbrt(44 + 18·sqrt12)         = không khử được
     }
 
     // Trạng thái dùng cho hình 1
-    const ST = { aNum: 7, mNum: -1, mExact: true, qInt: 1, hasQ: true, dNum: 2, BNum: 5, rootNum: 1 };
+    const ST = {
+        aNum: 7, mNum: -1, mExact: true, roots: [1], rats: [1],
+        dNum: 2, BNum: 5, cNum: 2, kNum: 1, half: false
+    };
 
     function render() {
         const a = readBig(inA), b = readBig(inB), c = readBig(inC);
 
+        const warn = html => {
+            elVerdict.innerHTML = banner('warn', html);
+            elSteps.innerHTML = ''; elTrace.innerHTML = '';
+            typeset(elVerdict);
+        };
+
         if (a === null || b === null || c === null) {
-            elVerdict.innerHTML = banner('warn', 'Hãy nhập $a,b,c$ là các <strong>số nguyên</strong>.');
-            elSteps.innerHTML = ''; elTrace.innerHTML = '';
-            typeset(elVerdict); return;
+            warn('Hãy nhập $a,b,c$ là các <strong>số nguyên</strong>.'); return;
         }
-        if (c < 2n) {
-            elVerdict.innerHTML = banner('warn', 'Cần $c\\geq2$. (Trường hợp $c&lt;0$ được bàn ở mục 10 nhưng máy này không xử lý.)');
-            elSteps.innerHTML = ''; elTrace.innerHTML = '';
-            typeset(elVerdict); return;
+        if (c === 0n) {
+            warn('Cần $c\\neq0$: với $c=0$ thì không còn căn nào để khử.'); return;
         }
-        if (isPerfectSquare(c)) {
-            elVerdict.innerHTML = banner('warn', '$c=' + c + '$ là số <strong>chính phương</strong> nên $\\sqrt c$ đã là số nguyên: bài toán suy biến thành $\\sqrt[3]{a+b\\sqrt c}$ với radicand nguyên. Hãy chọn $c$ không chính phương.');
-            elSteps.innerHTML = ''; elTrace.innerHTML = '';
-            typeset(elVerdict); return;
+        if (c > 0n && isPerfectSquare(c)) {
+            warn('$c=' + c + '$ là số <strong>chính phương</strong> nên $\\sqrt c$ đã là số nguyên: bài toán suy biến thành căn bậc ba của một số nguyên. Hãy chọn $c$ không chính phương (có thể âm — xem mục 14).'); return;
         }
         if (b === 0n) {
-            elVerdict.innerHTML = banner('warn', 'Cần $b\\neq0$: với $b=0$ thì bài toán chỉ là căn bậc ba của một số nguyên.');
-            elSteps.innerHTML = ''; elTrace.innerHTML = '';
-            typeset(elVerdict); return;
+            warn('Cần $b\\neq0$: với $b=0$ thì bài toán chỉ là căn bậc ba của một số nguyên.'); return;
         }
 
         const R = denest(a, b, c);
+        const cplx = R.d < 0n;
         const lhs = '\\sqrt[3]{' + surd(a, b, c) + '}';
+        const rhsRad = surd(a, R.B, R.d);
+
+        // nghiệm thực nào (theo thứ tự giảm dần) ứng với u đã tìm được?
+        const rootIndex = u => {
+            const q = Number(u) / 2;
+            let bi = 0, bd = Infinity;
+            (R.roots || []).forEach((r, i) => {
+                const dd = Math.abs(r - q);
+                if (dd < bd) { bd = dd; bi = i; }
+            });
+            return bi;
+        };
 
         /* ---- banner ---- */
         if (R.ok) {
-            elVerdict.innerHTML = banner('ok',
-                '<div class="font-semibold mb-1">Khử được!</div>' +
-                '<div class="text-center text-lg">$$' + lhs + ' = ' + surd(R.q, R.p, R.d) + '$$</div>');
+            const sols = R.sols;
+            let head, body = '';
+            if (sols.length === 1) {
+                const S = sols[0], principal = !cplx || rootIndex(S.u) === 0;
+                head = 'Khử được!' + (S.half ? ' (đáp số <strong>nửa nguyên</strong>)' : '');
+                body = principal
+                    ? '<div class="text-center text-lg">$$' + lhs + ' = ' + surdHalf(S.u, S.w, R.d) + '$$</div>'
+                    : '<div class="text-center text-lg">$$\\Big(' + surdHalf(S.u, S.w, R.d) + '\\Big)^{3} = ' + rhsRad + '$$</div>' +
+                      '<div class="text-sm mt-1">Đây là căn bậc ba <strong>duy nhất nằm trong $\\mathbb Q(' + radTex(R.d) + ')$</strong>, nhưng <em>không</em> phải giá trị chính: nhánh chính có phần thực $\\approx' + R.roots[0].toFixed(6) + '$ (mục 14).</div>';
+            } else {
+                head = 'Khử được — và cả <strong>' + sols.length + '</strong> căn bậc ba đều nằm trong $\\mathbb Q(' + radTex(R.d) + ')$ (chỉ xảy ra khi $d=-3$).';
+                body = '<div class="text-center">$$' + rhsRad + ' = \\Big(' +
+                    sols.map(S => surdHalf(S.u, S.w, R.d)).join('\\Big)^{3} = \\Big(') + '\\Big)^{3}$$</div>' +
+                    '<div class="text-sm">Giá trị chính là $' + surdHalf(sols[0].u, sols[0].w, R.d) +
+                    '$ (phần thực lớn nhất); hai cái còn lại là $\\omega z$ và $\\omega^2 z$.</div>';
+            }
+            elVerdict.innerHTML = banner('ok', '<div class="font-semibold mb-1">' + head + '</div>' + body);
         } else if (R.stage === 'norm') {
             // icbrt trả về r với |r|^3 <= |N|, nên khoảng kẹp lệch một nhịp khi N < 0
             const lo = R.N < 0n ? R.m - 1n : R.m, hi = lo + 1n;
@@ -1041,78 +1655,116 @@ cbrt(44 + 18·sqrt12)         = không khử được
                 'Chuẩn $N=a^2-cb^2=' + R.N + '$ <strong>không phải lập phương đúng</strong>: nó nằm giữa $' +
                 par(lo) + '^3=' + (lo * lo * lo) + '$ và $' + par(hi) + '^3=' + (hi * hi * hi) + '$.');
         } else {
+            const rs = R.roots.map(r => r.toFixed(6)).join(',\\ ');
             elVerdict.innerHTML = banner('bad',
                 '<div class="font-semibold mb-1">Không khử được — dừng ở bước 3.</div>' +
-                '$N$ là lập phương ($m=' + R.m + '$) nhưng $4q^3-3mq=a$ <strong>vô nghiệm nguyên</strong>: nghiệm thực duy nhất là $q^*\\approx' +
-                realRootOf(Number(R.a), Number(R.m)).toFixed(6) + '$.');
+                '$N$ là lập phương ($m=' + R.m + '$) nhưng $u^3-3mu=2a$ <strong>vô nghiệm nguyên</strong>: ' +
+                (R.roots.length === 3
+                    ? 'ba nghiệm thực của $4q^3-3mq=a$ là $q^*\\in\\{' + rs + '\\}$ — không có cái nào là số nửa nguyên.'
+                    : 'nghiệm thực duy nhất là $q^*\\approx' + rs + '$ — không phải số nửa nguyên.'));
         }
 
         /* ---- các bước ---- */
-        const eqm = R.mExact ? R.m : null;
         let steps = '';
+        const dm4 = R.dMod4;
         steps += card('Bước 1 — chuẩn hoá radicand',
             (R.k === 1n
                 ? '$c=' + c + '$ đã squarefree, nên $k=1$, $d=' + R.d + '$, $B=b=' + R.B + '$.'
-                : '$c=' + c + '=' + R.k + '^2\\cdot' + R.d + '$ nên $k=' + R.k + '$, $d=' + R.d +
-                  '$ và $B=bk=' + R.B + '$. Tức $' + surd(a, b, c) + ' = ' + surd(a, R.B, R.d) + '$.'));
+                : '$c=' + c + '=' + R.k + '^2\\cdot(' + R.d + ')$ nên $k=' + R.k + '$, $d=' + R.d +
+                  '$ và $B=bk=' + R.B + '$. Tức $' + surd(a, b, c) + ' = ' + rhsRad + '$.') +
+            (cplx
+                ? ' Vì $c&lt;0$: $\\sqrt c=i\\sqrt{' + (-c) + '}$, mọi đáp số là <strong>số phức</strong> trong trường bậc hai ảo $K=\\mathbb Q(' + radTex(R.d) + ')$ (mục 14).'
+                : '') +
+            (R.half
+                ? ' $d\\equiv1\\ (\\mathrm{mod}\\ 4)$ nên $\\mathcal O_K=\\mathbb Z\\big[\\tfrac{1+' + radTex(R.d) + '}{2}\\big]$: đáp số <strong>được phép nửa nguyên</strong> (mục 12).'
+                : ' $d\\equiv' + dm4 + '\\ (\\mathrm{mod}\\ 4)$ nên $\\mathcal O_K=\\mathbb Z[' + radTex(R.d) + ']$: đáp số buộc phải <strong>nguyên</strong>.'));
 
         steps += card('Bước 2 — chuẩn $N=a^2-cb^2$',
-            '$N=(' + a + ')^2-' + c + '\\cdot(' + b + ')^2=' + R.N + '$ — ' +
+            '$N=(' + a + ')^2-(' + c + ')\\cdot(' + b + ')^2=' + R.N + '$ — ' +
             (R.mExact ? '<strong>là lập phương đúng</strong>, $m=\\sqrt[3]{N}=' + R.m + '$.'
-                      : '<strong>không</strong> là lập phương đúng. Dừng.'));
+                      : '<strong>không</strong> là lập phương đúng. Dừng.') +
+            (cplx && R.mExact ? ' (Với $c&lt;0$ thì $N=a^2+' + (-c) + 'b^2>0$ luôn dương và $m=|z|^2>0$.)' : ''));
 
         if (R.mExact) {
             const m3 = 3n * R.m;
-            const cubicEq = '4q^3' + (m3 === 0n ? '' : (m3 > 0n ? '-' + m3 : '+' + babs(m3)) + 'q') + '=' + a;
-            steps += card('Bước 3 — phương trình bậc ba $4q^3-3mq=a$',
-                '$' + cubicEq + '$. ' +
-                (R.listed
-                    ? 'Đã thử ' + R.cand.length + ' ứng viên trong số các ước nguyên của $a=' + a + '$'
-                    : '$|a|$ quá lớn để liệt kê ước, dùng ứng viên làm tròn ở mục 9') +
-                '; ứng viên từ số thực: $\\operatorname{round}\\!\\big(\\tfrac12(t+s)\\big)=' + R.guess + '$. ' +
-                (R.ok ? '<strong>Nghiệm nguyên: $q=' + R.q + '$.</strong>' : 'Không có nghiệm nguyên.'));
+            const eq = 'u^3' + (m3 === 0n ? '' : (m3 > 0n ? '-' + m3 : '+' + babs(m3)) + 'u') + '=' + (2n * a);
+            const rootTxt = R.roots.length === 3
+                ? 'Vì $a^2&lt;m^3$ nên có <strong>ba</strong> nghiệm thực $q=u/2$: $' + R.roots.map(r => r.toFixed(6)).join(';\\ ') + '$ (chúng là phần thực của ba căn bậc ba).'
+                : 'Nghiệm thực duy nhất: $q=u/2\\approx' + R.roots[0].toFixed(6) + '$.';
+            steps += card('Bước 3 — phương trình bậc ba theo $u=2q$: $u^3-3mu=2a$',
+                '$' + eq + '$. ' +
+                (R.zeroCase
+                    ? 'Vì $a=0$, mọi $u$ đều chia hết $2a$: giải trực tiếp $u(u^2-3m)=0$ (mục 14).'
+                    : (R.listed
+                        ? 'Đã thử ' + R.cand.length + ' ứng viên trong các ước nguyên của $2a=' + (2n * a) + '$'
+                        : '$|a|$ quá lớn để liệt kê ước, dùng ứng viên làm tròn từ số thực (mục 9)') +
+                      '. ') +
+                rootTxt + ' ' +
+                (R.ok
+                    ? '<strong>Nghiệm nguyên: $u=' + R.sols.map(S => S.u.toString()).join(',\\ ') + '$</strong> (tức $q=' + R.sols.map(S => halfTex(S.u)).join(',\\ ') + '$).'
+                    : 'Không có $u$ nguyên nào thoả.'));
         }
 
         if (R.ok) {
-            const den = 4n * R.q * R.q - R.m;
-            steps += card('Bước 4 — hệ số $p=\\dfrac{bk}{4q^2-m}$',
-                '$4q^2-m=4\\cdot' + (R.q * R.q) + '-(' + R.m + ')=' + den + '$, nên $p=\\dfrac{' + R.B + '}{' + den + '}=' + R.p + '$ — nguyên, đúng như bổ đề squarefree bảo đảm.');
+            steps += card('Bước 4 — hệ số $w=2p=\\dfrac{2B}{u^2-m}$',
+                R.sols.map(S => {
+                    const den = S.u * S.u - R.m;
+                    return '$u=' + S.u + ':\\ u^2-m=' + den + '$, nên $w=\\dfrac{' + (2n * R.B) + '}{' + den + '}=' + S.w +
+                        '$, tức $p=' + halfTex(S.w) + '$ và $z=' + surdHalf(S.u, S.w, R.d) + '$' +
+                        (S.half ? ' — <strong>nửa nguyên</strong>, $u,w$ cùng lẻ đúng như định lý mục 12.' : '.');
+                }).join('<br>'));
 
-            const chk = Number(R.q) + Number(R.p) * Math.sqrt(Number(R.d));
-            const rad = Number(a) + Number(b) * Math.sqrt(Number(c));
+            const S = R.sols[0];
+            const q = Number(S.u) / 2, pp = Number(S.w) / 2, D = Number(R.d);
+            let numChk;
+            if (cplx) {
+                const im = pp * Math.sqrt(-D);                       // z = q + i*im
+                const re3 = q * q * q - 3 * q * im * im;
+                const im3 = 3 * q * q * im - im * im * im;
+                numChk = 'Số phức: $z\\approx' + q.toFixed(6) + (im < 0 ? '-' : '+') + Math.abs(im).toFixed(6) +
+                    'i$, và $z^3\\approx' + re3.toFixed(6) + (im3 < 0 ? '-' : '+') + Math.abs(im3).toFixed(6) +
+                    'i$ so với $a+B\\sqrt d\\approx' + Number(a).toFixed(6) +
+                    (Number(R.B) < 0 ? '-' : '+') + Math.abs(Number(R.B) * Math.sqrt(-D)).toFixed(6) + 'i$ ✓';
+            } else {
+                const chk = q + pp * Math.sqrt(D);
+                const rad = Number(a) + Number(b) * Math.sqrt(Number(c));
+                numChk = 'Số thực: <span class="mono">' + chk.toFixed(9) + '</span> so với <span class="mono">' +
+                    Math.cbrt(rad).toFixed(9) + '</span> ✓';
+            }
             steps += card('Kiểm tra lại',
-                'Số nguyên: $(' + surd(R.q, R.p, R.d) + ')^3 = ' + surd(a, R.B, R.d) + '$ ✓ &nbsp;&nbsp;|&nbsp;&nbsp; ' +
-                'Số thực: <span class="mono">' + chk.toFixed(9) + '</span> so với <span class="mono">' +
-                Math.cbrt(rad).toFixed(9) + '</span> ✓');
+                'Số nguyên: $u^3+3duw^2=8a$ và $3u^2w+dw^3=8B$ ✓ &nbsp;&nbsp;|&nbsp;&nbsp; ' + numChk);
         }
         elSteps.innerHTML = steps;
 
-        /* ---- bảng thử ước ---- */
+        /* ---- bảng thử ứng viên ---- */
         if (R.mExact && R.cand.length) {
-            let rows = '';
             const list = R.cand;
             const showRow = r => {
                 const hit = r.hit;
-                const pcell = r.pInt ? ('<span class="text-emerald-700 font-semibold">' + r.p + '</span>')
+                const wcell = r.wInt ? ('<span class="text-emerald-700 font-semibold">' + r.w + '</span>')
                     : (hit ? (r.den === 0n ? '—' : 'không nguyên') : '—');
-                return '<tr class="' + (r.pInt ? 'bg-emerald-50' : '') + '">' +
-                    '<td class="mono">' + r.q + '</td>' +
+                const qTxt = isEven(r.u) ? (r.u / 2n).toString() : '$' + halfTex(r.u) + '$';
+                return '<tr class="' + (r.wInt ? 'bg-emerald-50' : '') + '">' +
+                    '<td class="mono">' + r.u + '</td>' +
+                    '<td class="mono">' + qTxt + '</td>' +
                     '<td class="mono">' + r.val + '</td>' +
-                    '<td>' + (hit ? '<span class="text-emerald-700 font-semibold">= a ✓</span>' : '<span class="text-slate-400">&ne; a</span>') + '</td>' +
+                    '<td>' + (hit ? '<span class="text-emerald-700 font-semibold">= 2a ✓</span>' : '<span class="text-slate-400">&ne; 2a</span>') + '</td>' +
                     '<td class="mono">' + (hit ? r.den : '—') + '</td>' +
-                    '<td class="mono">' + pcell + '</td></tr>';
+                    '<td class="mono">' + wcell + '</td></tr>';
             };
+            let rows = '';
             if (list.length <= 14) {
                 list.forEach(r => { rows += showRow(r); });
             } else {
                 for (let i = 0; i < 6; i++) rows += showRow(list[i]);
-                rows += '<tr><td colspan="5" class="text-center text-slate-400">… ' + (list.length - 12) + ' ứng viên nữa …</td></tr>';
+                rows += '<tr><td colspan="6" class="text-center text-slate-400">… ' + (list.length - 12) + ' ứng viên nữa …</td></tr>';
                 for (let i = list.length - 6; i < list.length; i++) rows += showRow(list[i]);
             }
             elTrace.innerHTML =
-                '<div class="text-xs font-semibold text-slate-500 tracking-wide mb-2">Bảng thử các ước $q$ của $a$</div>' +
+                '<div class="text-xs font-semibold text-slate-500 tracking-wide mb-2">Bảng thử các ứng viên $u=2q$ ' +
+                (R.zeroCase ? '(nghiệm của $u(u^2-3m)=0$)' : (R.listed ? '(ước của $2a$)' : '(quanh ứng viên làm tròn)')) + '</div>' +
                 '<div style="overflow-x:auto"><table class="tbl"><thead><tr>' +
-                '<th>$q$</th><th>$4q^3-3mq$</th><th>so với $a$</th><th>$4q^2-m$</th><th>$p=B/(4q^2-m)$</th>' +
+                '<th>$u$</th><th>$q=u/2$</th><th>$u^3-3mu$</th><th>so với $2a$</th><th>$u^2-m$</th><th>$w=2B/(u^2-m)$</th>' +
                 '</tr></thead><tbody>' + rows + '</tbody></table></div>';
         } else {
             elTrace.innerHTML = '';
@@ -1124,9 +1776,10 @@ cbrt(44 + 18·sqrt12)         = không khử được
         ST.aNum = Number(a);
         ST.mNum = R.mExact ? Number(R.m) : Math.cbrt(Number(R.N));
         ST.mExact = R.mExact;
-        ST.hasQ = R.ok; ST.qInt = R.ok ? Number(R.q) : null;
+        ST.roots = R.mExact ? R.roots : realRootsOf(Number(a), Math.cbrt(Number(R.N)));
+        ST.rats = R.sols.map(S => Number(S.u) / 2);
         ST.dNum = Number(R.d); ST.BNum = Number(R.B);
-        ST.kNum = Number(R.k); ST.cNum = Number(c);
+        ST.kNum = Number(R.k); ST.cNum = Number(c); ST.half = R.half;
         drawCubic();
         setMapRadicand(Number(R.d), Number(c), Number(R.k));
     }
@@ -1148,12 +1801,6 @@ cbrt(44 + 18·sqrt12)         = không khử được
         return { ctx: ctx, W: w, H: h };
     }
 
-    // nghiệm thực duy nhất của 4x^3-3mx=a  (vì a^2-m^3 = d*B^2 > 0)
-    function realRootOf(a, m) {
-        const disc = a * a - m * m * m;
-        const D = Math.sqrt(Math.max(0, disc));
-        return (Math.cbrt(a + D) + Math.cbrt(a - D)) / 2;
-    }
 
     function niceStep(raw) {
         if (!(raw > 0) || !isFinite(raw)) return 1;
@@ -1174,10 +1821,10 @@ cbrt(44 + 18·sqrt12)         = không khử được
 
         const a = ST.aNum, m = ST.mNum;
         const f = x => 4 * x * x * x - 3 * m * x;
-        const root = realRootOf(a, m);
-        ST.rootNum = root;
+        const roots = (ST.roots && ST.roots.length) ? ST.roots : realRootsOf(a, m);
+        const maxAbsRoot = Math.max.apply(null, roots.map(Math.abs));
 
-        let xr = Math.max(2, Math.abs(root) * 1.7, m > 0 ? Math.sqrt(m) * 2 : 0);
+        let xr = Math.max(2, maxAbsRoot * 1.7, m > 0 ? Math.sqrt(m) * 2 : 0);
         xr = Math.ceil(xr);
         const L = 62, RM = 16, T = 18, BM = 30;
         const NS = 500;
@@ -1250,38 +1897,44 @@ cbrt(44 + 18·sqrt12)         = không khử được
         }
         ctx.stroke();
 
-        // các điểm nguyên trên đường cong
-        for (let x = -xr; x <= xr; x++) {
-            const y = f(x);
+        // các vạch nguyên trên đường cong — và cả vạch nửa nguyên khi d ≡ 1 (mod 4)
+        const stepQ = ST.half ? 0.5 : 1;
+        for (let n2 = -Math.round(xr / stepQ); n2 <= Math.round(xr / stepQ); n2++) {
+            const x = n2 * stepQ, y = f(x);
             if (y < ymin || y > ymax) continue;
-            const isRoot = Math.abs(y - a) < 1e-9;
+            const isHalf = Math.abs(x - Math.round(x)) > 1e-9;
             ctx.beginPath();
-            ctx.arc(PX(x), PY(y), isRoot ? 6 : 3, 0, Math.PI * 2);
-            ctx.fillStyle = isRoot ? '#059669' : '#94a3b8';
+            ctx.arc(PX(x), PY(y), isHalf ? 2.2 : 3, 0, Math.PI * 2);
+            ctx.fillStyle = isHalf ? '#cbd5e1' : '#94a3b8';
             ctx.fill();
-            if (isRoot) {
+        }
+
+        // các giao điểm với y = a: xanh nếu là số (nửa) nguyên, ✗ đỏ nếu không
+        roots.forEach(r => {
+            if (r < -xr || r > xr) return;
+            const isRat = (ST.rats || []).some(q => Math.abs(q - r) < 1e-6 * Math.max(1, Math.abs(r)));
+            const px = PX(r), py = PY(a);
+            if (isRat) {
+                ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#059669'; ctx.fill();
                 ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
                 ctx.strokeStyle = '#059669'; ctx.lineWidth = 1.4; ctx.setLineDash([4, 3]);
-                ctx.beginPath(); ctx.moveTo(PX(x), PY(y)); ctx.lineTo(PX(x), H - BM); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, H - BM); ctx.stroke();
                 ctx.setLineDash([]);
                 ctx.fillStyle = '#047857'; ctx.font = 'bold 12px sans-serif';
                 ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
-                ctx.fillText('q = ' + x, PX(x) + 9, PY(y) - 6);
+                ctx.fillText('q = ' + fmtHalfNum(r), px + 9, py - 6);
+            } else {
+                ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(px - 5, py - 5); ctx.lineTo(px + 5, py + 5);
+                ctx.moveTo(px + 5, py - 5); ctx.lineTo(px - 5, py + 5);
+                ctx.stroke();
+                ctx.fillStyle = '#b91c1c'; ctx.font = 'bold 11px sans-serif';
+                ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                ctx.fillText('q* ≈ ' + r.toFixed(4), px + 8, py + 6);
             }
-        }
-
-        // nghiệm thực (nếu không nguyên thì đánh dấu bằng dấu x)
-        if (!ST.hasQ && root >= -xr && root <= xr) {
-            const px = PX(root), py = PY(a);
-            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(px - 5, py - 5); ctx.lineTo(px + 5, py + 5);
-            ctx.moveTo(px + 5, py - 5); ctx.lineTo(px - 5, py + 5);
-            ctx.stroke();
-            ctx.fillStyle = '#b91c1c'; ctx.font = 'bold 11px sans-serif';
-            ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-            ctx.fillText('q* ≈ ' + root.toFixed(4) + ' (không nguyên)', px + 8, py + 6);
-        }
+        });
         ctx.restore();
 
         // nhãn trục
@@ -1293,20 +1946,24 @@ cbrt(44 + 18·sqrt12)         = không khử được
         ctx.fillText('q', W - RM - 2, H - BM - 3);
 
         // ghi chú dưới hình
+        const disc = ST.dNum * ST.BNum * ST.BNum;      // = a^2 - m^3
+        const nRat = (ST.rats || []).length;
         let note;
         if (!ST.mExact) {
             note = 'Vì $N$ không là lập phương, $m=\\sqrt[3]N\\approx' + m.toFixed(6) +
                 '$ không nguyên — đường cong vẽ ở đây chỉ để tham khảo, bài toán đã dừng ở bước 2.';
-        } else if (ST.hasQ) {
-            note = 'Nghiệm thực duy nhất $q^*=' + root.toFixed(6) + '$ rơi <strong>đúng</strong> vào vạch nguyên $q=' +
-                ST.qInt + '$ (điểm xanh) $\\Rightarrow$ khử được. ' +
-                (m > 0
-                    ? 'Đường $y=a$ nằm ngoài dải vàng đúng một khoảng $a^2-m^3=dB^2=' + (ST.dNum * ST.BNum * ST.BNum) + '>0$.'
-                    : 'Vì $m\\leq0$ đường cong tăng đơn điệu (không có dải vàng), nên hiển nhiên chỉ có một nghiệm thực; ở đây $a^2-m^3=dB^2=' + (ST.dNum * ST.BNum * ST.BNum) + '$.');
         } else {
-            note = 'Nghiệm thực duy nhất $q^*\\approx' + root.toFixed(6) +
-                '$ <strong>không</strong> nằm trên vạch nguyên nào (dấu ✗ đỏ) $\\Rightarrow$ không khử được, dù $m=' +
-                fmtNum(m) + '$ nguyên.';
+            note = (roots.length === 3
+                ? 'Vì $a^2-m^3=dB^2=' + disc + '&lt;0$ (chỉ xảy ra khi $c&lt;0$), đường $y=a$ nằm <strong>trong</strong> dải vàng: có <strong>ba</strong> giao điểm, và chúng là phần thực của ba căn bậc ba phức (mục 14). '
+                : (m > 0
+                    ? 'Đường $y=a$ nằm ngoài dải $|y|\\le m^{3/2}$ đúng một khoảng $a^2-m^3=dB^2=' + disc +
+                      '>0$, nên chỉ có <strong>một</strong> giao điểm. '
+                    : 'Vì $m\\leq0$ đường cong tăng đơn điệu (không có dải vàng) nên chỉ có <strong>một</strong> giao điểm; ở đây $a^2-m^3=dB^2=' + disc + '$. '))
+                + (nRat === 0
+                    ? 'Không giao điểm nào rơi vào vạch (nửa) nguyên (dấu ✗ đỏ) $\\Rightarrow$ không khử được, dù $m=' + fmtNum(m) + '$ nguyên.'
+                    : 'Có ' + (nRat === 1 ? 'một' : nRat) + ' giao điểm rơi <strong>đúng</strong> vào vạch $q\\in\\{' +
+                      ST.rats.map(fmtHalfNum).join(',\\ ') + '\\}$ (điểm xanh) $\\Rightarrow$ khử được.')
+                + (ST.half ? ' Vì $d\\equiv1\\ (\\mathrm{mod}\\ 4)$, các vạch <em>nửa nguyên</em> (điểm xám nhạt) cũng được tính (mục 12).' : '');
         }
         noteC.innerHTML = note;
         typeset(noteC);
@@ -1321,15 +1978,17 @@ cbrt(44 + 18·sqrt12)         = không khử được
 
     function buildMap() {
         const d = MAP.d, K = MAP.K, pts = [];
-        for (let q = -K; q <= K; q++) {
-            for (let p = -K; p <= K; p++) {
-                if (q === 0 && p === 0) continue;
-                pts.push({
-                    q: q, p: p,
-                    a: q * (q * q + 3 * d * p * p),
-                    b: p * (3 * q * q + d * p * p),
-                    m: q * q - d * p * p
-                });
+        const half = ((d % 4) + 4) % 4 === 1;      // d ≡ 1 (mod 4): O_K có phần tử nửa nguyên
+        for (let u = -2 * K; u <= 2 * K; u++) {
+            for (let w = -2 * K; w <= 2 * K; w++) {
+                if (u === 0 && w === 0) continue;
+                const uOdd = Math.abs(u % 2) === 1, wOdd = Math.abs(w % 2) === 1;
+                if (uOdd !== wOdd) continue;               // u, w phải cùng tính chẵn lẻ
+                if (uOdd && !half) continue;               // nửa nguyên chỉ khi d ≡ 1 (mod 4)
+                const q = u / 2, p = w / 2;
+                const A = q * (q * q + 3 * d * p * p), Bv = p * (3 * q * q + d * p * p);
+                if (!Number.isInteger(A) || !Number.isInteger(Bv) || Bv === 0) continue;   // chỉ vẽ (a,B) nguyên, B ≠ 0
+                pts.push({ q: q, p: p, a: A, b: Bv, m: q * q - d * p * p, half: uOdd });
             }
         }
         MAP.pts = pts;
@@ -1348,7 +2007,8 @@ cbrt(44 + 18·sqrt12)         = không khử được
     }
 
     function setMapRadicand(d, c, k) {
-        labD.textContent = (k === 1) ? ('d = ' + d) : ('d = ' + d + '  (c = ' + c + ' = ' + k + '²·' + d + ')');
+        const dTxt = d < 0 ? ('(' + d + ')') : String(d);
+        labD.textContent = (k === 1) ? ('d = ' + d) : ('d = ' + d + '  (c = ' + c + ' = ' + k + '²·' + dTxt + ')');
         if (d !== MAP.d) { MAP.d = d; MAP.c = c; MAP.k = k; buildMap(); }
         MAP.c = c; MAP.k = k;
         drawMap();
@@ -1412,12 +2072,23 @@ cbrt(44 + 18·sqrt12)         = không khử được
             ctx.strokeStyle = 'rgba(16,185,129,0.85)';
             ctx.lineWidth = 1.6; ctx.setLineDash([5, 4]);
             const branches = [];
-            if (M >= 0) {
+            if (d < 0) {
+                // a^2 + |d|B^2 = m^3 là ELLIPSE (mục 14): tham số hoá theo góc
+                const A0 = Math.sqrt(Math.max(0, M)), B0 = Math.sqrt(Math.max(0, M / (-d)));
+                const seg = [];
+                for (let i = 0; i <= 360; i++) {
+                    const t = i * Math.PI / 180;
+                    seg.push([A0 * Math.cos(t), B0 * Math.sin(t)]);
+                }
+                branches.push(seg);
+            } else if (M >= 0) {
                 for (const sg of [1, -1]) {
                     const seg = [];
                     for (let i = 0; i <= 240; i++) {
                         const B = bOf(H) + (bOf(0) - bOf(H)) * i / 240;
-                        seg.push([sg * Math.sqrt(M + d * B * B), B]);
+                        const v = M + d * B * B;
+                        if (v < 0) continue;
+                        seg.push([sg * Math.sqrt(v), B]);
                     }
                     branches.push(seg);
                 }
@@ -1450,11 +2121,14 @@ cbrt(44 + 18·sqrt12)         = không khử được
             if (x < -20 || x > W + 20 || y < -20 || y > H + 20) return;
             const col = pt.m > 0 ? '#4f46e5' : (pt.m < 0 ? '#e11d48' : '#d97706');
             const on = i === MAP.hover;
-            ctx.beginPath(); ctx.arc(x, y, on ? 6.5 : 3.6, 0, Math.PI * 2);
+            const r = on ? 6.5 : 3.6;
+            ctx.beginPath();
+            if (pt.half) ctx.rect(x - r * 0.85, y - r * 0.85, r * 1.7, r * 1.7);
+            else ctx.arc(x, y, r, 0, Math.PI * 2);
             ctx.fillStyle = col; ctx.fill();
             ctx.strokeStyle = '#fff'; ctx.lineWidth = on ? 2.5 : 1.5; ctx.stroke();
             if (on) {
-                const txt = '(q,p) = (' + pt.q + ', ' + pt.p + ')';
+                const txt = '(q,p) = (' + fmtHalfNum(pt.q) + ', ' + fmtHalfNum(pt.p) + ')';
                 ctx.font = 'bold 11px sans-serif';
                 const tw = ctx.measureText(txt).width;
                 let bx = x + 10, by = y - 26;
@@ -1472,7 +2146,7 @@ cbrt(44 + 18·sqrt12)         = không khử được
         ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
         ctx.fillText('a', W - 6, axisY - 4);
         ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-        ctx.fillText('B  (hệ số của √' + MAP.d + ')', 10, 8);
+        ctx.fillText('B  (hệ số của ' + (MAP.d === -1 ? 'i' : '√' + MAP.d) + ')', 10, 8);
     }
 
     function mapInfo(i) {
@@ -1481,10 +2155,12 @@ cbrt(44 + 18·sqrt12)         = không khử được
             return;
         }
         const pt = MAP.pts[i], d = MAP.d;
+        const rl = d === -1 ? 'i' : '√' + d;
         infoM.textContent =
-            '∛(' + pt.a + ' ' + (pt.b < 0 ? '−' : '+') + ' ' + Math.abs(pt.b) + '√' + d + ') = ' +
-            pt.q + ' ' + (pt.p < 0 ? '−' : '+') + ' ' + Math.abs(pt.p) + '√' + d +
-            '   |   m = q² − dp² = ' + pt.m + ',  N = m³ = ' + Math.pow(pt.m, 3);
+            '∛(' + pt.a + ' ' + (pt.b < 0 ? '−' : '+') + ' ' + Math.abs(pt.b) + rl + ') = ' +
+            fmtHalfNum(pt.q) + ' ' + (pt.p < 0 ? '−' : '+') + ' ' + fmtHalfNum(Math.abs(pt.p)) + rl +
+            '   |   m = q² − dp² = ' + pt.m + ',  N = m³ = ' + Math.pow(pt.m, 3) +
+            (pt.half ? '   |   nửa nguyên' : '');
     }
 
     function hitTest(mx, my) {
