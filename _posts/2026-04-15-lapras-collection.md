@@ -9,7 +9,7 @@ cover-img: https://github.com/user-attachments/assets/18dcaa07-d45a-4d92-9d4f-05
 
 
 
-## Intro 
+### Intro 
 
 Lapras (ラプラス) is a Water/Ice type Pokémon introduced in Generation 1. 
 
@@ -53,6 +53,14 @@ Note:
 | Starrium on a Starry Night                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />     | 🌟   | 200   |
 | Seasonal Flowers                             | <img width="200" alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />     | 🌟   | 200   |
 
+
+
+### Wishlist
+
+
+Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/b515ff8d-1336-4858-a531-238b74ed0efb" />
 
 
 ### TCG AR
@@ -226,12 +234,6 @@ LAPRAS Pokemon Center Re-Ment Petite Fleur "Seasonal Flowers" Series figure
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />
 
 
-#### Wishlist
-
-
-Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/b515ff8d-1336-4858-a531-238b74ed0efb" />
 
 
 
