@@ -51,6 +51,7 @@ Note:
 | Pokemon Re-ment Circular Diorama Collection  | <img width="200" alt="image" src="https://github.com/user-attachments/assets/adcf2e6a-7592-4a33-b6e2-b6a1e6a352e7" />     | 🌟   | 200   |
 | Pop Melody                                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4a3761e5-64a8-4305-8cf0-1bb1f29c0cb5" />     | 🌟   | 300   |
 | Starrium on a Starry Night                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />     | 🌟   | 200   |
+| Seasonal Flowers                             | <img width="200" alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />     | 🌟   | 200   |
 
 
 
@@ -217,6 +218,14 @@ Pokémon: Starrium on a Starry Night
 <img width="460" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />
 
 
+### Seasonal Flowers
+
+LAPRAS Pokemon Center Re-Ment Petite Fleur "Seasonal Flowers" Series figure
+
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />
+
+
 #### Wishlist
 
 
@@ -226,10 +235,7 @@ Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
 
 
 
-LAPRAS Pokemon Center Re-Ment Petite Fleur "Seasonal Flowers" Series figure
 
-
-<img width="460"  alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />
 
 
 
