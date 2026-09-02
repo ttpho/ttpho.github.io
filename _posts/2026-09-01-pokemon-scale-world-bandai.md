@@ -3,8 +3,8 @@ layout: post
 title: "Pokemon Scale World Bandai - Kanto Collection"
 subtitle: "Danh sách mô hình Pokemon Scale World 1/20 - Bandai"
 tags: [pokemon]
-thumbnail-img: https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_img2/images/Vinh/Dec/mo-hinh-johto-region-jasmine-steelix-1-20-pokemon-scale-world-bandai-1.jpg
-cover-img: https://www.bandai.co.jp/candy/pokemonscaleworld/images/model/1000177277.jpg
+thumbnail-img: https://www.bandai.co.jp/candy/pokemonscaleworld/images/model/1000177277.jpg
+cover-img: https://www.bandai.co.jp/candy/pokemonscaleworld/images/top/logo_mv_about.png
 ---
 
 ### Intro
