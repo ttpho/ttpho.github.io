@@ -19,7 +19,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 4 | Lance & Dragonite (PSCW014) | <img width="200" alt="Lance & Dragonite" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-lance-%26-dragonite-1-20-pokemon-scale-world-bandai-pscw014-1.jpg" /> | ❌ | 1600k |
 | 5 | Erika & Gloom & Vileplume (PSCW013) | <img width="200" alt="Erika & Gloom & Vileplume" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-erika-%26-gloom-%26-vileplume-1-20-pokemon-scale-world-bandai-pscw013-1.jpg" /> | ❌ | 1800k |
 | 6 | Kanto Lt. Surge & Magneton & Electabuzz (PSCW011) | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-kanto-region-lt.-surge-%26-magneton-%26-electabuzz-1-20-pokemon-scale-world-bandai-pscw011-1.jpg" /> | ❌ | _ |
-| 7 | Green & Arcanine (PSCW010) | <img width="200" alt="Green & Arcanine" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-green-%26-arcanine-1-20-pokemon-scale-world-bandai-pscw010-1.jpg" /> | ❌ | 1420k |
+| 7 | Green & Arcanine (PSCW010) | <img width="200" alt="Green & Arcanine" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-green-%26-arcanine-1-20-pokemon-scale-world-bandai-pscw010-1.jpg" /> | ❌ | 1400k |
 | 8 | Takeshi & Onix (PSCW002) | <img width="200" alt="Takeshi & Onix" src="https://herogame.vn/upload/images/full/2042023143414_369176440eaf602b6a8.30539490_mo-hinh-takeshi-onix-1-20-pokemon-scale-world-bandai-pscw002-1.jpg" /> | ❌ | _ |
 | 9 | Kanto Region Set 3 (PSCW003) | <img width="200" alt="Kanto Region Set 3" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_resource/images/mo-hinh-kanto-region-set-3-1-20-pokemon-scale-world-bandai-pscw003-1.jpg" /> | ❌ | _ |
 | 10 | Leaf & Clefable & Gengar (PSCW004) | <img width="200" alt="Leaf & Clefable & Gengar" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_resource/images/mo-hinh-leaf-clefable-gengar-1-20-pokemon-scale-world-bandai-pscw004-1.jpg" /> | ❌ | _ |
@@ -36,3 +36,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 21 | Cloyster | <img width="200" alt="Arven & Cloyster & Mabosstiff" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/12.2023/mo-hinh-arven-cloyster-mabosstiff-1-20-pokemon-scale-world-bandai-pscw023-1.jpg" /> | ✅ | 800K |
 
 [pokevault.com](https://pokevault.com)
+
+### Wishlist
+
+<img width="200" alt="Wishlist 1" src="/assets/pokemon_bandai_scale_world/no1.png" /> <img width="200" alt="Wishlist 2" src="/assets/pokemon_bandai_scale_world/no2.png" /> <img width="200" alt="Wishlist 3" src="/assets/pokemon_bandai_scale_world/no3.png" /> <img width="200" alt="Wishlist 4" src="/assets/pokemon_bandai_scale_world/no4.png" />
