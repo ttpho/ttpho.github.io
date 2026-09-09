@@ -34,6 +34,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 19 | Professor Sycamore & Mega Charizard X (Kalos Region) | <img width="200" alt="Professor Sycamore & Mega Charizard X" src="https://pokevault.com/image/cache/catalog/202108/1785146762_pokemon-bandai-scale-world-mega-charizard-x-professor-sycamore-figure-2-500x500.jpg" /> | ✅ | 1360k |
 | 20 | Pokemon Scale World Kanto Vol.2 1Box 10pcs | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
 | 21 | Cloyster | <img width="200" alt="Arven & Cloyster & Mabosstiff" src="https://pokevault.com/image/cache/catalog/202108/1709287916_pokemon-bandai-scale-world-paldea-arven-cloyster-mabosstiff-figure-set-5-500x500.jpg" /> | ✅ | 800K |
+| 22 | Lumiose City Mega Dragonite | <img width="200" alt="Lumiose City Mega Dragonite" src="https://ichiba-japan.com/cdn/shop/files/mega-dragonite-pokemon-scale-world-figure-lumiose-city-figure-bandai-namco-946571_1024x1024.jpg?v=1787581982" /> | ❌ | _ |
 
 [pokevault.com](https://pokevault.com/search/Pokemon%20Scale%20World)
 
