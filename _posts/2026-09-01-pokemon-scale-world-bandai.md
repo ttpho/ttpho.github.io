@@ -21,7 +21,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 6 | Kanto Lt. Surge & Magneton & Electabuzz (PSCW011) | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-kanto-region-lt.-surge-%26-magneton-%26-electabuzz-1-20-pokemon-scale-world-bandai-pscw011-1.jpg" /> | ❌ | _ |
 | 7 | Green & Arcanine (PSCW010) | <img width="200" alt="Green & Arcanine" src="https://pokevault.com/image/cache/catalog/201707/1576069221_scalearcanine1-500x500.jpg" /> | ❌ | 1400k |
 | 8 | Takeshi & Onix (PSCW002) | <img width="200" alt="Takeshi & Onix" src="https://pokevault.com/image/cache/catalog/202108/1674813461_brock-onix-bandai-scale-world-kanto-figure-1-500x500.jpg" /> | ❌ | _ |
-| 9 | Kanto Region Set 3 (PSCW003) | <img width="200" alt="Kanto Region Set 3" src="https://www.hlj.com/productimages/ban/bann83517_0.jpg" /> | ❌ | _ |
+| 9 | Kanto Region Set 3 (PSCW003) | <img width="200" alt="Kanto Region Set 3" src="https://www.hlj.com/productimages/ban/bann83517_0.jpg" /> | ✅ | _ |
 | 10 | Leaf & Clefable & Gengar (PSCW004) | <img width="200" alt="Leaf & Clefable & Gengar" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_resource/images/mo-hinh-leaf-clefable-gengar-1-20-pokemon-scale-world-bandai-pscw004-1.jpg" /> | ❌ | _ |
 | 11 | Sylph Company Set (PSCW008) | <img width="200" alt="Sylph Company Set" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-sylph-company-set-1-20-pokemon-scale-world-bandai-pscw008-1.jpg" /> | ❌ | _ |
 | 12 | Kanto Nidoran & Nidorino & Nidoking (PSCW009) | <img width="200" alt="Nidoran & Nidorino & Nidoking" src="https://pokevault.com/image/cache/catalog/202108/1679916821_nidoking-nidoran-nidorino-bandai-scale-world-figure-set-1-500x500.jpg" /> | ❌ | _ |
@@ -39,4 +39,8 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 
 ### Wishlist
 
-<img width="200" alt="Wishlist 1" src="/assets/pokemon_bandai_scale_world/no1.png" /> <img width="200" alt="Wishlist 2" src="/assets/pokemon_bandai_scale_world/no2.png" /> <img width="200" alt="Wishlist 3" src="/assets/pokemon_bandai_scale_world/no3.png" /> <img width="200" alt="Wishlist 4" src="/assets/pokemon_bandai_scale_world/no4.png" />
+ <img width="200" alt="Wishlist 2" src="/assets/pokemon_bandai_scale_world/no2.png" /> 
+ 
+ <img width="200" alt="Wishlist 3" src="/assets/pokemon_bandai_scale_world/no3.png" />
+ 
+ <img width="200" alt="Wishlist 4" src="/assets/pokemon_bandai_scale_world/no4.png" />
