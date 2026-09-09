@@ -39,7 +39,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 
 ### Wishlist
 
- <img width="200" alt="Wishlist 2" src="/assets/pokemon_bandai_scale_world/no2.png" /> 
+ <img width="200" alt="Wishlist 2" src="https://pokevault.com/image/cache/catalog/202108/1674813461_brock-onix-bandai-scale-world-kanto-figure-1-500x500.jpg" /> 
  
- <img width="200" alt="Wishlist 3" src="/assets/pokemon_bandai_scale_world/no3.png" />
+ <img width="200" alt="Wishlist 3" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" />
  
