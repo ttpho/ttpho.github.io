@@ -162,6 +162,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 94 | Mega Evolution - Mega Gengar | <a href="https://www.serebii.net/pokemon/gengar" target="_blank"><img width="80" alt="Mega Gengar" src="https://www.serebii.net/xy/pokemon/094-m.png" /></a> |
 | 94 | Gigantamax Gengar | <a href="https://www.serebii.net/pokemon/gengar" target="_blank"><img width="80" alt="Gigantamax Gengar" src="https://www.serebii.net/swordshield/pokemon/094-gi.png" /></a> |
 | 95 | Onix | <a href="https://www.serebii.net/pokemon/onix" target="_blank"><img width="80" alt="Onix" src="https://www.serebii.net/scarletviolet/pokemon/new/small/095.png" /></a> |
+| 95 | Steelix | <a href="https://www.serebii.net/pokemon/steelix" target="_blank"><img width="80" alt="Steelix" src="https://www.serebii.net/scarletviolet/pokemon/new/small/208.png" /></a> |
 | 96 | Drowzee | <a href="https://www.serebii.net/pokemon/drowzee" target="_blank"><img width="80" alt="Drowzee" src="https://www.serebii.net/scarletviolet/pokemon/new/small/096.png" /></a> |
 | 97 | Hypno | <a href="https://www.serebii.net/pokemon/hypno" target="_blank"><img width="80" alt="Hypno" src="https://www.serebii.net/scarletviolet/pokemon/new/small/097.png" /></a> |
 | 98 | Krabby | <a href="https://www.serebii.net/pokemon/krabby" target="_blank"><img width="80" alt="Krabby" src="https://www.serebii.net/scarletviolet/pokemon/new/small/098.png" /></a> |
