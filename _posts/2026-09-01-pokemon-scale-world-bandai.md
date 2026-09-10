@@ -53,21 +53,31 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 1 | Bulbasaur | <a href="https://www.serebii.net/pokemon/bulbasaur" target="_blank"><img width="80" alt="Bulbasaur" src="https://www.serebii.net/scarletviolet/pokemon/new/small/001.png" /></a> |
 | 2 | Ivysaur | <a href="https://www.serebii.net/pokemon/ivysaur" target="_blank"><img width="80" alt="Ivysaur" src="https://www.serebii.net/scarletviolet/pokemon/new/small/002.png" /></a> |
 | 3 | Venusaur | <a href="https://www.serebii.net/pokemon/venusaur" target="_blank"><img width="80" alt="Venusaur" src="https://www.serebii.net/scarletviolet/pokemon/new/small/003.png" /></a> |
+| 3 | Mega Evolution - Mega Venusaur | <a href="https://www.serebii.net/pokemon/venusaur" target="_blank"><img width="80" alt="Mega Venusaur" src="https://www.serebii.net/xy/pokemon/003-m.png" /></a> |
+| 3 | Gigantamax Venusaur | <a href="https://www.serebii.net/pokemon/venusaur" target="_blank"><img width="80" alt="Gigantamax Venusaur" src="https://www.serebii.net/swordshield/pokemon/003-gi.png" /></a> |
 | 4 | Charmander | <a href="https://www.serebii.net/pokemon/charmander" target="_blank"><img width="80" alt="Charmander" src="https://www.serebii.net/scarletviolet/pokemon/new/small/004.png" /></a> |
 | 5 | Charmeleon | <a href="https://www.serebii.net/pokemon/charmeleon" target="_blank"><img width="80" alt="Charmeleon" src="https://www.serebii.net/scarletviolet/pokemon/new/small/005.png" /></a> |
 | 6 | Charizard | <a href="https://www.serebii.net/pokemon/charizard" target="_blank"><img width="80" alt="Charizard" src="https://www.serebii.net/scarletviolet/pokemon/new/small/006.png" /></a> |
+| 6 | Mega Evolution - Mega Charizard X | <a href="https://www.serebii.net/pokemon/charizard" target="_blank"><img width="80" alt="Mega Charizard X" src="https://www.serebii.net/xy/pokemon/006-mx.png" /></a> |
+| 6 | Mega Evolution - Mega Charizard Y | <a href="https://www.serebii.net/pokemon/charizard" target="_blank"><img width="80" alt="Mega Charizard Y" src="https://www.serebii.net/xy/pokemon/006-my.png" /></a> |
+| 6 | Gigantamax Charizard | <a href="https://www.serebii.net/pokemon/charizard" target="_blank"><img width="80" alt="Gigantamax Charizard" src="https://www.serebii.net/swordshield/pokemon/006-gi.png" /></a> |
 | 7 | Squirtle | <a href="https://www.serebii.net/pokemon/squirtle" target="_blank"><img width="80" alt="Squirtle" src="https://www.serebii.net/scarletviolet/pokemon/new/small/007.png" /></a> |
 | 8 | Wartortle | <a href="https://www.serebii.net/pokemon/wartortle" target="_blank"><img width="80" alt="Wartortle" src="https://www.serebii.net/scarletviolet/pokemon/new/small/008.png" /></a> |
 | 9 | Blastoise | <a href="https://www.serebii.net/pokemon/blastoise" target="_blank"><img width="80" alt="Blastoise" src="https://www.serebii.net/scarletviolet/pokemon/new/small/009.png" /></a> |
+| 9 | Mega Evolution - Mega Blastoise | <a href="https://www.serebii.net/pokemon/blastoise" target="_blank"><img width="80" alt="Mega Blastoise" src="https://www.serebii.net/xy/pokemon/009-m.png" /></a> |
+| 9 | Gigantamax Blastoise | <a href="https://www.serebii.net/pokemon/blastoise" target="_blank"><img width="80" alt="Gigantamax Blastoise" src="https://www.serebii.net/swordshield/pokemon/009-gi.png" /></a> |
 | 10 | Caterpie | <a href="https://www.serebii.net/pokemon/caterpie" target="_blank"><img width="80" alt="Caterpie" src="https://www.serebii.net/scarletviolet/pokemon/new/small/010.png" /></a> |
 | 11 | Metapod | <a href="https://www.serebii.net/pokemon/metapod" target="_blank"><img width="80" alt="Metapod" src="https://www.serebii.net/scarletviolet/pokemon/new/small/011.png" /></a> |
 | 12 | Butterfree | <a href="https://www.serebii.net/pokemon/butterfree" target="_blank"><img width="80" alt="Butterfree" src="https://www.serebii.net/scarletviolet/pokemon/new/small/012.png" /></a> |
+| 12 | Gigantamax Butterfree | <a href="https://www.serebii.net/pokemon/butterfree" target="_blank"><img width="80" alt="Gigantamax Butterfree" src="https://www.serebii.net/swordshield/pokemon/012-gi.png" /></a> |
 | 13 | Weedle | <a href="https://www.serebii.net/pokemon/weedle" target="_blank"><img width="80" alt="Weedle" src="https://www.serebii.net/scarletviolet/pokemon/new/small/013.png" /></a> |
 | 14 | Kakuna | <a href="https://www.serebii.net/pokemon/kakuna" target="_blank"><img width="80" alt="Kakuna" src="https://www.serebii.net/scarletviolet/pokemon/new/small/014.png" /></a> |
 | 15 | Beedrill | <a href="https://www.serebii.net/pokemon/beedrill" target="_blank"><img width="80" alt="Beedrill" src="https://www.serebii.net/scarletviolet/pokemon/new/small/015.png" /></a> |
+| 15 | Mega Evolution - Mega Beedrill | <a href="https://www.serebii.net/pokemon/beedrill" target="_blank"><img width="80" alt="Mega Beedrill" src="https://www.serebii.net/xy/pokemon/015-m.png" /></a> |
 | 16 | Pidgey | <a href="https://www.serebii.net/pokemon/pidgey" target="_blank"><img width="80" alt="Pidgey" src="https://www.serebii.net/scarletviolet/pokemon/new/small/016.png" /></a> |
 | 17 | Pidgeotto | <a href="https://www.serebii.net/pokemon/pidgeotto" target="_blank"><img width="80" alt="Pidgeotto" src="https://www.serebii.net/scarletviolet/pokemon/new/small/017.png" /></a> |
 | 18 | Pidgeot | <a href="https://www.serebii.net/pokemon/pidgeot" target="_blank"><img width="80" alt="Pidgeot" src="https://www.serebii.net/scarletviolet/pokemon/new/small/018.png" /></a> |
+| 18 | Mega Evolution - Mega Pidgeot | <a href="https://www.serebii.net/pokemon/pidgeot" target="_blank"><img width="80" alt="Mega Pidgeot" src="https://www.serebii.net/xy/pokemon/018-m.png" /></a> |
 | 19 | Rattata | <a href="https://www.serebii.net/pokemon/rattata" target="_blank"><img width="80" alt="Rattata" src="https://www.serebii.net/scarletviolet/pokemon/new/small/019.png" /></a> |
 | 20 | Raticate | <a href="https://www.serebii.net/pokemon/raticate" target="_blank"><img width="80" alt="Raticate" src="https://www.serebii.net/scarletviolet/pokemon/new/small/020.png" /></a> |
 | 21 | Spearow | <a href="https://www.serebii.net/pokemon/spearow" target="_blank"><img width="80" alt="Spearow" src="https://www.serebii.net/scarletviolet/pokemon/new/small/021.png" /></a> |
@@ -75,6 +85,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 23 | Ekans | <a href="https://www.serebii.net/pokemon/ekans" target="_blank"><img width="80" alt="Ekans" src="https://www.serebii.net/scarletviolet/pokemon/new/small/023.png" /></a> |
 | 24 | Arbok | <a href="https://www.serebii.net/pokemon/arbok" target="_blank"><img width="80" alt="Arbok" src="https://www.serebii.net/scarletviolet/pokemon/new/small/024.png" /></a> |
 | 25 | Pikachu | <a href="https://www.serebii.net/pokemon/pikachu" target="_blank"><img width="80" alt="Pikachu" src="https://www.serebii.net/scarletviolet/pokemon/new/small/025.png" /></a> |
+| 25 | Gigantamax Pikachu | <a href="https://www.serebii.net/pokemon/pikachu" target="_blank"><img width="80" alt="Gigantamax Pikachu" src="https://www.serebii.net/swordshield/pokemon/025-gi.png" /></a> |
 | 26 | Raichu | <a href="https://www.serebii.net/pokemon/raichu" target="_blank"><img width="80" alt="Raichu" src="https://www.serebii.net/scarletviolet/pokemon/new/small/026.png" /></a> |
 | 27 | Sandshrew | <a href="https://www.serebii.net/pokemon/sandshrew" target="_blank"><img width="80" alt="Sandshrew" src="https://www.serebii.net/scarletviolet/pokemon/new/small/027.png" /></a> |
 | 28 | Sandslash | <a href="https://www.serebii.net/pokemon/sandslash" target="_blank"><img width="80" alt="Sandslash" src="https://www.serebii.net/scarletviolet/pokemon/new/small/028.png" /></a> |
@@ -102,6 +113,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 50 | Diglett | <a href="https://www.serebii.net/pokemon/diglett" target="_blank"><img width="80" alt="Diglett" src="https://www.serebii.net/scarletviolet/pokemon/new/small/050.png" /></a> |
 | 51 | Dugtrio | <a href="https://www.serebii.net/pokemon/dugtrio" target="_blank"><img width="80" alt="Dugtrio" src="https://www.serebii.net/scarletviolet/pokemon/new/small/051.png" /></a> |
 | 52 | Meowth | <a href="https://www.serebii.net/pokemon/meowth" target="_blank"><img width="80" alt="Meowth" src="https://www.serebii.net/scarletviolet/pokemon/new/small/052.png" /></a> |
+| 52 | Gigantamax Meowth | <a href="https://www.serebii.net/pokemon/meowth" target="_blank"><img width="80" alt="Gigantamax Meowth" src="https://www.serebii.net/swordshield/pokemon/052-gi.png" /></a> |
 | 53 | Persian | <a href="https://www.serebii.net/pokemon/persian" target="_blank"><img width="80" alt="Persian" src="https://www.serebii.net/scarletviolet/pokemon/new/small/053.png" /></a> |
 | 54 | Psyduck | <a href="https://www.serebii.net/pokemon/psyduck" target="_blank"><img width="80" alt="Psyduck" src="https://www.serebii.net/scarletviolet/pokemon/new/small/054.png" /></a> |
 | 55 | Golduck | <a href="https://www.serebii.net/pokemon/golduck" target="_blank"><img width="80" alt="Golduck" src="https://www.serebii.net/scarletviolet/pokemon/new/small/055.png" /></a> |
@@ -115,9 +127,11 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 63 | Abra | <a href="https://www.serebii.net/pokemon/abra" target="_blank"><img width="80" alt="Abra" src="https://www.serebii.net/scarletviolet/pokemon/new/small/063.png" /></a> |
 | 64 | Kadabra | <a href="https://www.serebii.net/pokemon/kadabra" target="_blank"><img width="80" alt="Kadabra" src="https://www.serebii.net/scarletviolet/pokemon/new/small/064.png" /></a> |
 | 65 | Alakazam | <a href="https://www.serebii.net/pokemon/alakazam" target="_blank"><img width="80" alt="Alakazam" src="https://www.serebii.net/scarletviolet/pokemon/new/small/065.png" /></a> |
+| 65 | Mega Evolution - Mega Alakazam | <a href="https://www.serebii.net/pokemon/alakazam" target="_blank"><img width="80" alt="Mega Alakazam" src="https://www.serebii.net/xy/pokemon/065-m.png" /></a> |
 | 66 | Machop | <a href="https://www.serebii.net/pokemon/machop" target="_blank"><img width="80" alt="Machop" src="https://www.serebii.net/scarletviolet/pokemon/new/small/066.png" /></a> |
 | 67 | Machoke | <a href="https://www.serebii.net/pokemon/machoke" target="_blank"><img width="80" alt="Machoke" src="https://www.serebii.net/scarletviolet/pokemon/new/small/067.png" /></a> |
 | 68 | Machamp | <a href="https://www.serebii.net/pokemon/machamp" target="_blank"><img width="80" alt="Machamp" src="https://www.serebii.net/scarletviolet/pokemon/new/small/068.png" /></a> |
+| 68 | Gigantamax Machamp | <a href="https://www.serebii.net/pokemon/machamp" target="_blank"><img width="80" alt="Gigantamax Machamp" src="https://www.serebii.net/swordshield/pokemon/068-gi.png" /></a> |
 | 69 | Bellsprout | <a href="https://www.serebii.net/pokemon/bellsprout" target="_blank"><img width="80" alt="Bellsprout" src="https://www.serebii.net/scarletviolet/pokemon/new/small/069.png" /></a> |
 | 70 | Weepinbell | <a href="https://www.serebii.net/pokemon/weepinbell" target="_blank"><img width="80" alt="Weepinbell" src="https://www.serebii.net/scarletviolet/pokemon/new/small/070.png" /></a> |
 | 71 | Victreebel | <a href="https://www.serebii.net/pokemon/victreebel" target="_blank"><img width="80" alt="Victreebel" src="https://www.serebii.net/scarletviolet/pokemon/new/small/071.png" /></a> |
@@ -130,6 +144,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 78 | Rapidash | <a href="https://www.serebii.net/pokemon/rapidash" target="_blank"><img width="80" alt="Rapidash" src="https://www.serebii.net/scarletviolet/pokemon/new/small/078.png" /></a> |
 | 79 | Slowpoke | <a href="https://www.serebii.net/pokemon/slowpoke" target="_blank"><img width="80" alt="Slowpoke" src="https://www.serebii.net/scarletviolet/pokemon/new/small/079.png" /></a> |
 | 80 | Slowbro | <a href="https://www.serebii.net/pokemon/slowbro" target="_blank"><img width="80" alt="Slowbro" src="https://www.serebii.net/scarletviolet/pokemon/new/small/080.png" /></a> |
+| 80 | Mega Evolution - Mega Slowbro | <a href="https://www.serebii.net/pokemon/slowbro" target="_blank"><img width="80" alt="Mega Slowbro" src="https://www.serebii.net/xy/pokemon/080-m.png" /></a> |
 | 81 | Magnemite | <a href="https://www.serebii.net/pokemon/magnemite" target="_blank"><img width="80" alt="Magnemite" src="https://www.serebii.net/scarletviolet/pokemon/new/small/081.png" /></a> |
 | 82 | Magneton | <a href="https://www.serebii.net/pokemon/magneton" target="_blank"><img width="80" alt="Magneton" src="https://www.serebii.net/scarletviolet/pokemon/new/small/082.png" /></a> |
 | 83 | Farfetch'd | <a href="https://www.serebii.net/pokemon/farfetch'd" target="_blank"><img width="80" alt="Farfetch'd" src="https://www.serebii.net/scarletviolet/pokemon/new/small/083.png" /></a> |
@@ -144,11 +159,14 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 92 | Gastly | <a href="https://www.serebii.net/pokemon/gastly" target="_blank"><img width="80" alt="Gastly" src="https://www.serebii.net/scarletviolet/pokemon/new/small/092.png" /></a> |
 | 93 | Haunter | <a href="https://www.serebii.net/pokemon/haunter" target="_blank"><img width="80" alt="Haunter" src="https://www.serebii.net/scarletviolet/pokemon/new/small/093.png" /></a> |
 | 94 | Gengar | <a href="https://www.serebii.net/pokemon/gengar" target="_blank"><img width="80" alt="Gengar" src="https://www.serebii.net/scarletviolet/pokemon/new/small/094.png" /></a> |
+| 94 | Mega Evolution - Mega Gengar | <a href="https://www.serebii.net/pokemon/gengar" target="_blank"><img width="80" alt="Mega Gengar" src="https://www.serebii.net/xy/pokemon/094-m.png" /></a> |
+| 94 | Gigantamax Gengar | <a href="https://www.serebii.net/pokemon/gengar" target="_blank"><img width="80" alt="Gigantamax Gengar" src="https://www.serebii.net/swordshield/pokemon/094-gi.png" /></a> |
 | 95 | Onix | <a href="https://www.serebii.net/pokemon/onix" target="_blank"><img width="80" alt="Onix" src="https://www.serebii.net/scarletviolet/pokemon/new/small/095.png" /></a> |
 | 96 | Drowzee | <a href="https://www.serebii.net/pokemon/drowzee" target="_blank"><img width="80" alt="Drowzee" src="https://www.serebii.net/scarletviolet/pokemon/new/small/096.png" /></a> |
 | 97 | Hypno | <a href="https://www.serebii.net/pokemon/hypno" target="_blank"><img width="80" alt="Hypno" src="https://www.serebii.net/scarletviolet/pokemon/new/small/097.png" /></a> |
 | 98 | Krabby | <a href="https://www.serebii.net/pokemon/krabby" target="_blank"><img width="80" alt="Krabby" src="https://www.serebii.net/scarletviolet/pokemon/new/small/098.png" /></a> |
 | 99 | Kingler | <a href="https://www.serebii.net/pokemon/kingler" target="_blank"><img width="80" alt="Kingler" src="https://www.serebii.net/scarletviolet/pokemon/new/small/099.png" /></a> |
+| 99 | Gigantamax Kingler | <a href="https://www.serebii.net/pokemon/kingler" target="_blank"><img width="80" alt="Gigantamax Kingler" src="https://www.serebii.net/swordshield/pokemon/099-gi.png" /></a> |
 | 100 | Voltorb | <a href="https://www.serebii.net/pokemon/voltorb" target="_blank"><img width="80" alt="Voltorb" src="https://www.serebii.net/scarletviolet/pokemon/new/small/100.png" /></a> |
 | 101 | Electrode | <a href="https://www.serebii.net/pokemon/electrode" target="_blank"><img width="80" alt="Electrode" src="https://www.serebii.net/scarletviolet/pokemon/new/small/101.png" /></a> |
 | 102 | Exeggcute | <a href="https://www.serebii.net/pokemon/exeggcute" target="_blank"><img width="80" alt="Exeggcute" src="https://www.serebii.net/scarletviolet/pokemon/new/small/102.png" /></a> |
@@ -165,6 +183,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 113 | Chansey | <a href="https://www.serebii.net/pokemon/chansey" target="_blank"><img width="80" alt="Chansey" src="https://www.serebii.net/scarletviolet/pokemon/new/small/113.png" /></a> |
 | 114 | Tangela | <a href="https://www.serebii.net/pokemon/tangela" target="_blank"><img width="80" alt="Tangela" src="https://www.serebii.net/scarletviolet/pokemon/new/small/114.png" /></a> |
 | 115 | Kangaskhan | <a href="https://www.serebii.net/pokemon/kangaskhan" target="_blank"><img width="80" alt="Kangaskhan" src="https://www.serebii.net/scarletviolet/pokemon/new/small/115.png" /></a> |
+| 115 | Mega Evolution - Mega Kangaskhan | <a href="https://www.serebii.net/pokemon/kangaskhan" target="_blank"><img width="80" alt="Mega Kangaskhan" src="https://www.serebii.net/xy/pokemon/115-m.png" /></a> |
 | 116 | Horsea | <a href="https://www.serebii.net/pokemon/horsea" target="_blank"><img width="80" alt="Horsea" src="https://www.serebii.net/scarletviolet/pokemon/new/small/116.png" /></a> |
 | 117 | Seadra | <a href="https://www.serebii.net/pokemon/seadra" target="_blank"><img width="80" alt="Seadra" src="https://www.serebii.net/scarletviolet/pokemon/new/small/117.png" /></a> |
 | 118 | Goldeen | <a href="https://www.serebii.net/pokemon/goldeen" target="_blank"><img width="80" alt="Goldeen" src="https://www.serebii.net/scarletviolet/pokemon/new/small/118.png" /></a> |
@@ -177,12 +196,16 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 125 | Electabuzz | <a href="https://www.serebii.net/pokemon/electabuzz" target="_blank"><img width="80" alt="Electabuzz" src="https://www.serebii.net/scarletviolet/pokemon/new/small/125.png" /></a> |
 | 126 | Magmar | <a href="https://www.serebii.net/pokemon/magmar" target="_blank"><img width="80" alt="Magmar" src="https://www.serebii.net/scarletviolet/pokemon/new/small/126.png" /></a> |
 | 127 | Pinsir | <a href="https://www.serebii.net/pokemon/pinsir" target="_blank"><img width="80" alt="Pinsir" src="https://www.serebii.net/scarletviolet/pokemon/new/small/127.png" /></a> |
+| 127 | Mega Evolution - Mega Pinsir | <a href="https://www.serebii.net/pokemon/pinsir" target="_blank"><img width="80" alt="Mega Pinsir" src="https://www.serebii.net/xy/pokemon/127-m.png" /></a> |
 | 128 | Tauros | <a href="https://www.serebii.net/pokemon/tauros" target="_blank"><img width="80" alt="Tauros" src="https://www.serebii.net/scarletviolet/pokemon/new/small/128.png" /></a> |
 | 129 | Magikarp | <a href="https://www.serebii.net/pokemon/magikarp" target="_blank"><img width="80" alt="Magikarp" src="https://www.serebii.net/scarletviolet/pokemon/new/small/129.png" /></a> |
 | 130 | Gyarados | <a href="https://www.serebii.net/pokemon/gyarados" target="_blank"><img width="80" alt="Gyarados" src="https://www.serebii.net/scarletviolet/pokemon/new/small/130.png" /></a> |
+| 130 | Mega Evolution - Mega Gyarados | <a href="https://www.serebii.net/pokemon/gyarados" target="_blank"><img width="80" alt="Mega Gyarados" src="https://www.serebii.net/xy/pokemon/130-m.png" /></a> |
 | 131 | Lapras | <a href="https://www.serebii.net/pokemon/lapras" target="_blank"><img width="80" alt="Lapras" src="https://www.serebii.net/scarletviolet/pokemon/new/small/131.png" /></a> |
+| 131 | Gigantamax Lapras | <a href="https://www.serebii.net/pokemon/lapras" target="_blank"><img width="80" alt="Gigantamax Lapras" src="https://www.serebii.net/swordshield/pokemon/131-gi.png" /></a> |
 | 132 | Ditto | <a href="https://www.serebii.net/pokemon/ditto" target="_blank"><img width="80" alt="Ditto" src="https://www.serebii.net/scarletviolet/pokemon/new/small/132.png" /></a> |
 | 133 | Eevee | <a href="https://www.serebii.net/pokemon/eevee" target="_blank"><img width="80" alt="Eevee" src="https://www.serebii.net/scarletviolet/pokemon/new/small/133.png" /></a> |
+| 133 | Gigantamax Eevee | <a href="https://www.serebii.net/pokemon/eevee" target="_blank"><img width="80" alt="Gigantamax Eevee" src="https://www.serebii.net/swordshield/pokemon/133-gi.png" /></a> |
 | 134 | Vaporeon | <a href="https://www.serebii.net/pokemon/vaporeon" target="_blank"><img width="80" alt="Vaporeon" src="https://www.serebii.net/scarletviolet/pokemon/new/small/134.png" /></a> |
 | 135 | Jolteon | <a href="https://www.serebii.net/pokemon/jolteon" target="_blank"><img width="80" alt="Jolteon" src="https://www.serebii.net/scarletviolet/pokemon/new/small/135.png" /></a> |
 | 136 | Flareon | <a href="https://www.serebii.net/pokemon/flareon" target="_blank"><img width="80" alt="Flareon" src="https://www.serebii.net/scarletviolet/pokemon/new/small/136.png" /></a> |
@@ -192,7 +215,9 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 140 | Kabuto | <a href="https://www.serebii.net/pokemon/kabuto" target="_blank"><img width="80" alt="Kabuto" src="https://www.serebii.net/scarletviolet/pokemon/new/small/140.png" /></a> |
 | 141 | Kabutops | <a href="https://www.serebii.net/pokemon/kabutops" target="_blank"><img width="80" alt="Kabutops" src="https://www.serebii.net/scarletviolet/pokemon/new/small/141.png" /></a> |
 | 142 | Aerodactyl | <a href="https://www.serebii.net/pokemon/aerodactyl" target="_blank"><img width="80" alt="Aerodactyl" src="https://www.serebii.net/scarletviolet/pokemon/new/small/142.png" /></a> |
+| 142 | Mega Evolution - Mega Aerodactyl | <a href="https://www.serebii.net/pokemon/aerodactyl" target="_blank"><img width="80" alt="Mega Aerodactyl" src="https://www.serebii.net/xy/pokemon/142-m.png" /></a> |
 | 143 | Snorlax | <a href="https://www.serebii.net/pokemon/snorlax" target="_blank"><img width="80" alt="Snorlax" src="https://www.serebii.net/scarletviolet/pokemon/new/small/143.png" /></a> |
+| 143 | Gigantamax Snorlax | <a href="https://www.serebii.net/pokemon/snorlax" target="_blank"><img width="80" alt="Gigantamax Snorlax" src="https://www.serebii.net/swordshield/pokemon/143-gi.png" /></a> |
 | 144 | Articuno | <a href="https://www.serebii.net/pokemon/articuno" target="_blank"><img width="80" alt="Articuno" src="https://www.serebii.net/scarletviolet/pokemon/new/small/144.png" /></a> |
 | 145 | Zapdos | <a href="https://www.serebii.net/pokemon/zapdos" target="_blank"><img width="80" alt="Zapdos" src="https://www.serebii.net/scarletviolet/pokemon/new/small/145.png" /></a> |
 | 146 | Moltres | <a href="https://www.serebii.net/pokemon/moltres" target="_blank"><img width="80" alt="Moltres" src="https://www.serebii.net/scarletviolet/pokemon/new/small/146.png" /></a> |
@@ -200,5 +225,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 148 | Dragonair | <a href="https://www.serebii.net/pokemon/dragonair" target="_blank"><img width="80" alt="Dragonair" src="https://www.serebii.net/scarletviolet/pokemon/new/small/148.png" /></a> |
 | 149 | Dragonite | <a href="https://www.serebii.net/pokemon/dragonite" target="_blank"><img width="80" alt="Dragonite" src="https://www.serebii.net/scarletviolet/pokemon/new/small/149.png" /></a> |
 | 150 | Mewtwo | <a href="https://www.serebii.net/pokemon/mewtwo" target="_blank"><img width="80" alt="Mewtwo" src="https://www.serebii.net/scarletviolet/pokemon/new/small/150.png" /></a> |
+| 150 | Mega Evolution - Mega Mewtwo X | <a href="https://www.serebii.net/pokemon/mewtwo" target="_blank"><img width="80" alt="Mega Mewtwo X" src="https://www.serebii.net/xy/pokemon/150-mx.png" /></a> |
+| 150 | Mega Evolution - Mega Mewtwo Y | <a href="https://www.serebii.net/pokemon/mewtwo" target="_blank"><img width="80" alt="Mega Mewtwo Y" src="https://www.serebii.net/xy/pokemon/150-my.png" /></a> |
 | 151 | Mew | <a href="https://www.serebii.net/pokemon/mew" target="_blank"><img width="80" alt="Mew" src="https://www.serebii.net/scarletviolet/pokemon/new/small/151.png" /></a> |
 
