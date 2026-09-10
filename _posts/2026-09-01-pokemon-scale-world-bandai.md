@@ -4,7 +4,7 @@ title: "Pokemon Scale World Bandai - Kanto Collection"
 subtitle: "Danh sách mô hình Pokemon Scale World 1/20 - Bandai"
 tags: [pokemon]
 thumbnail-img: https://www.bandai.co.jp/candy/pokemonscaleworld/images/model/1000177277.jpg
-cover-img: https://www.bandai.co.jp/candy/pokemonscaleworld/images/top/logo_mv_about.png
+cover-img: assets/pokemons/pokeshopper-bandaiscaleworld-kanto01.png
 ---
 
 ### Intro
