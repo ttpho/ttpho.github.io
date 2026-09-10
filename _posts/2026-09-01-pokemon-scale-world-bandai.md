@@ -226,6 +226,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 147 | Dratini | <a href="https://www.serebii.net/pokemon/dratini" target="_blank"><img width="80" alt="Dratini" src="https://www.serebii.net/scarletviolet/pokemon/new/small/147.png" /></a> |
 | 148 | Dragonair | <a href="https://www.serebii.net/pokemon/dragonair" target="_blank"><img width="80" alt="Dragonair" src="https://www.serebii.net/scarletviolet/pokemon/new/small/148.png" /></a> |
 | 149 | Dragonite | <a href="https://www.serebii.net/pokemon/dragonite" target="_blank"><img width="80" alt="Dragonite" src="https://www.serebii.net/scarletviolet/pokemon/new/small/149.png" /></a> |
+| 149 | Mega Evolution - Mega Dragonite | <a href="https://www.serebii.net/pokemon/dragonite/" target="_blank"><img width="80" alt="Mega Dragonite" src="https://www.serebii.net/pokemon/art/149-m.png" /></a> |
 | 150 | Mewtwo | <a href="https://www.serebii.net/pokemon/mewtwo" target="_blank"><img width="80" alt="Mewtwo" src="https://www.serebii.net/scarletviolet/pokemon/new/small/150.png" /></a> |
 | 150 | Mega Evolution - Mega Mewtwo X | <a href="https://www.serebii.net/pokemon/mewtwo" target="_blank"><img width="80" alt="Mega Mewtwo X" src="https://www.serebii.net/xy/pokemon/150-mx.png" /></a> |
 | 150 | Mega Evolution - Mega Mewtwo Y | <a href="https://www.serebii.net/pokemon/mewtwo" target="_blank"><img width="80" alt="Mega Mewtwo Y" src="https://www.serebii.net/xy/pokemon/150-my.png" /></a> |
