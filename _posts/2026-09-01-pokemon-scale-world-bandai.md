@@ -35,7 +35,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 20 | Kanto Region Set 1 (PSCW012) | <img width="200" alt="Kanto Region Set 1" src="https://herogame.vn/ad-min/assets/js/libs/kcfinder/upload_image/images/Vinh/mo-hinh-kanto-region-set-1-1-20-pokemon-scale-world-bandai-pscw012-1.jpg" /> | ✅ | 1800K |
 | 21 | Professor Sycamore & Mega Charizard X (Kalos Region) | <img width="200" alt="Professor Sycamore & Mega Charizard X" src="https://pokevault.com/image/cache/catalog/202108/1785146762_pokemon-bandai-scale-world-mega-charizard-x-professor-sycamore-figure-2-500x500.jpg" /> | ✅ | 1360k |
 | 22 | Cloyster | <img width="200" alt="Arven & Cloyster & Mabosstiff" src="https://pokevault.com/image/cache/catalog/202108/1709287916_pokemon-bandai-scale-world-paldea-arven-cloyster-mabosstiff-figure-set-5-500x500.jpg" /> | ✅ | 800K |
-| 23 | Lapras | <img width="200" alt="Lapras" src="https://p-bandai.com/files/seller-products/ASP0003312001/nBATtxNJMEEvPpg8Lujq.jpg?w=1440&h=1440" /> | ❌ | 1600K |
+| 23 | Lapras | <img width="200" alt="Lapras" src="https://p-bandai.com/files/seller-products/ASP0003312001/nBATtxNJMEEvPpg8Lujq.jpg?w=1440&h=1440" /> | ✅ | 1600K |
 
 [pokevault.com](https://pokevault.com/search/Pokemon%20Scale%20World)
 
