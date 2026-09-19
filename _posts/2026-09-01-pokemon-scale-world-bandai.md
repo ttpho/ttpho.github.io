@@ -52,6 +52,10 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 <img width="200" src="https://p-bandai.com/files/seller-products/ASP0005567001/GNAEXHY5zWaTkWozaf9e.jpg" />
 
 <img width="200" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg">
+
+<img width="200" src="https://images.bigbadtoystore.com/images/product/148672/3ff2fafa-a0a0-4277-ad0e-a648814dc4de/original.jpg">
+
+
  
 ### Gen I 
 
