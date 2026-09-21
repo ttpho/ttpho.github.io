@@ -43,15 +43,11 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 
 ### Wishlist
 
- <img width="200" alt="Wishlist 2" src="https://pokevault.com/image/cache/catalog/202108/1674813461_brock-onix-bandai-scale-world-kanto-figure-1-500x500.jpg" /> 
+<img width="200" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg">
  
- <img width="200" alt="Wishlist 3" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" />
-
 <img width="200" src="https://p-bandai.com/files/seller-products/ASP0003284002/ZfDBm2b3PV33CspPbslm.jpg" />
 
 <img width="200" src="https://p-bandai.com/files/seller-products/ASP0005567001/GNAEXHY5zWaTkWozaf9e.jpg" />
-
-<img width="200" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg">
 
 <img width="200" src="https://images.bigbadtoystore.com/images/product/148672/3ff2fafa-a0a0-4277-ad0e-a648814dc4de/original.jpg">
 
