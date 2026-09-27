@@ -17,7 +17,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 |----|-----|----------|-------|-----|
 | 1 | Johto/Kanto Region Sabrina & Kadabra & Mr. Mime Set | <img width="200" alt="Sabrina & Kadabra & Mr. Mime" src="https://p-bandai.com/files/seller-products/ASP0003573001/Xs17leSWLprWuuHKz2pT.jpg" /> | ❌ | 1100K |
 | 2 | Koga & Golbat & Weezing | <img width="200" alt="Koga & Golbat & Weezing" src="https://p-bandai.com/files/seller-products/ASP0003506001/LCW1DpRncBdeMOvN5bOO.jpg" /> | ❌ | 1600k |
-| 3 | Lance & Dragonite | <img width="200" alt="Lance & Dragonite" src="https://pokevault.com/image/cache/catalog/201707/1595489153_lance-dragonite-scale-world-figure-3-500x500.jpg" /> | ❌ | 1600k |
+| 3 | Lance & Dragonite | <img width="200" alt="Lance & Dragonite" src="https://pokevault.com/image/cache/catalog/201707/1595489153_lance-dragonite-scale-world-figure-3-500x500.jpg" /> | ✅ | 1050k |
 | 4 | Erika & Gloom & Vileplume | <img width="200" alt="Erika & Gloom & Vileplume" src="https://p-bandai.com/files/seller-products/ASP0003445001/qa1TkLxe110immJJYrrh.jpg" /> | ❌ | 1200K |
 | 5 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
 | 6 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ❌ | _ |
@@ -38,12 +38,11 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 21 | Professor Sycamore & Mega Charizard X (Kalos Region) | <img width="200" alt="Professor Sycamore & Mega Charizard X" src="https://pokevault.com/image/cache/catalog/202108/1785146762_pokemon-bandai-scale-world-mega-charizard-x-professor-sycamore-figure-2-500x500.jpg" /> | ✅ | 1360k |
 | 22 | Cloyster | <img width="200" alt="Arven & Cloyster & Mabosstiff" src="https://pokevault.com/image/cache/catalog/202108/1709287916_pokemon-bandai-scale-world-paldea-arven-cloyster-mabosstiff-figure-set-5-500x500.jpg" /> | ✅ | 800K |
 | 23 | Lapras | <img width="200" alt="Lapras" src="https://p-bandai.com/files/seller-products/ASP0003312001/nBATtxNJMEEvPpg8Lujq.jpg?w=1440&h=1440" /> | ✅ | 1600K |
+| 24 | Paldea Region Eevee Evolution Set | <img width="200" alt="Paldea Region Eevee Evolution Set" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg" /> | ✅ | 1100k |
 
 [pokevault.com](https://pokevault.com/search/Pokemon%20Scale%20World)
 
 ### Wishlist
-
-<img width="200" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg">
  
 <img width="200" src="https://p-bandai.com/files/seller-products/ASP0003284002/ZfDBm2b3PV33CspPbslm.jpg" />
 
