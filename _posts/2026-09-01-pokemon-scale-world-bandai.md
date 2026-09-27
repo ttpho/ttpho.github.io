@@ -39,12 +39,12 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 22 | Cloyster | <img width="200" alt="Arven & Cloyster & Mabosstiff" src="https://pokevault.com/image/cache/catalog/202108/1709287916_pokemon-bandai-scale-world-paldea-arven-cloyster-mabosstiff-figure-set-5-500x500.jpg" /> | ✅ | 800K |
 | 23 | Lapras | <img width="200" alt="Lapras" src="https://p-bandai.com/files/seller-products/ASP0003312001/nBATtxNJMEEvPpg8Lujq.jpg?w=1440&h=1440" /> | ✅ | 1600K |
 | 24 | Paldea Region Eevee Evolution Set | <img width="200" alt="Paldea Region Eevee Evolution Set" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg" /> | ✅ | 1100k |
+| 25 | Sylveon | <img width="200" alt="Sylveon" src="https://www.hlj.com/productimages/ban/banf923234_4.jpg" /> | ✅ | 250k |
 
 [pokevault.com](https://pokevault.com/search/Pokemon%20Scale%20World)
 
 ### Wishlist
 
-<img width="200" src="https://cooldragonhobby.ca/cdn/shop/files/047f9526-d696-4d11-b8ba-8eb52072f0a3.webp">
  
 <img width="200" src="https://p-bandai.com/files/seller-products/ASP0003284002/ZfDBm2b3PV33CspPbslm.jpg" />
 
