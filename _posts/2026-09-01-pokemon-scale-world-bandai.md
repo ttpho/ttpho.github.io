@@ -17,14 +17,14 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 |----|-----|----------|-------|-----|
 | 1 | Johto/Kanto Region Sabrina & Kadabra & Mr. Mime Set | <img width="200" alt="Sabrina & Kadabra & Mr. Mime" src="https://p-bandai.com/files/seller-products/ASP0003573001/Xs17leSWLprWuuHKz2pT.jpg" /> | ❌ | 1100K |
 | 2 | Koga & Golbat & Weezing | <img width="200" alt="Koga & Golbat & Weezing" src="https://p-bandai.com/files/seller-products/ASP0003506001/LCW1DpRncBdeMOvN5bOO.jpg" /> | ❌ | 1600k |
-| 3 | Lance & Dragonite | <img width="200" alt="Lance & Dragonite" src="https://pokevault.com/image/cache/catalog/201707/1595489153_lance-dragonite-scale-world-figure-3-500x500.jpg" /> | ✅ | 1050k |
-| 4 | Erika & Gloom & Vileplume | <img width="200" alt="Erika & Gloom & Vileplume" src="https://p-bandai.com/files/seller-products/ASP0003445001/qa1TkLxe110immJJYrrh.jpg" /> | ❌ | 1200K |
-| 5 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
-| 6 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ❌ | _ |
-| 7 | Giovanni & Nidoqueen & ~~Lapras~~ & Porygon | <img width="200" alt="Giovanni & Nidoqueen & Lapras & Porygon" src="https://p-bandai.com/files/seller-products/ASP0003312001/cTKKToqC2Mn5AP0eQont.jpg" /> | ❌ | _ |
-| 8 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ❌ | _ |
-| 9 | Pokemon Scale World Kanto Vol.2 1Box 10pcs | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
-| 10 | Lumiose City Mega Dragonite | <img width="200" alt="Lumiose City Mega Dragonite" src="https://www.hobbydigi.com/media/detail-images/204545/1787784360_0.jpeg" /> | ❌ | _ |
+| 3 | Erika & Gloom & Vileplume | <img width="200" alt="Erika & Gloom & Vileplume" src="https://p-bandai.com/files/seller-products/ASP0003445001/qa1TkLxe110immJJYrrh.jpg" /> | ❌ | 1200K |
+| 4 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
+| 5 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ❌ | _ |
+| 6 | Giovanni & Nidoqueen & ~~Lapras~~ & Porygon | <img width="200" alt="Giovanni & Nidoqueen & Lapras & Porygon" src="https://p-bandai.com/files/seller-products/ASP0003312001/cTKKToqC2Mn5AP0eQont.jpg" /> | ❌ | _ |
+| 7 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ❌ | _ |
+| 8 | Pokemon Scale World Kanto Vol.2 1Box 10pcs | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
+| 9 | Lumiose City Mega Dragonite | <img width="200" alt="Lumiose City Mega Dragonite" src="https://www.hobbydigi.com/media/detail-images/204545/1787784360_0.jpeg" /> | ❌ | _ |
+| 10 | Lance & Dragonite | <img width="200" alt="Lance & Dragonite" src="https://pokevault.com/image/cache/catalog/201707/1595489153_lance-dragonite-scale-world-figure-3-500x500.jpg" /> | ✅ | 1050k |
 | 11 | Johto Region Jasmine & Steelix | <img width="200" alt="Jasmine & Steelix" src="https://pokevault.com/image/cache/catalog/202108/1740888477_pokemon-bandai-scale-world-jasmine-steelix-figure-1-500x500.jpg" /> | ✅ | 1650K |
 | 12 | Green & Arcanine | <img width="200" alt="Green & Arcanine" src="https://pokevault.com/image/cache/catalog/201707/1576069221_scalearcanine1-500x500.jpg" /> | ✅ | 1400k |
 | 13 | Kanto Region Set 3 | <img width="200" alt="Kanto Region Set 3" src="https://www.hlj.com/productimages/ban/bann83517_0.jpg" /> | ✅ | 1400k |
