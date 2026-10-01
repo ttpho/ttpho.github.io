@@ -15,7 +15,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 
 | No | Tên | Hình ảnh | Check | Giá |
 |----|-----|----------|-------|-----|
-| 1 | Koga & Golbat & Weezing | <img width="200" alt="Koga & Golbat & Weezing" src="https://p-bandai.com/files/seller-products/ASP0003506001/LCW1DpRncBdeMOvN5bOO.jpg" /> | ❌ | 1600k |
+| 1 | Koga & Golbat & Weezing | <img width="200" alt="Koga & Golbat & Weezing" src="https://p-bandai.com/files/seller-products/ASP0003506001/LCW1DpRncBdeMOvN5bOO.jpg" /> | ❌ | 1250K |
 | 2 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
 | 3 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ❌ | _ |
 | 4 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ❌ | _ |
