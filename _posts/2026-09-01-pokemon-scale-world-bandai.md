@@ -15,12 +15,12 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 
 | No | Tên | Hình ảnh | Check | Giá |
 |----|-----|----------|-------|-----|
-| 1 | Koga & Golbat & Weezing | <img width="200" alt="Koga & Golbat & Weezing" src="https://p-bandai.com/files/seller-products/ASP0003506001/LCW1DpRncBdeMOvN5bOO.jpg" /> | ❌ | 1250K |
-| 2 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
-| 3 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ❌ | _ |
-| 4 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ❌ | _ |
-| 5 | Pokemon Scale World Kanto Vol.2 1Box 10pcs | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
-| 6 | Lumiose City Mega Dragonite | <img width="200" alt="Lumiose City Mega Dragonite" src="https://www.hobbydigi.com/media/detail-images/204545/1787784360_0.jpeg" /> | ❌ | _ |
+| 1 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
+| 2 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ❌ | _ |
+| 3 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ❌ | _ |
+| 4 | Pokemon Scale World Kanto Vol.2 1Box 10pcs | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
+| 5 | Lumiose City Mega Dragonite | <img width="200" alt="Lumiose City Mega Dragonite" src="https://www.hobbydigi.com/media/detail-images/204545/1787784360_0.jpeg" /> | ❌ | _ |
+| 6 | Koga & Golbat & Weezing | <img width="200" alt="Koga & Golbat & Weezing" src="https://p-bandai.com/files/seller-products/ASP0003506001/LCW1DpRncBdeMOvN5bOO.jpg" /> | ✅ | 1250K |
 | 7 | Johto/Kanto Region Sabrina & Kadabra & Mr. Mime Set | <img width="200" alt="Sabrina & Kadabra & Mr. Mime" src="https://p-bandai.com/files/seller-products/ASP0003573001/Xs17leSWLprWuuHKz2pT.jpg" /> | ✅ | 1100K |
 | 8 | Erika & Gloom & Vileplume | <img width="200" alt="Erika & Gloom & Vileplume" src="https://p-bandai.com/files/seller-products/ASP0003445001/qa1TkLxe110immJJYrrh.jpg" /> | ✅ | 1200K |
 | 9 | Giovanni & Nidoqueen & Lapras & Porygon | <img width="200" alt="Giovanni & Nidoqueen & Lapras & Porygon" src="https://p-bandai.com/files/seller-products/ASP0003312001/cTKKToqC2Mn5AP0eQont.jpg" /> | ✅ | 2070k |
