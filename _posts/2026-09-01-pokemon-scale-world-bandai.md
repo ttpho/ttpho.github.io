@@ -39,7 +39,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 22 | Professor Sycamore & Mega Charizard X (Kalos Region) | <img width="200" alt="Professor Sycamore & Mega Charizard X" src="https://pokevault.com/image/cache/catalog/202108/1785146762_pokemon-bandai-scale-world-mega-charizard-x-professor-sycamore-figure-2-500x500.jpg" /> | ✅ | 1360k |
 | 23 | Cloyster | <img width="200" alt="Arven & Cloyster & Mabosstiff" src="https://pokevault.com/image/cache/catalog/202108/1709287916_pokemon-bandai-scale-world-paldea-arven-cloyster-mabosstiff-figure-set-5-500x500.jpg" /> | ✅ | 800K |
 | 24 | Paldea Region Eevee Evolution Set | <img width="200" alt="Paldea Region Eevee Evolution Set" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg" /> | ✅ | 1100k |
-| 25 | Sylveon | <img width="200" alt="Sylveon" src="https://www.hlj.com/productimages/ban/banf923234_4.jpg" /> | ✅ | 250k |
+| 25 | Sylveon (not include Dedenne)| <img width="200" alt="Sylveon" src="https://www.hlj.com/productimages/ban/banf923234_4.jpg" /> | ✅ | 250k |
 
 [pokevault.com](https://pokevault.com/search/Pokemon%20Scale%20World)
 
