@@ -16,8 +16,8 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | No | Tên | Hình ảnh | Check | Giá |
 |----|-----|----------|-------|-----|
 | 1 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
-| 2 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ❌ | _ |
-| 3 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ❌ | _ |
+| 2 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ✅ | 2200K |
+| 3 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ✅ | 2310K |
 | 4 | Pokemon Scale World Kanto Vol.2 1Box 10pcs | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
 | 5 | Lumiose City Mega Dragonite | <img width="200" alt="Lumiose City Mega Dragonite" src="https://www.hobbydigi.com/media/detail-images/204545/1787784360_0.jpeg" /> | ❌ | _ |
 | 6 | Delu & Mega Starmie | <img width="200" alt="Delu & Mega Starmie" src="https://www.inside-games.jp/imgs/zoom/1788541.jpg" /> | ❌ | _ |
@@ -25,21 +25,21 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 8 | Johto/Kanto Region Sabrina & Kadabra & Mr. Mime Set | <img width="200" alt="Sabrina & Kadabra & Mr. Mime" src="https://p-bandai.com/files/seller-products/ASP0003573001/Xs17leSWLprWuuHKz2pT.jpg" /> | ✅ | 1100K |
 | 9 | Erika & Gloom & Vileplume | <img width="200" alt="Erika & Gloom & Vileplume" src="https://p-bandai.com/files/seller-products/ASP0003445001/qa1TkLxe110immJJYrrh.jpg" /> | ✅ | 1200K |
 | 10 | Giovanni & Nidoqueen & Lapras & Porygon | <img width="200" alt="Giovanni & Nidoqueen & Lapras & Porygon" src="https://p-bandai.com/files/seller-products/ASP0003312001/cTKKToqC2Mn5AP0eQont.jpg" /> | ✅ | 2070k |
-| 11 | Lance & Dragonite | <img width="200" alt="Lance & Dragonite" src="https://pokevault.com/image/cache/catalog/201707/1595489153_lance-dragonite-scale-world-figure-3-500x500.jpg" /> | ✅ | 1050k |
+| 11 | Lance & Dragonite | <img width="200" alt="Lance & Dragonite" src="https://pokevault.com/image/cache/catalog/201707/1595489153_lance-dragonite-scale-world-figure-3-500x500.jpg" /> | ✅ | 1050K |
 | 12 | Johto Region Jasmine & Steelix | <img width="200" alt="Jasmine & Steelix" src="https://pokevault.com/image/cache/catalog/202108/1740888477_pokemon-bandai-scale-world-jasmine-steelix-figure-1-500x500.jpg" /> | ✅ | 1650K |
-| 13 | Green & Arcanine | <img width="200" alt="Green & Arcanine" src="https://pokevault.com/image/cache/catalog/201707/1576069221_scalearcanine1-500x500.jpg" /> | ✅ | 1400k |
+| 13 | Green & Arcanine | <img width="200" alt="Green & Arcanine" src="https://pokevault.com/image/cache/catalog/201707/1576069221_scalearcanine1-500x500.jpg" /> | ✅ | 1400K |
 | 14 | Kanto Region Set 3 | <img width="200" alt="Kanto Region Set 3" src="https://www.hlj.com/productimages/ban/bann83517_0.jpg" /> | ✅ | 1400k |
-| 15 | Leaf & Clefable & Gengar | <img width="200" alt="Leaf & Clefable & Gengar" src="https://p-bandai.com/files/seller-products/ASP0001965001/Ksn7nyEoXBeLlYt14uJx.jpg" /> | ✅ | 1260k |
-| 16 | Kanto Nidoran & Nidorino & Nidoking | <img width="200" alt="Nidoran & Nidorino & Nidoking" src="https://p-bandai.com/files/seller-products/ASP0003306002/Y2o1ffSAuzRtNO6Cbt2Z.jpg" /> | ✅ | 1380k |
-| 17 | Blaine & Magmar & Rapidash | <img width="200" alt="Blaine & Magmar & Rapidash" src="https://p-bandai.com/files/seller-products/ASP0003822001/WrobS02sn4qEcQswgJOL.jpg" /> | ✅ | 1540k |
+| 15 | Leaf & Clefable & Gengar | <img width="200" alt="Leaf & Clefable & Gengar" src="https://p-bandai.com/files/seller-products/ASP0001965001/Ksn7nyEoXBeLlYt14uJx.jpg" /> | ✅ | 1260K |
+| 16 | Kanto Nidoran & Nidorino & Nidoking | <img width="200" alt="Nidoran & Nidorino & Nidoking" src="https://p-bandai.com/files/seller-products/ASP0003306002/Y2o1ffSAuzRtNO6Cbt2Z.jpg" /> | ✅ | 1380K |
+| 17 | Blaine & Magmar & Rapidash | <img width="200" alt="Blaine & Magmar & Rapidash" src="https://p-bandai.com/files/seller-products/ASP0003822001/WrobS02sn4qEcQswgJOL.jpg" /> | ✅ | 1540K |
 | 18 | Kalos Region Mega Gyarados | <img width="200" alt="Mega Gyarados" src="https://p-bandai.com/files/seller-products/ASP0005394001/p3ffGjLkAhKOsZtxmzTx.jpg" /> | ✅ | 1820K |
 | 19 | Red & Snorlax & Pokemon Flute | <img width="200" alt="Red & Snorlax & Pokemon Flute" src="https://pokevault.com/image/cache/catalog/201707/1598165074_red-snorlax-scale-world-figure-5-500x500.jpg" /> | ✅ | 1150K |
 | 20 | Professor Oak Set Kanto Region | <img width="200" alt="Professor Oak Set" src="https://p-bandai.com/files/seller-products/ASP0001964001/yCmKmIic4Z38zrSOoiNz.jpg" /> | ✅ | 3000K |
 | 21 | Kanto Region Set 1 | <img width="200" alt="Kanto Region Set 1" src="https://p-bandai.com/files/seller-products/ASP0003196001/SFJZz0PmJsTeeIx06ROs.jpg" /> | ✅ | 1800K |
-| 22 | Professor Sycamore & Mega Charizard X (Kalos Region) | <img width="200" alt="Professor Sycamore & Mega Charizard X" src="https://pokevault.com/image/cache/catalog/202108/1785146762_pokemon-bandai-scale-world-mega-charizard-x-professor-sycamore-figure-2-500x500.jpg" /> | ✅ | 1360k |
+| 22 | Professor Sycamore & Mega Charizard X (Kalos Region) | <img width="200" alt="Professor Sycamore & Mega Charizard X" src="https://pokevault.com/image/cache/catalog/202108/1785146762_pokemon-bandai-scale-world-mega-charizard-x-professor-sycamore-figure-2-500x500.jpg" /> | ✅ | 1360K |
 | 23 | Cloyster | <img width="200" alt="Arven & Cloyster & Mabosstiff" src="https://pokevault.com/image/cache/catalog/202108/1709287916_pokemon-bandai-scale-world-paldea-arven-cloyster-mabosstiff-figure-set-5-500x500.jpg" /> | ✅ | 800K |
-| 24 | Paldea Region Eevee Evolution Set | <img width="200" alt="Paldea Region Eevee Evolution Set" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg" /> | ✅ | 1100k |
-| 25 | Sylveon (not include Dedenne)| <img width="200" alt="Sylveon" src="https://www.hlj.com/productimages/ban/banf923234_4.jpg" /> | ✅ | 250k |
+| 24 | Paldea Region Eevee Evolution Set | <img width="200" alt="Paldea Region Eevee Evolution Set" src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-sil-bandai-scaleworld2024june-eeveehq.jpg" /> | ✅ | 1100K |
+| 25 | Sylveon (not include Dedenne)| <img width="200" alt="Sylveon" src="https://www.hlj.com/productimages/ban/banf923234_4.jpg" /> | ✅ | 250K |
 
 [pokevault.com](https://pokevault.com/search/Pokemon%20Scale%20World)
 
