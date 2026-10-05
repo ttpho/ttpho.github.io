@@ -17,7 +17,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 |----|-----|----------|-------|-----|
 | 1 | Delu & Mega Starmie | <img width="200" alt="Delu & Mega Starmie" src="https://www.inside-games.jp/imgs/zoom/1788541.jpg" /> | ❌ | _ |
 | 2 | Lumiose City Mega Dragonite | <img width="200" alt="Lumiose City Mega Dragonite" src="https://www.hobbydigi.com/media/detail-images/204545/1787784360_0.jpeg" /> | ❌ | _ |
-| 3 | Pokemon Scale World Kanto Vol.2 1Box 10pcs | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
+| 3 | Kanto Region Set 2 | <img width="200" alt="Kanto Vol.2 1Box 10pcs" src="https://www.hlj.com/productimages/ban/bann46509_0.jpg" /> | ❌ | _ |
 | 4 | Kanto Lt. Surge & Magneton & Electabuzz | <img width="200" alt="Lt. Surge & Magneton & Electabuzz" src="https://p-bandai.com/files/seller-products/ASP0003375001/hoPLVQS8pHj7gsVsr7x4.jpg" /> | ❌ | _ |
 | 5 | Takeshi & Onix  | <img width="200" alt="Takeshi & Onix" src="https://p-bandai.com/files/seller-products/ASP0003289002/sV9GDpzUSS3twxRa9HW5.jpg" /> | ✅ | 2200K |
 | 6 | Kanto Region Articuno & Zapdos & Moltres | <img width="200" alt="Articuno & Zapdos & Moltres" src="https://p-bandai.com/files/seller-products/ASP0003195001/Yg6Icd2TKAQuh0mq2xIT.jpg" /> | ✅ | 2310K |
