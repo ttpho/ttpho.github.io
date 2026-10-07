@@ -3,8 +3,7 @@ layout: post
 title: "Pokopia Collect"
 subtitle: "Danh sách mô hình & doll Pokémon Pokopia"
 tags: [pokemon]
-thumbnail-img: https://www.hlj.com/productimages/tkt/tkt05859_0.jpg
-cover-img: https://www.hlj.com/productimages/tkt/tkt07553_0.jpg
+cover-img: https://www.1999.co.jp/itbig133/11335104b.jpg
 ---
 
 ### Intro
