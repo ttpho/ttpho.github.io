@@ -50,6 +50,9 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 
 ### Wishlist
 
+<img width="200" src="https://www.hlj.com/productimages/ban/banf928949_1.jpg" />
+
+<img width="200" src="https://www.hlj.com/productimages/ban/banf928949_2.jpg" />
  
 <img width="200" src="https://p-bandai.com/files/seller-products/ASP0003284002/ZfDBm2b3PV33CspPbslm.jpg" />
 
