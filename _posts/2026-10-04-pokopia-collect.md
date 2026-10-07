@@ -24,3 +24,11 @@ Source: [https://www.hlj.com/search/?Word=Pokopia](https://www.hlj.com/search/?W
 | 7 | [MonColle Pokopia: Tangrowth (Professor)](https://www.hlj.com/pokemon-moncolle-pokopia-pokemon-collection-tangrowth-professor-tkt07531) | <img width="200" alt="MonColle Pokopia: Tangrowth (Professor)" src="https://www.hlj.com/productimages/tkt/tkt07531_0.jpg" /> | ❌ |
 | 8 | [MonColle Pokopia: Ditto (Transforming into Lapras)](https://www.hlj.com/moncolle-pokemon-pokopia-collection-ditto-transforming-into-lapras-tkt05860) | <img width="200" alt="MonColle Pokopia: Ditto (Transforming into Lapras)" src="https://www.hlj.com/productimages/tkt/tkt05860_0.jpg" /> | ❌ |
 | 9 | [MonColle Pokopia: Ditto (Transforming into a Human / Cap)](https://www.hlj.com/pokemon-moncolle-pokopia-collection-ditto-transforming-into-a-human-cap-tkt07550) | <img width="200" alt="MonColle Pokopia: Ditto (Transforming into a Human / Cap)" src="https://www.hlj.com/productimages/tkt/tkt07550_0.jpg" /> | ❌ |
+
+
+### Wishlist 
+
+MONCOLLÉ Figure Pokémon Pokopia Collection "Let's create a town where everyone can live together!"
+
+<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/73c601a8-9bcd-4b56-86c4-2b3bcac46045" />
+
