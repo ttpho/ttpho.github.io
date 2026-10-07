@@ -42,6 +42,8 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 25 | Sylveon (not include Dedenne)| <img width="200" alt="Sylveon" src="https://www.hlj.com/productimages/ban/banf923234_4.jpg" /> | ✅ | 250K |
 | 26 | Galar Sirfetch'd| <img width="200" alt="Sirfetch" src="https://www.hlj.com/productimages/ban/bann50385_3.jpg" /> | ✅ | 190K |
 | 27 | Galar Ponyta| <img width="200" alt="Ponyta" src="https://www.hlj.com/productimages/ban/bann50385_1.jpg" /> | ✅ | 150K |
+| 28 | Jade Hisuian Voltorb| <img width="200" alt="Hisuian Voltorb" src="https://www.hlj.com/productimages/ban/banf92478_2.jpg" /> | ✅ | 70K |
+| 29 | Jade Hisuian Growlithe| <img width="200" alt="Hisuian Growlithe" src="https://www.hlj.com/productimages/ban/banf92478_4.jpg" /> | ✅ | 85K |
 
 
 [pokevault.com](https://pokevault.com/search/Pokemon%20Scale%20World)
