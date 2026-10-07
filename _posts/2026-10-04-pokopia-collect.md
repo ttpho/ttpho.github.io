@@ -30,5 +30,5 @@ Source: [https://www.hlj.com/search/?Word=Pokopia](https://www.hlj.com/search/?W
 
 MONCOLLÉ Figure Pokémon Pokopia Collection "Let's create a town where everyone can live together!"
 
-<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/73c601a8-9bcd-4b56-86c4-2b3bcac46045" />
+<img  src="https://www.1999.co.jp/itbig133/11335104b.jpg" />
 
