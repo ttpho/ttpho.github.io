@@ -12,6 +12,13 @@ Danh sách sản phẩm **Pokémon Pokopia** (Takara Tomy) - MonColle Pokopia Co
 
 Source: [https://www.hlj.com/search/?Word=Pokopia](https://www.hlj.com/search/?Word=Pokopia)
 
+
+
+MONCOLLÉ Figure Pokémon Pokopia Collection "Let's create a town where everyone can live together!"
+
+<img  src="https://www.1999.co.jp/itbig133/11335104b.jpg" />
+
+
 | No | Tên | Hình ảnh | Check |
 |----|-----|----------|-------|
 | 1 | [Relaxed Doll Pikachu (Light Color)](https://www.hlj.com/pokemon-pokopia-relaxed-doll-pikachu-light-color-tkt07553) | <img width="200" alt="Relaxed Doll Pikachu (Light Color)" src="https://www.hlj.com/productimages/tkt/tkt07553_0.jpg" /> | ✔️ |
@@ -25,9 +32,6 @@ Source: [https://www.hlj.com/search/?Word=Pokopia](https://www.hlj.com/search/?W
 | 9 | [MonColle Pokopia: Ditto (Transforming into a Human / Cap)](https://www.hlj.com/pokemon-moncolle-pokopia-collection-ditto-transforming-into-a-human-cap-tkt07550) | <img width="200" alt="MonColle Pokopia: Ditto (Transforming into a Human / Cap)" src="https://www.hlj.com/productimages/tkt/tkt07550_0.jpg" /> | ❌ |
 
 
-### Wishlist 
 
-MONCOLLÉ Figure Pokémon Pokopia Collection "Let's create a town where everyone can live together!"
 
-<img  src="https://www.1999.co.jp/itbig133/11335104b.jpg" />
 
