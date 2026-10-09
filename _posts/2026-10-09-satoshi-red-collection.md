@@ -7,6 +7,13 @@ thumbnail-img: https://archives.bulbagarden.net/media/upload/e/e5/Ash_with_his_P
 tags: [pokemon]
 ---
 
+### MONCOLLÉ Figure Ash Pokémon Trainers (Satoshi)
+
+
+https://ichiba-japan.com/en-global/products/moncolle-figure-ash-pokemon-trainers-satoshi
+
+<img width="460"   src="https://m.media-amazon.com/images/I/41epSWtSTHL._AC_SL1062_.jpg" />
+
 #### Satoshi & Pikachu KyChara Series
 
 https://pokemoncatalogue.weebly.com/kujiashandpika.html
