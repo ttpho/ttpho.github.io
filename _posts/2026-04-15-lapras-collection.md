@@ -52,15 +52,7 @@ Note:
 | Pop Melody                                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/4a3761e5-64a8-4305-8cf0-1bb1f29c0cb5" />     | 🌟   | 300   |
 | Starrium on a Starry Night                   | <img width="200" alt="image" src="https://github.com/user-attachments/assets/e4d722d7-cdb2-4deb-9630-541887b792db" />     | 🌟   | 200   |
 | Seasonal Flowers                             | <img width="200" alt="image" src="https://github.com/user-attachments/assets/10c0264d-9ac7-4ca2-8cf1-61b53c914b7d" />     | 🌟   | 200   |
-
-
-
-### Wishlist
-
-
-Figure Ditto Lapras Transformation Ver. Pokémon Relaxing Doll Pokopia
-
-<img width="460" alt="image" src="https://github.com/user-attachments/assets/b515ff8d-1336-4858-a531-238b74ed0efb" />
+| Lapras (POKEMON TOYS ZC8949E)                | <img width="200" alt="image" src="https://www.mykingdom.com.vn/cdn/shop/files/bong-pokemon-bien-hinh-lapras-pokemon-toys-zc8949e_3.png" />     | 🌟   | 240   |
 
 
 ### TCG AR
