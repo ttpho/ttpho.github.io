@@ -2,8 +2,6 @@
 layout: post
 title: "Satoshi and Pokemon"
 subtitle: "Satoshi and Pokemon Figure Collection"  
-cover-img: https://archives.bulbagarden.net/media/upload/0/0f/Ash_Kanto_first_partners.png
-thumbnail-img: https://archives.bulbagarden.net/media/upload/e/e5/Ash_with_his_Pok%C3%A9mon_JN114.png
 tags: [pokemon]
 ---
 
@@ -12,7 +10,7 @@ tags: [pokemon]
 
 https://ichiba-japan.com/en-global/products/moncolle-figure-ash-pokemon-trainers-satoshi
 
-<img width="460"   src="https://m.media-amazon.com/images/I/41epSWtSTHL._AC_SL1062_.jpg" />
+<img width="200"   src="https://m.media-amazon.com/images/I/41epSWtSTHL._AC_SL1062_.jpg" />
 
 #### Satoshi & Pikachu KyChara Series
 
