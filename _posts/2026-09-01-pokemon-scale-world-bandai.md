@@ -44,7 +44,7 @@ Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
 | 27 | Galar Ponyta| <img width="200" alt="Ponyta" src="https://www.hlj.com/productimages/ban/bann50385_1.jpg" /> | ✅ | 150K |
 | 28 | Jade Hisuian Voltorb| <img width="200" alt="Hisuian Voltorb" src="https://www.hlj.com/productimages/ban/banf92478_2.jpg" /> | ✅ | 70K |
 | 29 | Jade Hisuian Growlithe| <img width="200" alt="Hisuian Growlithe" src="https://www.hlj.com/productimages/ban/banf92478_4.jpg" /> | ✅ | 85K |
-| 30 | PROF.OAK| <img width="200" alt="Hisuian Growlithe" src="https://p-bandai.com/files/seller-products/ASP0003284002/ZfDBm2b3PV33CspPbslm.jpg" /> | ✅ | 250K |
+| 30 | Professor Oak| <img width="200" alt="Hisuian Growlithe" src="https://p-bandai.com/files/seller-products/ASP0003284002/ZfDBm2b3PV33CspPbslm.jpg" /> | ✅ | 250K |
 
 
 
