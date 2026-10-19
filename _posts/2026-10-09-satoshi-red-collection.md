@@ -5,6 +5,12 @@ subtitle: "Satoshi and Pokemon Figure Collection"
 tags: [pokemon]
 ---
 
+
+### Pokémon Mini Blister Collection: Battle Edition – Gacha Figure
+
+<img width="200"  src="https://github.com/user-attachments/assets/c5c94062-0cf4-4ba9-be03-7fbc10c47c67" />
+
+
 ### MONCOLLÉ Figure Ash Pokémon Trainers (Satoshi)
 
 
