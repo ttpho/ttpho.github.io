@@ -4,6 +4,7 @@ title: "Bandai Pokémon Kids - Kanto"
 subtitle: "Danh sách 151 Pokémon Gen I - Bandai Pokémon Kids"
 tags: [pokemon]
 thumbnail-img: https://www.serebii.net/scarletviolet/pokemon/new/small/025.png
+published: false
 ---
 
 ### Gen I
