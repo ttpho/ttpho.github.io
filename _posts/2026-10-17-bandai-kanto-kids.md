@@ -11,7 +11,7 @@ published: false
 
 This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in this generation. Click the image to go to the Pokédex for the latest games.
 
-**10** is ✅ and **141** is ❌, progress **6.62%**
+**11** is ✅ and **140** is ❌, progress **7.28%**
 
 | No | Tên | Hình ảnh | Check |
 |----|-----|----------|-------|
@@ -145,7 +145,7 @@ This is a list of all the Pokémon from Generation 1. There are 151 Pokémon in 
 | 128 | Tauros | <a href="https://www.serebii.net/pokemon/tauros" target="_blank"><img width="80" alt="Tauros" src="https://www.serebii.net/scarletviolet/pokemon/new/small/128.png" /></a> | ❌ |
 | 129 | Magikarp | <a href="https://www.serebii.net/pokemon/magikarp" target="_blank"><img width="80" alt="Magikarp" src="https://www.serebii.net/scarletviolet/pokemon/new/small/129.png" /></a> | ❌ |
 | 130 | Gyarados | <a href="https://www.serebii.net/pokemon/gyarados" target="_blank"><img width="80" alt="Gyarados" src="https://www.serebii.net/scarletviolet/pokemon/new/small/130.png" /></a> | ❌ |
-| 131 | Lapras | <a href="https://www.serebii.net/pokemon/lapras" target="_blank"><img width="80" alt="Lapras" src="https://www.serebii.net/scarletviolet/pokemon/new/small/131.png" /></a> | ❌ |
+| 131 | Lapras | <a href="https://www.serebii.net/pokemon/lapras" target="_blank"><img width="80" alt="Lapras" src="https://www.serebii.net/scarletviolet/pokemon/new/small/131.png" /></a> | ✅ |
 | 132 | Ditto | <a href="https://www.serebii.net/pokemon/ditto" target="_blank"><img width="80" alt="Ditto" src="https://www.serebii.net/scarletviolet/pokemon/new/small/132.png" /></a> | ❌ |
 | 133 | Eevee | <a href="https://www.serebii.net/pokemon/eevee" target="_blank"><img width="80" alt="Eevee" src="https://www.serebii.net/scarletviolet/pokemon/new/small/133.png" /></a> | ❌ |
 | 134 | Vaporeon | <a href="https://www.serebii.net/pokemon/vaporeon" target="_blank"><img width="80" alt="Vaporeon" src="https://www.serebii.net/scarletviolet/pokemon/new/small/134.png" /></a> | ❌ |
