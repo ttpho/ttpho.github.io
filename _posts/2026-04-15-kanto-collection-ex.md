@@ -5,6 +5,9 @@ subtitle: "My Kanto Starter Pokemon Figure"
 tags: [pokemon]
 ---
 
+### Pokemon Select Battle 4 Pack-Translucent Figures Features 3-Inch
+
+<img width="460"  alt="image" src="https://github.com/user-attachments/assets/740f2522-437f-48dd-a303-a983adb76e3a" />
 
 
 ### Deluxe Vinyl Figures
