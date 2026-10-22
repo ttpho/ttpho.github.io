@@ -5,6 +5,14 @@ subtitle: "My Kanto Starter Pokemon Figure"
 tags: [pokemon]
 ---
 
+
+### Pokémon Palmsize Wonders Series 1 Blind Box
+
+https://funismglobal.com/collections/pokemon/products/pokemon-palmsize-wonders-series-1-figures
+
+<img width="460" alt="image" src="https://github.com/user-attachments/assets/d636f5a8-e442-4153-a718-0a6c207668d8" />
+
+
 ### Pokemon Select Battle 4 Pack-Translucent Figures Features 3-Inch
 
 <img width="460"  alt="image" src="https://github.com/user-attachments/assets/740f2522-437f-48dd-a303-a983adb76e3a" />
