@@ -6,45 +6,48 @@ tags: [pokemon]
 thumbnail-img: https://www.serebii.net/scarletviolet/pokemon/new/small/025.png
 ---
 
-<style>
-.terrarium-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-.terrarium-grid img {
-  width: 100%;
-  height: auto;
-}
-</style>
 
 ### Collection
 
-<div class="terrarium-grid">
-  <img alt="Image" src="https://github.com/user-attachments/assets/42e3dd71-6711-4966-8a13-e15db9d41c22" />
-  <img alt="Image" src="https://pokevault.com/image/cache/catalog/202108/1734825771_pokemon-pikachu-raichu-terrarium-14-figure-2-500x500.jpg" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/db3ed1aa-e73a-4bf4-9a1b-84d22bef9146" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/f1f765be-b8a2-469d-a75e-a7755dc6eaa6" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/783bcfd9-c2da-4486-b023-2905ad8c5c46" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/a622e9e3-b9fb-4c5a-86e5-a7ad02edd4bb" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/b98f46dd-aa08-400f-b94d-a3137f471783" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/bc3a2839-e9a7-4112-ae25-797f7b451c63" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/6c3d3c91-6a73-4477-9db7-d39b10cb6db7" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/72555c73-82de-4fb2-8322-e1f6c763d2da" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/6f2a51e5-4880-4113-97fe-015c5d8e0ab7" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/926478c1-6dae-4739-abec-fdfc5275ab5b" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/5f890003-101d-4714-9ef8-3c921ae475bf" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/6d20e6ec-80a8-4216-b62b-a7c975cc3f0b" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/aab2bea3-2d34-44ea-a204-db6b4d723e27" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/6f9ee340-9dfa-46e3-920d-25dc14dda285" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/1ae9dce8-2a5f-4f23-b8f8-5b232b529b71" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/265ac6c1-78b2-47d8-8501-18c090f76b9f" />
-</div>
+<img width="360" height="348" alt="image" src="https://github.com/user-attachments/assets/050758e8-0ce3-48a7-a490-9fd9d267aaf9" />
+
+<img width="360" height="254" alt="image" src="https://github.com/user-attachments/assets/828ffa7c-0f2c-44ef-b934-294968cc442b" />
+
+<img width="360" height="254" alt="image" src="https://github.com/user-attachments/assets/527cc21b-d685-48b0-b1e8-92839d5c172e" />
+
+<img width="360" height="509" alt="image" src="https://github.com/user-attachments/assets/742da06e-3bd7-4597-a0aa-1ae21125f54a" />
+
+<img width="360" height="254" alt="image" src="https://github.com/user-attachments/assets/ac752ac9-9d86-49ef-b569-18d1f37b7abc" />
+
+<img width="360" height="254" alt="image" src="https://github.com/user-attachments/assets/d9f426fd-e4e7-498b-8fb6-ea57c8f4799b" />
+
+<img width="360" height="351" alt="image" src="https://github.com/user-attachments/assets/cf73a853-e666-44c7-bea7-94d13e8e9eeb" />
+
+<img width="500" height="488" alt="image" src="https://github.com/user-attachments/assets/123edac0-4dcc-4d73-ac6b-03c2abd0d6e7" />
+
+<img width="500" height="446" alt="image" src="https://github.com/user-attachments/assets/54eaa396-0a9b-4703-b68b-3fadf2157245" />
+
+<img width="345" height="556" alt="image" src="https://github.com/user-attachments/assets/94db5bcf-725a-4c7c-95ee-2a813dacf354" />
+
+<img width="460" height="651" alt="image" src="https://github.com/user-attachments/assets/fc9c6731-653c-4883-a585-880dd0f4ae18" />
+
+
+<img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/14e81788-f098-4921-abab-21c631169400" />
+
+<img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/292fcb91-2ae0-4cfc-93f0-addaff9acb53" />
+
+<img width="460" height="460" alt="image" src="https://github.com/user-attachments/assets/4bf867cb-9fb0-4067-a42b-2bed392424b4" />
+
+<img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/a1e1ae52-5e29-438e-b88a-b45cf5a87e46" />
+
+
+
 
 ### Wishlist
 
-<div class="terrarium-grid">
-  <img alt="Image" src="https://github.com/user-attachments/assets/91fa3227-04df-4867-9660-344d1db914be" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/c19f267c-833b-4c9a-abf8-becde8dea201" />
-  <img alt="Image" src="https://github.com/user-attachments/assets/11eb5d1a-cf77-45e8-be8c-e14a978e6233" />
-</div>
+<img width="460" height="651" alt="image" src="https://github.com/user-attachments/assets/2636a7bf-57e9-4952-be94-fdac0185d707" />
+
+<img width="500" height="442" alt="image" src="https://github.com/user-attachments/assets/5b3adb10-73f4-4c28-a777-08794123dc47" />
+
+<img width="904" height="904" alt="image" src="https://github.com/user-attachments/assets/a0cbe752-24b4-4ffc-8c44-358095a62022" />
+
