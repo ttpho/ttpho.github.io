@@ -11,7 +11,28 @@ cover-img: /assets/pokemons/pokeshopper-bandaiscaleworld-kanto01.png
 
 <div align="center"><img src="https://impro.usercontent.one/appid/oneComWsb/domain/pokeshopper.net/media/pokeshopper.net/figurines/SCALE%20WORLD/pokeshopper-img_scale_01.png"></div>
 
-Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto & Johto
+Danh sách mô hình **Pokemon Scale World 1/20 (BANDAI)** - vùng Kanto và evolution
+
+<p id="collection-stats"></p>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var checked = 0, unchecked = 0;
+    var table = document.querySelector("table");
+    if (!table) return;
+    table.querySelectorAll("tbody tr").forEach(function (row) {
+      var text = row.textContent;
+      if (text.indexOf("✅") !== -1) checked++;
+      else if (text.indexOf("❌") !== -1) unchecked++;
+    });
+    var total = checked + unchecked;
+    var percent = total ? Math.round((checked / total) * 100) : 0;
+    document.getElementById("collection-stats").innerHTML =
+      "✅ Đã có: <b>" + checked + "</b> · ❌ Chưa có: <b>" + unchecked +
+      "</b> · Tổng: <b>" + total + "</b> · Hoàn thành: <b>" + percent + "%</b>";
+  });
+</script>
+
 
 | No | Tên | Hình ảnh | Check | Giá |
 |----|-----|----------|-------|-----|
