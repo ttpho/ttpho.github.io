@@ -6,6 +6,14 @@ tags: [pokemon]
 ---
 
 
+### Pokemon Moncolle EX Satoshi Pikachu Metallic Ver Z-Waza Pose Takara Tomy 
+
+<img width="200" src="https://github.com/user-attachments/assets/91dfd487-edc0-4ec7-ad29-2d6c2dee224f" />
+
+
+https://auctions.yahoo.co.jp/jp/auction/h1074651843
+
+
 ### Pokémon Mini Blister Collection: Battle Edition – Gacha Figure
 
 <img width="200"  src="https://github.com/user-attachments/assets/c5c94062-0cf4-4ba9-be03-7fbc10c47c67" />
