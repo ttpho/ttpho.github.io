@@ -67,6 +67,8 @@ full-width: true
   .sd-g-item figcaption b { color:#0f3443; }
   .sd-gal-ctl { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:0 0 8px; font-size:14px; color:var(--sd-muted); }
   .sd-gal-ctl select, .sd-gal-ctl input { vertical-align:middle; }
+  .sd-shuffle { border:1px solid var(--sd-line); background:#fff; color:#0f3443; padding:4px 12px; border-radius:8px; cursor:pointer; font-size:14px; }
+  .sd-shuffle:hover { border-color:var(--sd-accent); color:var(--sd-accent); }
   .sd-foot { color:var(--sd-muted); font-size:13px; margin-top:24px; }
   @media (max-width:480px) { .sd-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } .sd-body h3 { font-size:15px; } .sd-hero { padding:16px; } }
 </style>
@@ -91,7 +93,8 @@ full-width: true
   <h2 class="sd-sec" id="gallery">Gallery · tỉ lệ 1/20</h2>
   <div class="sd-gal-ctl">
     <label>Phóng to <input id="sd-zoom" type="range" min="6" max="30" value="12"></label>
-    <label>Sắp xếp <select id="sd-sort"><option value="dex">Theo số dex</option><option value="h-asc">Thấp → cao</option><option value="h-desc">Cao → thấp</option></select></label>
+    <label>Sắp xếp <select id="sd-sort"><option value="dex">Theo số dex</option><option value="h-asc">Thấp → cao</option><option value="h-desc">Cao → thấp</option><option value="random">Ngẫu nhiên</option></select></label>
+    <button type="button" id="sd-shuffle" class="sd-shuffle" title="Xáo trộn ngẫu nhiên">🎲 Ngẫu nhiên</button>
     <span>Ảnh được đặt cạnh nhau theo đúng chiều cao thật của mô hình. Danh sách lọc theo ô tìm kiếm phía trên.</span>
   </div>
   <div class="sd-gal" id="sd-gal" style="--maxcm:27">
@@ -284,11 +287,19 @@ full-width: true
   }
   q.addEventListener("input", apply);
   document.getElementById("sd-zoom").addEventListener("input", function () { gal.style.setProperty("--px", this.value); });
-  document.getElementById("sd-sort").addEventListener("change", function () {
-    var mode = this.value, list = gItems.slice();
-    if (mode !== "dex") list.sort(function (a, b) { var d = a.dataset.h - b.dataset.h; return mode === "h-asc" ? d : -d; });
+  var sortSel = document.getElementById("sd-sort");
+  function sortGallery() {
+    var mode = sortSel.value, list = gItems.slice();
+    if (mode === "random") {
+      for (var i = list.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = list[i]; list[i] = list[j]; list[j] = t; }
+    } else if (mode !== "dex") {
+      list.sort(function (a, b) { var d = a.dataset.h - b.dataset.h; return mode === "h-asc" ? d : -d; });
+    }
     list.forEach(function (g) { stage.appendChild(g); });
-  });
+    stage.scrollLeft = 0;
+  }
+  sortSel.addEventListener("change", sortGallery);
+  document.getElementById("sd-shuffle").addEventListener("click", function () { sortSel.value = "random"; sortGallery(); });
   document.querySelectorAll(".sd-seg button").forEach(function (b) {
     b.addEventListener("click", function () {
       kind = b.dataset.kind;
