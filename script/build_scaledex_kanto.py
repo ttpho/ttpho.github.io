@@ -165,14 +165,13 @@ def build(d):
             label = c["nameEn"] + (" ({})".format(f["labelEn"]) if f.get("labelEn") else "")
             gallery_items.append(
                 '<figure class="sd-g-item" data-cid="{cid}" data-h="{h}" style="--h:{h}" title="{t}">'
-                '<img loading="lazy" src="{img}" alt="{t}"><figcaption>{name}<br><b>{hs} cm</b></figcaption></figure>'.format(
+                '<span class="sd-g-fig"><img loading="lazy" src="{img}" alt="{t}"></span><figcaption>{name}<br><b>{hs} cm</b></figcaption></figure>'.format(
                     cid=e(c["id"]), h=h, t=e("{} · {} cm".format(label, h)), img=e(img_url(f)), name=e(label),
                     hs=("~" if not f.get("heightCm") else "") + str(h)))
     max_cm = int(max_h) + 2
-    ruler = "".join('<span style="--cm:{0}">{0}</span>'.format(cm) for cm in range(0, max_cm + 1, 2))
 
     return TEMPLATE.format(
-        gallery_items="\n".join(gallery_items), ruler=ruler, max_cm=max_cm,
+        gallery_items="\n".join(gallery_items), max_cm=max_cm,
         generated=e(d.get("generated", "")),
         n_poke=len(pokemon), n_trainer=len(trainers), n_figs=n_figs,
         type_buttons=type_buttons,
@@ -227,16 +226,25 @@ full-width: true
   .sd-tag {{ background:#ffe9a8; color:#6b4b00; border-radius:6px; padding:0 6px; font-size:11px; font-weight:700; white-space:nowrap; }}
   .sd-tag.sd-up {{ background:#ffd0d0; color:#8a1010; }}
   .sd-empty {{ color:var(--sd-muted); text-align:center; padding:24px; }}
-  .sd-gal {{ --px:12; --cap:40px; display:flex; border:1px solid var(--sd-line); border-radius:14px; background:#fff; overflow:hidden; }}
-  .sd-gal-ruler {{ position:relative; flex:0 0 34px; border-right:1px solid var(--sd-line); height:calc(var(--maxcm) * var(--px) * 1px + var(--cap) + 12px); font-size:11px; color:var(--sd-muted); }}
-  .sd-gal-ruler span {{ position:absolute; right:4px; bottom:calc(var(--cap) + var(--cm) * var(--px) * 1px - 7px); }}
-  .sd-gal-ruler::after {{ content:"cm"; position:absolute; right:4px; top:4px; }}
-  .sd-gal-stage {{ flex:1; min-width:0; overflow-x:auto; display:flex; align-items:flex-end; gap:10px; padding:12px 16px 0;
-    background-image:linear-gradient(to top, #e6eef0 0, #e6eef0 1px, transparent 1px);
-    background-size:100% calc(var(--px) * 2px); background-position:0 calc(100% - var(--cap)); background-attachment:local; }}
+  .sd-gal {{ --px:12; --cap:34px; --floor:44px; position:relative; border-radius:16px; overflow:hidden; background:#fff;
+    box-shadow:0 1px 0 #fff inset, 0 10px 30px rgba(15,52,67,.10), 0 2px 6px rgba(15,52,67,.06); }}
+  .sd-gal-stage {{ position:relative; overflow-x:auto; display:flex; align-items:flex-end; gap:14px; padding:24px 28px 0;
+    min-height:calc(var(--maxcm) * var(--px) * 1px + var(--floor) + var(--cap) + 24px); box-sizing:border-box;
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 35%, rgba(255,255,255,.95), rgba(255,255,255,0) 70%),
+      linear-gradient(to bottom, #fbfcfd 0, #eef1f4 calc(100% - var(--floor) - var(--cap)),
+        #e6e9ed calc(100% - var(--floor) - var(--cap) + 10px),
+        #fafbfc calc(100% - var(--cap)), #fff calc(100% - var(--cap)));
+    background-attachment:local; }}
   .sd-g-item {{ flex:0 0 auto; margin:0; display:flex; flex-direction:column; align-items:center; }}
-  .sd-g-item img {{ display:block; height:calc(var(--h) * var(--px) * 1px); width:auto; mix-blend-mode:multiply; }}
-  .sd-g-item figcaption {{ height:var(--cap); box-sizing:border-box; padding-top:4px; border-top:2px solid #0f3443; width:100%; min-width:48px;
+  .sd-g-fig {{ position:relative; display:block; margin-bottom:calc(var(--floor) / 2); top:0; transition:top .2s ease; }}
+  .sd-g-fig::before {{ content:""; position:absolute; transition:bottom .2s ease, opacity .2s ease; left:50%; bottom:-7px; width:110%; height:14px; transform:translateX(-50%);
+    background:radial-gradient(ellipse at center, rgba(15,30,40,.35) 0, rgba(15,30,40,.12) 45%, rgba(15,30,40,0) 72%); z-index:0; }}
+  .sd-g-fig img {{ position:relative; z-index:1; display:block; height:calc(var(--h) * var(--px) * 1px); width:auto; mix-blend-mode:multiply;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.05)); }}
+  .sd-g-item:hover .sd-g-fig {{ top:-6px; }}
+  .sd-g-item:hover .sd-g-fig::before {{ bottom:-13px; opacity:.6; }}
+  .sd-g-item figcaption {{ height:var(--cap); box-sizing:border-box; padding-top:4px; width:100%; min-width:48px;
     font-size:10px; line-height:1.25; text-align:center; color:var(--sd-muted); white-space:nowrap; }}
   .sd-g-item figcaption b {{ color:#0f3443; }}
   .sd-gal-ctl {{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:0 0 8px; font-size:14px; color:var(--sd-muted); }}
@@ -266,10 +274,9 @@ full-width: true
   <div class="sd-gal-ctl">
     <label>Phóng to <input id="sd-zoom" type="range" min="6" max="30" value="12"></label>
     <label>Sắp xếp <select id="sd-sort"><option value="dex">Theo số dex</option><option value="h-asc">Thấp → cao</option><option value="h-desc">Cao → thấp</option></select></label>
-    <span>Ảnh được đặt cạnh nhau theo đúng chiều cao thật của mô hình (lưới 2 cm). Danh sách lọc theo ô tìm kiếm phía trên.</span>
+    <span>Ảnh được đặt cạnh nhau theo đúng chiều cao thật của mô hình. Danh sách lọc theo ô tìm kiếm phía trên.</span>
   </div>
   <div class="sd-gal" id="sd-gal" style="--maxcm:{max_cm}">
-    <div class="sd-gal-ruler">{ruler}</div>
     <div class="sd-gal-stage" id="sd-stage">
 {gallery_items}
     </div>
