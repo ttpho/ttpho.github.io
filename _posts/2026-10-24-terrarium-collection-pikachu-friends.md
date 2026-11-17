@@ -40,12 +40,11 @@ thumbnail-img: https://www.serebii.net/scarletviolet/pokemon/new/small/025.png
 
 <img width="460" height="325" alt="image" src="https://github.com/user-attachments/assets/a1e1ae52-5e29-438e-b88a-b45cf5a87e46" />
 
-
+<img width="200"  alt="image" src="https://github.com/user-attachments/assets/2636a7bf-57e9-4952-be94-fdac0185d707" />
 
 
 ### Wishlist
 
-<img width="200"  alt="image" src="https://github.com/user-attachments/assets/2636a7bf-57e9-4952-be94-fdac0185d707" />
 
 <img width="200"  alt="image" src="https://github.com/user-attachments/assets/5b3adb10-73f4-4c28-a777-08794123dc47" />
 
