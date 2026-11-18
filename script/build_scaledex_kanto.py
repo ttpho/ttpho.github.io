@@ -170,7 +170,17 @@ def build(d):
                     hs=("~" if not f.get("heightCm") else "") + str(h)))
     max_cm = int(max_h) + 2
 
+    dio = []
+    for c, cf in pokemon:
+        for f in cf:
+            h = fig_h(f)
+            if h and (f.get("imageTrim") or f.get("image")):
+                dio.append({"cid": c["id"], "n": c["nameEn"] + (" ({})".format(f["labelEn"]) if f.get("labelEn") else ""),
+                            "ja": c["nameJa"], "dex": c["dex"], "h": h, "img": img_url(f)})
+    dio_json = json.dumps(dio, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
     return TEMPLATE.format(
+        dio_json=dio_json,
         gallery_items="\n".join(gallery_items), max_cm=max_cm,
         generated=e(d.get("generated", "")),
         n_poke=len(pokemon), n_trainer=len(trainers), n_figs=n_figs,
@@ -235,6 +245,11 @@ full-width: true
   .sd-g-item figcaption {{ height:var(--cap); box-sizing:border-box; padding-top:4px; width:100%; min-width:48px;
     font-size:10px; line-height:1.25; text-align:center; color:var(--sd-muted); white-space:nowrap; }}
   .sd-g-item figcaption b {{ color:#0f3443; }}
+  .sd-dio {{ border:1px solid var(--sd-line); border-radius:14px; overflow:hidden; background:#fff; }}
+  .sd-dio canvas {{ display:block; width:100%; aspect-ratio:16/9; min-height:300px; max-height:70vh; image-rendering:pixelated; outline:none; touch-action:pan-y; cursor:grab; }}
+  .sd-dio-bar {{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:10px 12px; border-top:1px solid var(--sd-line); font-size:14px; }}
+  .sd-dio-bar small {{ color:var(--sd-muted); }}
+  .sd-dio-hint {{ color:var(--sd-muted); font-size:13px; margin:6px 0 0; }}
   .sd-gal-ctl {{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:0 0 8px; font-size:14px; color:var(--sd-muted); }}
   .sd-gal-ctl select, .sd-gal-ctl input {{ vertical-align:middle; }}
   .sd-shuffle {{ border:1px solid var(--sd-line); background:#fff; color:#0f3443; padding:4px 12px; border-radius:8px; cursor:pointer; font-size:14px; }}
@@ -259,6 +274,19 @@ full-width: true
     </div>
     <div class="sd-types">{type_buttons}</div>
   </div>
+
+  <h2 class="sd-sec" id="diorama">Diorama · 2 Pokémon ngẫu nhiên</h2>
+  <div class="sd-dio">
+    <canvas id="sd-dio-canvas" aria-label="Diorama hai mô hình Pokémon Scale World"></canvas>
+    <div class="sd-dio-bar">
+      <button type="button" id="sd-dio-roll" class="sd-shuffle">🎲 Chọn 2 Pokémon khác</button>
+      <button type="button" id="sd-dio-reset" class="sd-shuffle">↺ Góc nhìn ban đầu</button>
+      <span id="sd-dio-names"></span>
+      <small id="sd-dio-status">Đang tải diorama…</small>
+    </div>
+  </div>
+  <p class="sd-dio-hint">Kéo để xoay. Hai mô hình giữ đúng tỉ lệ chiều cao thật với nhau (1/20); đế và cảnh vật co giãn theo cặp được chọn. Dựng bằng bộ <a href="https://github.com/sloemo01/diorama">Diorama</a> (Three.js, MIT).</p>
+  <script type="application/json" id="sd-dio-data">{dio_json}</script>
 
   <h2 class="sd-sec" id="gallery">Gallery · tỉ lệ 1/20</h2>
   <div class="sd-gal-ctl">
@@ -349,6 +377,36 @@ full-width: true
     }});
   }});
 }})();
+</script>
+
+<script type="importmap">
+{{ "imports": {{
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}} }}
+</script>
+<script type="module">
+  const canvas = document.getElementById("sd-dio-canvas");
+  const status = document.getElementById("sd-dio-status");
+  let started = false;
+  const io = new IntersectionObserver(async (es) => {{
+    if (started || !es[0].isIntersecting) return;
+    started = true; io.disconnect();
+    try {{
+      const {{ startDiorama }} = await import("{{{{ '/scaledex/diorama/main.js' | relative_url }}}}");
+      startDiorama({{
+        canvas, statusEl: status,
+        data: JSON.parse(document.getElementById("sd-dio-data").textContent),
+        namesEl: document.getElementById("sd-dio-names"),
+        rollBtn: document.getElementById("sd-dio-roll"),
+        resetBtn: document.getElementById("sd-dio-reset"),
+      }});
+    }} catch (e) {{
+      console.error(e);
+      status.textContent = "Trình duyệt không hỗ trợ WebGL / module.";
+    }}
+  }}, {{ rootMargin: "200px" }});
+  io.observe(canvas);
 </script>
 """
 
