@@ -19,6 +19,11 @@ IMAGE_BASE = "https://huyla1903.github.io/Scaledex/data/"
 REGION = "kanto"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scaledex", "index.html")
 
+DIORAMA_CAST = [
+    (6, "006.png", "https://archives.bulbagarden.net/media/upload/thumb/6/69/Spr_8s_006.png/800px-Spr_8s_006.png"),
+    (25, "025.png", "https://archives.bulbagarden.net/media/upload/thumb/7/7c/Spr_8s_025_m.png/800px-Spr_8s_025_m.png"),
+]
+
 TYPE_VI = {
     "normal": "Thường", "fighting": "Giác đấu", "flying": "Bay", "poison": "Độc", "ground": "Đất",
     "rock": "Đá", "bug": "Côn trùng", "ghost": "Ma", "steel": "Thép", "fire": "Lửa", "water": "Nước",
@@ -170,13 +175,15 @@ def build(d):
                     hs=("~" if not f.get("heightCm") else "") + str(h)))
     max_cm = int(max_h) + 2
 
+    # Diorama cast: fixed pair, Bulbapedia (Sword/Shield HOME) sprites. Local copies in
+    # scaledex/diorama/img/ load first; the Bulbagarden URL and the Scaledex photo are fallbacks.
     dio = []
-    for c, cf in pokemon:
-        for f in cf:
-            h = fig_h(f)
-            if h and (f.get("imageTrim") or f.get("image")):
-                dio.append({"cid": c["id"], "n": c["nameEn"] + (" ({})".format(f["labelEn"]) if f.get("labelEn") else ""),
-                            "ja": c["nameJa"], "dex": c["dex"], "h": h, "img": img_url(f)})
+    for dex, local, sprite in DIORAMA_CAST:
+        c, cf = next((c, cf) for c, cf in pokemon if c["dex"] == dex)
+        f = cf[0]
+        dio.append({"cid": c["id"], "n": c["nameEn"], "ja": c["nameJa"], "dex": dex, "h": fig_h(f),
+                    "img": ["{{{{ '/scaledex/diorama/img/{}' | relative_url }}}}".format(local).replace("{{{{", "{{").replace("}}}}", "}}"),
+                            sprite, img_url(f)]})
     dio_json = json.dumps(dio, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
     return TEMPLATE.format(
@@ -275,17 +282,16 @@ full-width: true
     <div class="sd-types">{type_buttons}</div>
   </div>
 
-  <h2 class="sd-sec" id="diorama">Diorama · 2 Pokémon ngẫu nhiên</h2>
+  <h2 class="sd-sec" id="diorama">Diorama · Charizard &amp; Pikachu</h2>
   <div class="sd-dio">
     <canvas id="sd-dio-canvas" aria-label="Diorama hai mô hình Pokémon Scale World"></canvas>
     <div class="sd-dio-bar">
-      <button type="button" id="sd-dio-roll" class="sd-shuffle">🎲 Chọn 2 Pokémon khác</button>
       <button type="button" id="sd-dio-reset" class="sd-shuffle">↺ Góc nhìn ban đầu</button>
       <span id="sd-dio-names"></span>
       <small id="sd-dio-status">Đang tải diorama…</small>
     </div>
   </div>
-  <p class="sd-dio-hint">Kéo để xoay. Hai mô hình giữ đúng tỉ lệ chiều cao thật với nhau (1/20); đế và cảnh vật co giãn theo cặp được chọn. Dựng bằng bộ <a href="https://github.com/sloemo01/diorama">Diorama</a> (Three.js, MIT).</p>
+  <p class="sd-dio-hint">Kéo để xoay. Charizard (8.5 cm) và Pikachu (2 cm) đứng đúng tỉ lệ chiều cao của mô hình Scale World 1/20. Sprite: <a href="https://archives.bulbagarden.net/">Bulbagarden Archives</a>. Dựng bằng bộ <a href="https://github.com/sloemo01/diorama">Diorama</a> (Three.js, MIT).</p>
   <script type="application/json" id="sd-dio-data">{dio_json}</script>
 
   <h2 class="sd-sec" id="gallery">Gallery · tỉ lệ 1/20</h2>
@@ -396,9 +402,8 @@ full-width: true
       const {{ startDiorama }} = await import("{{{{ '/scaledex/diorama/main.js' | relative_url }}}}");
       startDiorama({{
         canvas, statusEl: status,
-        data: JSON.parse(document.getElementById("sd-dio-data").textContent),
         namesEl: document.getElementById("sd-dio-names"),
-        rollBtn: document.getElementById("sd-dio-roll"),
+        pair: JSON.parse(document.getElementById("sd-dio-data").textContent),
         resetBtn: document.getElementById("sd-dio-reset"),
       }});
     }} catch (e) {{

@@ -92,7 +92,20 @@ function buildSlab(scene) {
   return { group: g, tufts };
 }
 
-/** Load a figure photo and turn its white studio background into alpha (flood fill from the border). */
+/** Try each URL in turn (local copy, original host, Scaledex photo). */
+async function loadFirst(urls) {
+  let err;
+  for (const u of urls) {
+    try { return await loadFigure(u); } catch (e) { err = e; }
+  }
+  throw err;
+}
+
+/**
+ * Load a figure image, turn a white studio background into alpha (flood fill
+ * from the border; transparent PNG sprites pass through) and crop to the
+ * opaque bounding box so the plane height equals the figure height.
+ */
 function loadFigure(url) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -127,13 +140,22 @@ function loadFigure(url) {
         if (y > 0) stack.push(p - w);
         if (y < h - 1) stack.push(p + w);
       }
+      let x0 = w, y0 = h, x1 = -1, y1 = -1;
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        if (d[(y * w + x) * 4 + 3] > 24) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      }
+      if (x1 < 0) { reject(new Error('empty ' + url)); return; }
       ctx.putImageData(id, 0, 0);
+      const cw = x1 - x0 + 1, ch = y1 - y0 + 1;
+      const out = document.createElement('canvas');
+      out.width = cw; out.height = ch;
+      out.getContext('2d').drawImage(cv, x0, y0, cw, ch, 0, 0, cw, ch);
       const samples = [];
       const step = Math.max(1, Math.floor((w * h) / 4000));
       for (let p = 0; p < w * h; p += step) {
-        if (d[p * 4 + 3] > 0) samples.push(d[p * 4], d[p * 4 + 1], d[p * 4 + 2]);
+        if (d[p * 4 + 3] > 128) samples.push(d[p * 4], d[p * 4 + 1], d[p * 4 + 2]);
       }
-      resolve({ canvas: cv, aspect: w / h, samples });
+      resolve({ canvas: out, aspect: cw / ch, samples });
     };
     img.onerror = () => reject(new Error('image ' + url));
     img.src = url;
@@ -155,7 +177,11 @@ function makeFigure(fig, info) {
   return { group, plane, w, h, tex };
 }
 
-export function startDiorama({ canvas, data, namesEl, rollBtn, resetBtn, statusEl }) {
+/**
+ * `pair`: optional fixed cast [{n, ja, dex, h, img: [url, ...]}]; without it two
+ * random characters are drawn from `data` and the roll button draws again.
+ */
+export function startDiorama({ canvas, data, pair: fixedPair, namesEl, rollBtn, resetBtn, statusEl }) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
   renderer.setPixelRatio(1);
   renderer.shadowMap.enabled = true;
@@ -228,11 +254,11 @@ export function startDiorama({ canvas, data, namesEl, rollBtn, resetBtn, statusE
   async function roll() {
     if (busy) return;
     busy = true;
-    rollBtn.disabled = true;
+    if (rollBtn) rollBtn.disabled = true;
     if (statusEl) statusEl.textContent = 'Đang tải…';
     try {
-      const pair = pickPair();
-      const infos = await Promise.all(pair.map((f) => loadFigure(f.img)));
+      const pair = fixedPair || pickPair();
+      const infos = await Promise.all(pair.map((f) => loadFirst([].concat(f.img))));
       for (const f of cast) { scene.remove(f.group); scene.remove(f.shadow); f.tex.dispose(); f.plane.geometry.dispose(); f.plane.material.dispose(); }
       cast = pair.map((f, i) => Object.assign(makeFigure(f, infos[i]), { data: f }));
       // stand side by side with a small gap, the taller one a little further back
@@ -247,7 +273,7 @@ export function startDiorama({ canvas, data, namesEl, rollBtn, resetBtn, statusE
         scene.add(f.group);
         f.shadow = contactShadow(scene, f.group.position.x, 0, f.group.position.z, 1, 0.55);
         f.shadow.scale.set(f.w * 0.95, Math.max(0.8, f.w * 0.4), 1);
-        f.phase = Math.random() * 6.28;
+        f.phase = cast.indexOf(f) * 2.1; // deterministic: the scene is a function of t
       }
       // palette: fixed scene ramps + colours from both photos
       const samples = infos.flatMap((x) => x.samples);
@@ -263,7 +289,7 @@ export function startDiorama({ canvas, data, namesEl, rollBtn, resetBtn, statusE
       if (statusEl) statusEl.textContent = 'Không tải được ảnh, thử lại nhé.';
     } finally {
       busy = false;
-      rollBtn.disabled = false;
+      if (rollBtn) rollBtn.disabled = false;
     }
   }
 
@@ -295,7 +321,7 @@ export function startDiorama({ canvas, data, namesEl, rollBtn, resetBtn, statusE
 
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; play(); }).observe(canvas);
   new ResizeObserver(resize).observe(canvas);
-  rollBtn.addEventListener('click', roll);
+  if (rollBtn) rollBtn.addEventListener('click', roll);
   if (resetBtn) resetBtn.addEventListener('click', () => orbit.reset());
 
   resize();
